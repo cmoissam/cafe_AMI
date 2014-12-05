@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HQ</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="menus">
+        <item>People Directory</item>
+        <item>People Finder</item>
+        <item>My ToDos</item>
+        <item>Hubs</item>
+        <item>Me</item>
+        <item>Market Place</item>
+    </string-array>
+
+    <string name="drawer_open">Open Drawer</string>
+    <string name="drawer_close">Close Drawer</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
