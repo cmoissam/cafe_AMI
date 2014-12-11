@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "co.geeksters.hq"
-        minSdkVersion 14
+        minSdkVersion 8
         targetSdkVersion 18
         versionCode 1
         versionName "1.0"
@@ -28,13 +28,13 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile 'junit:junit:4.+'
-    androidTestCompile 'org.apache.httpcomponents:httpclient:4.0-alpha4'
-    compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
+    //androidTestCompile 'org.apache.httpcomponents:httpclient:4.0-alpha4'
+    //compile 'org.codehaus.jackson:jackson-core-asl:1.9.13'
     compile 'com.android.support:appcompat-v7:20.0.0'
     compile 'com.squareup:otto:+'
     compile 'com.squareup.retrofit:retrofit:+'
     compile 'com.restfuse:com.eclipsesource.restfuse:1.2.0'
-    androidTestCompile "org.mockito:mockito-core:1.+"
+    // androidTestCompile "org.mockito:mockito-core:1.+"
     androidTestCompile('org.robolectric:robolectric:2.3') {
         exclude module: 'classworlds'
         exclude module: 'maven-artifact'

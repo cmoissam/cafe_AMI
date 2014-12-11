@@ -1,7 +1,5 @@
 package co.geeksters.hq.services;
 
-import android.test.InstrumentationTestCase;
-
 import com.eclipsesource.restfuse.DefaultCallbackResource;
 import com.eclipsesource.restfuse.Destination;
 import com.eclipsesource.restfuse.HttpJUnitRunner;
@@ -11,12 +9,12 @@ import com.eclipsesource.restfuse.Response;
 import com.eclipsesource.restfuse.annotation.Callback;
 import com.eclipsesource.restfuse.annotation.Context;
 import com.eclipsesource.restfuse.annotation.HttpTest;
+
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
-import static com.eclipsesource.restfuse.Assert.*;
-
-import static org.junit.Assert.*;
+import static com.eclipsesource.restfuse.Assert.assertAccepted;
+import static org.junit.Assert.assertNotNull;
 /**
  * Created by soukaina on 04/12/14.
  */

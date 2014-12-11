@@ -5,14 +5,19 @@ import retrofit.RestAdapter;
 
 public class BaseService {
 
-    //public static String END_POINT_URL = "http://hq-api.com/api/v1";
-
-    public static String END_POINT_URL = "http://192.168.0.8:3000";
+    public static String END_POINT_URL = "http://192.168.0.8:8000/api/v1";
+    // public static String END_POINT_URL = "http://75371954.ngrok.com/api/v1";
 
     public static RestAdapter adapterWithoutToken() {
 
             RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(END_POINT_URL)
+                .setRequestInterceptor(new RequestInterceptor() {
+                    @Override
+                    public void intercept(RequestInterceptor.RequestFacade request) {
+                        request.addHeader("Accept", "application/json");
+                    }
+                })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 
@@ -26,6 +31,7 @@ public class BaseService {
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestInterceptor.RequestFacade request) {
+                        request.addHeader("Accept", "application/json");
                         request.addQueryParam("access_token", token);
                     }
                 })

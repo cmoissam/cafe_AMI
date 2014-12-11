@@ -94,8 +94,8 @@ public class HubService {
 
             @Override
             public void success(JSONArray response, Response rawResponse) {
-                List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //List<Member> members_of_hub = Member.createListUsersFromJson(response);
+                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
             }
 
             @Override
@@ -112,8 +112,8 @@ public class HubService {
 
             @Override
             public void success(JSONArray response, Response rawResponse) {
-                List<Member> ambassadors_of_hub = Member.createListUsersFromJson(response);
-                BaseApplication.getEventBus().post(new GetHubAmbassadorsEvent(ambassadors_of_hub));
+                //List<Member> ambassadors_of_hub = Member.createListUsersFromJson(response);
+                //BaseApplication.getEventBus().post(new GetHubAmbassadorsEvent(ambassadors_of_hub));
             }
 
             @Override

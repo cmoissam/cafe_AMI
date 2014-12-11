@@ -2,6 +2,8 @@ package co.geeksters.hq.services;
 
 import com.google.gson.JsonElement;
 
+import org.json.JSONObject;
+
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MemberEvent;
@@ -11,6 +13,7 @@ import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedInput;
 
 /**
  * Created by soukaina on 27/11/14.
@@ -23,15 +26,15 @@ public class ConnectService {
         this.api = BaseService.adapterWithoutToken().create(ConnectInterface.class);
     }
 
-    public void register(Member member) {
+    public void register(TypedInput registerParam) {
 
-        this.api.register(member, new Callback<JsonElement>() {
+        this.api.register(registerParam, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Member registred_member = Member.createUserFromJson(response.getAsJsonObject().get("data"));
+                Member registredMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                 // an email to confirm the current account is sent
-                BaseApplication.getEventBus().post(new MemberEvent(registred_member));
+                BaseApplication.getEventBus().post(new MemberEvent(registredMember));
             }
 
             @Override
@@ -43,16 +46,14 @@ public class ConnectService {
     }
 
 
-    public void login(String grant_type, String client_id, String client_secret, String username,
-                      String password, String scope) {
+    public void login(TypedInput loginParam) {
 
-        this.api.login(grant_type, client_id, client_secret, username,
-        password, scope, new Callback<JsonElement>() {
+        this.api.login(loginParam, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                String access_token = response.getAsJsonObject().get("access_token").toString();
-                BaseApplication.getEventBus().post(new LoginEvent(access_token));
+                String accessToken = response.getAsJsonObject().get("access_token").toString();
+                BaseApplication.getEventBus().post(new LoginEvent(accessToken));
             }
 
             @Override

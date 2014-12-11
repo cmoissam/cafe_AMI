@@ -25,9 +25,9 @@ public class MainActivity extends Activity {
         //BaseApplication.getEventBus().register(this);
 
         MemberService memberService = new MemberService("token");
-        //memberService.getMemberInfo(1);
+        memberService.getMemberInfo(1);
 
-        memberService.updateImageMember(3,new File(""));
+        //memberService.updateImageMember(3,new File(""));
     }
 
     @Subscribe

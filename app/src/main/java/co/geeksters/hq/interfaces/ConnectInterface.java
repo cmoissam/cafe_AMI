@@ -2,21 +2,31 @@ package co.geeksters.hq.interfaces;
 
 import com.google.gson.JsonElement;
 
+import org.json.JSONObject;
+
 import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.Headers;
 import retrofit.http.POST;
+import retrofit.mime.TypedInput;
 
 /**
  * Created by soukaina on 27/11/14.
  */
 public interface ConnectInterface {
 
+    /* @Headers({
+            "Accept: application/vnd.github.v3.full+json",
+            "User-Agent: Retrofit-Sample-App"
+    }) */
+    //@Headers({ "Content-Type: application/json;charset=UTF-8"})
+    //@Headers("Content-Type: application/json")
+    //@Headers({"Content-type: application/json", "Accept: */*"})
     @POST("/members")
-    void register(@Body Member member, Callback<JsonElement> callback);
+    void register(@Body TypedInput member, Callback<JsonElement> callback);
 
     @POST("/oauth/access_token")
-    void login(String grant_type, String client_id, String client_secret, String username,
-               String password, String scope, Callback<JsonElement> callback);
+    void login(@Body TypedInput json_login_input, Callback<JsonElement> callback);
 
 }

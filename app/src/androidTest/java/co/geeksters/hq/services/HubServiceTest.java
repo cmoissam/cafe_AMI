@@ -33,7 +33,7 @@ import retrofit.client.Response;
  * Created by soukaina on 03/12/14.
  */
 
-public class MemberServiceTest extends InstrumentationTestCase {
+public class HubServiceTest extends InstrumentationTestCase {
 
     Bus bus;
     MemberInterface api;
@@ -41,7 +41,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
     String successMessage;
     public static Boolean doing;
-    int id = 768;
+    int id = 3;
 
     public void beforeTest() {
         this.doing = true;
@@ -107,7 +107,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         }
 
         api = BaseService.adapterWithToken(token)
-                            .create(MemberInterface.class);
+                .create(MemberInterface.class);
     }
 
     @Test
@@ -386,7 +386,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         JSONObject jsonUpdateImageMember = new JSONObject();
         try {
             jsonUpdateImageMember.put("id", id)
-                                 .put("file", file);
+                    .put("file", file);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -491,9 +491,9 @@ public class MemberServiceTest extends InstrumentationTestCase {
         JSONObject jsonUpdateNotifMember = new JSONObject();
         try {
             jsonUpdateNotifMember.put("notify_by_email_on_comment", notifyByEmailOnComment)
-                                 .put("notify_by_push_on_comment", notifyByPushOnComment)
-                                 .put("notify_by_email_on_todo", notifyByEmailOnTodo)
-                                 .put("notify_by_push_on_todo", notifyByPushOnTodo);
+                    .put("notify_by_push_on_comment", notifyByPushOnComment)
+                    .put("notify_by_email_on_todo", notifyByEmailOnTodo)
+                    .put("notify_by_push_on_todo", notifyByPushOnTodo);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -535,7 +535,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         try {
             jsonUpdateLocationMember.put("latitude", latitude)
-                                    .put("longitude", longitude);
+                    .put("longitude", longitude);
         } catch (JSONException e) {
             e.printStackTrace();
         }

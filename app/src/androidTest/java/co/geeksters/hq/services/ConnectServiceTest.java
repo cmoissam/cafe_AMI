@@ -1,29 +1,24 @@
 package co.geeksters.hq.services;
 
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import com.google.gson.JsonElement;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.otto.ThreadEnforcer;
 
+import org.json.JSONObject;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Random;
 
-import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MemberEvent;
-import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.ConnectInterface;
-import co.geeksters.hq.interfaces.MemberInterface;
-import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Todo;
 import retrofit.Callback;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -32,14 +27,12 @@ import retrofit.client.Response;
  */
 public class ConnectServiceTest extends InstrumentationTestCase {
 
-    public static String END_POINT_URL = "http://192.168.0.8:3000";
     Bus bus;
     ConnectInterface api;
     String token;
 
     public static Boolean doing;
     Member member;
-    String success_message;
 
     public void beforeTest() {
         this.doing = true;
@@ -62,14 +55,9 @@ public class ConnectServiceTest extends InstrumentationTestCase {
     @Override
     public void setUp() {
         bus = new Bus(ThreadEnforcer.ANY);
-        token = "token";
-        api = new RestAdapter.Builder()
-                .setEndpoint(END_POINT_URL)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build()
-                .create(ConnectInterface.class);
+        api = BaseService.adapterWithoutToken().create(ConnectInterface.class);
 
-        HashMap<String, String> socials = new HashMap<String, String>();
+        /*HashMap<String, String> socials = new HashMap<String, String>();
         socials.put("facebook", "http://facebook.com");
         socials.put("twitter", "http://twitter.com");
 
@@ -81,8 +69,17 @@ public class ConnectServiceTest extends InstrumentationTestCase {
         Interest interest = new Interest(1, "interest name");
         interests.add(interest);
 
-        member = new Member(1, "test full name", "test@email.com", "password", "token", true,
-                "member", socials, todos, interests, null, null, null, null);
+        member = new Member(1, "test full name", "test@email.com", "password", "password", "token", true,
+                false, socials, todos, interests, null, null, null, null);*/
+
+        Random rand = new Random();
+        int randomNum = rand.nextInt((1000 - 0) + 1);
+
+        member = new Member();
+        member.full_name = "test";
+        member.email = "test" + randomNum + ".mjahed@gmail.com";
+        member.password = "soukaina";
+        member.password_confirmation = "soukaina";
     }
 
     @Test
@@ -93,23 +90,18 @@ public class ConnectServiceTest extends InstrumentationTestCase {
             @Subscribe
             public void onRegisterMemberEvent(MemberEvent event) {
                 assertNotNull("on testRegisterMember",event.member);
-                assertEquals("on testRegisterMember", success_message, "Member created and email confirmation has been sent");
-                assertNotNull("on testRegisterMember",event.member.companies);
-                assertNotNull("on testRegisterMember",event.member.interests);
-                assertNotNull("on testRegisterMember",event.member.hub_ids);
-                assertEquals("on testRegisterMember",event.member.interests.size(), 2);
-                assertEquals("on testRegisterMember",event.member.companies.size(), 2);
-                assertEquals("on testRegisterMember",event.member.hub_ids.length, 3);
+                assertTrue(event.member instanceof Member);
                 // WE ARE DONE
                 doneTest();
             }
         });
 
-        api.register(member, new Callback<JsonElement>() {
+        api.register(ParseHelper.createTypedInputFromModel(member), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                success_message = response.getAsJsonObject().get("message").getAsString();
+                // success_message = response.getAsJsonObject().get("message").getAsString();
+                // JsonElement jsonObject = response.getAsJsonObject().get("data");
                 Member registred_member = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                 // an email to confirm the current account is sent
                 bus.post(new MemberEvent(registred_member));
@@ -117,6 +109,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
 
             @Override
             public void failure(RetrofitError error) {
+                Log.e("failure api.register", "0");
             }
         });
 
@@ -131,14 +124,22 @@ public class ConnectServiceTest extends InstrumentationTestCase {
             @Subscribe
             public void onLoginMemberEvent(LoginEvent event) {
                 assertNotNull("on testLoginMember",event.access_token);
-                assertEquals("on testLoginMember",event.access_token, "token");
+                assertTrue(event.access_token instanceof String);
+                token = event.access_token;
                 // WE ARE DONE
                 doneTest();
             }
         });
 
-        api.login("", "", "", "",
-                "", "", new Callback<JsonElement>() {
+        JSONObject loginParams = new JSONObject();
+            loginParams.put("grant_type", "password")
+                    .put("client_id", new Integer(1))
+                    .put("client_secret", "pioner911")
+                    .put("username", "dam@geeksters.co")
+                    .put("password", "hq43viable")
+                    .put("scope", "basic");
+
+        api.login(ParseHelper.createTypedInputFromModel(loginParams), new Callback<JsonElement>() {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 String access_token = response.getAsJsonObject().get("access_token").toString();

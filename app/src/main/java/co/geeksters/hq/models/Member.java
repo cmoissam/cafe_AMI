@@ -1,34 +1,33 @@
 package co.geeksters.hq.models;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+import co.geeksters.hq.global.helpers.ParseHelper;
 
 public class Member {
 
-    /**
-     * Attributes
-     **/
 
     public int id;
     public String full_name;
 	public String email;
 	public String password;
+    public String password_confirmation;
 	public String device_token;
 	public String goal;
-	public String description;
+	public String blurp;
 	public String phone;
 	public String address;
-	public Boolean newsletter = false;
+	public int newsletter = 0;
+    public String created_at;
+    public String updated_at;
 	public String image;
-	public Boolean activation;
+	public Boolean confirmed;
+    public String confirmation;
 	public String device_id;
 	public float latitude;
 	public float longitude;
@@ -38,13 +37,12 @@ public class Member {
 	public Boolean notify_by_push_on_todo = true;
 
 	// A User can be a member or an ambassador
-	public String status;
+	public Boolean ambassador;
 
 	// twitter, skype, facebook, linkedin, blog, website and others
-    // To do : Social as a Model
-	public HashMap<String, String> socials = new HashMap<String, String>();
+    public Social social;
 
-	// A User have a list of todos and each todo is relative to a single User
+    // A User have a list of todos and each todo is relative to a single User
 	public ArrayList<Todo> todos = new ArrayList<Todo>();
 
 	// A User have a list of interests and each interest is relative to a list
@@ -62,30 +60,15 @@ public class Member {
 	public ArrayList<Comment> comments = new ArrayList<Comment>();
 
 	// A Member have a list of hubs and each hub contains a list of members
-	public int[] hub_ids;
+	public Hub hub;
+
+    public ArrayList<Member> references = new ArrayList<Member>();
 
     /**
      * Constructors
      **/
 
-    public Member(int id, String full_name, String email, String password, String device_token,
-                  boolean activation, String status, HashMap<String, String> socials,
-                  ArrayList<Todo> todos, ArrayList<Interest> interests, ArrayList<Post> posts,
-                  ArrayList<Company> companies, ArrayList<Comment> comments, int[] hubs){
-        this.id = id;
-        this.full_name = full_name;
-        this.email = email;
-        this.password = password;
-        this.device_token = device_token;
-        this.activation = activation;
-        this.status = status;
-        this.socials = socials;
-        this.todos = todos;
-        this.interests = interests;
-        this.posts = posts;
-        this.companies = companies;
-        this.comments = comments;
-        this.hub_ids = hubs;
+    public Member(){
     }
 
     /**
@@ -94,15 +77,30 @@ public class Member {
 
     public static Member createUserFromJson(JsonElement response) {
         Gson gson = new Gson();
+
+        response = ParseHelper.parseMemberResponse(response);
+
         Member member = gson.fromJson (response, Member.class);
+
+        if(member.social != null) {
+            member.social.id = response.getAsJsonObject().get("social_id").getAsInt();
+        }
 
         return member;
     }
 
-    public static List<Member> createListUsersFromJson(JSONArray response) {
+    public static List<Member> createListUsersFromJson(JsonArray response) {
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Member>>(){}.getType();
-        List<Member> members = gson.fromJson(response.toString(), listType);
+
+        /*Type listType = new TypeToken<List<Member>>(){}.getType();
+        List<Member> members = gson.fromJson(response.toString(), listType);*/
+
+        List<Member> members = new ArrayList<Member>();
+
+        for (int i = 0; i< response.size(); i++) {
+            Member member = createUserFromJson(response.get(i));
+            members.add(member);
+        }
 
         return members;
     }
