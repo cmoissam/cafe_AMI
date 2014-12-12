@@ -12,4 +12,12 @@ public class Social {
     public String blog;
     public String website;
     public String other;
+
+    public Social(){
+
+    }
+
+    public Social(int id){
+        this.id = id;
+    }
 }

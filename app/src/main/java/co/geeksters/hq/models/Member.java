@@ -72,18 +72,33 @@ public class Member {
     }
 
     /**
+     * Setters
+     **/
+
+    public void setSocialId(int socialId){
+        this.social = new Social(socialId);
+    }
+
+    public void setHubId(int hubId){
+        this.hub = new Hub(hubId);
+    }
+
+    /**
      * Methods
      **/
 
     public static Member createUserFromJson(JsonElement response) {
         Gson gson = new Gson();
 
-        response = ParseHelper.parseMemberResponse(response);
+        response = parseMemberResponse(response);
 
         Member member = gson.fromJson (response, Member.class);
 
-        if(member.social != null) {
-            member.social.id = response.getAsJsonObject().get("social_id").getAsInt();
+        if(member.social == null && !response.getAsJsonObject().get("social_id").isJsonNull()) {
+            member.setSocialId(response.getAsJsonObject().get("social_id").getAsInt());
+        }
+        if(member.hub == null  && !response.getAsJsonObject().get("hub_id").isJsonNull()) {
+            member.setHubId(response.getAsJsonObject().get("hub_id").getAsInt());
         }
 
         return member;
@@ -103,5 +118,57 @@ public class Member {
         }
 
         return members;
+    }
+
+    public static JsonElement parseMemberResponse(JsonElement response){
+        if(response.getAsJsonObject().get("newsletter").toString().equals("false")){
+            response.getAsJsonObject().addProperty("newsletter", "0");
+        }
+
+        if(response.getAsJsonObject().get("newsletter").toString().equals("true")){
+            response.getAsJsonObject().addProperty("newsletter", "1");
+        }
+
+        if(response.getAsJsonObject().get("references") != null) {
+            JsonArray references = response.getAsJsonObject().get("references").getAsJsonArray();
+
+            for (int i = 0; i < references.size(); i++) {
+                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("false")) {
+                    references.get(i).getAsJsonObject().addProperty("newsletter", "0");
+                }
+
+                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("true")) {
+                    references.get(i).getAsJsonObject().addProperty("newsletter", "1");
+                }
+            }
+        }
+
+        if(response.getAsJsonObject().get("created_at").isJsonObject()){
+            response.getAsJsonObject().addProperty("created_at", response.getAsJsonObject().get("created_at").getAsJsonObject().get("date").toString().replace("\"", "")
+            );
+        }
+
+        if(response.getAsJsonObject().get("updated_at").isJsonObject()){
+            response.getAsJsonObject().addProperty("updated_at", response.getAsJsonObject().get("updated_at").getAsJsonObject().get("date").toString().replace("\"", "")
+            );
+        }
+
+        if(response.getAsJsonObject().get("ambassador").toString().equals(null)){
+            response.getAsJsonObject().addProperty("ambassador", "false"
+            );
+        }
+
+        return response;
+    }
+
+    public static JsonArray parseMembersResponse(JsonArray response){
+        JsonArray parsedMembers = new JsonArray();
+
+        for (int i = 0; i < response.size(); i++) {
+            JsonElement parsedMember = parseMemberResponse(response.get(i));
+            parsedMembers.add(parsedMember);
+        }
+
+        return parsedMembers;
     }
 }

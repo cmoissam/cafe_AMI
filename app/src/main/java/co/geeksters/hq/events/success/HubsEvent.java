@@ -7,11 +7,11 @@ import co.geeksters.hq.models.Hub;
 /**
  * Created by soukaina on 27/11/14.
  */
-public class ListAllHubsEvent {
+public class HubsEvent {
 
     public List<Hub> hubs;
 
-    public ListAllHubsEvent(List<Hub> hubs) {
+    public HubsEvent(List<Hub> hubs) {
         this.hubs = hubs;
     }
 }

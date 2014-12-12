@@ -1,24 +1,21 @@
 package co.geeksters.hq.services;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.CreateHubEvent;
-import co.geeksters.hq.events.success.DeleteHubEvent;
-import co.geeksters.hq.events.success.GetHubAmbassadorsEvent;
-import co.geeksters.hq.events.success.GetHubInfoEvent;
-import co.geeksters.hq.events.success.ListAllHubsEvent;
-import co.geeksters.hq.events.success.ListHubsForMemberEvent;
-import co.geeksters.hq.events.success.MemberEvent;
-import co.geeksters.hq.events.success.MembersEvent;
-import co.geeksters.hq.events.success.UpdateHubEvent;
-import co.geeksters.hq.events.success.UpdateImageHubEvent;
+import co.geeksters.hq.events.success.HubEvent;
+import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.HubInterface;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
@@ -36,48 +33,13 @@ public class HubService {
 
     public void listAllHubs() {
 
-        this.api.listAllHubs(new Callback<JSONArray>() {
-
-            @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Hub> hubs = Hub.createListHubsFromJson(response);
-                BaseApplication.getEventBus().post(new ListAllHubsEvent(hubs));
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
-            }
-        });
-    }
-
-    public void listHubsForMember(int user_id) {
-
-        this.api.listHubsForMember(user_id, new Callback<JSONArray>() {
-
-            @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Hub> hubs_for_member = Hub.createListHubsFromJson(response);
-                BaseApplication.getEventBus().post(new ListHubsForMemberEvent(hubs_for_member));
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
-            }
-        });
-    }
-
-    public void getHubInfo(int hub_id) {
-
-        this.api.getHubInfo(hub_id, new Callback<JsonElement>() {
+        this.api.listAllHubs(new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Hub hub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new GetHubInfoEvent(hub));
+                JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
+                List<Hub> hubs = Hub.createListHubsFromJson(responseAsArray);
+                BaseApplication.getEventBus().post(new HubsEvent(hubs));
             }
 
             @Override
@@ -88,9 +50,46 @@ public class HubService {
         });
     }
 
-    public void getHubMembers(int hub_id) {
+    public void listHubsForMember(int userId) {
 
-        this.api.getHubMembers(hub_id, new Callback<JSONArray>() {
+        this.api.listHubsForMember(userId, new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
+                List<Hub> hubs = Hub.createListHubsFromJson(responseAsArray);
+                BaseApplication.getEventBus().post(new HubsEvent(hubs));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // popup to inform the current user of the failure
+                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+            }
+        });
+    }
+
+    public void getHubInfo(int hubId) {
+
+        this.api.getHubInfo(hubId, new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                Hub hub = Hub.createHubFromJson(response.getAsJsonObject().get("data"));
+                BaseApplication.getEventBus().post(new HubEvent(hub));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // popup to inform the current user of the failure
+                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+            }
+        });
+    }
+
+    public void getHubMembers(int hubId) {
+
+        this.api.getHubMembers(hubId, new Callback<JSONArray>() {
 
             @Override
             public void success(JSONArray response, Response rawResponse) {
@@ -106,9 +105,9 @@ public class HubService {
         });
     }
 
-    public void getHubAmbassadors(int hub_id) {
+    public void getHubAmbassadors(int hubId) {
 
-        this.api.getHubAmbassadors(hub_id, new Callback<JSONArray>() {
+        this.api.getHubAmbassadors(hubId, new Callback<JSONArray>() {
 
             @Override
             public void success(JSONArray response, Response rawResponse) {
@@ -126,12 +125,12 @@ public class HubService {
 
     public void createHub(Hub hub) {
 
-        this.api.createHub(hub, new Callback<JsonElement>() {
+        this.api.createHub(ParseHelper.createTypedInputFromModel(hub), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Hub created_hub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new CreateHubEvent(created_hub));
+                Hub createdHub = Hub.createHubFromJson(response);
+                BaseApplication.getEventBus().post(new HubEvent(createdHub));
             }
 
             @Override
@@ -142,14 +141,20 @@ public class HubService {
         });
     }
 
-    public void updateHub(int hub_id, String name, String image_url, List<Member> ambassadors, List<Member> members) {
+    public void updateHub(int hubId, String name, String imageUrl, ArrayList<Member> ambassadors, ArrayList<Member> members) {
 
-        this.api.updateHub(hub_id, name, image_url, ambassadors, members, new Callback<JsonElement>() {
+        Hub hub = new Hub();
+        hub.name = name;
+        hub.image = imageUrl;
+        hub.members = members;
+        hub.ambassadors = ambassadors;
+
+        this.api.updateHub(hubId, ParseHelper.createTypedInputFromModel(hub), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Hub updated_hub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new UpdateHubEvent(updated_hub));
+                Hub updatedHub = Hub.createHubFromJson(response);
+                BaseApplication.getEventBus().post(new HubEvent(updatedHub));
             }
 
             @Override
@@ -160,14 +165,21 @@ public class HubService {
         });
     }
 
-    public void updateImageHub(int hub_id, File image_file) {
+    public void updateImageHub(int hubId, File imageFile) {
 
-        this.api.updateImageHub(hub_id, image_file, new Callback<JsonElement>() {
+        JSONObject jsonFile = new JSONObject();
+        try {
+            jsonFile.put("file", imageFile);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        this.api.updateImageHub(hubId, ParseHelper.createTypedInputFromJsonObject(jsonFile), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Hub updated_hub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new UpdateImageHubEvent(updated_hub));
+                Hub updatedHub = Hub.createHubFromJson(response);
+                BaseApplication.getEventBus().post(new HubEvent(updatedHub));
             }
 
             @Override
@@ -178,14 +190,14 @@ public class HubService {
         });
     }
 
-    public void deleteHub(int hub_id) {
+    public void deleteHub(int hubId) {
 
-        this.api.deleteHub(hub_id, new Callback<JsonElement>() {
+        this.api.deleteHub(hubId, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Hub deleted_hub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new DeleteHubEvent(deleted_hub));
+                BaseApplication.getEventBus().post(new HubEvent(deleted_hub));
             }
 
             @Override

@@ -74,44 +74,5 @@ public class ParseHelper {
         return inputHttpRequest;
     }
 
-    public static JsonElement parseMemberResponse(JsonElement response){
-        if(response.getAsJsonObject().get("newsletter").toString().equals("false")){
-            response.getAsJsonObject().addProperty("newsletter", "0");
-        }
 
-        if(response.getAsJsonObject().get("newsletter").toString().equals("true")){
-            response.getAsJsonObject().addProperty("newsletter", "1");
-        }
-
-        if(response.getAsJsonObject().get("references") != null) {
-            JsonArray references = response.getAsJsonObject().get("references").getAsJsonArray();
-
-            for (int i = 0; i < references.size(); i++) {
-                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("false")) {
-                    references.get(i).getAsJsonObject().addProperty("newsletter", "0");
-                }
-
-                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("true")) {
-                    references.get(i).getAsJsonObject().addProperty("newsletter", "1");
-                }
-            }
-        }
-
-        if(response.getAsJsonObject().get("created_at").isJsonObject()){
-            response.getAsJsonObject().addProperty("created_at", response.getAsJsonObject().get("created_at").getAsJsonObject().get("date").toString().replace("\"", "")
-            );
-        }
-
-        if(response.getAsJsonObject().get("updated_at").isJsonObject()){
-            response.getAsJsonObject().addProperty("updated_at", response.getAsJsonObject().get("updated_at").getAsJsonObject().get("date").toString().replace("\"", "")
-            );
-        }
-
-        if(response.getAsJsonObject().get("ambassador").toString().equals(null)){
-            response.getAsJsonObject().addProperty("ambassador", "false"
-            );
-        }
-
-        return response;
-    }
 }
