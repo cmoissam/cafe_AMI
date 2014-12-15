@@ -7,13 +7,10 @@ import org.json.JSONArray;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.CreateInterestEvent;
-import co.geeksters.hq.events.success.DeleteInterestEvent;
-import co.geeksters.hq.events.success.GetInterestInfoEvent;
-import co.geeksters.hq.events.success.ListAllInterestsEvent;
-import co.geeksters.hq.events.success.SuggestionsInterestEvent;
-import co.geeksters.hq.events.success.UpdateInterestEvent;
+import co.geeksters.hq.events.success.InterestEvent;
+import co.geeksters.hq.events.success.InterestsEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.InterestInterface;
 import co.geeksters.hq.models.Interest;
 import retrofit.Callback;
@@ -30,12 +27,12 @@ public class InterestService {
 
     public void listAllInterests() {
 
-        this.api.listAllInterests(new Callback<JSONArray>() {
+        this.api.listAllInterests(new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Interest> interests = Interest.createListInterestsFromJson(response);
-                BaseApplication.getEventBus().post(new ListAllInterestsEvent(interests));
+            public void success(JsonElement response, Response rawResponse) {
+                List<Interest> interests = Interest.createListInterestsFromJson(response.getAsJsonObject().get("data").getAsJsonArray());
+                BaseApplication.getEventBus().post(new InterestsEvent(interests));
             }
 
             @Override
@@ -46,14 +43,14 @@ public class InterestService {
         });
     }
 
-    public void getInterestInfo(int interest_id) {
+    public void getInterestInfo(int interestId) {
 
-        this.api.getInterestInfo(interest_id, new Callback<JsonElement>() {
+        this.api.getInterestInfo(interestId, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Interest interest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new GetInterestInfoEvent(interest));
+                BaseApplication.getEventBus().post(new InterestEvent(interest));
             }
 
             @Override
@@ -66,12 +63,12 @@ public class InterestService {
 
     public void createInterest(Interest interest) {
 
-        this.api.createInterest(interest, new Callback<JsonElement>() {
+        this.api.createInterest(ParseHelper.createTypedInputFromModel(interest), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Interest created_interest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new CreateInterestEvent(created_interest));
+                Interest createdInterest = Interest.createInterestFromJson(response);
+                BaseApplication.getEventBus().post(new InterestEvent(createdInterest));
             }
 
             @Override
@@ -82,14 +79,14 @@ public class InterestService {
         });
     }
 
-    public void updateInterest(int interest_id, String name) {
+    public void updateInterest(int interestId, Interest interest) {
 
-        this.api.updateInterest(interest_id, name, new Callback<JsonElement>() {
+        this.api.updateInterest(interestId, ParseHelper.createTypedInputFromModel(interest), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Interest updated_interest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new UpdateInterestEvent(updated_interest));
+                Interest updatedInterest = Interest.createInterestFromJson(response);
+                BaseApplication.getEventBus().post(new InterestEvent(updatedInterest));
             }
 
             @Override
@@ -100,14 +97,14 @@ public class InterestService {
         });
     }
 
-    public void deleteInterest(int interest_id) {
+    public void deleteInterest(int interestId) {
 
-        this.api.deleteInterest(interest_id, new Callback<JsonElement>() {
+        this.api.deleteInterest(interestId, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Interest deleted_interest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new DeleteInterestEvent(deleted_interest));
+                Interest deletedInterest = Interest.createInterestFromJson(response);
+                BaseApplication.getEventBus().post(new InterestEvent(deletedInterest));
             }
 
             @Override
@@ -120,12 +117,12 @@ public class InterestService {
 
     public void suggestionsInterest(String search) {
 
-        this.api.suggestionsInterest(search, new Callback<JSONArray>() {
+        this.api.suggestInterests(search, new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Interest> interests = Interest.createListInterestsFromJson(response);
-                BaseApplication.getEventBus().post(new SuggestionsInterestEvent(interests));
+            public void success(JsonElement response, Response rawResponse) {
+                List<Interest> interests = Interest.createListInterestsFromJson(response.getAsJsonObject().get("data").getAsJsonArray());
+                BaseApplication.getEventBus().post(new InterestsEvent(interests));
             }
 
             @Override

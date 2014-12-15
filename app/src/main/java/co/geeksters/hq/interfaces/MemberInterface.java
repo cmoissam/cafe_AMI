@@ -34,18 +34,6 @@ public interface MemberInterface {
     @POST("/member/profile/image")
     void updateImageMember(@Body TypedInput updateImageParams, Callback<JsonElement> callback);
 
-    @POST("/members/{id}/ambassador")
-    void updateStatusMember(@Path("id") int userId, @Body TypedInput ambassador, Callback<JsonElement> callback);
-
-    @POST("/members/{id}/deviceToken")
-    void updateTokenMember(@Path("id") int userId, @Body TypedInput device_token, Callback<JsonElement> callback);
-
-    @POST("/members/{id}/notifies")
-    void updateNotifyOptionsMember(@Path("id") int userId, @Body TypedInput notifOptions, Callback<JsonElement> callback);
-
-    @POST("/members/{id}/geolocation")
-    void updateLocationMember(@Path("id") int userId, @Body TypedInput locations, Callback<JsonElement> callback);
-
     @GET("/members")
     void listAllMembers(Callback<JsonElement> callback);
 
@@ -79,4 +67,18 @@ public interface MemberInterface {
 
     @POST("/members/confirmation/validate")
     void validateEmailConfirmationOnRegister(@Body TypedInput token, Callback<JsonElement> callback);
+
+    // Todo : To delete
+
+    @POST("/members/{id}/ambassador")
+    void updateStatusMember(@Path("id") int userId, @Body TypedInput ambassador, Callback<JsonElement> callback);
+
+    @POST("/members/{id}/deviceToken")
+    void updateTokenMember(@Path("id") int userId, @Body TypedInput device_token, Callback<JsonElement> callback);
+
+    @POST("/members/{id}/notifies")
+    void updateNotifyOptionsMember(@Path("id") int userId, @Body TypedInput notifOptions, Callback<JsonElement> callback);
+
+    @POST("/members/{id}/geolocation")
+    void updateLocationMember(@Path("id") int userId, @Body TypedInput locations, Callback<JsonElement> callback);
 }

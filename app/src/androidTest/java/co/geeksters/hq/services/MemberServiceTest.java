@@ -226,6 +226,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: Bad request !!!
     @Test
     public void testSuggestMembers() throws Exception {
         beforeTest();
@@ -265,6 +266,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: server error 500 !!!
     @Test
     public void testGetMembersArrountMe() throws Exception {
         beforeTest();
@@ -319,7 +321,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.getMemberInfo(810, new retrofit.Callback<JsonElement>() {
+        api.getMemberInfo(5, new retrofit.Callback<JsonElement>() {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member member = Member.createUserFromJson(response.getAsJsonObject().get("data"));
@@ -334,6 +336,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: 402 No authentication challenges found !!!
     @Test
     public void testUpdateMember() {
         beforeTest();
@@ -368,6 +371,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: 402 No authentication challenges found !!!
     @Test
     public void testUpdateImageMember() {
         beforeTest();
@@ -407,6 +411,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: to delete !!!
     @Test
     public void testUpdateStatusMember() {
         beforeTest();
@@ -439,6 +444,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: to delete !!!
     @Test
     public void testUpdateTokenMember() {
         beforeTest();
@@ -469,6 +475,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: to delete !!!
     @Test
     public void testupdateNotifyOptionsMember() {
         beforeTest();
@@ -514,6 +521,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: to delete !!!
     @Test
     public void testupdateLocationMember() {
         beforeTest();
@@ -556,6 +564,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: 402 No authentication challenges found !!!
     @Test
     public void testDeleteMember() {
         beforeTest();
@@ -587,6 +596,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: 402 No authentication challenges found !!!
     @Test
     public void testLogoutMember() {
         beforeTest();
@@ -650,10 +660,4 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         waitTest();
     }
-
-    // TODO: Test password reset. Reason of problem: Need to the token sent by email to do the reset !!!
-    // Params: 'token', 'email', 'password', 'password_confirmation'
-
-    // TODO: Test send email confirmation & validate account
-
 }

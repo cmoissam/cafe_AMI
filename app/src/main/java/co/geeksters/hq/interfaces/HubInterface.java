@@ -42,7 +42,9 @@ public interface HubInterface {
     @POST("/hubs/{id}/image")
     void updateImageHub(@Path("id") int hubId, @Body TypedInput imageFile, Callback<JsonElement> callback);
 
+    @POST("/hubs/{id}/ambassadors")
+    void updateHubAmbassadors(int hubId, @Body TypedInput ambassadors, Callback<JsonElement> callback);
+
     @POST("/hubs/{id}")
     void deleteHub(@Path("id") int hubId, Callback<JsonElement> callback);
-
 }

@@ -16,4 +16,14 @@ public class GeneralHelpers {
 
         return emailsString;
     }
+
+    public static String generateIdsStringFromList(ArrayList<Integer> ids){
+        String idsString = "";
+
+        for(int i=0; i<ids.size(); i++){
+            idsString += "," + ids.get(i);
+        }
+
+        return idsString;
+    }
 }

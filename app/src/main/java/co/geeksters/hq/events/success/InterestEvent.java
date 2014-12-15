@@ -5,11 +5,11 @@ import co.geeksters.hq.models.Interest;
 /**
  * Created by soukaina on 27/11/14.
  */
-public class CreateInterestEvent {
+public class InterestEvent {
 
     public Interest interest;
 
-    public CreateInterestEvent(Interest interest) {
+    public InterestEvent(Interest interest) {
         this.interest = interest;
     }
 }

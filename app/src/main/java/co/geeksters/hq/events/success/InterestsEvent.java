@@ -7,11 +7,11 @@ import co.geeksters.hq.models.Interest;
 /**
  * Created by soukaina on 27/11/14.
  */
-public class ListAllInterestsEvent {
+public class InterestsEvent {
 
-    List<Interest> interests;
+    public List<Interest> interests;
 
-    public ListAllInterestsEvent(List<Interest> interests) {
+    public InterestsEvent(List<Interest> interests) {
         this.interests = interests;
     }
 }

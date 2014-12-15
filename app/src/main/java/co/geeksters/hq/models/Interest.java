@@ -1,6 +1,7 @@
 package co.geeksters.hq.models;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
@@ -22,6 +23,14 @@ public class Interest {
 	// of User
     public ArrayList<Member> members = new ArrayList<Member>();
 
+    /**
+     * Constructors
+     **/
+
+    public Interest(){
+
+    }
+
     public Interest(int id, String name){
         this.id = id;
         this.name = name;
@@ -33,15 +42,32 @@ public class Interest {
 
     public static Interest createInterestFromJson(JsonElement response) {
         Gson gson = new Gson();
+
+        if(response.getAsJsonObject().get("members") != null) {
+            response.getAsJsonObject().add("members", Member.parseMembersResponse(response.getAsJsonObject().get("members").getAsJsonArray()));
+        }
+
         Interest interest = gson.fromJson (response, Interest.class);
+
+        for (int i = 0; i< interest.members.size(); i++){
+            interest.members.get(i).setSocialIdAndHubId(response.getAsJsonObject().get("members").getAsJsonArray().get(i));
+        }
 
         return interest;
     }
 
-    public static List<Interest> createListInterestsFromJson(JSONArray response) {
+    public static List<Interest> createListInterestsFromJson(JsonArray response) {
         Gson gson = new Gson();
-        Type listType = new TypeToken<List<Interest>>(){}.getType();
-        List<Interest> interests = gson.fromJson(response.toString(), listType);
+
+        /*Type listType = new TypeToken<List<Interest>>(){}.getType();
+        List<Interest> interests = gson.fromJson(response.toString(), listType);*/
+
+        List<Interest> interests = new ArrayList<Interest>();
+
+        for (int i = 0; i< response.size(); i++) {
+            Interest interest = createInterestFromJson(response.get(i));
+            interests.add(interest);
+        }
 
         return interests;
     }

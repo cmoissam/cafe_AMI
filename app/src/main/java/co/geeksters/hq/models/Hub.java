@@ -54,13 +54,7 @@ public class Hub {
         Hub hub = gson.fromJson (response, Hub.class);
 
         for (int i = 0; i< hub.members.size(); i++){
-            if(hub.members.get(i).social == null && !response.getAsJsonObject().get("members").getAsJsonArray().get(i).getAsJsonObject().get("social_id").isJsonNull()) {
-                hub.members.get(i).setSocialId(response.getAsJsonObject().get("members").getAsJsonArray().get(i).getAsJsonObject().get("social_id").getAsInt());
-            }
-
-            if(hub.members.get(i).hub == null && !response.getAsJsonObject().get("members").getAsJsonArray().get(i).getAsJsonObject().get("hub_id").isJsonNull()) {
-                hub.members.get(i).setHubId(response.getAsJsonObject().get("members").getAsJsonArray().get(i).getAsJsonObject().get("hub_id").getAsInt());
-            }
+            hub.members.get(i).setSocialIdAndHubId(response.getAsJsonObject().get("members").getAsJsonArray().get(i));
         }
 
         return hub;
@@ -68,8 +62,15 @@ public class Hub {
 
     public static List<Hub> createListHubsFromJson(JsonArray response) {
         Gson gson = new Gson();
+
         Type listType = new TypeToken<List<Hub>>(){}.getType();
         List<Hub> hubs = gson.fromJson(response.toString(), listType);
+
+        /*List<Hub> hubs = new ArrayList<Hub>();
+        for (int i = 0; i< response.size(); i++) {
+            Hub hub = createHubFromJson(response.get(i));
+            hubs.add(hub);
+        }*/
 
         return hubs;
     }

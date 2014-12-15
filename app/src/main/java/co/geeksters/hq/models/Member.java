@@ -83,6 +83,18 @@ public class Member {
         this.hub = new Hub(hubId);
     }
 
+    public Member setSocialIdAndHubId(JsonElement response){
+        if(!response.getAsJsonObject().get("social_id").isJsonNull()) {
+            this.setSocialId(response.getAsJsonObject().get("social_id").getAsInt());
+        }
+
+        if(this.hub == null  && response.getAsJsonObject().get("hub_id") != null) {
+            this.setHubId(response.getAsJsonObject().get("hub_id").getAsInt());
+        }
+
+        return this;
+    }
+
     /**
      * Methods
      **/
@@ -94,14 +106,7 @@ public class Member {
 
         Member member = gson.fromJson (response, Member.class);
 
-        if(member.social == null && !response.getAsJsonObject().get("social_id").isJsonNull()) {
-            member.setSocialId(response.getAsJsonObject().get("social_id").getAsInt());
-        }
-        if(member.hub == null  && !response.getAsJsonObject().get("hub_id").isJsonNull()) {
-            member.setHubId(response.getAsJsonObject().get("hub_id").getAsInt());
-        }
-
-        return member;
+        return member.setSocialIdAndHubId(response);
     }
 
     public static List<Member> createListUsersFromJson(JsonArray response) {
@@ -153,9 +158,8 @@ public class Member {
             );
         }
 
-        if(response.getAsJsonObject().get("ambassador").toString().equals(null)){
-            response.getAsJsonObject().addProperty("ambassador", "false"
-            );
+        if(response.getAsJsonObject().get("ambassador").isJsonNull()){
+            response.getAsJsonObject().addProperty("ambassador", "false");
         }
 
         return response;

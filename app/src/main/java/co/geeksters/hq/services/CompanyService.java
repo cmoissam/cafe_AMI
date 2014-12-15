@@ -1,19 +1,15 @@
 package co.geeksters.hq.services;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
-import org.json.JSONArray;
 
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.CreateCompanyEvent;
-import co.geeksters.hq.events.success.DeleteCompanyEvent;
-import co.geeksters.hq.events.success.GetCompanyInfoEvent;
-import co.geeksters.hq.events.success.ListAllCompaniesEvent;
-import co.geeksters.hq.events.success.SuggestionCompanyEvent;
-import co.geeksters.hq.events.success.UpdateCompanyEvent;
+import co.geeksters.hq.events.success.CompaniesEvent;
+import co.geeksters.hq.events.success.CompanyEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.CompanyInterface;
 import co.geeksters.hq.models.Company;
 import retrofit.Callback;
@@ -30,12 +26,13 @@ public class CompanyService {
 
     public void listAllCompanies() {
 
-        this.api.listAllCompanies(new Callback<JSONArray>() {
+        this.api.listAllCompanies(new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Company> companies = Company.createListCompaniesFromJson(response);
-                BaseApplication.getEventBus().post(new ListAllCompaniesEvent(companies));
+            public void success(JsonElement response, Response rawResponse) {
+                JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
+                List<Company> companies = Company.createListCompaniesFromJson(responseAsArray);
+                BaseApplication.getEventBus().post(new CompaniesEvent(companies));
             }
 
             @Override
@@ -46,14 +43,15 @@ public class CompanyService {
         });
     }
 
-    public void getCompanyInfo(int company_id) {
+    public void getCompanyInfo(int companyId) {
 
-        this.api.getCompanyInfo(company_id, new Callback<JsonElement>() {
+        this.api.getCompanyInfo(companyId, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Company company = Company.createCompanyFromJson(response);
-                BaseApplication.getEventBus().post(new GetCompanyInfoEvent(company));
+                JsonElement responseAsJson = response.getAsJsonObject().get("data");
+                Company company = Company.createCompanyFromJson(responseAsJson);
+                BaseApplication.getEventBus().post(new CompanyEvent(company));
             }
 
             @Override
@@ -66,12 +64,13 @@ public class CompanyService {
 
     public void createCompany(Company company) {
 
-        this.api.createCompany(company, new Callback<JsonElement>() {
+        this.api.createCompany(ParseHelper.createTypedInputFromModel(company), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Company created_company = Company.createCompanyFromJson(response);
-                BaseApplication.getEventBus().post(new CreateCompanyEvent(created_company));
+                JsonElement responseAsJson = response.getAsJsonObject().get("data");
+                Company company = Company.createCompanyFromJson(responseAsJson);
+                BaseApplication.getEventBus().post(new CompanyEvent(company));
             }
 
             @Override
@@ -82,14 +81,15 @@ public class CompanyService {
         });
     }
 
-    public void updateCompany(int company_id, String name) {
+    public void updateCompany(int companyId, Company company) {
 
-        this.api.updateCompany(company_id, name, new Callback<JsonElement>() {
+        this.api.updateCompany(companyId, ParseHelper.createTypedInputFromModelByMethod(company, "put"), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Company updated_company = Company.createCompanyFromJson(response);
-                BaseApplication.getEventBus().post(new UpdateCompanyEvent(updated_company));
+                JsonElement responseAsJson = response.getAsJsonObject().get("data");
+                Company company = Company.createCompanyFromJson(responseAsJson);
+                BaseApplication.getEventBus().post(new CompanyEvent(company));
             }
 
             @Override
@@ -100,14 +100,15 @@ public class CompanyService {
         });
     }
 
-    public void deleteCompany(int company_id) {
+    public void deleteCompany(int companyId) {
 
-        this.api.deleteCompany(company_id, new Callback<JsonElement>() {
+        this.api.deleteCompany(companyId, ParseHelper.createTypedInputFromOneKeyValue("_method", "delete"), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Company deleted_company = Company.createCompanyFromJson(response);
-                BaseApplication.getEventBus().post(new DeleteCompanyEvent(deleted_company));
+                JsonElement responseAsJson = response.getAsJsonObject().get("data");
+                Company company = Company.createCompanyFromJson(responseAsJson);
+                BaseApplication.getEventBus().post(new CompanyEvent(company));
             }
 
             @Override
@@ -118,14 +119,15 @@ public class CompanyService {
         });
     }
 
-    public void suggestionsCompany(String search) {
+    public void suggestCompanies(String search) {
 
-        this.api.suggestionsCompany(search, new Callback<JSONArray>() {
+        this.api.suggestCompanies(search, new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Company> suggestion_company = Company.createListCompaniesFromJson(response);
-                BaseApplication.getEventBus().post(new SuggestionCompanyEvent(suggestion_company));
+            public void success(JsonElement response, Response rawResponse) {
+                JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
+                List<Company> companies = Company.createListCompaniesFromJson(responseAsArray);
+                BaseApplication.getEventBus().post(new CompaniesEvent(companies));
             }
 
             @Override

@@ -135,7 +135,7 @@ public class HubServiceTest extends InstrumentationTestCase {
         api.listAllHubs(new retrofit.Callback<JsonElement>() {
 
             @Override
-            public void success(JsonElement response, retrofit.client.Response rawResponse) { // 21s pour avoir la réponse
+            public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
                 List<Hub> hubs = Hub.createListHubsFromJson(responseAsArray);
                 bus.post(new HubsEvent(hubs));
@@ -277,6 +277,7 @@ public class HubServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: 405 not allowed !!!
     @Test
     public void testCreateHub() {
         beforeTest();
@@ -311,6 +312,7 @@ public class HubServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: 405 not allowed !!!
     @Test
     public void testUpdateHub() {
         beforeTest();
@@ -345,6 +347,7 @@ public class HubServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: 405 not allowed !!!
     @Test
     public void testUpdateImageHub() {
         beforeTest();
@@ -383,6 +386,49 @@ public class HubServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+    // Todo: Not implemented yet !!!
+    @Test
+    public void testUpdateHubAmbassadors() {
+        beforeTest();
+
+        bus.register(new Object() {
+            @Subscribe
+            public void onUpdateHubEvent(HubEvent event) {
+                assertNotNull("on testUpdateHub",event.hub);
+                assertTrue(event.hub instanceof Hub);
+
+                // WE ARE DONE
+                doneTest();
+            }
+        });
+
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+        ids.add(1);
+        ids.add(44);
+        JSONObject idsAmbassadors = new JSONObject();
+        try {
+            idsAmbassadors.put("ambassadors", GeneralHelpers.generateIdsStringFromList(ids));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        api.updateHubAmbassadors(id, ParseHelper.createTypedInputFromJsonObject(idsAmbassadors), new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                // List<Member> members_of_hub = Member.createListUsersFromJson(response);
+                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+
+        waitTest();
+    }
+
+    // Todo: 405 not allowed !!!
     @Test
     public void testDeleteHub() {
         beforeTest();

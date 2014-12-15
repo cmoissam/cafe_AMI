@@ -5,13 +5,13 @@ import java.util.List;
 import co.geeksters.hq.models.Company;
 
 /**
- * Created by soukaina on 27/11/14.
+ * Created by soukaina on 28/11/14.
  */
-public class ListAllCompaniesEvent {
+public class CompaniesEvent {
 
     public List<Company> companies;
 
-    public ListAllCompaniesEvent(List<Company> companies) {
+    public CompaniesEvent(List<Company> companies) {
         this.companies = companies;
     }
 }

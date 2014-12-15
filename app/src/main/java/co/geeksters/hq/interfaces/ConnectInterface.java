@@ -27,6 +27,6 @@ public interface ConnectInterface {
     void register(@Body TypedInput member, Callback<JsonElement> callback);
 
     @POST("/oauth/access_token")
-    void login(@Body TypedInput json_login_input, Callback<JsonElement> callback);
+    void login(@Body TypedInput loginParams, Callback<JsonElement> callback);
 
 }

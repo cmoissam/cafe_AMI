@@ -1,5 +1,6 @@
 package co.geeksters.hq.interfaces;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import org.json.JSONArray;
@@ -10,24 +11,26 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
+import retrofit.mime.TypedInput;
 
 public interface InterestInterface {
 
     @GET("/interests")
-    void listAllInterests(Callback<JSONArray> callback);
+    void listAllInterests(Callback<JsonElement> callback);
 
     @GET("/interests/{id}")
-    void getInterestInfo(@Path("id") int interest_id, Callback<JsonElement> callback);
+    void getInterestInfo(@Path("id") int interestId, Callback<JsonElement> callback);
 
     @POST("/interests")
-    void createInterest(@Body Interest interest, Callback<JsonElement> callback);
+    void createInterest(@Body TypedInput interest, Callback<JsonElement> callback);
 
     @POST("/interests/{id}")
-    void updateInterest(@Path("id") int interest_id, String name, Callback<JsonElement> callback);
+    void updateInterest(@Path("id") int interestId, @Body TypedInput interest, Callback<JsonElement> callback);
 
     @POST("/interests/{id}")
-    void deleteInterest(@Path("id") int interest_id, Callback<JsonElement> callback);
+    void deleteInterest(@Path("id") int interestId, Callback<JsonElement> callback);
 
-    @GET("/interests/suggest")
-    void suggestionsInterest(String search, Callback<JSONArray> callback);
+    @GET("/interest/suggest")
+    void suggestInterests(@Query("string") String search, Callback<JsonElement> callback);
 }

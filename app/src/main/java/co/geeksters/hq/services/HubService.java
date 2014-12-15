@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
@@ -18,6 +19,7 @@ import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.HubInterface;
 import co.geeksters.hq.models.Hub;
+import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -175,6 +177,31 @@ public class HubService {
         }
 
         this.api.updateImageHub(hubId, ParseHelper.createTypedInputFromJsonObject(jsonFile), new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                Hub updatedHub = Hub.createHubFromJson(response);
+                BaseApplication.getEventBus().post(new HubEvent(updatedHub));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // popup to inform the current user of the failure
+                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+            }
+        });
+    }
+
+    public void updateHubAmbassadors(int hubId, ArrayList<Integer> ids) {
+
+        JSONObject jsonAmbassadors = new JSONObject();
+        try {
+            jsonAmbassadors.put("ambassadors", ids);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        this.api.updateHubAmbassadors(hubId, ParseHelper.createTypedInputFromJsonObject(jsonAmbassadors), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

@@ -1,5 +1,6 @@
 package co.geeksters.hq.interfaces;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import org.json.JSONArray;
@@ -10,6 +11,8 @@ import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
+import retrofit.mime.TypedInput;
 
 public interface CompanyInterface {
 
@@ -17,18 +20,18 @@ public interface CompanyInterface {
     void getCompanyInfo(@Path("id") int company_id, Callback<JsonElement> callback);
 
     @GET("/companies")
-    void listAllCompanies(Callback<JSONArray> callback);
+    void listAllCompanies(Callback<JsonElement> callback);
 
     @POST("/companies")
-    void createCompany(@Body Company company, Callback<JsonElement> callback);
+    void createCompany(@Body TypedInput company, Callback<JsonElement> callback);
 
     @POST("/companies/{id}")
-    void updateCompany(@Path("id") int company_id, String name, Callback<JsonElement> callback);
+    void updateCompany(@Path("id") int company_id, @Body TypedInput company, Callback<JsonElement> callback);
 
     @POST("/companies/{id}")
-    void deleteCompany(@Path("id") int company_id, Callback<JsonElement> callback);
+    void deleteCompany(@Path("id") int company_id, @Body TypedInput company, Callback<JsonElement> callback);
 
-    @GET("/companies/suggest")
-    void suggestionsCompany(String search, Callback<JSONArray> callback);
+    @GET("/company/suggest")
+    void suggestCompanies(@Query("string") String search, Callback<JsonElement> callback);
 
 }
