@@ -8,32 +8,31 @@ import android.view.MenuItem;
 
 import com.squareup.otto.Subscribe;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+
 import java.io.File;
 
+import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.services.ConnectService;
 import co.geeksters.hq.services.MemberService;
 
-
+@EActivity(R.layout.activity_main)
 public class MainActivity extends Activity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+    @AfterViews
+    public void initServices() {
+        BaseApplication.getEventBus().register(this);
 
-        //BaseApplication.getEventBus().register(this);
-
-        MemberService memberService = new MemberService("token");
-        memberService.getMemberInfo(1);
-
-        //memberService.updateImageMember(3,new File(""));
+        ConnectService connectService = new ConnectService();
+        connectService.login("password", 1, "pioner911", "dam@geeksters.co", "hq43viable", "basic");
     }
 
     @Subscribe
-    public void onGetMemberInfoEvent(MemberEvent event) {
-
-        Log.d("onEvent", "GetMemberInfoEvent");
+    public void onLoginEventEvent(LoginEvent event) {
+        Log.d("onEvent", event.access_token);
     }
 
     @Override
@@ -45,18 +44,6 @@ public class MainActivity extends Activity {
     @Override
     public void onStop() {
         super.onStop();
-        BaseApplication.getEventBus().unregister(this);
-    }
-
-    /*@Override
-    public void onPause() {
-        super.onPause();
-        BaseApplication.getEventBus().unregister(this);
-    }*/
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
         BaseApplication.getEventBus().unregister(this);
     }
 

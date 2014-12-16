@@ -132,12 +132,12 @@ public class ConnectServiceTest extends InstrumentationTestCase {
         });
 
         JSONObject loginParams = new JSONObject();
-            loginParams.put("grant_type", "password")
-                    .put("client_id", new Integer(1))
-                    .put("client_secret", "pioner911")
-                    .put("username", "dam@geeksters.co")
-                    .put("password", "hq43viable")
-                    .put("scope", "basic");
+        loginParams.put("grant_type", "password")
+                .put("client_id", new Integer(1))
+                .put("client_secret", "pioner911")
+                .put("username", "dam@geeksters.co")
+                .put("password", "hq43viable")
+                .put("scope", "basic");
 
         api.login(ParseHelper.createTypedInputFromModel(loginParams), new Callback<JsonElement>() {
             @Override

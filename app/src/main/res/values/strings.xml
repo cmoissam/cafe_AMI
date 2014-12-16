@@ -7,15 +7,22 @@
     <string-array name="menus">
         <item>People Directory</item>
         <item>People Finder</item>
-        <item>My ToDos</item>
         <item>Hubs</item>
-        <item>Me</item>
+        <item>My ToDos</item>
         <item>Market Place</item>
+        <item>Me</item>
     </string-array>
 
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_global_menu">GlobalMenuActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
 
 </resources>
