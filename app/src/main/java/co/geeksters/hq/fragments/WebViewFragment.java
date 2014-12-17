@@ -2,6 +2,7 @@ package co.geeksters.hq.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,6 @@ public class WebViewFragment extends Fragment {
 		
 		// Retrieving the currently selected item number
 		int position = getArguments().getInt("position");
-		
-		String url = getArguments().getString("url");
 
 		// List of rivers
 		String[] menus = getResources().getStringArray(R.array.menus);
@@ -28,12 +27,11 @@ public class WebViewFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_layout, container, false);
 
 		// Updating the action bar title
-        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(menus[position]);
+        ((FragmentActivity)getActivity()).getActionBar().setTitle(menus[position]);
 		
-		//Initializing and loading url in webview
+		//Initializing webview
 		WebView webView = (WebView)v.findViewById(R.id.webView); 
 		webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(url);
 
 		return v;
 	}

@@ -32,13 +32,13 @@ public class CommentService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 List<Comment> comments_for_post = Comment.createListCommentsFromJson(response);
-                BaseApplication.getEventBus().post(new ListCommentsForPostEvent(comments_for_post));
+                BaseApplication.post(new ListCommentsForPostEvent(comments_for_post));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -50,13 +50,13 @@ public class CommentService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Comment created_comment_for_post = Comment.createCommentFromJson(response);
-                BaseApplication.getEventBus().post(new CommentPostEvent(created_comment_for_post));
+                BaseApplication.post(new CommentPostEvent(created_comment_for_post));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -68,13 +68,13 @@ public class CommentService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Comment deleted_comment = Comment.createCommentFromJson(response);
-                BaseApplication.getEventBus().post(new DeleteCommentEvent(deleted_comment));
+                BaseApplication.post(new DeleteCommentEvent(deleted_comment));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

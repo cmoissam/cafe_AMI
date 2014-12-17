@@ -1,0 +1,12 @@
+<!-- [ Mirror metadata ] generatedAt: 1418753916136 -->
+<!-- Generated screen file. Fill the id tags below with content with
+which to populate your previewed layout. For a complete specification
+of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
+<screen>
+    <_content layout="@layout/activity_login">
+        <!-- TextView Examples:
+        <welcome text="@string/string_resource" />
+        <welcome text="Text literal" textSize="14sp" /> -->
+        <welcome />
+    </_content>
+</screen>

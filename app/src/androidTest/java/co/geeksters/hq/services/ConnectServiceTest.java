@@ -109,7 +109,6 @@ public class ConnectServiceTest extends InstrumentationTestCase {
 
             @Override
             public void failure(RetrofitError error) {
-                Log.e("failure api.register", "0");
             }
         });
 

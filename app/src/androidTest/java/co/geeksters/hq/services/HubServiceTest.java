@@ -234,7 +234,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                // List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override
@@ -266,7 +266,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 // List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override
@@ -301,7 +301,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 // List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override
@@ -336,7 +336,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 // List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override
@@ -375,7 +375,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 // List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override
@@ -417,7 +417,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 // List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override
@@ -449,7 +449,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 // List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override

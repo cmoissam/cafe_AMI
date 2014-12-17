@@ -32,13 +32,13 @@ public class CompanyService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
                 List<Company> companies = Company.createListCompaniesFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new CompaniesEvent(companies));
+                BaseApplication.post(new CompaniesEvent(companies));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -51,13 +51,13 @@ public class CompanyService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonElement responseAsJson = response.getAsJsonObject().get("data");
                 Company company = Company.createCompanyFromJson(responseAsJson);
-                BaseApplication.getEventBus().post(new CompanyEvent(company));
+                BaseApplication.post(new CompanyEvent(company));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -70,13 +70,13 @@ public class CompanyService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonElement responseAsJson = response.getAsJsonObject().get("data");
                 Company company = Company.createCompanyFromJson(responseAsJson);
-                BaseApplication.getEventBus().post(new CompanyEvent(company));
+                BaseApplication.post(new CompanyEvent(company));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -89,13 +89,13 @@ public class CompanyService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonElement responseAsJson = response.getAsJsonObject().get("data");
                 Company company = Company.createCompanyFromJson(responseAsJson);
-                BaseApplication.getEventBus().post(new CompanyEvent(company));
+                BaseApplication.post(new CompanyEvent(company));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -108,13 +108,13 @@ public class CompanyService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonElement responseAsJson = response.getAsJsonObject().get("data");
                 Company company = Company.createCompanyFromJson(responseAsJson);
-                BaseApplication.getEventBus().post(new CompanyEvent(company));
+                BaseApplication.post(new CompanyEvent(company));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -127,13 +127,13 @@ public class CompanyService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
                 List<Company> companies = Company.createListCompaniesFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new CompaniesEvent(companies));
+                BaseApplication.post(new CompaniesEvent(companies));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

@@ -32,13 +32,13 @@ public class InterestService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 List<Interest> interests = Interest.createListInterestsFromJson(response.getAsJsonObject().get("data").getAsJsonArray());
-                BaseApplication.getEventBus().post(new InterestsEvent(interests));
+                BaseApplication.post(new InterestsEvent(interests));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -50,13 +50,13 @@ public class InterestService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Interest interest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new InterestEvent(interest));
+                BaseApplication.post(new InterestEvent(interest));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -68,13 +68,13 @@ public class InterestService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Interest createdInterest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new InterestEvent(createdInterest));
+                BaseApplication.post(new InterestEvent(createdInterest));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -86,13 +86,13 @@ public class InterestService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Interest updatedInterest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new InterestEvent(updatedInterest));
+                BaseApplication.post(new InterestEvent(updatedInterest));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -104,13 +104,13 @@ public class InterestService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Interest deletedInterest = Interest.createInterestFromJson(response);
-                BaseApplication.getEventBus().post(new InterestEvent(deletedInterest));
+                BaseApplication.post(new InterestEvent(deletedInterest));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -122,13 +122,13 @@ public class InterestService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 List<Interest> interests = Interest.createListInterestsFromJson(response.getAsJsonObject().get("data").getAsJsonArray());
-                BaseApplication.getEventBus().post(new InterestsEvent(interests));
+                BaseApplication.post(new InterestsEvent(interests));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

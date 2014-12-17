@@ -49,12 +49,12 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.getEventBus().post(new EmptyMemberEvent());
+                BaseApplication.post(new EmptyMemberEvent());
             }
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -66,13 +66,13 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.getEventBus().post(new MemberEvent(updatedMember));
+                BaseApplication.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -92,12 +92,12 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.getEventBus().post(new MemberEvent(updatedMember));
+                BaseApplication.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -109,12 +109,12 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.getEventBus().post(new MemberEvent(updatedMember));
+                BaseApplication.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -126,12 +126,12 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.getEventBus().post(new MemberEvent(updatedMember));
+                BaseApplication.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -154,12 +154,12 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.getEventBus().post(new MemberEvent(updatedMember));
+                BaseApplication.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -180,12 +180,12 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.getEventBus().post(new MemberEvent(updatedMember));
+                BaseApplication.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -198,13 +198,13 @@ public class MemberService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
                 List<Member> members = Member.createListUsersFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new MembersEvent(members));
+                BaseApplication.post(new MembersEvent(members));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -224,13 +224,13 @@ public class MemberService {
                 }
 
                 List<Member> members = Member.createListUsersFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new MembersEvent(members));
+                BaseApplication.post(new MembersEvent(members));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -241,13 +241,13 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member member = Member.createUserFromJson(response.getAsJsonObject().get("data"));
-                BaseApplication.getEventBus().post(new MemberEvent(member));
+                BaseApplication.post(new MemberEvent(member));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -266,13 +266,13 @@ public class MemberService {
                 }
 
                 List<Member> members = Member.createListUsersFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new MembersEvent(members));
+                BaseApplication.post(new MembersEvent(members));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -291,13 +291,13 @@ public class MemberService {
                 }
 
                 List<Member> members = Member.createListUsersFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new MembersEvent(members));
+                BaseApplication.post(new MembersEvent(members));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -309,13 +309,13 @@ public class MemberService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 //List<Member> members = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members));
+                //BaseApplication.post(new MembersEvent(members));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new GPSFailureEvent());
+                BaseApplication.post(new GPSFailureEvent());
             }
         });
     }
@@ -326,13 +326,13 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.getEventBus().post(new EmptyMemberEvent());
+                BaseApplication.post(new EmptyMemberEvent());
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -343,13 +343,13 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.getEventBus().post(new EmptyMemberEvent());
+                BaseApplication.post(new EmptyMemberEvent());
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -371,13 +371,13 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.getEventBus().post(new EmptyMemberEvent());
+                BaseApplication.post(new EmptyMemberEvent());
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -389,13 +389,13 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member member = Member.createUserFromJson(response);
-                BaseApplication.getEventBus().post(new MemberEvent(member));
+                BaseApplication.post(new MemberEvent(member));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -406,13 +406,13 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.getEventBus().post(new EmptyMemberEvent());
+                BaseApplication.post(new EmptyMemberEvent());
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

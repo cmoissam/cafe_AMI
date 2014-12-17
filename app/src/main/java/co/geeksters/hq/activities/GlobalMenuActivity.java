@@ -1,29 +1,6 @@
 package co.geeksters.hq.activities;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -34,167 +11,112 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemClick;
+import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.fragments.WebViewFragment;
 
-public class GlobalMenuActivity extends ActionBarActivity {
+@EActivity(R.layout.global_menu)
+public class GlobalMenuActivity extends FragmentActivity {
 
 	// Within which the entire activity is enclosed
-	private DrawerLayout mDrawerLayout;
+    @ViewById
+	DrawerLayout drawerLayout;
 
 	// ListView represents Navigation Drawer
-	private ListView mDrawerList;
+    @ViewById
+	ListView drawerList;
 
-	// ActionBarDrawerToggle indicates the presence of Navigation Drawer in the
-	// action bar
+	// ActionBarDrawerToggle indicates the presence of Navigation Drawer in the action bar
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	// Title of the action bar
-	private String mTitle = "";
+	private String mTitle = "HQ";
 
-	@SuppressLint("NewApi")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    @AfterViews
+    public void setActionBarColorAndTitle(){
+        getActionBar().setTitle(mTitle);
+        // Enabling Home button
+        getActionBar().setHomeButtonEnabled(true);
+        // Enabling Up navigation
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
 
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.global_menu);
-        getSupportActionBar().setBackgroundDrawable(
-				new ColorDrawable(Color.parseColor("#308BD1")));
-		mTitle = "Sandbox";
-        getSupportActionBar().setTitle(mTitle);
+    @AfterViews
+    public void drawerLayoutSetting() {
+        // Getting reference to the ActionBarDrawerToggle
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.drawable.ic_drawer, R.string.drawer_open,
+                R.string.drawer_close) {
 
-		// ImageButton drawer_button = (ImageButton) findViewById(
-		// R.id.action_settings );
-		// setWhiteIcon(drawer_button);
+            /** Called when drawer is closed */
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                invalidateOptionsMenu();
+            }
 
-		// ColorFilter filter = new LightingColorFilter(Color.RED, 1);
-		// .setColorFilter(filter);
-
-		// Getting reference to the DrawerLayout
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-		mDrawerList = (ListView) findViewById(R.id.drawer_list);
-
-		// Getting reference to the ActionBarDrawerToggle
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer, R.string.drawer_open,
-				R.string.drawer_close) {
-
-			// @Override
-			// public boolean onOptionsItemSelected(MenuItem item) {
-			// if (item != null && item.getItemId() == android.R.id.home) {
-			// if (mDrawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-			// mDrawerLayout.closeDrawer(Gravity.RIGHT);
-			// } else {
-			// mDrawerLayout.openDrawer(Gravity.RIGHT);
-			// }
-			// }
-			// return false;
-			// }
-
-			/** Called when drawer is closed */
-			public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
-				invalidateOptionsMenu();
-
-			}
-
-			/** Called when a drawer is opened */
-			public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle("Sandbox");
+            /** Called when a drawer is opened */
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mTitle);
                 // getSupportActionBar().hide();
-				invalidateOptionsMenu();
-			}
+                invalidateOptionsMenu();
+            }
+        };
 
-		};
+        // Setting DrawerToggle on DrawerLayout
+        drawerLayout.setDrawerListener(mDrawerToggle);
+    }
 
-		// Setting DrawerToggle on DrawerLayout
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
+    @AfterViews
+    public void drawerListSetting(){
+        // Creating an ArrayAdapter to add items to the listview mDrawerList
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getBaseContext(), R.layout.drawer_list_item, getResources()
+                .getStringArray(R.array.menus));
 
-		// mDrawerLayout.setAlpha(128);
+        // Setting the adapter on mDrawerList
+        drawerList.setAdapter(adapter);
+    }
 
-		// Creating an ArrayAdapter to add items to the listview mDrawerList
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getBaseContext(), R.layout.drawer_list_item, getResources()
-						.getStringArray(R.array.menus));
+    // Setting item click listener for the listview mDrawerList
+    @ItemClick
+    public void drawerListItemClicked(int position){
+        // Getting an array of rivers
+        String[] menuItems = getResources().getStringArray(
+                R.array.menus);
 
-		// Setting the adapter on mDrawerList
-		mDrawerList.setAdapter(adapter);
+        // Currently selected river
+        mTitle = menuItems[position];
 
-		// Enabling Home button
-        getSupportActionBar().setHomeButtonEnabled(true);
+        // Creating a fragment object
+        WebViewFragment rFragment = new WebViewFragment();
 
-		// Enabling Up navigation
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Passing selected item information to fragment
+        Bundle data = new Bundle();
+        data.putInt("position", position);
+        rFragment.setArguments(data);
 
-		// Setting item click listener for the listview mDrawerList
-		mDrawerList.setOnItemClickListener(new OnItemClickListener() {
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+        // Creating a fragment transaction
+        FragmentTransaction ft = fragmentManager.beginTransaction();
 
-				// Getting an array of rivers
-				String[] menuItems = getResources().getStringArray(
-						R.array.menus);
+        // Adding a fragment to the fragment transaction
+        ft.replace(R.id.contentFrame, rFragment);
 
-				// Currently selected river
-				mTitle = menuItems[position];
+        // Committing the transaction
+        ft.commit();
 
-				// Creating a fragment object
-				WebViewFragment rFragment = new WebViewFragment();
-
-				// Passing selected item information to fragment
-				Bundle data = new Bundle();
-				data.putInt("position", position);
-				data.putString("url", getUrl(position));
-				rFragment.setArguments(data);
-
-				// Getting reference to the FragmentManager
-				FragmentManager fragmentManager = getSupportFragmentManager();
-
-				// Creating a fragment transaction
-				FragmentTransaction ft = fragmentManager.beginTransaction();
-
-				// Adding a fragment to the fragment transaction
-				ft.replace(R.id.content_frame, rFragment);
-
-				// Committing the transaction
-				ft.commit();
-
-				// Closing the drawer
-				mDrawerLayout.closeDrawer(mDrawerList);
-
-			}
-		});
-	}
-
-	protected String getUrl(int position) {
-		switch (position) {
-		case 0:
-			return "http://javatechig.com";
-		case 1:
-			return "http://javatechig.com/category/android/";
-		case 2:
-			return "http://javatechig.com/category/blackberry/";
-		case 3:
-			return "http://javatechig.com/category/j2me/";
-		case 4:
-			return "http://javatechig.com/category/sencha-touch/";
-		case 5:
-			return "http://javatechig.com/category/phonegap/";
-		case 6:
-			return "http://javatechig.com/category/java/";
-		default:
-			return "http://javatechig.com";
-		}
-	}
+        // Closing the drawer
+        drawerLayout.closeDrawer(drawerList);
+    }
 
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
@@ -214,7 +136,7 @@ public class GlobalMenuActivity extends ActionBarActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If the drawer is open, hide action items related to the content view
-		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+		boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
 
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
@@ -224,10 +146,5 @@ public class GlobalMenuActivity extends ActionBarActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_main, menu);
 		return true;
-	}
-
-	public void setWhiteIcon(ImageButton imageButton) {
-		ColorFilter filter = new LightingColorFilter(Color.RED, 1);
-		imageButton.setColorFilter(filter);
 	}
 }

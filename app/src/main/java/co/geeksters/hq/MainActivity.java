@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 
     @AfterViews
     public void initServices() {
-        BaseApplication.getEventBus().register(this);
+        BaseApplication.register(this);
 
         ConnectService connectService = new ConnectService();
         connectService.login("password", 1, "pioner911", "dam@geeksters.co", "hq43viable", "basic");
@@ -38,13 +38,13 @@ public class MainActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        BaseApplication.getEventBus().register(this);
+        BaseApplication.register(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        BaseApplication.getEventBus().unregister(this);
+        BaseApplication.unregister(this);
     }
 
     @Override

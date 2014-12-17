@@ -1,5 +1,7 @@
 package co.geeksters.hq.services;
 
+import android.util.Log;
+
 import com.google.gson.JsonElement;
 
 import org.json.JSONException;
@@ -28,21 +30,21 @@ public class ConnectService {
         this.api = BaseService.adapterWithoutToken().create(ConnectInterface.class);
     }
 
-    public void register(TypedInput registerParam) {
+    public void register(Member member) {
 
-        this.api.register(registerParam, new Callback<JsonElement>() {
+        this.api.register(ParseHelper.createTypedInputFromModel(member), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member registredMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                 // an email to confirm the current account is sent
-                BaseApplication.getEventBus().post(new MemberEvent(registredMember));
+                BaseApplication.post(new MemberEvent(registredMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -69,13 +71,14 @@ public class ConnectService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 String accessToken = response.getAsJsonObject().get("access_token").toString();
-                BaseApplication.getEventBus().post(new LoginEvent(accessToken));
+                BaseApplication.post(new LoginEvent(accessToken));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                Log.d("Status Failure", error.getResponse().getStatus() + "");
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

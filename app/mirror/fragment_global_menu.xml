@@ -1,0 +1,12 @@
+<!-- [ Mirror metadata ] generatedAt: 1418753916134 -->
+<!-- Generated screen file. Fill the id tags below with content with
+which to populate your previewed layout. For a complete specification
+of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
+<screen>
+    <_content layout="@layout/fragment_global_menu">
+        <!-- TextView Examples:
+        <section_label text="@string/string_resource" />
+        <section_label text="Text literal" textSize="14sp" /> -->
+        <section_label />
+    </_content>
+</screen>

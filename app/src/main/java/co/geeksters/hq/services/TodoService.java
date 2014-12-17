@@ -34,13 +34,13 @@ public class TodoService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 List<Todo> todos_for_member = Todo.createListTodosFromJson(response);
-                BaseApplication.getEventBus().post(new ListTodosForMemberEvent(todos_for_member));
+                BaseApplication.post(new ListTodosForMemberEvent(todos_for_member));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -53,13 +53,13 @@ public class TodoService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Todo created_todo = Todo.createTodoFromJson(response);
-                BaseApplication.getEventBus().post(new CreateTodoEvent(created_todo));
+                BaseApplication.post(new CreateTodoEvent(created_todo));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -71,13 +71,13 @@ public class TodoService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Todo updated_todo = Todo.createTodoFromJson(response);
-                BaseApplication.getEventBus().post(new UpdateTodoEvent(updated_todo));
+                BaseApplication.post(new UpdateTodoEvent(updated_todo));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -89,13 +89,13 @@ public class TodoService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Todo deleted_todo = Todo.createTodoFromJson(response);
-                BaseApplication.getEventBus().post(new DeleteTodoEvent(deleted_todo));
+                BaseApplication.post(new DeleteTodoEvent(deleted_todo));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

@@ -11,7 +11,6 @@ import co.geeksters.hq.global.helpers.ParseHelper;
 
 public class Member {
 
-
     public int id;
     public String full_name;
 	public String email;
@@ -69,6 +68,13 @@ public class Member {
      **/
 
     public Member(){
+    }
+
+    public Member(String fullName, String email, String password, String passwordConfirmation){
+        this.full_name = fullName;
+        this.email = email;
+        this.password = password;
+        this.password_confirmation = passwordConfirmation;
     }
 
     /**
@@ -158,7 +164,7 @@ public class Member {
             );
         }
 
-        if(response.getAsJsonObject().get("ambassador").isJsonNull()){
+        if(response.getAsJsonObject().get("ambassador") == null){
             response.getAsJsonObject().addProperty("ambassador", "false");
         }
 

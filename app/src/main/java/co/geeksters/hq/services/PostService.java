@@ -33,13 +33,13 @@ public class PostService extends BaseService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 List<Post> posts_for_member = Post.createListPostsFromJson(response);
-                BaseApplication.getEventBus().post(new ListPostsForMemberEvent(posts_for_member));
+                BaseApplication.post(new ListPostsForMemberEvent(posts_for_member));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -51,13 +51,13 @@ public class PostService extends BaseService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 List<Post> posts = Post.createListPostsFromJson(response);
-                BaseApplication.getEventBus().post(new ListAllPostsEvent(posts));
+                BaseApplication.post(new ListAllPostsEvent(posts));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -69,13 +69,13 @@ public class PostService extends BaseService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Post created_post = Post.createPostFromJson(response);
-                BaseApplication.getEventBus().post(new CreatePostEvent(created_post));
+                BaseApplication.post(new CreatePostEvent(created_post));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -87,13 +87,13 @@ public class PostService extends BaseService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Post deleted_post = Post.createPostFromJson(response);
-                BaseApplication.getEventBus().post(new DeletePostEvent(deleted_post));
+                BaseApplication.post(new DeletePostEvent(deleted_post));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

@@ -41,13 +41,13 @@ public class HubService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
                 List<Hub> hubs = Hub.createListHubsFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new HubsEvent(hubs));
+                BaseApplication.post(new HubsEvent(hubs));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -60,13 +60,13 @@ public class HubService {
             public void success(JsonElement response, Response rawResponse) {
                 JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
                 List<Hub> hubs = Hub.createListHubsFromJson(responseAsArray);
-                BaseApplication.getEventBus().post(new HubsEvent(hubs));
+                BaseApplication.post(new HubsEvent(hubs));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -78,13 +78,13 @@ public class HubService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Hub hub = Hub.createHubFromJson(response.getAsJsonObject().get("data"));
-                BaseApplication.getEventBus().post(new HubEvent(hub));
+                BaseApplication.post(new HubEvent(hub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -96,13 +96,13 @@ public class HubService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 //List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new MembersEvent(members_of_hub));
+                //BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -114,13 +114,13 @@ public class HubService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 //List<Member> ambassadors_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.getEventBus().post(new GetHubAmbassadorsEvent(ambassadors_of_hub));
+                //BaseApplication.post(new GetHubAmbassadorsEvent(ambassadors_of_hub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -132,13 +132,13 @@ public class HubService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Hub createdHub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new HubEvent(createdHub));
+                BaseApplication.post(new HubEvent(createdHub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -156,13 +156,13 @@ public class HubService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Hub updatedHub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new HubEvent(updatedHub));
+                BaseApplication.post(new HubEvent(updatedHub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -181,13 +181,13 @@ public class HubService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Hub updatedHub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new HubEvent(updatedHub));
+                BaseApplication.post(new HubEvent(updatedHub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -206,13 +206,13 @@ public class HubService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Hub updatedHub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new HubEvent(updatedHub));
+                BaseApplication.post(new HubEvent(updatedHub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -224,13 +224,13 @@ public class HubService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Hub deleted_hub = Hub.createHubFromJson(response);
-                BaseApplication.getEventBus().post(new HubEvent(deleted_hub));
+                BaseApplication.post(new HubEvent(deleted_hub));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.getEventBus().post(new ConnectionFailureEvent());
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

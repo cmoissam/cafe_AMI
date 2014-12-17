@@ -57,7 +57,7 @@ dependencies {
         exclude module: 'wagon-provider-api'
     }
     compile 'org.androidannotations:androidannotations-api:3.0.+'
-    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:appcompat-v7:20.0.0'
     compile 'com.squareup:otto:+'
     compile 'com.squareup.retrofit:retrofit:+'
     compile 'com.restfuse:com.eclipsesource.restfuse:1.2.0'
