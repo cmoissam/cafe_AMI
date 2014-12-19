@@ -76,8 +76,9 @@ public class ConnectServiceTest extends InstrumentationTestCase {
         int randomNum = rand.nextInt((1000 - 0) + 1);
 
         member = new Member();
-        member.full_name = "test";
-        member.email = "test" + randomNum + ".mjahed@gmail.com";
+        member.full_name = "soukaina";
+        //member.email = "test" + randomNum + ".mjahed@gmail.com";
+        member.email = "soukaina@geeksters.co";
         member.password = "soukaina";
         member.password_confirmation = "soukaina";
     }

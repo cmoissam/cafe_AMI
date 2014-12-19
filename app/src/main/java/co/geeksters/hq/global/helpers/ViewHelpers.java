@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.view.View;
+import android.widget.EditText;
 
 /**
  * Created by soukaina on 26/11/14.
@@ -48,4 +49,8 @@ public class ViewHelpers {
         }
     }
 
+    public static void deleteTextAndSetHint(EditText fiels, String hint){
+        fiels.setText("");
+        fiels.setHint(hint);
+    }
 }

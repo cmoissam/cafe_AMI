@@ -9,7 +9,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +38,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.http.Body;
 import retrofit.http.Path;
+import retrofit.mime.TypedFile;
 import retrofit.mime.TypedInput;
+import retrofit.mime.TypedString;
 
 public class MemberService {
 
@@ -59,9 +67,12 @@ public class MemberService {
         });
     }
 
-    public void updateMember(int userId, Member member) {
+    public void updateMember(int userId, String accessToken, Member member) {
 
-        this.api.updateMember(userId, ParseHelper.createTypedInputFromModelByMethod(member, "put"), new Callback<JsonElement>() {
+        this.api.updateMember(userId, "put", accessToken, member.full_name, member.email,
+                member.hub, member.blurp, member.address, member.phone, member.newsletter, member.password,
+                member.password_confirmation, member.social, member.interests, member.companies,
+                member.references, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -79,15 +90,31 @@ public class MemberService {
 
     public void updateImageMember(int userId, File file) {
 
-        JSONObject jsonUpdateImageMember = new JSONObject();
+        /*JSONObject jsonUpdateImageMember = new JSONObject();
         try {
             jsonUpdateImageMember.put("id", userId)
                                  .put("file", file);
         } catch (JSONException e) {
             e.printStackTrace();
+        }*/
+
+        InputStream is = null;
+        try {
+            is = new BufferedInputStream(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
 
-        this.api.updateImageMember(ParseHelper.createTypedInputFromJsonObject(jsonUpdateImageMember), new Callback<JsonElement>() {
+        String mimeType = null;
+        try {
+            mimeType = URLConnection.guessContentTypeFromStream(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TypedFile fileTyped = new TypedFile(mimeType, file);
+
+        this.api.updateImageMember(userId, new TypedString(token), fileTyped, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -322,7 +349,7 @@ public class MemberService {
 
     public void deleteMember(int userId) {
 
-        this.api.deleteMember(userId, ParseHelper.createTypedInputFromOneKeyValue("_method", "delete"), new Callback<JsonElement>() {
+        this.api.deleteMember(userId, "delete", token, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

@@ -20,20 +20,6 @@ public class BaseApplication extends Application {
         bus = new Bus();
     }
 
-    /*
-    @Override
-    public void onCreate()
-    {
-        super.onCreate();
-
-        this.bus = new Bus();
-    }
-
-    public static Bus getEventBus() {
-        return bus;
-    }
-    */
-
     public static synchronized void register(Object object) {
         if (events.containsKey(object)) {
             bus.unregister(events.get(object));

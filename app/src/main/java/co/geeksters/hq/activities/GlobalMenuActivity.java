@@ -20,6 +20,13 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.fragments.HubsFragment;
+import co.geeksters.hq.fragments.MarketPlaceFragment;
+import co.geeksters.hq.fragments.MeFragment;
+import co.geeksters.hq.fragments.MeFragment_;
+import co.geeksters.hq.fragments.MyToDosFragment;
+import co.geeksters.hq.fragments.PeopleDirectoryFragment;
+import co.geeksters.hq.fragments.PeopleFinderFragment;
 import co.geeksters.hq.fragments.WebViewFragment;
 
 @EActivity(R.layout.global_menu)
@@ -38,15 +45,6 @@ public class GlobalMenuActivity extends FragmentActivity {
 
 	// Title of the action bar
 	private String mTitle = "HQ";
-
-    @AfterViews
-    public void setActionBarColorAndTitle(){
-        getActionBar().setTitle(mTitle);
-        // Enabling Home button
-        getActionBar().setHomeButtonEnabled(true);
-        // Enabling Up navigation
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
     @AfterViews
     public void drawerLayoutSetting() {
@@ -84,6 +82,15 @@ public class GlobalMenuActivity extends FragmentActivity {
         drawerList.setAdapter(adapter);
     }
 
+    @AfterViews
+    public void setActionBarColorAndTitle(){
+        getActionBar().setTitle(mTitle);
+        // Enabling Home button
+        getActionBar().setHomeButtonEnabled(true);
+        // Enabling Up navigation
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
     // Setting item click listener for the listview mDrawerList
     @ItemClick
     public void drawerListItemClicked(int position){
@@ -106,13 +113,25 @@ public class GlobalMenuActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         // Creating a fragment transaction
-        FragmentTransaction ft = fragmentManager.beginTransaction();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         // Adding a fragment to the fragment transaction
-        ft.replace(R.id.contentFrame, rFragment);
+        if(position == 0) {
+            fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment());
+        } else if(position == 1) {
+            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment());
+        } else if(position == 2){
+            fragmentTransaction.replace(R.id.contentFrame, new HubsFragment());
+        } else if(position == 3){
+            fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment());
+        } else if(position == 4){
+            fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment());
+        } else if(position == 5){
+            fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
+        }
 
         // Committing the transaction
-        ft.commit();
+        fragmentTransaction.commit();
 
         // Closing the drawer
         drawerLayout.closeDrawer(drawerList);

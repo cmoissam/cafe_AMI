@@ -1,0 +1,378 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.MeFragment"
+    android:id="@+id/frameLayout">
+
+    <ScrollView android:id="@+id/meScrollView" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:padding="10dp"
+                android:id="@+id/personalInformation">
+                <ImageView
+                    android:id="@+id/picture"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:background="@drawable/border"
+                    android:src="@drawable/no_image_member" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp">
+
+                    <EditText
+                        android:id="@+id/fullName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="@string/full_name"
+                        android:ems="10"
+                        android:layout_weight="1" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/hubInformation">
+
+                        <ImageView
+                            android:id="@+id/hubImage"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="left"
+                            android:src="@drawable/home" />
+
+                        <EditText
+                            android:id="@+id/hubName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:hint="@string/hub_name"
+                            android:ems="10"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/companyTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/company_title"
+                    android:textSize="20dp"/>
+
+                <EditText
+                    android:id="@+id/companyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="@string/company_name"
+                    android:padding="7dp"
+                    android:ems="10"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"/>
+
+                <TextView
+                    android:id="@+id/goal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/goal_title"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/goalContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    android:hint="@string/goal_name"
+                    android:padding="7dp"
+                    android:ems="10"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"/>
+
+                <TextView
+                    android:id="@+id/bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bio_title"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"/>
+
+                <EditText
+                    android:id="@+id/bioContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:hint="@string/bio_name"
+                    android:padding="7dp"
+                    android:ems="10"
+                    android:layout_weight="1"
+                    android:background="@drawable/border"/>
+
+                <TextView
+                    android:id="@+id/contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contact_title"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_marginBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/linkdin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="linkdin"
+                        android:ems="10"
+                        android:layout_weight="1"
+                        android:layout_gravity="left"/>
+                    <ImageButton
+                        android:id="@+id/deleteButtonLinkdin"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/delete"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_marginBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/twitter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="twitter"
+                        android:ems="10"
+                        android:layout_weight="1"
+                        android:layout_gravity="left"/>
+                    <ImageButton
+                        android:id="@+id/deleteButtonTwitter"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/delete"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_marginBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/facebook"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="facebook"
+                        android:ems="10"
+                        android:layout_weight="1"
+                        android:layout_gravity="left"/>
+                    <ImageButton
+                        android:id="@+id/deleteButtonFacebook"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/delete"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_marginBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/skype"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="skype"
+                        android:ems="10"
+                        android:layout_weight="1"
+                        android:layout_gravity="left"/>
+                    <ImageButton
+                        android:id="@+id/deleteButtonSkype"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/delete"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_marginBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/blog"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="blog"
+                        android:ems="10"
+                        android:layout_weight="1"
+                        android:layout_gravity="left"/>
+                    <ImageButton
+                        android:id="@+id/deleteButtonBlog"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/delete"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border"
+                    android:layout_marginBottom="10dp">
+
+                    <EditText
+                        android:id="@+id/website"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:hint="website"
+                        android:ems="10"
+                        android:layout_weight="1"
+                        android:layout_gravity="left"/>
+                    <ImageButton
+                        android:id="@+id/deleteButtonWebsite"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/delete"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/interests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interests_title"
+                    android:textSize="20dp"
+                    android:layout_marginTop="10dp"/>
+
+                <LinearLayout
+                    android:id="@+id/interestsContent"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/interestContent"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border"
+                        android:layout_marginBottom="10dp">
+
+                        <EditText
+                            android:id="@+id/interest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:hint="@string/interest_name"
+                            android:ems="10"
+                            android:layout_weight="1"
+                            android:layout_gravity="left"/>
+
+
+                        <ImageButton
+                            android:id="@+id/addButtonInterest"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:visibility="gone"
+                            android:background="@drawable/add"/>
+                        <ImageButton
+                            android:id="@+id/deleteButtonInterest"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/delete"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+                <CheckBox
+                    android:id="@+id/checkBoxEmailComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_notif_on_comment"/>
+                <CheckBox
+                    android:id="@+id/checkBoxEmailTodo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email_notif_on_todo"/>
+                <CheckBox
+                    android:id="@+id/checkBoxPushComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/push_notif_on_comment"/>
+                <CheckBox
+                    android:id="@+id/checkBoxPushTodo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/push_notif_on_todo"/>
+
+                <Button android:id="@+id/saveButton" style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" android:text="@string/action_save"
+                    android:textStyle="bold"
+                    android:textSize="16dp" />
+
+                <Button android:id="@+id/logoutButton" style="?android:textAppearanceSmall"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" android:text="@string/action_logout"
+                    android:textStyle="bold"
+                    android:textSize="16dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

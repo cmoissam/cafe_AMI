@@ -25,5 +25,25 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="title_activity_init">InitActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Me Fragment -->
+    <string name="full_name">John Do</string>
+    <string name="hub_name">Hub</string>
+    <string name="company_name">Company</string>
+    <string name="goal_name">Goal</string>
+    <string name="bio_name">Bio</string>
+    <string name="interest_name">Interest</string>
+    <string name="company_title">Company</string>
+    <string name="goal_title">Goal</string>
+    <string name="bio_title">Bio</string>
+    <string name="contact_title">Contact</string>
+    <string name="interests_title">Interests</string>
+    <string name="email_notif_on_comment">Receive email on comment</string>
+    <string name="email_notif_on_todo">Receive email on todo</string>
+    <string name="push_notif_on_comment">Receive push notification on comment</string>
+    <string name="push_notif_on_todo">Receive push notification on todo</string>
+    <string name="action_save">Save</string>
+    <string name="action_logout">Logout</string>
 
 </resources>

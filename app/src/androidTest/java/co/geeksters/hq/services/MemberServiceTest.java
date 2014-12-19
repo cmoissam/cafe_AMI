@@ -1,6 +1,13 @@
 package co.geeksters.hq.services;
 
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.test.InstrumentationTestCase;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -13,10 +20,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import co.geeksters.hq.R;
+import co.geeksters.hq.activities.LoginActivity;
 import co.geeksters.hq.events.success.EmptyMemberEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
@@ -24,10 +41,18 @@ import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.interfaces.MemberInterface;
+import co.geeksters.hq.models.Company;
+import co.geeksters.hq.models.Hub;
+import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
+import co.geeksters.hq.models.Social;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.http.Field;
+import retrofit.http.Path;
+import retrofit.mime.TypedFile;
+import retrofit.mime.TypedString;
 
 /**
  * Created by soukaina on 03/12/14.
@@ -41,7 +66,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
     String successMessage;
     public static Boolean doing;
-    int id = 768;
+    int id = 770;
 
     public void beforeTest() {
         this.doing = true;
@@ -101,7 +126,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         bus = new Bus(ThreadEnforcer.ANY);
 
         try {
-            loginMember("password", 1, "pioner911", "dam@geeksters.co", "hq43viable", "basic");
+            loginMember("password", 1, "pioner911", "soukaina@geeksters.co", "soukaina", "basic");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -336,7 +361,6 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
-    // Todo: 402 No authentication challenges found !!!
     @Test
     public void testUpdateMember() {
         beforeTest();
@@ -352,26 +376,34 @@ public class MemberServiceTest extends InstrumentationTestCase {
         });
 
         Member member = new Member();
-        member.full_name = "Damian";
-        member.email = "dam@geeksters.co";
+        member.full_name = "soukaina";
+        member.email = "soukaina@geeksters.co";
 
-        api.updateMember(id, ParseHelper.createTypedInputFromModelByMethod(member, "put"), new retrofit.Callback<JsonElement>() {
+        //ParseHelper.createTypedInputFromModelByMethod(member, "put")
+        /*HashMap<String, Object> member = new HashMap<String, Object>();
+        member.put("full_name", "Damian");*/
+
+        api.updateMember(id, "put", token, member.full_name, member.email,
+        member.hub, member.blurp, member.address, member.phone, member.newsletter, member.password,
+        member.password_confirmation, member.social, member.interests, member.companies,
+        member.references, new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
-                Member updatedMember = Member.createUserFromJson(response);
+                Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                 bus.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
+                //422 : email exists
             }
         });
 
         waitTest();
     }
 
-    // Todo: 402 No authentication challenges found !!!
+    // Todo: retrofit.RetrofitError: /home/soukaina/Images/capture.png: open failed: ENOENT (No such file or directory) !!!
     @Test
     public void testUpdateImageMember() {
         beforeTest();
@@ -386,16 +418,63 @@ public class MemberServiceTest extends InstrumentationTestCase {
             }
         });
 
-        File file = new File("");
-        JSONObject jsonUpdateImageMember = new JSONObject();
+        /*Context context = new LoginActivity();
+        Bitmap bitMap = null;
         try {
-            jsonUpdateImageMember.put("id", id)
-                                 .put("file", file);
-        } catch (JSONException e) {
+            bitMap = BitmapFactory.decodeResource(context.getResources(), R.drawable.delete);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        File mFile1 = Environment.getExternalStorageDirectory();
+
+        String fileName ="img1.png";
+
+        File mFile2 = new File(mFile1,fileName);
+        try {
+            FileOutputStream outStream;
+
+            outStream = new FileOutputStream(mFile2);
+
+            bitMap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+
+            outStream.flush();
+
+            outStream.close();
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        api.updateImageMember(ParseHelper.createTypedInputFromJsonObject(jsonUpdateImageMember), new retrofit.Callback<JsonElement>() {
+        String    sdPath = mFile1.getAbsolutePath().toString()+"/"+fileName;
+
+        Log.i("MAULIK", "Your IMAGE ABSOLUTE PATH:-"+sdPath);
+
+        File temp=new File(sdPath);
+
+        if(!temp.exists()){
+            Log.e("file","no image file at location :"+sdPath);
+        }*/
+
+        final String uploadFilePath = "/mnt/sdcard/";
+        final String uploadFileName = "service_lifecycle.png";
+
+        //uploadFile(uploadFilePath + "" + uploadFileName);
+        File sourceFile = new File(uploadFilePath + "" + uploadFileName);
+
+        if (sourceFile.isFile()){
+            try {
+                FileInputStream fileInputStream = new FileInputStream(sourceFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        File file = new File("/home/soukaina/Images/capture.png");
+        api.updateImageMember(id, new TypedString(token), new TypedFile(URLConnection.guessContentTypeFromName(file.getName()), file), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
@@ -580,7 +659,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.deleteMember(id, ParseHelper.createTypedInputFromOneKeyValue("_method", "delete"), new retrofit.Callback<JsonElement>() {
+        api.deleteMember(id, "delete", token, new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {

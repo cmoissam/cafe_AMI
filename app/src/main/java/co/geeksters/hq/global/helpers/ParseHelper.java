@@ -20,6 +20,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 
+import co.geeksters.hq.models.Member;
+import retrofit.http.Field;
 import retrofit.mime.TypedByteArray;
 import retrofit.mime.TypedInput;
 
@@ -73,6 +75,4 @@ public class ParseHelper {
         }
         return inputHttpRequest;
     }
-
-
 }

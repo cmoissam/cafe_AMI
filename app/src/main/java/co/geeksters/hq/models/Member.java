@@ -90,12 +90,15 @@ public class Member {
     }
 
     public Member setSocialIdAndHubId(JsonElement response){
-        if(!response.getAsJsonObject().get("social_id").isJsonNull()) {
-            this.setSocialId(response.getAsJsonObject().get("social_id").getAsInt());
+        if(response.getAsJsonObject().has("social_id")) {
+            if (!response.getAsJsonObject().get("social_id").isJsonNull()) {
+                this.setSocialId(response.getAsJsonObject().get("social_id").getAsInt());
+            }
         }
-
-        if(this.hub == null  && response.getAsJsonObject().get("hub_id") != null) {
-            this.setHubId(response.getAsJsonObject().get("hub_id").getAsInt());
+        if(response.getAsJsonObject().has("hub_id")) {
+            if (this.hub == null && response.getAsJsonObject().get("hub_id").isJsonNull()) {
+                this.setHubId(response.getAsJsonObject().get("hub_id").getAsInt());
+            }
         }
 
         return this;

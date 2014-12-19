@@ -37,7 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/no_image_member"/>
+                android:background="@drawable/border"
+                android:src="@drawable/no_image_member"/>
 
             <LinearLayout android:id="@+id/memberRegisterForm" android:layout_width="match_parent"
                 android:layout_height="wrap_content"

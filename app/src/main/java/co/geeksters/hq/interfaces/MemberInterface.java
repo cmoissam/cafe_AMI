@@ -12,27 +12,39 @@ import co.geeksters.hq.models.Company;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
+import co.geeksters.hq.models.Social;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Headers;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.mime.TypedFile;
 import retrofit.mime.TypedInput;
+import retrofit.mime.TypedString;
 
 public interface MemberInterface {
 
     @POST("/members/logout")
     void logout(@Body TypedInput access_token, Callback<JsonElement> callback);
 
+    @FormUrlEncoded
     @POST("/members/{id}")
-    void updateMember(@Path("id") int userId, @Body TypedInput member, Callback<JsonElement> callback);
+    void updateMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName, @Field("email") String email,
+                      @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("address") String address, @Field("phone") String phone, @Field("newsletter") int newsletter, @Field("password") String password,
+                      @Field("password_confirmation") String password_confirmation, @Field("social") Social social, @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies,
+                      @Field("references") List<Member> references, Callback<JsonElement> callback);
 
+    @Multipart
     @POST("/member/profile/image")
-    void updateImageMember(@Body TypedInput updateImageParams, Callback<JsonElement> callback);
+    void updateImageMember(@Part("id") int id, @Part("access_token") TypedString token, @Part("file") TypedFile photo, Callback<JsonElement> callback);
 
     @GET("/members")
     void listAllMembers(Callback<JsonElement> callback);
@@ -52,8 +64,9 @@ public interface MemberInterface {
     @GET("/members/{id}/around")
     void getMembersArroundMe(@Path("id") int userId, @Query("radius") float radius, Callback<JSONArray> callback);
 
+    @FormUrlEncoded
     @POST("/members/{id}")
-    void deleteMember(@Path("id") int userId, @Body TypedInput method, Callback<JsonElement> callback);
+    void deleteMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, Callback<JsonElement> callback);
 
     @POST("/members/password/remind")
     void passwordReminder(@Body TypedInput emails, Callback<JsonElement> callback);
