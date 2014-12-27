@@ -1,7 +1,12 @@
 package co.geeksters.hq.services;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 public class BaseService {
 
@@ -25,6 +30,8 @@ public class BaseService {
     }
 
     public static RestAdapter adapterWithToken(final String token) {
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint(END_POINT_URL)
@@ -35,6 +42,7 @@ public class BaseService {
                         request.addQueryParam("access_token", token);
                     }
                 })
+                .setConverter(new GsonConverter(gson))
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .build();
 

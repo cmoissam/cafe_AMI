@@ -5,10 +5,10 @@ package co.geeksters.hq.events.success;
  */
 public class LoginEvent {
 
-    public String access_token;
+    public String accessToken;
 
-    public LoginEvent(String access_token) {
-        this.access_token = access_token;
+    public LoginEvent(String accessToken) {
+        this.accessToken = accessToken;
         // store this access token in a SharedPreferences
         // redirection (first login -> complete profile, else -> home page)
     }

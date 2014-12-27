@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -21,11 +22,16 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
+import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
+import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.global.helpers.ViewHelpers;
+import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.ConnectService;
+import co.geeksters.hq.services.MemberService;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends Activity {
@@ -60,25 +66,26 @@ public class LoginActivity extends Activity {
     TextView noConnectionText;
 
     @AfterViews
-    public void setActionBarColor(){
-        getActionBar().setBackgroundDrawable(
-                new ColorDrawable(Color.parseColor("#308BD1")));
-    }
-
-    @AfterViews
     public void busRegistration(){
         BaseApplication.register(this);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @AfterViews
-    public void setPreferencesEditor(){
+    public void setPreferencesEditorAndVerifyLogin(){
         SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         editor = preferences.edit();
+
+        String accessToken = preferences.getString("access_token","").replace("\"","");
+
+        if(!accessToken.equals("")) {
+            if(GeneralHelpers.isInternetAvailable(this)) {
+                ViewHelpers.showProgress(true, this, loginForm, loginProgress);
+                MemberService memberService = new MemberService(accessToken);
+                memberService.getMemberInfo(780);
+            } else {
+                ViewHelpers.showPopupOnNoNetworkConnection(this);
+            }
+        }
     }
 
     @AfterViews
@@ -87,8 +94,9 @@ public class LoginActivity extends Activity {
         String emailOnRegister = intent.getStringExtra("username");
         if(emailOnRegister != null){
             email.setText(emailOnRegister);
+        } else {
+            email.setText("soukaina@geeksters.co");
         }
-        //email.setText("soukaina@geeksters.co");
         password.setText("soukaina");
     }
 
@@ -151,9 +159,9 @@ public class LoginActivity extends Activity {
             if(GeneralHelpers.isInternetAvailable(this)) {
                 ConnectService connectService = new ConnectService();
                 connectService.login("password", 1, "pioner911", emailContent, passwordContent, "basic");
-            } else{
-                noConnectionText.setVisibility(View.VISIBLE);
+            } else {
                 ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+                ViewHelpers.showPopupOnNoNetworkConnection(this);
             }
         }
     }
@@ -161,14 +169,36 @@ public class LoginActivity extends Activity {
     @Subscribe
     public void onLoginEvent(LoginEvent event) {
         // save the token
-        editor.putString("access_token", event.access_token);
+        editor.putString("access_token", event.accessToken);
+        editor.commit();
 
-        // Todo : showProgress is canceled and go back to the login page before doing the redirection
+        if(GeneralHelpers.isInternetAvailable(this)) {
+            MemberService memberService = new MemberService(event.accessToken.replace("\"",""));
+            memberService.getMemberInfo(780);
+        } else {
+            ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+            ViewHelpers.showPopupOnNoNetworkConnection(this);
+        }
+    }
+
+    @Subscribe
+    public void onGetCurrentMemberEvent(MemberEvent event) {
+        // save the current Member
+        editor.putString("current_member", ParseHelper.createJsonStringFromModel(event.member));
+        editor.commit();
+
         Intent intent = new Intent(this, GlobalMenuActivity_.class);
         finish();
+        overridePendingTransition(0, 0);
         startActivity(intent);
 
         ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+    }
+
+    @Subscribe
+    public void onLoginFailureEvent(LoginFailureEvent event) {
+        ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+        email.setError(getString(R.string.error_field_incorrect_identifiers));
     }
 
     @Click(R.id.registerButton)
@@ -176,13 +206,15 @@ public class LoginActivity extends Activity {
         Intent intent = new Intent(this, RegisterActivity_.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(0, 0);
     }
 
     @Click(R.id.forgotPasswordButton)
     public void forgotPasswordRedirection() {
-        Intent intent = new Intent(this, RegisterActivity_.class);
+        Intent intent = new Intent(this, ForgotPasswordActivity_.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(0, 0);
     }
 }
 

@@ -1,6 +1,7 @@
 <resources>
     <string name="title_activity_login">Sign in</string>
     <string name="title_activity_register">Sign up</string>
+    <string name="title_activity_forgot_password">Forgot password</string>
 
     <!-- Strings related to login -->
     <string name="welcome_message">WELCOME to HQ</string>
@@ -11,7 +12,11 @@
     <string name="action_sign_in">Login</string>
     <string name="action_forgot_password">Forgot password</string>
     <string name="action_register">Register</string>
+    <string name="action_reset_password">Send reset link</string>
     <string name="no_connection">No network connection found</string>
+    <string name="alert_title">Alert</string>
+    <string name="alert_save">Your account was successfully updated</string>
+    <string name="alert_reset">A link to reset your password was sent to you by email</string>
 
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register_short">Sign up</string>
@@ -20,4 +25,8 @@
     <string name="error_invalid_password_confirmation">The password and password confirmation are not authentic</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_field_exists">This email exists, please insert a new one</string>
+    <string name="error_field_incorrect_identifiers">The email or password inserted are not correct</string>
+    <string name="error_field_incorrect_emails">The email inserted is not correct</string>
+    <string name="error_field_incorrect_email"> is not correct</string>
 </resources>

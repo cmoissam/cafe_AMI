@@ -16,17 +16,12 @@ import retrofit.mime.TypedInput;
  */
 public interface ConnectInterface {
 
-    /* @Headers({
-            "Accept: application/vnd.github.v3.full+json",
-            "User-Agent: Retrofit-Sample-App"
-    }) */
-    //@Headers({ "Content-Type: application/json;charset=UTF-8"})
-    //@Headers("Content-Type: application/json")
-    //@Headers({"Content-type: application/json", "Accept: */*"})
     @POST("/members")
     void register(@Body TypedInput member, Callback<JsonElement> callback);
 
     @POST("/oauth/access_token")
     void login(@Body TypedInput loginParams, Callback<JsonElement> callback);
 
+    @POST("/members/password/remind")
+    void passwordReminder(@Body TypedInput emails, Callback<JsonElement> callback);
 }

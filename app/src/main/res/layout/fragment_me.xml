@@ -3,6 +3,12 @@
     android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.MeFragment"
     android:id="@+id/frameLayout">
 
+    <!-- Logout progress -->
+    <ProgressBar android:id="@+id/logoutProgress" style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" android:visibility="gone"
+        android:layout_gravity="center_vertical" />
+
     <ScrollView android:id="@+id/meScrollView" android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -156,8 +162,8 @@
                         android:layout_gravity="left"/>
                     <ImageButton
                         android:id="@+id/deleteButtonLinkdin"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/delete"/>
@@ -181,8 +187,8 @@
                         android:layout_gravity="left"/>
                     <ImageButton
                         android:id="@+id/deleteButtonTwitter"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/delete"/>
@@ -206,8 +212,8 @@
                         android:layout_gravity="left"/>
                     <ImageButton
                         android:id="@+id/deleteButtonFacebook"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/delete"/>
@@ -231,8 +237,8 @@
                         android:layout_gravity="left"/>
                     <ImageButton
                         android:id="@+id/deleteButtonSkype"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/delete"/>
@@ -256,8 +262,8 @@
                         android:layout_gravity="left"/>
                     <ImageButton
                         android:id="@+id/deleteButtonBlog"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/delete"/>
@@ -281,8 +287,8 @@
                         android:layout_gravity="left"/>
                     <ImageButton
                         android:id="@+id/deleteButtonWebsite"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/delete"/>
@@ -307,8 +313,17 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border"
                         android:layout_marginBottom="10dp">
+
+                        <!--<EditText
+                            android:id="@+id/interest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:hint="@string/interest_name"
+                            android:ems="10"
+                            android:layout_weight="1"
+                            android:layout_gravity="left"/>-->
 
                         <EditText
                             android:id="@+id/interest"
@@ -317,25 +332,25 @@
                             android:inputType="textPersonName"
                             android:hint="@string/interest_name"
                             android:ems="10"
+                            android:padding="7dp"
                             android:layout_weight="1"
-                            android:layout_gravity="left"/>
-
+                            android:background="@drawable/border"/>
 
                         <ImageButton
                             android:id="@+id/addButtonInterest"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginRight="10dp"
-                            android:visibility="gone"
+                            android:focusable="false"
                             android:background="@drawable/add"/>
-                        <ImageButton
+
+                        <!--<ImageButton
                             android:id="@+id/deleteButtonInterest"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginRight="10dp"
-                            android:background="@drawable/delete"/>
+                            android:background="@drawable/delete"/>-->
 
                     </LinearLayout>
                 </LinearLayout>

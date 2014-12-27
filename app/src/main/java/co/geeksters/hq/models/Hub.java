@@ -1,6 +1,8 @@
 package co.geeksters.hq.models;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,11 +25,12 @@ public class Hub {
      **/
 
     public int id;
-    public String name;
-    public String image;
+    public String name = "";
+    public String image = "";
 	// A Member have a list of hubs and each hub contains a list of members
     public ArrayList<Member> members = new ArrayList<Member>();
     public ArrayList<Member> ambassadors = new ArrayList<Member>();
+
     /**
      * Constructors
      **/
@@ -45,7 +48,9 @@ public class Hub {
      **/
 
     public static Hub createHubFromJson(JsonElement response) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
 
         if(response.getAsJsonObject().get("members") != null) {
             response.getAsJsonObject().add("members", Member.parseMembersResponse(response.getAsJsonObject().get("members").getAsJsonArray()));
@@ -61,7 +66,9 @@ public class Hub {
     }
 
     public static List<Hub> createListHubsFromJson(JsonArray response) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
 
         Type listType = new TypeToken<List<Hub>>(){}.getType();
         List<Hub> hubs = gson.fromJson(response.toString(), listType);
@@ -74,6 +81,4 @@ public class Hub {
 
         return hubs;
     }
-
-
 }

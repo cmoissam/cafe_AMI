@@ -66,7 +66,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
     String successMessage;
     public static Boolean doing;
-    int id = 770;
+    int id = 780;
 
     public void beforeTest() {
         this.doing = true;
@@ -291,7 +291,6 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
-    // Todo: server error 500 !!!
     @Test
     public void testGetMembersArrountMe() throws Exception {
         beforeTest();
@@ -376,17 +375,11 @@ public class MemberServiceTest extends InstrumentationTestCase {
         });
 
         Member member = new Member();
-        member.full_name = "soukaina";
+        member.fullName = "soukaina";
         member.email = "soukaina@geeksters.co";
 
-        //ParseHelper.createTypedInputFromModelByMethod(member, "put")
-        /*HashMap<String, Object> member = new HashMap<String, Object>();
-        member.put("full_name", "Damian");*/
-
-        api.updateMember(id, "put", token, member.full_name, member.email,
-        member.hub, member.blurp, member.address, member.phone, member.newsletter, member.password,
-        member.password_confirmation, member.social, member.interests, member.companies,
-        member.references, new retrofit.Callback<JsonElement>() {
+        api.updateMember(id, "put", token, member.fullName, member.email, null, null,
+                null, null, null, false, false, false, false, new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
@@ -643,7 +636,6 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
-    // Todo: 402 No authentication challenges found !!!
     @Test
     public void testDeleteMember() {
         beforeTest();
@@ -675,7 +667,6 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
-    // Todo: 402 No authentication challenges found !!!
     @Test
     public void testLogoutMember() {
         beforeTest();
@@ -690,45 +681,11 @@ public class MemberServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.logout(ParseHelper.createTypedInputFromOneKeyValue("access_token", token), new retrofit.Callback<JsonElement>() {
+        api.logout(token, new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 successMessage = response.getAsJsonObject().get("status").getAsString();
-                bus.post(new EmptyMemberEvent());
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-            }
-        });
-
-        waitTest();
-    }
-
-    @Test
-    public void testPasswordReminderMember() {
-        beforeTest();
-
-        bus.register(new Object() {
-            @Subscribe
-            public void onPasssswordRemindEvent(EmptyMemberEvent event) {
-                assertEquals("on testPasswordRemindMember",successMessage, "success");
-
-                // WE ARE DONE
-                doneTest();
-            }
-        });
-
-        final ArrayList<String> emails = new ArrayList<String>();
-        emails.add("soukaina@geeksters.co");
-        emails.add("soukaina.mjahed@gmail.com");
-
-        api.passwordReminder(ParseHelper.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
-
-            @Override
-            public void success(JsonElement response, Response rawResponse) {
-                successMessage = response.getAsJsonObject().get(emails.get(0)).getAsJsonObject().get("status").toString();
                 bus.post(new EmptyMemberEvent());
             }
 

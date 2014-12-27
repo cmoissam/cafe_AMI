@@ -3,6 +3,7 @@ apply plugin: 'android-apt'
 
 apt {
     arguments {
+        resourcePackageName android.defaultConfig.packageName
         androidManifestFile variant.processResources.manifestFile
         resourcePackageName "co.geeksters.hq"
     }
@@ -35,7 +36,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:20.0.0'
     apt 'org.androidannotations:androidannotations:3.0+'
+    compile 'org.androidannotations:androidannotations-api:3.0.+'
+    compile 'com.squareup:otto:+'
+    compile 'com.squareup.retrofit:retrofit:+'
+    compile 'com.restfuse:com.eclipsesource.restfuse:1.2.0'
+    compile 'net.vidageek:mirror:1.6.1'
+    compile 'com.google.android.gms:play-services:6.1.71'
+
     androidTestCompile 'junit:junit:4.+'
     androidTestCompile('org.robolectric:robolectric:2.3') {
         exclude module: 'classworlds'
@@ -56,11 +65,4 @@ dependencies {
         exclude module: 'wagon-http-shared'
         exclude module: 'wagon-provider-api'
     }
-    compile 'org.androidannotations:androidannotations-api:3.0.+'
-    compile 'com.android.support:appcompat-v7:20.0.0'
-    compile 'com.squareup:otto:+'
-    compile 'com.squareup.retrofit:retrofit:+'
-    compile 'com.restfuse:com.eclipsesource.restfuse:1.2.0'
-    compile 'net.vidageek:mirror:1.6.1'
-    compile 'com.google.android.gms:play-services:6.1.71'
 }

@@ -1,7 +1,7 @@
 package co.geeksters.hq.activities;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -20,19 +24,28 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.success.EmptyMemberEvent;
+import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.fragments.HubsFragment;
-import co.geeksters.hq.fragments.MarketPlaceFragment;
-import co.geeksters.hq.fragments.MeFragment;
-import co.geeksters.hq.fragments.MeFragment_;
+import co.geeksters.hq.fragments.OneProfileFragment_;
+import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
 import co.geeksters.hq.fragments.MyToDosFragment;
 import co.geeksters.hq.fragments.PeopleDirectoryFragment;
 import co.geeksters.hq.fragments.PeopleFinderFragment;
 import co.geeksters.hq.fragments.WebViewFragment;
+import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.models.Member;
 
 @EActivity(R.layout.global_menu)
 public class GlobalMenuActivity extends FragmentActivity {
 
-	// Within which the entire activity is enclosed
+    SharedPreferences preferences;
+    Member currentMember;
+
+    @ViewById
+    TextView noConnectionText;
+
+    // Within which the entire activity is enclosed
     @ViewById
 	DrawerLayout drawerLayout;
 
@@ -91,6 +104,49 @@ public class GlobalMenuActivity extends FragmentActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @AfterViews
+    public void busRegistration(){
+        BaseApplication.register(this);
+    }
+
+    @AfterViews
+    public void initPreferences(){
+        preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!BaseApplication.isRegistered(this))
+            BaseApplication.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BaseApplication.unregister(this);
+    }
+
+    @Subscribe
+    public void onLogoutEvent(EmptyMemberEvent event) {
+        preferences.edit().clear().commit();
+
+        Intent intent = new Intent(this, LoginActivity_.class);
+        finish();
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+    }
+
+    @Subscribe
+    public void onSaveMemberEvent(MemberEvent event) {
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(this, GlobalMenuActivity_.class);
+        finish();
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+    }
+
     // Setting item click listener for the listview mDrawerList
     @ItemClick
     public void drawerListItemClicked(int position){
@@ -125,9 +181,9 @@ public class GlobalMenuActivity extends FragmentActivity {
         } else if(position == 3){
             fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment());
         } else if(position == 4){
-            fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment());
+            fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
         } else if(position == 5){
-            fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
+            fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
         }
 
         // Committing the transaction

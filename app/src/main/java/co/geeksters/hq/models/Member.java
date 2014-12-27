@@ -1,42 +1,47 @@
 package co.geeksters.hq.models;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import co.geeksters.hq.global.helpers.ParseHelper;
 
 public class Member {
 
     public int id;
-    public String full_name;
-	public String email;
-	public String password;
-    public String password_confirmation;
-	public String device_token;
-	public String goal;
-	public String blurp;
-	public String phone;
-	public String address;
+    public String fullName = "";
+	public String email = "";
+	public String password = "";
+    public String passwordConfirmation = "";
+	public String deviceToken = "";
+	public String goal = "";
+	public String blurp = "";
+	public String phone = "";
+	public String address = "";
 	public int newsletter = 0;
-    public String created_at;
-    public String updated_at;
+    public String createdAt = "";
+    public String updatedAt = "";
 	public String image;
-	public Boolean confirmed;
-    public String confirmation;
-	public String device_id;
-	public float latitude;
-	public float longitude;
-	public Boolean notify_by_email_on_comment = true;
-	public Boolean notify_by_push_on_comment = true;
-	public Boolean notify_by_email_on_todo = true;
-	public Boolean notify_by_push_on_todo = true;
+	public Boolean confirmed = false;
+    public String confirmation = "";
+	public String deviceId = "";
+	public float latitude = 0;
+	public float longitude = 0;
+	public Boolean notifyByEmailOnComment = false;
+	public Boolean notifyByPushOnComment = false;
+	public Boolean notifyByEmailOnTodo = false;
+	public Boolean notifyByPushOnTodo = false;
 
 	// A User can be a member or an ambassador
-	public Boolean ambassador;
+	public Boolean ambassador = false;
 
 	// twitter, skype, facebook, linkedin, blog, website and others
     public Social social;
@@ -59,7 +64,7 @@ public class Member {
 	public ArrayList<Comment> comments = new ArrayList<Comment>();
 
 	// A Member have a list of hubs and each hub contains a list of members
-	public Hub hub;
+	public Hub hub = new Hub();
 
     public ArrayList<Member> references = new ArrayList<Member>();
 
@@ -71,10 +76,10 @@ public class Member {
     }
 
     public Member(String fullName, String email, String password, String passwordConfirmation){
-        this.full_name = fullName;
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
-        this.password_confirmation = passwordConfirmation;
+        this.passwordConfirmation = passwordConfirmation;
     }
 
     /**
@@ -82,11 +87,11 @@ public class Member {
      **/
 
     public void setSocialId(int socialId){
-        this.social = new Social(socialId);
+        this.social.id = socialId;
     }
 
     public void setHubId(int hubId){
-        this.hub = new Hub(hubId);
+        this.hub.id = hubId;
     }
 
     public Member setSocialIdAndHubId(JsonElement response){
@@ -96,7 +101,7 @@ public class Member {
             }
         }
         if(response.getAsJsonObject().has("hub_id")) {
-            if (this.hub == null && response.getAsJsonObject().get("hub_id").isJsonNull()) {
+            if (this.hub == null && !response.getAsJsonObject().get("hub_id").isJsonNull()) {
                 this.setHubId(response.getAsJsonObject().get("hub_id").getAsInt());
             }
         }
@@ -109,17 +114,21 @@ public class Member {
      **/
 
     public static Member createUserFromJson(JsonElement response) {
-        Gson gson = new Gson();
-
         response = parseMemberResponse(response);
 
-        Member member = gson.fromJson (response, Member.class);
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
+        Member member = gson.fromJson(response, Member.class);
 
         return member.setSocialIdAndHubId(response);
     }
 
     public static List<Member> createListUsersFromJson(JsonArray response) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
 
         /*Type listType = new TypeToken<List<Member>>(){}.getType();
         List<Member> members = gson.fromJson(response.toString(), listType);*/
@@ -157,14 +166,27 @@ public class Member {
             }
         }
 
-        if(response.getAsJsonObject().get("created_at").isJsonObject()){
-            response.getAsJsonObject().addProperty("created_at", response.getAsJsonObject().get("created_at").getAsJsonObject().get("date").toString().replace("\"", "")
-            );
-        }
+        if(response.getAsJsonObject().has("created_at") && response.getAsJsonObject().has("updated_at")) {
 
-        if(response.getAsJsonObject().get("updated_at").isJsonObject()){
-            response.getAsJsonObject().addProperty("updated_at", response.getAsJsonObject().get("updated_at").getAsJsonObject().get("date").toString().replace("\"", "")
-            );
+            if (response.getAsJsonObject().get("created_at").isJsonObject()) {
+                response.getAsJsonObject().addProperty("created_at", response.getAsJsonObject().get("created_at").getAsJsonObject().get("date").toString().replace("\"", "")
+                );
+            }
+
+            if (response.getAsJsonObject().get("updated_at").isJsonObject()) {
+                response.getAsJsonObject().addProperty("updated_at", response.getAsJsonObject().get("updated_at").getAsJsonObject().get("date").toString().replace("\"", "")
+                );
+            }
+        } else {
+            if (response.getAsJsonObject().get("createdAt").isJsonObject()) {
+                response.getAsJsonObject().addProperty("createdAt", response.getAsJsonObject().get("createdAt").getAsJsonObject().get("date").toString().replace("\"", "")
+                );
+            }
+
+            if (response.getAsJsonObject().get("updatedAt").isJsonObject()) {
+                response.getAsJsonObject().addProperty("updatedAt", response.getAsJsonObject().get("updatedAt").getAsJsonObject().get("date").toString().replace("\"", "")
+                );
+            }
         }
 
         if(response.getAsJsonObject().get("ambassador") == null){
@@ -183,5 +205,27 @@ public class Member {
         }
 
         return parsedMembers;
+    }
+
+    public String returnNameForNullCompaniesValue(){
+        if(this.companies.size() == 0)
+            return "";
+        else {
+            if (this.companies.get(0) == null)
+                return "";
+            else
+                return companies.get(0).name;
+        }
+    }
+
+    public String returnNameForNullInterestsValue(int id){
+        if(this.interests.size() == 0)
+            return "";
+        else {
+            if (this.interests.get(id) == null)
+                return "";
+            else
+                return interests.get(id).name;
+        }
     }
 }

@@ -7,12 +7,22 @@ import com.google.gson.JsonElement;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
+import co.geeksters.hq.events.failure.ExistingAccountEvent;
+import co.geeksters.hq.events.failure.LoginFailureEvent;
+import co.geeksters.hq.events.success.EmptyMemberEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.PasswordResetEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.ConnectInterface;
+import co.geeksters.hq.models.EmailResonse;
 import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -43,8 +53,9 @@ public class ConnectService {
 
             @Override
             public void failure(RetrofitError error) {
-                // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse().getStatus() == 422){
+                    BaseApplication.post(new ExistingAccountEvent());
+                }
             }
         });
     }
@@ -77,8 +88,35 @@ public class ConnectService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                Log.d("Status Failure", error.getResponse().getStatus() + "");
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse().getStatus() == 400) {
+                    BaseApplication.post(new LoginFailureEvent());
+                }
+            }
+        });
+    }
+
+    public void passwordReminder(final List<String> emails) {
+
+        this.api.passwordReminder(ParseHelper.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                ArrayList<EmailResonse> emailsResponse = new ArrayList<EmailResonse>();
+
+                for (int i = 0; i < GlobalVariables.emails.size(); i++){
+                    EmailResonse emailResonse = new EmailResonse();
+                    emailResonse.email = GlobalVariables.emails.get(i);
+                    emailResonse.status = response.getAsJsonObject().get(GlobalVariables.emails.get(i).trim()).getAsJsonObject().get("status").toString();
+                    emailResonse.message = response.getAsJsonObject().get(GlobalVariables.emails.get(i).trim()).getAsJsonObject().get("message").toString();
+
+                    emailsResponse.add(emailResonse);
+                }
+
+                BaseApplication.post(new PasswordResetEvent(emailsResponse));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
             }
         });
     }

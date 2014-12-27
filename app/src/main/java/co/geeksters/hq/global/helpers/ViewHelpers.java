@@ -3,10 +3,19 @@ package co.geeksters.hq.global.helpers;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import co.geeksters.hq.R;
 
 /**
  * Created by soukaina on 26/11/14.
@@ -52,5 +61,41 @@ public class ViewHelpers {
     public static void deleteTextAndSetHint(EditText fiels, String hint){
         fiels.setText("");
         fiels.setHint(hint);
+    }
+
+    public static void showPopupOnNoNetworkConnection(Context context){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setTitle(context.getResources().getString(R.string.alert_title));
+        builder1.setMessage(context.getResources().getString(R.string.no_connection));
+        builder1.setCancelable(false);
+        builder1.setNeutralButton(android.R.string.ok,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    public static void createViewInterest(final Context context, LayoutInflater layoutInflater, final LinearLayout interestsContent, String lastValue){
+        final View interestContent = layoutInflater.inflate(R.layout.interest_layout, null);
+        final EditText text = (EditText) interestContent.findViewById(R.id.interest);
+        text.setText(lastValue);
+        ImageView delete = (ImageView) interestContent.findViewById(R.id.deleteButtonInterest);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (interestsContent.getChildCount() == 1) {
+                    ViewHelpers.deleteTextAndSetHint(text, context.getResources().getString(R.string.interest_name));
+                } else {
+                    interestsContent.removeView(interestContent);
+                }
+            }
+        });
+
+        interestsContent.addView(interestContent, 1);
     }
 }

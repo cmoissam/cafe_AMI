@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/interestContent"
-android:orientation="horizontal"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:background="@drawable/border"
-android:layout_marginBottom="10dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/interestContent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <EditText
-        android:id="@+id/interestAdded"
+        android:id="@+id/interest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="@string/interest_name"
         android:ems="10"
+        android:padding="7dp"
         android:layout_weight="1"
-        android:layout_gravity="left"/>
+        android:background="@drawable/border"
+        android:layout_marginBottom="10dp"/>
+
     <ImageButton
-        android:id="@+id/addButtonInterestAdded"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:id="@+id/deleteButtonInterest"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:visibility="gone"
-        android:background="@drawable/add"/>
-    <ImageButton
-        android:id="@+id/deleteButtonInterestAdded"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/delete"/>
+        android:focusable="false"
+        android:background="@drawable/minus"
+        android:layout_marginBottom="5dp"/>
 
 </LinearLayout>

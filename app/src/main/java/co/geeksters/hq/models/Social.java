@@ -5,17 +5,15 @@ package co.geeksters.hq.models;
  */
 public class Social {
     public int id;
-    public String twitter;
-    public String facebook;
-    public String skype;
-    public String linkedin;
-    public String blog;
-    public String website;
-    public String other;
+    public String twitter = "";
+    public String facebook = "";
+    public String skype = "";
+    public String linkedin = "";
+    public String blog = "";
+    public String website = "";
+    public String other = "";
 
-    public Social(){
-
-    }
+    public Social() { }
 
     public Social(int id){
         this.id = id;

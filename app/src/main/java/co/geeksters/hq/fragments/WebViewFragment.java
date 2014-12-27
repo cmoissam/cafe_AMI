@@ -28,7 +28,7 @@ public class WebViewFragment extends Fragment {
 
 		// Updating the action bar title
         ((FragmentActivity)getActivity()).getActionBar().setTitle(menus[position]);
-		
+
 		//Initializing webview
 		WebView webView = (WebView)v.findViewById(R.id.webView); 
 		webView.getSettings().setJavaScriptEnabled(true);

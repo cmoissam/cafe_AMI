@@ -3,6 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!-- No connection network -->
+    <TextView
+        android:id="@+id/noConnectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp" android:text="@string/no_connection"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16dp"
+        android:visibility="gone"
+        android:gravity="center|center_horizontal" />
+
     <!-- The main content view -->
 
     <FrameLayout

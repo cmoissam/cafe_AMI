@@ -32,15 +32,17 @@ import retrofit.mime.TypedString;
 
 public interface MemberInterface {
 
-    @POST("/members/logout")
-    void logout(@Body TypedInput access_token, Callback<JsonElement> callback);
+    @FormUrlEncoded
+    @POST("/member/logout")
+    void logout(@Field("access_token") String token, Callback<JsonElement> callback);
 
     @FormUrlEncoded
     @POST("/members/{id}")
-    void updateMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName, @Field("email") String email,
-                      @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("address") String address, @Field("phone") String phone, @Field("newsletter") int newsletter, @Field("password") String password,
-                      @Field("password_confirmation") String password_confirmation, @Field("social") Social social, @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies,
-                      @Field("references") List<Member> references, Callback<JsonElement> callback);
+    void updateMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
+                      @Field("email") String email, @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("social") Social social,
+                      @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,
+                      @Field("notify_by_push_on_comment") Boolean notifyByPushOnComment, @Field("notify_by_email_on_todo") Boolean notifyByEmailOnTodo,
+                      @Field("notify_by_push_on_todo") Boolean notifyByPushOnTodo, Callback<JsonElement> callback);
 
     @Multipart
     @POST("/member/profile/image")
@@ -68,8 +70,8 @@ public interface MemberInterface {
     @POST("/members/{id}")
     void deleteMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, Callback<JsonElement> callback);
 
-    @POST("/members/password/remind")
-    void passwordReminder(@Body TypedInput emails, Callback<JsonElement> callback);
+    /*@POST("/members/password/remind")
+    void passwordReminder(@Body TypedInput emails, Callback<JsonElement> callback);*/
 
     // this method is executed from the link sent by email to remind a member to reset his password
     @POST("/members/password/reset")

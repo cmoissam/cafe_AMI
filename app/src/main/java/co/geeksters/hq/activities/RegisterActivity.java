@@ -21,6 +21,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Random;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.failure.ExistingAccountEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -63,22 +64,16 @@ public class RegisterActivity extends Activity {
     TextView noConnectionText;
 
     @AfterViews
-    public void setActionBarColor(){
-        getActionBar().setBackgroundDrawable(
-                new ColorDrawable(Color.parseColor("#308BD1")));
-    }
-
-    @AfterViews
     public void busRegistration(){
         BaseApplication.register(this);
     }
 
     @AfterViews
     public void initFiledsForTest(){
-        Random rand = new Random();
-        int randomNum = rand.nextInt((1000 - 0) + 1);
+        // Random rand = new Random();
+        // int randomNum = rand.nextInt((1000 - 0) + 1);
         fullName.setText("Soukaina");
-        email.setText("test" + randomNum +"@geeksters.co");
+        email.setText("soukaina@geeksters.co");
         password.setText("soukaina");
         passwordConfirmation.setText("soukaina");
     }
@@ -158,8 +153,8 @@ public class RegisterActivity extends Activity {
                 Member member = new Member(fullNameContent, emailContent, passwordContent, passwordConfirmationContent);
                 connectService.register(member);
             } else{
-                noConnectionText.setVisibility(View.VISIBLE);
                 ViewHelpers.showProgress(false, this, registerForm, registerProgress);
+                ViewHelpers.showPopupOnNoNetworkConnection(this);
             }
         }
     }
@@ -170,8 +165,16 @@ public class RegisterActivity extends Activity {
         intent.putExtra("username", event.member.email);
         finish();
         startActivity(intent);
+        overridePendingTransition(0, 0);
 
         ViewHelpers.showProgress(false, this, registerForm, registerProgress);
+    }
+
+    @Subscribe
+    public void onRegisterFailureEvent(ExistingAccountEvent event) {
+        ViewHelpers.showProgress(false, this, registerForm, registerProgress);
+
+        email.setError(getString(R.string.error_field_exists));
     }
 
     @Click(R.id.emailSignInButton)
@@ -179,6 +182,7 @@ public class RegisterActivity extends Activity {
         Intent intent = new Intent(this, LoginActivity_.class);
         startActivity(intent);
         finish();
+        overridePendingTransition(0, 0);
     }
 }
 

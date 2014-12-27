@@ -1,6 +1,8 @@
 package co.geeksters.hq.models;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,14 +35,20 @@ public class Todo {
      **/
 
     public static Todo createTodoFromJson(JsonElement response) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
         Todo todo = gson.fromJson (response, Todo.class);
 
         return todo;
     }
 
     public static List<Todo> createListTodosFromJson(JSONArray response) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
         Type listType = new TypeToken<List<Todo>>(){}.getType();
         List<Todo> todos = gson.fromJson(response.toString(), listType);
 

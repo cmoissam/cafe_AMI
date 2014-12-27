@@ -2,149 +2,168 @@ package co.geeksters.hq.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.DrawerLayout.DrawerListener;
-import android.view.LayoutInflater;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.TabHost;
+import android.widget.TabWidget;
+
+import java.util.ArrayList;
 
 import co.geeksters.hq.R;
 
-public class MainActivity extends FragmentActivity implements OnItemClickListener{
+public class MainActivity extends FragmentActivity
+{
+    private TabHost mTabHost;
+    private ViewPager mViewPager;
+    private TabsAdapter mTabsAdapter;
 
-	private android.app.ActionBar actionBar;
-	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
-	private ActionBarDrawerToggle mDrawerToggle;
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		moveDrawerToTop();
-	    initActionBar() ;
-	    initDrawer();
-	    //Quick cheat: Add Fragment 1 to default view
-	    onItemClick(null, null, 0, 0);
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		mDrawerToggle.syncState();
-	}
+        mTabHost = (TabHost)findViewById(android.R.id.tabhost);
+        mTabHost.setup();
 
-	private void moveDrawerToTop() {
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	    DrawerLayout drawer = (DrawerLayout) inflater.inflate(R.layout.decor, null); // "null" is important.
+        mViewPager = (ViewPager)findViewById(R.id.pager);
+        mTabsAdapter = new TabsAdapter(this, mTabHost, mViewPager);
 
-	    // HACK: "steal" the first child of decor view
-	    ViewGroup decor = (ViewGroup) getWindow().getDecorView();
-	    View child = decor.getChildAt(0);
-	    decor.removeView(child);
-	    LinearLayout container = (LinearLayout) drawer.findViewById(R.id.drawer_content); // This is the container we defined just now.
-	    container.addView(child, 0);
-	    drawer.findViewById(R.id.drawer).setPadding(0, getStatusBarHeight(), 0, 0);
+        mTabsAdapter.addTab(mTabHost.newTabSpec("one").setIndicator("One"), PageOneFragment.class, null);
+        mTabsAdapter.addTab(mTabHost.newTabSpec("two").setIndicator("Two"), PageTwoFragment.class, null);
 
-	    // Make the drawer replace the first child
-	    decor.addView(drawer);
-	}
+        if (savedInstanceState != null)
+        {
+            mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
+        }
+    }
 
-	 public int getStatusBarHeight() {
-	       int result = 0;
-	       int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-	       if (resourceId > 0) {
-	           result = getResources().getDimensionPixelSize(resourceId);
-	       }
-	       return result;
-	 }
-	 
-	 private int getContentIdResource() {
-		 return getResources().getIdentifier("content", "id", "android");
-	 }
-	 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		mDrawerToggle.syncState();
-		if (mDrawerToggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
-	private void initActionBar() {
-		actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setHomeButtonEnabled(true);
-	}
-	
-	private void initDrawer() {
-		mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView)findViewById(R.id.drawer);
-		mDrawerLayout.setDrawerListener(createDrawerToggle());
-		ListAdapter adapter = (ListAdapter)(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.nav_items)));
-		mDrawerList.setAdapter(adapter);
-		mDrawerList.setOnItemClickListener(this);
-	}
-	
-	private DrawerListener createDrawerToggle() {
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
-			
-			@Override
-			public void onDrawerClosed(View view) {
-				super.onDrawerClosed(view);
-			}
-			
-			@Override
-			public void onDrawerOpened(View drawerView) {
-				super.onDrawerOpened(drawerView);
-			}
-			
-			@Override
-			public void onDrawerStateChanged(int state) {
-			}
-		};
-		return mDrawerToggle;
-	}
+    /**
+     * This is a helper class that implements the management of tabs and all
+     * details of connecting a ViewPager with associated TabHost.  It relies on a
+     * trick.  Normally a tab host has a simple API for supplying a View or
+     * Intent that each tab will show.  This is not sufficient for switching
+     * between pages.  So instead we make the content part of the tab host
+     * 0dp high (it is not shown) and the TabsAdapter supplies its own dummy
+     * view to show as the tab content.  It listens to changes in tabs, and takes
+     * care of switch to the correct paged in the ViewPager whenever the selected
+     * tab changes.
+     */
+    public static class TabsAdapter extends FragmentPagerAdapter implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener
+    {
+        private final Context mContext;
+        private final TabHost mTabHost;
+        private final ViewPager mViewPager;
+        private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		mDrawerLayout.closeDrawer(mDrawerList);
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction ftx = fragmentManager.beginTransaction();
-		if(position == 0) {
-			ftx.replace(R.id.main_content, new FragmentFirst());
-		} else if(position == 1) {
-			ftx.replace(R.id.main_content, new FragmentSecond());
-		}
-		ftx.commit();
-	}
-	
+        static final class TabInfo
+        {
+            private final String tag;
+            private final Class<?> clss;
+            private final Bundle args;
+
+            TabInfo(String _tag, Class<?> _class, Bundle _args)
+            {
+                tag = _tag;
+                clss = _class;
+                args = _args;
+            }
+        }
+
+        static class DummyTabFactory implements TabHost.TabContentFactory
+        {
+            private final Context mContext;
+
+            public DummyTabFactory(Context context)
+            {
+                mContext = context;
+            }
+
+            public View createTabContent(String tag)
+            {
+                View v = new View(mContext);
+                v.setMinimumWidth(0);
+                v.setMinimumHeight(0);
+                return v;
+            }
+        }
+
+        public TabsAdapter(FragmentActivity activity, TabHost tabHost, ViewPager pager)
+        {
+            super(activity.getSupportFragmentManager());
+            mContext = activity;
+            mTabHost = tabHost;
+            mViewPager = pager;
+            mTabHost.setOnTabChangedListener(this);
+            mViewPager.setAdapter(this);
+            mViewPager.setOnPageChangeListener(this);
+        }
+
+        public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args)
+        {
+            tabSpec.setContent(new DummyTabFactory(mContext));
+            String tag = tabSpec.getTag();
+
+            TabInfo info = new TabInfo(tag, clss, args);
+            mTabs.add(info);
+            mTabHost.addTab(tabSpec);
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getCount()
+        {
+            return mTabs.size();
+        }
+
+        @Override
+        public Fragment getItem(int position)
+        {
+            TabInfo info = mTabs.get(position);
+
+            return Fragment.instantiate(mContext, info.clss.getName(), info.args);
+
+        }
+
+        public void onTabChanged(String tabId)
+        {
+            int position = mTabHost.getCurrentTab();
+            mViewPager.setCurrentItem(position);
+        }
+
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+        {
+        }
+
+        public void onPageSelected(int position)
+        {
+            // Unfortunately when TabHost changes the current tab, it kindly
+            // also takes care of putting focus on it when not in touch mode.
+            // The jerk.
+            // This hack tries to prevent this from pulling focus out of our
+            // ViewPager.
+            TabWidget widget = mTabHost.getTabWidget();
+            int oldFocusability = widget.getDescendantFocusability();
+            widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+            mTabHost.setCurrentTab(position);
+            widget.setDescendantFocusability(oldFocusability);
+        }
+
+        public void onPageScrollStateChanged(int state)
+        {
+        }
+    }
 }

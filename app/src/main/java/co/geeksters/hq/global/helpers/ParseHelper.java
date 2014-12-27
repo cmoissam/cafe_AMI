@@ -2,9 +2,13 @@ package co.geeksters.hq.global.helpers;
 
 import android.util.Log;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,8 +36,11 @@ public class ParseHelper {
 
     public static TypedInput createTypedInputFromModel(Object modelObject){
         TypedInput inputHttpRequest = null;
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
         try {
-            inputHttpRequest = new TypedByteArray("application/json", new Gson().toJson(modelObject).getBytes("UTF-8"));
+            inputHttpRequest = new TypedByteArray("application/json", gson.toJson(modelObject).getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -74,5 +81,17 @@ public class ParseHelper {
             e.printStackTrace();
         }
         return inputHttpRequest;
+    }
+
+    public static String createJsonStringFromModel(Object model){
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+        return gson.toJson(model);
+    }
+
+    public static JsonElement createJsonElementFromString(String model){
+        JsonParser parser = new JsonParser();
+        return parser.parse(model);
     }
 }

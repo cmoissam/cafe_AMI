@@ -2,6 +2,7 @@ package co.geeksters.hq.services;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -33,10 +34,12 @@ import co.geeksters.hq.models.Company;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
+import co.geeksters.hq.models.Social;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.http.Body;
+import retrofit.http.Field;
 import retrofit.http.Path;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedInput;
@@ -53,7 +56,7 @@ public class MemberService {
     }
 
     public void logout() {
-        this.api.logout(ParseHelper.createTypedInputFromOneKeyValue("access_token", this.token), new Callback<JsonElement>() {
+        this.api.logout(this.token, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -67,22 +70,27 @@ public class MemberService {
         });
     }
 
-    public void updateMember(int userId, String accessToken, Member member) {
+    public void updateMember(int userId, Member member) {
 
-        this.api.updateMember(userId, "put", accessToken, member.full_name, member.email,
-                member.hub, member.blurp, member.address, member.phone, member.newsletter, member.password,
-                member.password_confirmation, member.social, member.interests, member.companies,
-                member.references, new Callback<JsonElement>() {
+/*
+        @Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
+        @Field("email") String email, @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("social") Social social,
+        @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies, @Field("updated_at") String updatedAt,
+*/
+
+        // TODO : Hub update
+        this.api.updateMember(userId, "put", this.token, member.fullName, member.email, null, member.blurp, null, null, null,
+                member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo,
+                new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Member updatedMember = Member.createUserFromJson(response);
+                Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                 BaseApplication.post(new MemberEvent(updatedMember));
             }
 
             @Override
             public void failure(RetrofitError error) {
-                // popup to inform the current user of the failure
                 BaseApplication.post(new ConnectionFailureEvent());
             }
         });
@@ -114,7 +122,7 @@ public class MemberService {
 
         TypedFile fileTyped = new TypedFile(mimeType, file);
 
-        this.api.updateImageMember(userId, new TypedString(token), fileTyped, new Callback<JsonElement>() {
+        this.api.updateImageMember(userId, new TypedString(this.token), fileTyped, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -349,7 +357,7 @@ public class MemberService {
 
     public void deleteMember(int userId) {
 
-        this.api.deleteMember(userId, "delete", token, new Callback<JsonElement>() {
+        this.api.deleteMember(userId, "delete", this.token, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -364,7 +372,7 @@ public class MemberService {
         });
     }
 
-    public void passwordReminder(ArrayList<String> emails) {
+    /*public void passwordReminder(ArrayList<String> emails) {
 
         this.api.passwordReminder(ParseHelper.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
 
@@ -379,7 +387,7 @@ public class MemberService {
                 BaseApplication.post(new ConnectionFailureEvent());
             }
         });
-    }
+    }*/
 
     public void passwordReset(String token, String email, String password, String passwordConfirmation) {
 

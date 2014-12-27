@@ -11,10 +11,13 @@ import com.squareup.otto.ThreadEnforcer;
 import org.json.JSONObject;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import co.geeksters.hq.events.success.EmptyMemberEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.models.Member;
@@ -76,11 +79,11 @@ public class ConnectServiceTest extends InstrumentationTestCase {
         int randomNum = rand.nextInt((1000 - 0) + 1);
 
         member = new Member();
-        member.full_name = "soukaina";
+        member.fullName = "soukaina";
         //member.email = "test" + randomNum + ".mjahed@gmail.com";
-        member.email = "soukaina@geeksters.co";
+        member.email = "soukaina.mjahed@gmail.com";
         member.password = "soukaina";
-        member.password_confirmation = "soukaina";
+        member.passwordConfirmation = "soukaina";
     }
 
     @Test
@@ -123,9 +126,9 @@ public class ConnectServiceTest extends InstrumentationTestCase {
         bus.register(new Object() {
             @Subscribe
             public void onLoginMemberEvent(LoginEvent event) {
-                assertNotNull("on testLoginMember",event.access_token);
-                assertTrue(event.access_token instanceof String);
-                token = event.access_token;
+                assertNotNull("on testLoginMember",event.accessToken);
+                assertTrue(event.accessToken instanceof String);
+                token = event.accessToken;
                 // WE ARE DONE
                 doneTest();
             }
@@ -144,6 +147,40 @@ public class ConnectServiceTest extends InstrumentationTestCase {
             public void success(JsonElement response, Response rawResponse) {
                 String access_token = response.getAsJsonObject().get("access_token").toString();
                 bus.post(new LoginEvent(access_token));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+
+        waitTest();
+    }
+
+    @Test
+    public void testPasswordReminderMember() {
+        beforeTest();
+
+        bus.register(new Object() {
+            @Subscribe
+            public void onPasssswordRemindEvent(EmptyMemberEvent event) {
+                // assertEquals("on testPasswordRemindMember",successMessage, "success");
+
+                // WE ARE DONE
+                doneTest();
+            }
+        });
+
+        final ArrayList<String> emails = new ArrayList<String>();
+        emails.add("soukaina@geeksters.co");
+        emails.add("soukaina.mjahed@gmail.com");
+
+        api.passwordReminder(ParseHelper.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                // successMessage = response.getAsJsonObject().get(emails.get(0)).getAsJsonObject().get("status").toString();
+                bus.post(new EmptyMemberEvent());
             }
 
             @Override
