@@ -98,4 +98,24 @@ public class ViewHelpers {
 
         interestsContent.addView(interestContent, 1);
     }
+
+    public static void createViewInterestToEdit(final Context context, LayoutInflater layoutInflater, final LinearLayout interestsContent, String lastValue){
+        final View interestContent = layoutInflater.inflate(R.layout.interest_layout, null);
+        final EditText text = (EditText) interestContent.findViewById(R.id.interest);
+        text.setText(lastValue);
+        ImageView delete = (ImageView) interestContent.findViewById(R.id.deleteButtonInterest);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (interestsContent.getChildCount() == 1) {
+                    ViewHelpers.deleteTextAndSetHint(text, context.getResources().getString(R.string.interest_name));
+                } else {
+                    interestsContent.removeView(interestContent);
+                }
+            }
+        });
+
+        interestsContent.addView(interestContent, 1);
+    }
 }

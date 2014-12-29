@@ -43,40 +43,37 @@ import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
 public class OneProfileInfoFragment extends Fragment {
 
     @ViewById(R.id.companyName)
-    EditText companyName;
+    TextView companyName;
 
     @ViewById(R.id.goalContent)
-    EditText goalContent;
+    TextView goalContent;
 
     @ViewById(R.id.bioContent)
-    EditText bioContent;
+    TextView bioContent;
 
     @ViewById(R.id.contact)
     TextView contact;
 
     @ViewById(R.id.linkdin)
-    EditText linkdin;
+    TextView linkdin;
 
     @ViewById(R.id.twitter)
-    EditText twitter;
+    TextView twitter;
 
     @ViewById(R.id.facebook)
-    EditText facebook;
+    TextView facebook;
 
     @ViewById(R.id.skype)
-    EditText skype;
+    TextView skype;
 
     @ViewById(R.id.blog)
-    EditText blog;
+    TextView blog;
 
     @ViewById(R.id.website)
-    EditText website;
+    TextView website;
 
     @ViewById(R.id.interest)
-    EditText interest;
-
-    @ViewById(R.id.addButtonInterest)
-    ImageView addButtonInterest;
+    TextView interest;
 
     @ViewById(R.id.interestsContent)
     LinearLayout interestsContent;

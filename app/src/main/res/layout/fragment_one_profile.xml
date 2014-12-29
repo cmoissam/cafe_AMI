@@ -3,6 +3,9 @@
     android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.OneProfileFragment"
     android:id="@+id/frameLayout">
 
+    <ScrollView android:id="@+id/oneProfileScrollView" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -107,5 +110,7 @@
         </TabHost>
 
     </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

@@ -10,6 +10,13 @@
         android:layout_height="wrap_content"
         android:padding="10dp">
 
+        <ImageView
+            android:id="@+id/editImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:src="@drawable/edit" />
+
         <TextView
             android:id="@+id/companyTitle"
             android:layout_width="match_parent"
@@ -17,16 +24,13 @@
             android:text="@string/company_title"
             android:textSize="20dp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/companyName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:hint="@string/company_name"
-            android:padding="7dp"
-            android:ems="10"
-            android:layout_weight="1"
-            android:background="@drawable/border"/>
+            android:paddingLeft="7dp"
+            android:textSize="18dp"/>
 
         <TextView
             android:id="@+id/goal"
@@ -36,16 +40,13 @@
             android:textSize="20dp"
             android:layout_marginTop="10dp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/goalContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
             android:hint="@string/goal_name"
-            android:padding="7dp"
-            android:ems="10"
-            android:layout_weight="1"
-            android:background="@drawable/border"/>
+            android:paddingLeft="7dp"
+            android:textSize="18dp"/>
 
         <TextView
             android:id="@+id/bio"
@@ -55,17 +56,13 @@
             android:textSize="20dp"
             android:layout_marginTop="10dp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/bioContent"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:gravity="top"
-            android:inputType="textMultiLine"
+            android:layout_height="wrap_content"
             android:hint="@string/bio_name"
-            android:padding="7dp"
-            android:ems="10"
-            android:layout_weight="1"
-            android:background="@drawable/border"/>
+            android:paddingLeft="7dp"
+            android:textSize="18dp"/>
 
         <TextView
             android:id="@+id/contact"
@@ -79,156 +76,175 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/border"
             android:layout_marginBottom="10dp">
 
-            <EditText
-                android:id="@+id/linkdin"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="linkdin"
-                android:ems="10"
+                android:layout_marginRight="7dp"
                 android:layout_weight="1"
-                android:layout_gravity="left"/>
-            <ImageButton
-                android:id="@+id/deleteButtonLinkdin"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/delete"/>
+                android:padding="7dp"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/imageLinkdin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/linkedin" />
+
+                <TextView
+                    android:id="@+id/linkdin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Linkdin"
+                    android:paddingLeft="7dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7dp"
+                android:layout_weight="1"
+                android:padding="7dp"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/imageTwitter"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/twitter" />
+
+                <TextView
+                    android:id="@+id/twitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Twitter"
+                    android:paddingLeft="7dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_marginBottom="10dp">
 
-            <EditText
-                android:id="@+id/twitter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="twitter"
-                android:ems="10"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:padding="7dp"
                 android:layout_weight="1"
-                android:layout_gravity="left"/>
-            <ImageButton
-                android:id="@+id/deleteButtonTwitter"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/delete"/>
+                android:layout_marginRight="7dp"
+                android:background="@drawable/border">
 
+                <ImageView
+                    android:id="@+id/imageSkype"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/skype" />
+
+                <TextView
+                    android:id="@+id/skype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skype"
+                    android:paddingLeft="7dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="7dp"
+                android:layout_weight="1"
+                android:padding="7dp"
+                android:background="@drawable/border">
+
+                <ImageView
+                    android:id="@+id/imageFacebook"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/facebook" />
+
+                <TextView
+                    android:id="@+id/facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Facebook"
+                    android:paddingLeft="7dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_marginBottom="10dp">
 
-            <EditText
-                android:id="@+id/facebook"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="facebook"
-                android:ems="10"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="7dp"
                 android:layout_weight="1"
-                android:layout_gravity="left"/>
-            <ImageButton
-                android:id="@+id/deleteButtonFacebook"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/delete"/>
+                android:padding="7dp"
+                android:background="@drawable/border">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageBlog"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/blog" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:layout_marginBottom="10dp">
+                <TextView
+                    android:id="@+id/blog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="blog"
+                    android:paddingLeft="7dp"
+                    android:layout_gravity="center_vertical"/>
 
-            <EditText
-                android:id="@+id/skype"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="skype"
-                android:ems="10"
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="7dp"
                 android:layout_weight="1"
-                android:layout_gravity="left"/>
-            <ImageButton
-                android:id="@+id/deleteButtonSkype"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/delete"/>
+                android:padding="7dp"
+                android:background="@drawable/border">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/imageWebsite"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/website" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:layout_marginBottom="10dp">
+                <TextView
+                    android:id="@+id/website"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="website"
+                    android:paddingLeft="7dp"
+                    android:layout_gravity="center_vertical"/>
 
-            <EditText
-                android:id="@+id/blog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="blog"
-                android:ems="10"
-                android:layout_weight="1"
-                android:layout_gravity="left"/>
-            <ImageButton
-                android:id="@+id/deleteButtonBlog"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/delete"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:layout_marginBottom="10dp">
-
-            <EditText
-                android:id="@+id/website"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="website"
-                android:ems="10"
-                android:layout_weight="1"
-                android:layout_gravity="left"/>
-            <ImageButton
-                android:id="@+id/deleteButtonWebsite"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/delete"/>
-
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
@@ -236,8 +252,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/interests_title"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"/>
+            android:textSize="20dp"/>
 
         <LinearLayout
             android:id="@+id/interestsContent"
@@ -248,29 +263,27 @@
             <LinearLayout
                 android:id="@+id/interestContent"
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp">
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="7dp"
+                android:layout_weight="1"
+                android:padding="7dp"
+                android:background="@drawable/border">
 
-                <EditText
-                    android:id="@+id/interest"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    android:hint="@string/interest_name"
-                    android:ems="10"
-                    android:padding="7dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/border"/>
-
-                <ImageButton
-                    android:id="@+id/addButtonInterest"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                <ImageView
+                    android:id="@+id/imageInterest"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
-                    android:focusable="false"
-                    android:background="@drawable/add"/>
+                    android:src="@drawable/valid" />
 
+                <TextView
+                    android:id="@+id/interest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="interest"
+                    android:paddingLeft="7dp"
+                    android:layout_gravity="center_vertical"/>
 
             </LinearLayout>
 

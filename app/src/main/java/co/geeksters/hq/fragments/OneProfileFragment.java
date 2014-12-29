@@ -44,8 +44,8 @@ public class OneProfileFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
                 android.support.v4.app.FragmentManager fm =  getActivity().getSupportFragmentManager();
-                AndroidFragment androidFragment = (AndroidFragment) fm.findFragmentByTag("Info");
-                AppleFragment appleFragment = (AppleFragment) fm.findFragmentByTag("Market Place");
+                OneProfileInfoFragment_ androidFragment = (OneProfileInfoFragment_) fm.findFragmentByTag("info");
+                OneProfileMarketPlaceFragment_ appleFragment = (OneProfileMarketPlaceFragment_) fm.findFragmentByTag("market");
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
 
                 /** Detaches the androidfragment if exists */
@@ -59,11 +59,11 @@ public class OneProfileFragment extends Fragment {
                 }
 
                 /** If current tab is android */
-                if(tabId.equalsIgnoreCase("android")){
+                if(tabId.equalsIgnoreCase("info")){
 
                     //if(androidFragment==null){
                         /** Create AndroidFragment and adding to fragmenttransaction */
-                        ft.add(R.id.realtabcontent,new OneProfileInfoFragment_(), "android");
+                        ft.add(R.id.realtabcontent,new OneProfileInfoFragment_(), "info");
                     //}else{
                         /** Bring to the front, if already exists in the fragmenttransaction */
                       //  ft.attach(androidFragment);
@@ -72,7 +72,7 @@ public class OneProfileFragment extends Fragment {
                 }else{	/** If current tab is apple */
                     //if(appleFragment==null){
                         /** Create AppleFragment and adding to fragmenttransaction */
-                        ft.add(R.id.realtabcontent,new OneProfileMarketPlaceFragment_(), "apple");
+                        ft.add(R.id.realtabcontent,new OneProfileMarketPlaceFragment_(), "market");
                     //}else{
                         /** Bring to the front, if already exists in the fragmenttransaction */
                     //    ft.attach(appleFragment);
@@ -87,15 +87,15 @@ public class OneProfileFragment extends Fragment {
         tabhost.setOnTabChangedListener(tabChangeListener);
 
         /** Defining tab builder for Andriod tab */
-        TabHost.TabSpec tSpecAndroid = tabhost.newTabSpec("android");
-        tSpecAndroid.setIndicator("Android",getResources().getDrawable(R.drawable.add));
+        TabHost.TabSpec tSpecAndroid = tabhost.newTabSpec("info");
+        tSpecAndroid.setIndicator("Info",getResources().getDrawable(R.drawable.add));
         tSpecAndroid.setContent(new DummyTabContent(getActivity().getBaseContext()));
         tabhost.addTab(tSpecAndroid);
 
 
         /** Defining tab builder for Apple tab */
-        TabHost.TabSpec tSpecApple = tabhost.newTabSpec("apple");
-        tSpecApple.setIndicator("Apple",getResources().getDrawable(R.drawable.delete));
+        TabHost.TabSpec tSpecApple = tabhost.newTabSpec("market");
+        tSpecApple.setIndicator("Market Place",getResources().getDrawable(R.drawable.delete));
         tSpecApple.setContent(new DummyTabContent(getActivity().getBaseContext()));
         tabhost.addTab(tSpecApple);
     }
