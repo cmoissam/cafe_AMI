@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -16,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.global.PredicateLayout;
 
 /**
  * Created by soukaina on 26/11/14.
@@ -63,10 +63,10 @@ public class ViewHelpers {
         fiels.setHint(hint);
     }
 
-    public static void showPopupOnNoNetworkConnection(Context context){
+    public static void showPopup(Context context, String title, String message){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setTitle(context.getResources().getString(R.string.alert_title));
-        builder1.setMessage(context.getResources().getString(R.string.no_connection));
+        builder1.setTitle(title);
+        builder1.setMessage(message);
         builder1.setCancelable(false);
         builder1.setNeutralButton(android.R.string.ok,
                 new DialogInterface.OnClickListener() {
@@ -79,28 +79,16 @@ public class ViewHelpers {
         alert11.show();
     }
 
-    public static void createViewInterest(final Context context, LayoutInflater layoutInflater, final LinearLayout interestsContent, String lastValue){
+    public static void createViewInterest(final Context context, LayoutInflater layoutInflater, final PredicateLayout interestsContent, String lastValue){
         final View interestContent = layoutInflater.inflate(R.layout.interest_layout, null);
-        final EditText text = (EditText) interestContent.findViewById(R.id.interest);
+        final TextView text = (TextView) interestContent.findViewById(R.id.interest);
         text.setText(lastValue);
-        ImageView delete = (ImageView) interestContent.findViewById(R.id.deleteButtonInterest);
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (interestsContent.getChildCount() == 1) {
-                    ViewHelpers.deleteTextAndSetHint(text, context.getResources().getString(R.string.interest_name));
-                } else {
-                    interestsContent.removeView(interestContent);
-                }
-            }
-        });
-
-        interestsContent.addView(interestContent, 1);
+        interestsContent.addView(interestContent);
     }
 
     public static void createViewInterestToEdit(final Context context, LayoutInflater layoutInflater, final LinearLayout interestsContent, String lastValue){
-        final View interestContent = layoutInflater.inflate(R.layout.interest_layout, null);
+        final View interestContent = layoutInflater.inflate(R.layout.interest_layout_edit, null);
         final EditText text = (EditText) interestContent.findViewById(R.id.interest);
         text.setText(lastValue);
         ImageView delete = (ImageView) interestContent.findViewById(R.id.deleteButtonInterest);
@@ -118,4 +106,5 @@ public class ViewHelpers {
 
         interestsContent.addView(interestContent, 1);
     }
+
 }

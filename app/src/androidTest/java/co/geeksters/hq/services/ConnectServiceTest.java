@@ -1,7 +1,6 @@
 package co.geeksters.hq.services;
 
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.google.gson.JsonElement;
 import com.squareup.otto.Bus;
@@ -14,7 +13,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Random;
 
-import co.geeksters.hq.events.success.EmptyMemberEvent;
+import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -163,7 +162,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onPasssswordRemindEvent(EmptyMemberEvent event) {
+            public void onPasssswordRemindEvent(LogoutMemberEvent event) {
                 // assertEquals("on testPasswordRemindMember",successMessage, "success");
 
                 // WE ARE DONE
@@ -180,7 +179,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 // successMessage = response.getAsJsonObject().get(emails.get(0)).getAsJsonObject().get("status").toString();
-                bus.post(new EmptyMemberEvent());
+                bus.post(new LogoutMemberEvent());
             }
 
             @Override

@@ -29,4 +29,5 @@
     <string name="error_field_incorrect_identifiers">The email or password inserted are not correct</string>
     <string name="error_field_incorrect_emails">The email inserted is not correct</string>
     <string name="error_field_incorrect_email"> is not correct</string>
+    <string name="search_no_element_found"> No element found</string>
 </resources>

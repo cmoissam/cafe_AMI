@@ -17,18 +17,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.EmptyMemberEvent;
 import co.geeksters.hq.events.success.HubEvent;
 import co.geeksters.hq.events.success.HubsEvent;
-import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
-import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.interfaces.HubInterface;
-import co.geeksters.hq.interfaces.MemberInterface;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
 import retrofit.Callback;

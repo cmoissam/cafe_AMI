@@ -1,8 +1,5 @@
 package co.geeksters.hq.services;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -17,32 +14,22 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.GPSFailureEvent;
-import co.geeksters.hq.events.success.EmptyMemberEvent;
+import co.geeksters.hq.events.success.DeleteMemberEvent;
+import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.MemberInterface;
-import co.geeksters.hq.models.Company;
-import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Social;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.Body;
-import retrofit.http.Field;
-import retrofit.http.Path;
 import retrofit.mime.TypedFile;
-import retrofit.mime.TypedInput;
 import retrofit.mime.TypedString;
 
 public class MemberService {
@@ -60,7 +47,7 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.post(new EmptyMemberEvent());
+                BaseApplication.post(new LogoutMemberEvent());
             }
 
             @Override
@@ -361,7 +348,7 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.post(new EmptyMemberEvent());
+                BaseApplication.post(new DeleteMemberEvent());
             }
 
             @Override
@@ -406,7 +393,7 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.post(new EmptyMemberEvent());
+                BaseApplication.post(new LogoutMemberEvent());
             }
 
             @Override
@@ -441,7 +428,7 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.post(new EmptyMemberEvent());
+                BaseApplication.post(new LogoutMemberEvent());
             }
 
             @Override

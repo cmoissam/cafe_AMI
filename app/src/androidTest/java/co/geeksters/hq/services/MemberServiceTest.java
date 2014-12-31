@@ -1,13 +1,6 @@
 package co.geeksters.hq.services;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.os.Environment;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,37 +13,22 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import co.geeksters.hq.R;
-import co.geeksters.hq.activities.LoginActivity;
-import co.geeksters.hq.events.success.EmptyMemberEvent;
+import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
-import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.interfaces.MemberInterface;
-import co.geeksters.hq.models.Company;
-import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Social;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.Field;
-import retrofit.http.Path;
 import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
@@ -642,7 +620,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onDeleteMemberEvent(EmptyMemberEvent event) {
+            public void onDeleteMemberEvent(LogoutMemberEvent event) {
                 assertNotNull("on testDeleteMember", successMessage);
                 assertEquals("on testDeleteMember", successMessage, "Member successfully deleted");
 
@@ -656,7 +634,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 successMessage = response.getAsJsonObject().get("message").toString();
-                bus.post(new EmptyMemberEvent());
+                bus.post(new LogoutMemberEvent());
             }
 
             @Override
@@ -673,7 +651,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onLogoutMemberEvent(EmptyMemberEvent event) {
+            public void onLogoutMemberEvent(LogoutMemberEvent event) {
                 assertEquals("on testLogoutMember",successMessage, "success");
 
                 // WE ARE DONE
@@ -686,7 +664,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 successMessage = response.getAsJsonObject().get("status").getAsString();
-                bus.post(new EmptyMemberEvent());
+                bus.post(new LogoutMemberEvent());
             }
 
             @Override

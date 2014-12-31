@@ -32,6 +32,7 @@
     <string name="full_name">John Do</string>
     <string name="hub_name">Hub</string>
     <string name="company_name">Company</string>
+    <string name="empty_field">This information is not available</string>
     <string name="goal_name">Goal</string>
     <string name="bio_name">Bio</string>
     <string name="interest_name">Interest</string>
@@ -46,5 +47,9 @@
     <string name="push_notif_on_todo">Receive push notification on todo</string>
     <string name="action_save">Save</string>
     <string name="action_logout">Logout</string>
+    <string name="action_delete_account">Delete Account</string>
+    <string name="action_send_mail_title">Send email</string>
+    <string name="action_send_mail_object">HQ Contact</string>
+    <string name="search_members">Search members ...</string>
 
 </resources>

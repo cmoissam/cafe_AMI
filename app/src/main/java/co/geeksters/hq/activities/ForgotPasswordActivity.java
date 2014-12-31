@@ -129,7 +129,7 @@ public class ForgotPasswordActivity extends Activity {
                 GlobalVariables.emails = generateEmailsListFromString(emails.getText().toString());
                 service.passwordReminder(GlobalVariables.emails);
             } else{
-                ViewHelpers.showPopupOnNoNetworkConnection(this);
+                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
             }
         }
     }

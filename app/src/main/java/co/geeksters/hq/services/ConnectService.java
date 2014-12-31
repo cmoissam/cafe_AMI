@@ -1,7 +1,5 @@
 package co.geeksters.hq.services;
 
-import android.util.Log;
-
 import com.google.gson.JsonElement;
 
 import org.json.JSONException;
@@ -10,10 +8,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.ExistingAccountEvent;
 import co.geeksters.hq.events.failure.LoginFailureEvent;
-import co.geeksters.hq.events.success.EmptyMemberEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.events.success.PasswordResetEvent;
@@ -27,7 +23,6 @@ import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.mime.TypedInput;
 
 /**
  * Created by soukaina on 27/11/14.

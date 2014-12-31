@@ -154,7 +154,7 @@ public class RegisterActivity extends Activity {
                 connectService.register(member);
             } else{
                 ViewHelpers.showProgress(false, this, registerForm, registerProgress);
-                ViewHelpers.showPopupOnNoNetworkConnection(this);
+                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
             }
         }
     }

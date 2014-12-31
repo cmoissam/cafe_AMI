@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -20,6 +22,9 @@ import co.geeksters.hq.activities.MainActivity;
 import co.geeksters.hq.activities.PageOneFragment;
 import co.geeksters.hq.activities.PageTwoFragment;
 import co.geeksters.hq.adapter.TabsAdapter;
+import co.geeksters.hq.models.Member;
+
+import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
 
 @EFragment(R.layout.fragment_one_profile)
 public class OneProfileFragment extends Fragment {
@@ -30,9 +35,24 @@ public class OneProfileFragment extends Fragment {
     @ViewById(R.id.pager)
     ViewPager viewPager;
 
-    private MainActivity.TabsAdapter tabsAdapter;
-    // Tab titles
-    private String[] tabs = { "Info", "Market Place" };
+    @ViewById(R.id.fullName)
+    TextView fullName;
+
+    @ViewById(R.id.hubName)
+    TextView hubName;
+
+    TabsAdapter tabsAdapter;
+    SharedPreferences preferences;
+    Member currentMember;
+
+    @AfterViews
+    public void setNameAndHub(){
+        preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
+        fullName.setText(currentMember.fullName);
+        hubName.setText(currentMember.hub.name);
+    }
 
     @AfterViews
     public void treatments() {
@@ -44,18 +64,18 @@ public class OneProfileFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
                 android.support.v4.app.FragmentManager fm =  getActivity().getSupportFragmentManager();
-                OneProfileInfoFragment_ androidFragment = (OneProfileInfoFragment_) fm.findFragmentByTag("info");
-                OneProfileMarketPlaceFragment_ appleFragment = (OneProfileMarketPlaceFragment_) fm.findFragmentByTag("market");
+                OneProfileInfoFragment_ infoFragment = (OneProfileInfoFragment_) fm.findFragmentByTag("info");
+                OneProfileMarketPlaceFragment_ marketFragment = (OneProfileMarketPlaceFragment_) fm.findFragmentByTag("market");
                 android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
 
                 /** Detaches the androidfragment if exists */
-                if(androidFragment!=null) {
-                    ft.detach(androidFragment);
+                if(infoFragment!=null) {
+                    ft.detach(infoFragment);
                 }
 
                 /** Detaches the applefragment if exists */
-                if(appleFragment!=null) {
-                    ft.detach(appleFragment);
+                if(marketFragment!=null) {
+                    ft.detach(marketFragment);
                 }
 
                 /** If current tab is android */
@@ -69,7 +89,7 @@ public class OneProfileFragment extends Fragment {
                       //  ft.attach(androidFragment);
                     //}
 
-                }else{	/** If current tab is apple */
+                } else {	/** If current tab is apple */
                     //if(appleFragment==null){
                         /** Create AppleFragment and adding to fragmenttransaction */
                         ft.add(R.id.realtabcontent,new OneProfileMarketPlaceFragment_(), "market");

@@ -3,8 +3,65 @@
     android:layout_height="match_parent"
     tools:context="co.geeksters.hq.fragments.PeopleDirectoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <!-- Get Members progress -->
+    <ProgressBar android:id="@+id/membersProgress" style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" android:visibility="gone"
+        android:layout_gravity="center_vertical" />
+
+    <LinearLayout
+        android:id="@+id/membersSearchForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@android:drawable/ic_search_category_default"/>
+
+            <!-- Editext for Search -->
+            <EditText android:id="@+id/inputSearch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="textPersonName"
+                android:hint="@string/search_members"
+                android:ems="10"
+                android:layout_weight="1"
+                android:layout_gravity="left"
+                android:padding="12dp"/>
+
+            <ImageView
+                android:id="@+id/clearContent"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="7dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/delete"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/search_no_element_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_no_element_found"
+            android:visibility="gone"/>
+
+        <!-- List View -->
+        <ListView
+            android:id="@+id/list_view_members"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:dividerHeight="3px"/>
+
+    </LinearLayout>
 
 </FrameLayout>

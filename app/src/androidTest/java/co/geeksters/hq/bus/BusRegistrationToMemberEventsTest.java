@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import co.geeksters.hq.events.success.EmptyMemberEvent;
+import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.models.Interest;
@@ -91,11 +91,11 @@ public class BusRegistrationToMemberEventsTest extends InstrumentationTestCase {
         // to validate the event posted
         bus.register(new Object() {
             @Subscribe
-            public void onDeleteMemberEvent(EmptyMemberEvent event) {
+            public void onDeleteMemberEvent(LogoutMemberEvent event) {
                 assertEquals(true, event.inEvent);
             }
         });
 
-        bus.post(new EmptyMemberEvent());
+        bus.post(new LogoutMemberEvent());
     }
 }

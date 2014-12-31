@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,23 +27,43 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.events.success.EmptyMemberEvent;
+import co.geeksters.hq.events.success.DeleteMemberEvent;
+import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.fragments.HubsFragment;
+import co.geeksters.hq.fragments.MeFragment_;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
 import co.geeksters.hq.fragments.MyToDosFragment;
 import co.geeksters.hq.fragments.PeopleDirectoryFragment;
+import co.geeksters.hq.fragments.PeopleDirectoryFragment_;
 import co.geeksters.hq.fragments.PeopleFinderFragment;
 import co.geeksters.hq.fragments.WebViewFragment;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.GeneralHelpers;
+import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
+import co.geeksters.hq.services.MemberService;
+
+import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
 
 @EActivity(R.layout.global_menu)
 public class GlobalMenuActivity extends FragmentActivity {
 
     SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     Member currentMember;
+
+    // ActionBarDrawerToggle indicates the presence of Navigation Drawer in the action bar
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    // Title of the action bar
+    private String mTitle = "HQ";
+
+    String accessToken;
 
     @ViewById
     TextView noConnectionText;
@@ -53,11 +76,15 @@ public class GlobalMenuActivity extends FragmentActivity {
     @ViewById
 	ListView drawerList;
 
-	// ActionBarDrawerToggle indicates the presence of Navigation Drawer in the action bar
-	private ActionBarDrawerToggle mDrawerToggle;
+    @ViewById(R.id.contentFrame)
+    FrameLayout contentFrame;
 
-	// Title of the action bar
-	private String mTitle = "HQ";
+    @AfterViews
+    public void setPreferences(){
+        SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+
+        accessToken = preferences.getString("access_token","").replace("\"","");
+    }
 
     @AfterViews
     public void drawerLayoutSetting() {
@@ -105,13 +132,40 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     @AfterViews
-    public void busRegistration(){
-        BaseApplication.register(this);
+    public void setPreferencesAandDefaultFragment(){
+        preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        editor = preferences.edit();
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if(!preferences.getString("current_member", "").equals("")) {
+            currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+            // Adding a fragment to the fragment transaction
+            if (currentMember.fullName.isEmpty() || currentMember.hub.name.isEmpty() || currentMember.companies == null || currentMember.goal.isEmpty() ||
+                    currentMember.blurp.isEmpty() || currentMember.phone.isEmpty() || currentMember.interests == null || currentMember.social == null)
+                fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
+            else fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+
+        } else {
+            fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+        }
+
+        // Committing the transaction
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @AfterViews
-    public void initPreferences(){
-        preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+    public void busRegistration(){
+        BaseApplication.register(this);
     }
 
     @Override
@@ -128,7 +182,17 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     @Subscribe
-    public void onLogoutEvent(EmptyMemberEvent event) {
+    public void onLogoutEvent(LogoutMemberEvent event) {
+        preferences.edit().clear().commit();
+
+        Intent intent = new Intent(this, LoginActivity_.class);
+        finish();
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+    }
+
+    @Subscribe
+    public void onDeleteEvent(DeleteMemberEvent event) {
         preferences.edit().clear().commit();
 
         Intent intent = new Intent(this, LoginActivity_.class);
@@ -141,10 +205,43 @@ public class GlobalMenuActivity extends FragmentActivity {
     public void onSaveMemberEvent(MemberEvent event) {
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(this, GlobalMenuActivity_.class);
-        finish();
-        startActivity(intent);
-        overridePendingTransition(0, 0);
+        // save the current Member
+        editor.putString("current_member", ParseHelper.createJsonStringFromModel(event.member));
+        editor.commit();
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adding a fragment to the fragment transaction
+        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+
+        // Committing the transaction
+        fragmentTransaction.commit();
+    }
+
+    @Subscribe
+    public void onGetListMembersByPaginationEvent(MembersEvent event) {
+        //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
+
+        /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = PeopleDirectoryFragment_.newInstance(event.members);
+        ft.replace(R.id.contentFrame, fragment);
+        ft.commit();*/
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // Adding a fragment to the fragment transaction
+        fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+
+        // Committing the transaction
+        fragmentTransaction.commit();
     }
 
     // Setting item click listener for the listview mDrawerList
@@ -173,7 +270,15 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         // Adding a fragment to the fragment transaction
         if(position == 0) {
-            fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment());
+            //ViewHelpers.showProgress(true, this, contentFrame, membersSearchProgress);
+
+            if(GeneralHelpers.isInternetAvailable(this)) {
+                MemberService memberService = new MemberService(accessToken);
+                memberService.listAllMembersByPaginationOrSearch(0, GlobalVariables.SEARCH_SIZE, "Asc", "full_name");
+            } else {
+                //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
+                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            }
         } else if(position == 1) {
             fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment());
         } else if(position == 2){

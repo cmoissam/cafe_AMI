@@ -87,7 +87,10 @@ public class Member {
      **/
 
     public void setSocialId(int socialId){
-        this.social.id = socialId;
+        if(this.social == null)
+            this.social = new Social(socialId);
+        else
+            this.social.id = socialId;
     }
 
     public void setHubId(int hubId){

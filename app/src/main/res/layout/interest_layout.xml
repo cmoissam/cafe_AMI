@@ -2,28 +2,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/interestContent"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_weight="1">
 
-    <EditText
-        android:id="@+id/interest"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:paddingLeft="7dp">
+
+        <ImageView
+            android:id="@+id/imageInterest"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="5dp"
+            android:src="@drawable/valid" />
+
+        <TextView
+            android:id="@+id/interest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:hint="@string/interest_name"
+            android:paddingRight="7dp"
+            android:textSize="16dp"/>
+
+    </LinearLayout>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/interest_name"
-        android:ems="10"
-        android:padding="7dp"
-        android:layout_weight="1"
-        android:background="@drawable/border"
-        android:layout_marginBottom="10dp"/>
-
-    <ImageButton
-        android:id="@+id/deleteButtonInterest"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_vertical"
-        android:focusable="false"
-        android:background="@drawable/minus"
-        android:layout_marginBottom="5dp"/>
+        android:text=""
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="20dp"/>
 
 </LinearLayout>

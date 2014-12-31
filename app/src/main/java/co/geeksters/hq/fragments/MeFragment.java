@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Layout;
@@ -39,6 +41,7 @@ import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import co.geeksters.hq.R;
+import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Company;
 import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
@@ -48,8 +51,8 @@ import static co.geeksters.hq.global.helpers.GeneralHelpers.formatActualDate;
 import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
 import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterest;
+import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterestToEdit;
 import static co.geeksters.hq.global.helpers.ViewHelpers.deleteTextAndSetHint;
-import static co.geeksters.hq.global.helpers.ViewHelpers.showPopupOnNoNetworkConnection;
 import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
 
 @EFragment(R.layout.fragment_me)
@@ -76,8 +79,8 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.logoutProgress)
     ProgressBar logoutProgress;
 
-    @ViewById(R.id.logoutButton)
-    Button logoutButton;
+    /*@ViewById(R.id.logoutButton)
+    Button logoutButton;*/
 
     @ViewById(R.id.contact)
     TextView contact;
@@ -156,9 +159,23 @@ public class MeFragment extends Fragment {
         blog.setText(currentMember.social.blog);
         website.setText(currentMember.social.website);
 
+        currentMember.interests = new ArrayList<Interest>();
+        Interest interest1 = new Interest();
+        interest1.name = "Developement test";
+        Interest interest2 = new Interest();
+        interest2.name = "WEB";
+        Interest interest3 = new Interest();
+        interest3.name = "Finance";
+        Interest interest4 = new Interest();
+        interest4.name = "Law";
+        currentMember.interests.add(interest1);
+        currentMember.interests.add(interest2);
+        currentMember.interests.add(interest3);
+        currentMember.interests.add(interest4);
+
         interest.setText(currentMember.returnNameForNullInterestsValue(0));
         for(int i = 1; i < currentMember.interests.size(); i++)
-            createViewInterest(getActivity(), layoutInflater, interestsContent, currentMember.interests.get(i).name);
+            createViewInterestToEdit(getActivity(), layoutInflater, interestsContent, currentMember.interests.get(i).name);
 
         if(currentMember.notifyByEmailOnComment)
             checkBoxEmailComment.setChecked(true);
@@ -178,8 +195,23 @@ public class MeFragment extends Fragment {
             MemberService memberService = new MemberService(accessToken);
             Member updatedMember = createMemberFromFields();
             memberService.updateMember(currentMember.id, updatedMember);
+
         } else {
-            showPopupOnNoNetworkConnection(getActivity());
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+        }
+
+        showProgress(false, getActivity(), meScrollView, logoutProgress);
+    }
+
+    @Click(R.id.deleteButton)
+    public void deleteAccount(){
+        showProgress(true, getActivity(), meScrollView, logoutProgress);
+        // Test internet availability
+        if(isInternetAvailable(getActivity())) {
+            MemberService memberService = new MemberService(accessToken);
+            memberService.deleteMember(currentMember.id);
+        } else {
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }
 
         showProgress(false, getActivity(), meScrollView, logoutProgress);
@@ -194,7 +226,7 @@ public class MeFragment extends Fragment {
             memberService.logout();
         } else {
             showProgress(false, getActivity(), meScrollView, logoutProgress);
-            showPopupOnNoNetworkConnection(getActivity());
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }
     }
 
@@ -248,7 +280,7 @@ public class MeFragment extends Fragment {
     @Click(R.id.addButtonInterest)
     public void addInterestField(){
         if(interest.getText().length() > 0) {
-            createViewInterest(getActivity(), layoutInflater, interestsContent, interest.getText().toString());
+            createViewInterestToEdit(getActivity(), layoutInflater, interestsContent, interest.getText().toString());
             interest.setText("");
         }
     }
