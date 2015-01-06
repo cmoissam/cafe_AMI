@@ -35,6 +35,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import co.geeksters.hq.R;
@@ -105,13 +106,33 @@ public class OneProfileInfoFragment extends Fragment {
     // Beans
     LayoutInflater layoutInflater;
     SharedPreferences preferences;
-    Member currentMember;
+    //Member currentMember;
+    Member memberToDisplay;
     String accessToken;
 
+    //private static final String NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY = "see_profile_member_key";
+    //static Boolean seeProfile = false;
+
+    /*public static OneProfileInfoFragment_ newInstance(Member member) {
+        seeProfile = true;
+
+        OneProfileInfoFragment_ fragment = new OneProfileInfoFragment_();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY, member);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }*/
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        /*Serializable var = getArguments().getSerializable(NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY);
+
+        if(var != null)
+            profileMember = (Member) getArguments().getSerializable(NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY);*/
+
         layoutInflater = inflater;
+
         return null;
     }
 
@@ -119,50 +140,53 @@ public class OneProfileInfoFragment extends Fragment {
     void initFieldsFromCurrentMemberInformation() {
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token", "").toString().replace("\"","");
-        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
-        companyName.setText(currentMember.returnNameForNullCompaniesValue());
-        goalContent.setText(currentMember.goal);
-        bioContent.setText(currentMember.blurp);
+        if(GlobalVariables.isCurrentMember) {
+            memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+        } else{
+            editInfo.setVisibility(View.GONE);
+            memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("profile_member", "")));
+        }
 
-        currentMember.interests = new ArrayList<Interest>();
-        Interest interest1 = new Interest();
-        interest1.name = "Developement test";
-        Interest interest2 = new Interest();
-        interest2.name = "WEB";
-        Interest interest3 = new Interest();
-        interest3.name = "Finance";
-        Interest interest4 = new Interest();
-        interest4.name = "Law";
-        currentMember.interests.add(interest1);
-        currentMember.interests.add(interest2);
-        currentMember.interests.add(interest3);
-        currentMember.interests.add(interest4);
 
-        if(currentMember.interests.size() != 0)
+
+        companyName.setText(memberToDisplay.returnNameForNullCompaniesValue());
+        goalContent.setText(memberToDisplay.goal);
+        bioContent.setText(memberToDisplay.blurp);
+
+        if(memberToDisplay.interests == null) {
+            memberToDisplay.interests = new ArrayList<Interest>();
+            Interest interest1 = new Interest();
+            interest1.name = "Developement test";
+            Interest interest2 = new Interest();
+            interest2.name = "WEB";
+            Interest interest3 = new Interest();
+            interest3.name = "Finance";
+            Interest interest4 = new Interest();
+            interest4.name = "Law";
+            memberToDisplay.interests.add(interest1);
+            memberToDisplay.interests.add(interest2);
+            memberToDisplay.interests.add(interest3);
+            memberToDisplay.interests.add(interest4);
+        }
+
+        if(memberToDisplay.interests.size() != 0)
             interestsTitle.setVisibility(View.VISIBLE);
 
-        for(int i = 0; i < currentMember.interests.size(); i++)
-            createViewInterest(getActivity(), layoutInflater, interestsContent, currentMember.interests.get(i).name);
+        for(int i = 0; i < memberToDisplay.interests.size(); i++)
+            createViewInterest(getActivity(), layoutInflater, interestsContent, memberToDisplay.interests.get(i).name);
     }
-
-    /*linkdin.setText(currentMember.social.linkedin);
-    twitter.setText(currentMember.social.twitter);
-    facebook.setText(currentMember.social.facebook);
-    skype.setText(currentMember.social.skype);
-    blog.setText(currentMember.social.blog);
-    website.setText(currentMember.social.website);*/
 
     @Click(R.id.contactLinkdin)
     public void openLinkdinLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(currentMember.social.linkedin.equals(""))
+            if(memberToDisplay.social.linkedin.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                if (!currentMember.social.linkedin.startsWith("https://"))
-                    currentMember.social.linkedin = "https://" + currentMember.social.linkedin;
+                if (!memberToDisplay.social.linkedin.startsWith("https://"))
+                    memberToDisplay.social.linkedin = "https://" + memberToDisplay.social.linkedin;
 
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentMember.social.linkedin));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.linkedin));
                 startActivity(browserIntent);
             }
         } else {
@@ -173,13 +197,13 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactFacebook)
     public void openFacebookLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(currentMember.social.facebook.equals(""))
+            if(memberToDisplay.social.facebook.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                if (!currentMember.social.facebook.startsWith("https://"))
-                    currentMember.social.facebook = "https://" + currentMember.social.facebook;
+                if (!memberToDisplay.social.facebook.startsWith("https://"))
+                    memberToDisplay.social.facebook = "https://" + memberToDisplay.social.facebook;
 
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentMember.social.facebook));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.facebook));
                 startActivity(browserIntent);
 
                 //"http://facebook.com/darienjay100"
@@ -337,13 +361,13 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactTwitter)
     public void openTwitterLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(currentMember.social.twitter.equals(""))
+            if(memberToDisplay.social.twitter.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                if (!currentMember.social.twitter.startsWith("https://"))
-                    currentMember.social.twitter = "https://twitter.com/" + currentMember.social.twitter.split("@")[1];
+                if (!memberToDisplay.social.twitter.startsWith("https://"))
+                    memberToDisplay.social.twitter = "https://twitter.com/" + memberToDisplay.social.twitter.split("@")[1];
 
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentMember.social.twitter));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.twitter));
                 startActivity(browserIntent);
             }
         } else {
@@ -354,10 +378,10 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactWebsite)
     public void openWebsiteLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(currentMember.social.website.equals(""))
+            if(memberToDisplay.social.website.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentMember.social.website));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.website));
                 startActivity(browserIntent);
             }
         } else {
@@ -368,10 +392,10 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactSkype)
     public void openSkypeLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(currentMember.social.skype.equals(""))
+            if(memberToDisplay.social.skype.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                Uri skypeUri = Uri.parse("skype:" + currentMember.social.skype + "?chat");
+                Uri skypeUri = Uri.parse("skype:" + memberToDisplay.social.skype + "?chat");
                 Intent skypeIntent = new Intent(Intent.ACTION_VIEW, skypeUri);
                 skypeIntent.setComponent(new ComponentName("com.skype.raider", "com.skype.raider.Main"));
                 skypeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -385,10 +409,10 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactBlog)
     public void openBlogLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(currentMember.social.blog.equals(""))
+            if(memberToDisplay.social.blog.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(currentMember.social.website));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.website));
                 startActivity(browserIntent);
             }
         } else {
@@ -400,7 +424,7 @@ public class OneProfileInfoFragment extends Fragment {
     public void openMailLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto",currentMember.email, null));
+                    "mailto",memberToDisplay.email, null));
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.action_send_mail_object));
             startActivity(Intent.createChooser(emailIntent, getResources().getString(R.string.action_send_mail_title)));
         } else {
@@ -411,10 +435,10 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactPhone)
     public void openPhoneLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(currentMember.phone.equals(""))
+            if(memberToDisplay.phone.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                Intent phoneIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + currentMember.phone));
+                Intent phoneIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + memberToDisplay.phone));
                 startActivity(Intent.createChooser(phoneIntent, getResources().getString(R.string.action_send_mail_title)));
             }
         } else {

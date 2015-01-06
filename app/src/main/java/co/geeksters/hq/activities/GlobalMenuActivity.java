@@ -30,6 +30,7 @@ import co.geeksters.hq.R;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.MembersByPaginationEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.fragments.HubsFragment;
 import co.geeksters.hq.fragments.MeFragment_;
@@ -222,28 +223,6 @@ public class GlobalMenuActivity extends FragmentActivity {
         fragmentTransaction.commit();
     }
 
-    @Subscribe
-    public void onGetListMembersByPaginationEvent(MembersEvent event) {
-        //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-
-        /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = PeopleDirectoryFragment_.newInstance(event.members);
-        ft.replace(R.id.contentFrame, fragment);
-        ft.commit();*/
-
-        // Getting reference to the FragmentManager
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Creating a fragment transaction
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // Adding a fragment to the fragment transaction
-        fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
-
-        // Committing the transaction
-        fragmentTransaction.commit();
-    }
-
     // Setting item click listener for the listview mDrawerList
     @ItemClick
     public void drawerListItemClicked(int position){
@@ -296,6 +275,14 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         // Closing the drawer
         drawerLayout.closeDrawer(drawerList);
+    }
+
+    @Subscribe
+    public void onGetListMembersByPaginationEvent(MembersEvent event) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = PeopleDirectoryFragment_.newInstance(event.members);
+        fragmentTransaction.replace(R.id.contentFrame, fragment);
+        fragmentTransaction.commit();
     }
 
 	@Override

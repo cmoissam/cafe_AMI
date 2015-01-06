@@ -8,11 +8,12 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Todo {
+public class Todo implements Serializable {
 
     /**
      * Attributes

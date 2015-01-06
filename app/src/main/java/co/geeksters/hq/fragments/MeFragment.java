@@ -41,6 +41,7 @@ import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import co.geeksters.hq.R;
+import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Company;
 import co.geeksters.hq.models.Interest;
@@ -146,11 +147,11 @@ public class MeFragment extends Fragment {
         accessToken = preferences.getString("access_token", "").toString().replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
-        fullName.setText(currentMember.fullName);
-        hubName.setText(currentMember.hub.name);
+        fullName.setText(GeneralHelpers.firstToUpper(currentMember.fullName));
+        hubName.setText(GeneralHelpers.firstToUpper(currentMember.hub.name));
         companyName.setText(currentMember.returnNameForNullCompaniesValue());
-        goalContent.setText(currentMember.goal);
-        bioContent.setText(currentMember.blurp);
+        goalContent.setText(GeneralHelpers.firstToUpper(currentMember.goal));
+        bioContent.setText(GeneralHelpers.firstToUpper(currentMember.blurp));
 
         linkdin.setText(currentMember.social.linkedin);
         twitter.setText(currentMember.social.twitter);
@@ -195,7 +196,6 @@ public class MeFragment extends Fragment {
             MemberService memberService = new MemberService(accessToken);
             Member updatedMember = createMemberFromFields();
             memberService.updateMember(currentMember.id, updatedMember);
-
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }

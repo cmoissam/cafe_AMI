@@ -21,6 +21,7 @@ import co.geeksters.hq.events.failure.GPSFailureEvent;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.MembersByPaginationEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.ParseHelper;

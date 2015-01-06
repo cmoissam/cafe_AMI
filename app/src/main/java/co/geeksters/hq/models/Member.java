@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 
 import co.geeksters.hq.global.helpers.ParseHelper;
 
-public class Member {
+public class Member implements Serializable{
 
     public int id;
     public String fullName = "";
@@ -217,7 +218,7 @@ public class Member {
             if (this.companies.get(0) == null)
                 return "";
             else
-                return companies.get(0).name;
+                return Character.toUpperCase(companies.get(0).name.charAt(0)) + companies.get(0).name.substring(1);
         }
     }
 

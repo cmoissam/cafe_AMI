@@ -12,10 +12,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.global.PredicateLayout;
+import co.geeksters.hq.models.Member;
 
 /**
  * Created by soukaina on 26/11/14.
@@ -107,4 +114,32 @@ public class ViewHelpers {
         interestsContent.addView(interestContent, 1);
     }
 
+/*    public static ArrayList<HashMap<String, String>> setListMembersContent(List<Member> eventMembers){
+        // ArrayList for Listview
+        ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> map;
+
+        for(int i = 0; i < eventMembers.size(); i++) {
+            map = new HashMap<String, String>();
+
+            if(!eventMembers.get(i).image.equals(""))
+                map.put("picture", eventMembers.get(i).image);
+            else
+                map.put("picture", String.valueOf(R.drawable.no_image_member));
+            map.put("fullName", eventMembers.get(i).fullName);
+            map.put("hubName", eventMembers.get(i).hub.name);
+
+            members.add(map);
+        }
+
+        return members;
+    }
+
+    public void setListMembersAdapter(Context context, SimpleAdapter adapter, ListView listViewMembers, ArrayList<HashMap<String, String>> members){
+        // Adding items to listview
+        adapter = new SimpleAdapter(context, members, R.layout.list_item_people_directory,
+                new String[]{"picture", "fullName", "hubName"},
+                new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+        listViewMembers.setAdapter(adapter);
+    }*/
 }

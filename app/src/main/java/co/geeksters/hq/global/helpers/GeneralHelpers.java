@@ -61,7 +61,6 @@ public class GeneralHelpers {
     }
 
     public static boolean isPasswordConfirmed(String password, String passwordConfirmation) {
-        Boolean test = password.equals(passwordConfirmation);
         return password.equals(passwordConfirmation);
     }
 
@@ -77,4 +76,8 @@ public class GeneralHelpers {
         return format.format(new Date());
     }
 
+    public static String firstToUpper(String string){
+        if(string == null || string.equals("")) return string;
+        else return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+    }
 }

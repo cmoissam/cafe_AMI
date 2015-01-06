@@ -1,9 +1,11 @@
 package co.geeksters.hq.models;
 
+import java.io.Serializable;
+
 /**
  * Created by soukaina on 10/12/14.
  */
-public class Social {
+public class Social implements Serializable {
     public int id;
     public String twitter = "";
     public String facebook = "";

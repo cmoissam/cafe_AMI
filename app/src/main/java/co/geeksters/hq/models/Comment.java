@@ -10,10 +10,11 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
+import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class Comment {
+public class Comment implements Serializable {
 
     /**
      * Attributes

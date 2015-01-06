@@ -3,40 +3,43 @@ package co.geeksters.hq.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
-import org.junit.runner.Describable;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import co.geeksters.hq.R;
-import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ViewHelpers;
+import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.services.MemberService;
 
 @EFragment(R.layout.fragment_people_directory)
 public class PeopleDirectoryFragment extends Fragment {
+
+    private static final String NEW_INSTANCE_MEMBERS_KEY = "members_key";
+    // Listview Adapter
+    SimpleAdapter adapter;
+    // ArrayList for Listview
+    ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
+    String accessToken;
+    List<Member> membersList = new ArrayList<Member>();
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -55,13 +58,19 @@ public class PeopleDirectoryFragment extends Fragment {
     @ViewById(R.id.search_no_element_found)
     TextView emptySearch;
 
-    // Listview Adapter
-    SimpleAdapter adapter;
+    public static PeopleDirectoryFragment_ newInstance(List<Member> members) {
+        PeopleDirectoryFragment_ fragment = new PeopleDirectoryFragment_();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(NEW_INSTANCE_MEMBERS_KEY, (java.io.Serializable) members);
+        fragment.setArguments(bundle);
 
-    // ArrayList for Listview
-    ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
+        return fragment;
+    }
 
-    String accessToken;
+    @AfterViews
+    public void addFooterToListview() {
+        listViewMembers.addFooterView(new View(getActivity()), null, true);
+    }
 
     @AfterViews
     public void setPreferences(){
@@ -71,23 +80,18 @@ public class PeopleDirectoryFragment extends Fragment {
     }
 
     @AfterViews
-    public void setListMembersByPagination(){
-
-    }
-
-    @AfterViews
     public void setListMembersContent(){
         HashMap<String, String> map;
 
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < membersList.size(); i++) {
             map = new HashMap<String, String>();
 
-            /*if()
-            map.put("picture", "");
+            /*if(!membersList.get(i).image.equals(""))
+                map.put("picture", membersList.get(i).image);
             else*/
                 map.put("picture", String.valueOf(R.drawable.no_image_member));
-            map.put("fullName", "Soukaina");
-            map.put("hubName", "Hub Marrakech");
+            map.put("fullName", membersList.get(i).fullName);
+            map.put("hubName", membersList.get(i).hub.name);
 
             members.add(map);
         }
@@ -99,15 +103,28 @@ public class PeopleDirectoryFragment extends Fragment {
         adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
                 new String[]{"picture", "fullName", "hubName"},
                 new int[]{R.id.picture, R.id.fullName, R.id.hubName});
-        //adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item_people_directory, R.id.product_name, products);
+
         listViewMembers.setAdapter(adapter);
+        listViewMembers.setItemsCanFocus(false);
+    }
+
+    @ItemClick(R.id.list_view_members)
+    public void setItemClickOnListViewMembers(int position){
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
+        fragmentTransaction.replace(R.id.contentFrame, fragment);
+        fragmentTransaction.commit();
     }
 
     @TextChange(R.id.inputSearch)
-    public void filterListMembers(){
-        adapter.getFilter().filter(inputSearch.getText());
-        if(adapter.isEmpty())
-            emptySearch.setVisibility(View.VISIBLE);
+    public void filterListMembers() {
+        adapter.getFilter().filter(inputSearch.getText(), new Filter.FilterListener() {
+            public void onFilterComplete(int count) {
+                Log.d("Size adapter : ","" + adapter.getCount());
+                if(adapter.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
+                else emptySearch.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Click(R.id.clearContent)
@@ -115,19 +132,9 @@ public class PeopleDirectoryFragment extends Fragment {
         inputSearch.setText("");
     }
 
-    /*public static Fragment newInstance(List<Member> members) {
-        PeopleDirectoryFragment_ fragment = new PeopleDirectoryFragment_();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("members", (java.io.Serializable) members);
-        fragment.setArguments(bundle);
-
-        return fragment;
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        //members = (ArrayList<HashMap<String, String>>) getArguments().getSerializable("members");
+        membersList = (List<Member>) getArguments().getSerializable(NEW_INSTANCE_MEMBERS_KEY);
 
         return null;
     }

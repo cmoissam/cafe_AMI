@@ -18,7 +18,9 @@
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:background="@drawable/border"
-            android:src="@drawable/no_image_member" />
+            android:src="@drawable/no_image_member"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -37,7 +39,9 @@
                 android:hint="@string/full_name"
                 android:ems="10"
                 android:layout_weight="1"
-                android:textSize="18dp" />
+                android:textSize="18dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -51,7 +55,9 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="left"
-                    android:src="@drawable/home" />
+                    android:src="@drawable/home"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
 
                 <TextView
                     android:id="@+id/hubName"
@@ -62,7 +68,9 @@
                     android:ems="10"
                     android:layout_weight="1"
                     android:textSize="18dp"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"/>
             </LinearLayout>
 
         </LinearLayout>

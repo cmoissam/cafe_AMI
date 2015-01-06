@@ -12,4 +12,5 @@ public class GlobalVariables {
     public static Facebook facebook = new Facebook(Config.FACEBOOK_API_KEY);
     public static List<String> emails;
     public static int SEARCH_SIZE = 10;
+    public static boolean isCurrentMember = false;
 }

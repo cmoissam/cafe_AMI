@@ -3,6 +3,7 @@ package co.geeksters.hq.global;
 import android.app.Application;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,7 +18,7 @@ public class BaseApplication extends Application {
     private static Map<Object, Object> events=new HashMap<Object, Object>();
 
     public BaseApplication() {
-        bus = new Bus();
+        bus = new Bus(ThreadEnforcer.MAIN);
     }
 
     public static synchronized void register(Object object) {

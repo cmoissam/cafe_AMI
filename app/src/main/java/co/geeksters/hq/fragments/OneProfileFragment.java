@@ -3,6 +3,7 @@ package co.geeksters.hq.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.Serializable;
+import java.util.List;
+
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.AndroidFragment;
 import co.geeksters.hq.activities.AppleFragment;
@@ -22,6 +26,8 @@ import co.geeksters.hq.activities.MainActivity;
 import co.geeksters.hq.activities.PageOneFragment;
 import co.geeksters.hq.activities.PageTwoFragment;
 import co.geeksters.hq.adapter.TabsAdapter;
+import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.models.Member;
 
 import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
@@ -41,17 +47,49 @@ public class OneProfileFragment extends Fragment {
     @ViewById(R.id.hubName)
     TextView hubName;
 
-    TabsAdapter tabsAdapter;
+    private static final String NEW_INSTANCE_MEMBER_KEY = "member_key";
     SharedPreferences preferences;
-    Member currentMember;
+    Member memberToDisplay;
+    Member profileMember;
+    //static Boolean seeProfile = false;
+
+    public static OneProfileFragment_ newInstance(Member member) {
+        //seeProfile = true;
+
+        OneProfileFragment_ fragment = new OneProfileFragment_();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(NEW_INSTANCE_MEMBER_KEY, member);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(getArguments() != null)
+            profileMember = (Member) getArguments().getSerializable(NEW_INSTANCE_MEMBER_KEY);
+
+        return null;
+    }
 
     @AfterViews
     public void setNameAndHub(){
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
-        fullName.setText(currentMember.fullName);
-        hubName.setText(currentMember.hub.name);
+        if(profileMember == null) {
+            memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+            GlobalVariables.isCurrentMember = true;
+        } else {
+            memberToDisplay = profileMember;
+            GlobalVariables.isCurrentMember = false;
+
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("profile_member", ParseHelper.createJsonStringFromModel(profileMember));
+            editor.commit();
+        }
+
+        fullName.setText(memberToDisplay.fullName);
+        hubName.setText(memberToDisplay.hub.name);
     }
 
     @AfterViews
@@ -60,48 +98,35 @@ public class OneProfileFragment extends Fragment {
 
         /** Defining Tab Change Listener event. This is invoked when tab is changed */
         TabHost.OnTabChangeListener tabChangeListener = new TabHost.OnTabChangeListener() {
-
             @Override
             public void onTabChanged(String tabId) {
-                android.support.v4.app.FragmentManager fm =  getActivity().getSupportFragmentManager();
-                OneProfileInfoFragment_ infoFragment = (OneProfileInfoFragment_) fm.findFragmentByTag("info");
-                OneProfileMarketPlaceFragment_ marketFragment = (OneProfileMarketPlaceFragment_) fm.findFragmentByTag("market");
-                android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                android.support.v4.app.FragmentManager fragmentManager =  getActivity().getSupportFragmentManager();
+                OneProfileInfoFragment_ infoFragment = (OneProfileInfoFragment_) fragmentManager.findFragmentByTag("info");
+                OneProfileMarketPlaceFragment_ marketFragment = (OneProfileMarketPlaceFragment_) fragmentManager.findFragmentByTag("market");
+                android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 /** Detaches the androidfragment if exists */
                 if(infoFragment!=null) {
-                    ft.detach(infoFragment);
+                    fragmentTransaction.detach(infoFragment);
                 }
 
                 /** Detaches the applefragment if exists */
                 if(marketFragment!=null) {
-                    ft.detach(marketFragment);
+                    fragmentTransaction.detach(marketFragment);
                 }
 
-                /** If current tab is android */
-                if(tabId.equalsIgnoreCase("info")){
-
-                    //if(androidFragment==null){
-                        /** Create AndroidFragment and adding to fragmenttransaction */
-                        ft.add(R.id.realtabcontent,new OneProfileInfoFragment_(), "info");
-                    //}else{
-                        /** Bring to the front, if already exists in the fragmenttransaction */
-                      //  ft.attach(androidFragment);
-                    //}
-
-                } else {	/** If current tab is apple */
-                    //if(appleFragment==null){
-                        /** Create AppleFragment and adding to fragmenttransaction */
-                        ft.add(R.id.realtabcontent,new OneProfileMarketPlaceFragment_(), "market");
-                    //}else{
-                        /** Bring to the front, if already exists in the fragmenttransaction */
-                    //    ft.attach(appleFragment);
-                    //}
+                if(tabId.equalsIgnoreCase("info")){ /** If current tab is Info */
+                    /** Create AndroidFragment and adding to fragmenttransaction */
+                    fragmentTransaction.add(R.id.realtabcontent,new OneProfileInfoFragment_(), "info");
+                    /** Bring to the front, if already exists in the fragmenttransaction */
+                } else {	/** If current tab is Market */
+                    /** Create AppleFragment and adding to fragmenttransaction */
+                    fragmentTransaction.add(R.id.realtabcontent,new OneProfileMarketPlaceFragment_(), "market");
+                    /** Bring to the front, if already exists in the fragmenttransaction */
                 }
-                ft.commit();
+                fragmentTransaction.commit();
             }
         };
-
 
         /** Setting tabchangelistener for the tab */
         tabhost.setOnTabChangedListener(tabChangeListener);
@@ -111,7 +136,6 @@ public class OneProfileFragment extends Fragment {
         tSpecAndroid.setIndicator("Info",getResources().getDrawable(R.drawable.add));
         tSpecAndroid.setContent(new DummyTabContent(getActivity().getBaseContext()));
         tabhost.addTab(tSpecAndroid);
-
 
         /** Defining tab builder for Apple tab */
         TabHost.TabSpec tSpecApple = tabhost.newTabSpec("market");
