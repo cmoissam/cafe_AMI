@@ -11,12 +11,12 @@ import java.util.List;
 import co.geeksters.hq.events.failure.ExistingAccountEvent;
 import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
-import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.PasswordResetEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.models.EmailResonse;
 import co.geeksters.hq.models.Member;
@@ -37,13 +37,13 @@ public class ConnectService {
 
     public void register(Member member) {
 
-        this.api.register(ParseHelper.createTypedInputFromModel(member), new Callback<JsonElement>() {
+        this.api.register(ParseHelpers.createTypedInputFromModel(member), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member registredMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                 // an email to confirm the current account is sent
-                BaseApplication.post(new MemberEvent(registredMember));
+                BaseApplication.post(new SaveMemberEvent(registredMember));
             }
 
             @Override
@@ -72,7 +72,7 @@ public class ConnectService {
             e.printStackTrace();
         }
 
-        this.api.login(ParseHelper.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
+        this.api.login(ParseHelpers.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -92,7 +92,7 @@ public class ConnectService {
 
     public void passwordReminder(final List<String> emails) {
 
-        this.api.passwordReminder(ParseHelper.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
+        this.api.passwordReminder(ParseHelpers.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

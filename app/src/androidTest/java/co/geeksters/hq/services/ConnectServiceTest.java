@@ -15,9 +15,9 @@ import java.util.Random;
 
 import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.LoginEvent;
-import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.models.Member;
 import retrofit.Callback;
@@ -91,7 +91,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onRegisterMemberEvent(MemberEvent event) {
+            public void onRegisterMemberEvent(SaveMemberEvent event) {
                 assertNotNull("on testRegisterMember",event.member);
                 assertTrue(event.member instanceof Member);
                 // WE ARE DONE
@@ -99,7 +99,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.register(ParseHelper.createTypedInputFromModel(member), new Callback<JsonElement>() {
+        api.register(ParseHelpers.createTypedInputFromModel(member), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -107,7 +107,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
                 // JsonElement jsonObject = response.getAsJsonObject().get("data");
                 Member registred_member = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                 // an email to confirm the current account is sent
-                bus.post(new MemberEvent(registred_member));
+                bus.post(new SaveMemberEvent(registred_member));
             }
 
             @Override
@@ -141,7 +141,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
                 .put("password", "hq43viable")
                 .put("scope", "basic");
 
-        api.login(ParseHelper.createTypedInputFromModel(loginParams), new Callback<JsonElement>() {
+        api.login(ParseHelpers.createTypedInputFromModel(loginParams), new Callback<JsonElement>() {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 String access_token = response.getAsJsonObject().get("access_token").toString();
@@ -174,7 +174,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
         emails.add("soukaina@geeksters.co");
         emails.add("soukaina.mjahed@gmail.com");
 
-        api.passwordReminder(ParseHelper.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
+        api.passwordReminder(ParseHelpers.createTypedInputFromOneKeyValue("email", GeneralHelpers.generateEmailsStringFromList(emails)), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

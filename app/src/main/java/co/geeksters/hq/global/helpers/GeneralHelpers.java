@@ -1,7 +1,11 @@
 package co.geeksters.hq.global.helpers;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
@@ -43,13 +47,23 @@ public class GeneralHelpers {
     }
 
     public static boolean isInternetAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context
+        ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null) {
             return false;
         } else
             return true;
+    }
+
+    public static boolean isGPSEnabled(Context context){
+        final LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public static boolean isEmailValid(String email) {
@@ -64,13 +78,6 @@ public class GeneralHelpers {
         return password.equals(passwordConfirmation);
     }
 
-    public static String emptyString(String emptyString){
-        if(emptyString == null)
-            return "";
-        else
-            return emptyString;
-    }
-
     public static String formatActualDate(){
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(new Date());
@@ -79,5 +86,19 @@ public class GeneralHelpers {
     public static String firstToUpper(String string){
         if(string == null || string.equals("")) return string;
         else return Character.toUpperCase(string.charAt(0)) + string.substring(1);
+    }
+
+    public static String distanceToKilometer(float distance) {
+        String distanceToKilometer = "";
+
+        if (distance >= 1000) {
+            distanceToKilometer = (float) distance/1000 +" Km";
+        } else {
+            distanceToKilometer = distance +" m";
+        }
+
+        return distanceToKilometer;
+
+
     }
 }

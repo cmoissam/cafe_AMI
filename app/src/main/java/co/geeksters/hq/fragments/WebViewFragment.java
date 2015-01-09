@@ -21,13 +21,13 @@ public class WebViewFragment extends Fragment {
 		int position = getArguments().getInt("position");
 
 		// List of rivers
-		String[] menus = getResources().getStringArray(R.array.menus);
+		//String[] menus = getResources().getStringArray(R.array.menus);
 
 		// Creating view corresponding to the fragment
 		View v = inflater.inflate(R.layout.fragment_layout, container, false);
 
 		// Updating the action bar title
-        ((FragmentActivity)getActivity()).getActionBar().setTitle(menus[position]);
+        //getActivity().getActionBar().setTitle(menus[position]);
 
 		//Initializing webview
 		WebView webView = (WebView)v.findViewById(R.id.webView); 

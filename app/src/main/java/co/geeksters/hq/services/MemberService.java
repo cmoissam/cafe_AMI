@@ -3,7 +3,6 @@ package co.geeksters.hq.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,11 +19,11 @@ import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.GPSFailureEvent;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.LogoutMemberEvent;
-import co.geeksters.hq.events.success.MemberEvent;
-import co.geeksters.hq.events.success.MembersByPaginationEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.MemberInterface;
 import co.geeksters.hq.models.Member;
 import retrofit.Callback;
@@ -74,7 +73,7 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
-                BaseApplication.post(new MemberEvent(updatedMember));
+                BaseApplication.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -115,7 +114,7 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.post(new MemberEvent(updatedMember));
+                BaseApplication.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -127,12 +126,12 @@ public class MemberService {
 
     public void updateStatusMember(int userId, boolean ambassador) {
 
-        this.api.updateStatusMember(userId, ParseHelper.createTypedInputFromOneKeyValue("ambassador", ambassador), new Callback<JsonElement>() {
+        this.api.updateStatusMember(userId, ParseHelpers.createTypedInputFromOneKeyValue("ambassador", ambassador), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.post(new MemberEvent(updatedMember));
+                BaseApplication.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -144,12 +143,12 @@ public class MemberService {
 
     public void updateTokenMember(int userId) {
 
-        this.api.updateTokenMember(userId, ParseHelper.createTypedInputFromOneKeyValue("device_token", this.token), new Callback<JsonElement>() {
+        this.api.updateTokenMember(userId, ParseHelpers.createTypedInputFromOneKeyValue("device_token", this.token), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.post(new MemberEvent(updatedMember));
+                BaseApplication.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -172,12 +171,12 @@ public class MemberService {
             e.printStackTrace();
         }
 
-        this.api.updateNotifyOptionsMember(userId, ParseHelper.createTypedInputFromJsonObject(jsonUpdateNotifMember), new Callback<JsonElement>() {
+        this.api.updateNotifyOptionsMember(userId, ParseHelpers.createTypedInputFromJsonObject(jsonUpdateNotifMember), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.post(new MemberEvent(updatedMember));
+                BaseApplication.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -198,12 +197,12 @@ public class MemberService {
             e.printStackTrace();
         }
 
-        this.api.updateLocationMember(userId, ParseHelper.createTypedInputFromJsonObject(jsonUpdateLocationMember), new Callback<JsonElement>() {
+        this.api.updateLocationMember(userId, ParseHelpers.createTypedInputFromJsonObject(jsonUpdateLocationMember), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.post(new MemberEvent(updatedMember));
+                BaseApplication.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -264,7 +263,7 @@ public class MemberService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member member = Member.createUserFromJson(response.getAsJsonObject().get("data"));
-                BaseApplication.post(new MemberEvent(member));
+                BaseApplication.post(new SaveMemberEvent(member));
             }
 
             @Override
@@ -289,7 +288,7 @@ public class MemberService {
                 }
 
                 List<Member> members = Member.createListUsersFromJson(responseAsArray);
-                BaseApplication.post(new MembersEvent(members));
+                BaseApplication.post(new MembersSearchEvent(members));
             }
 
             @Override
@@ -327,12 +326,14 @@ public class MemberService {
 
     public void getMembersArroundMe(int userId, float radius) {
 
-        this.api.getMembersArroundMe(userId, radius, new Callback<JSONArray>() {
+        this.api.getMembersArroundMe(userId, radius, new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                //List<Member> members = Member.createListUsersFromJson(response);
-                //BaseApplication.post(new MembersEvent(members));
+            public void success(JsonElement response, Response rawResponse) {
+                JsonArray data = response.getAsJsonObject().get("data").getAsJsonArray();
+
+                List<Member> members = Member.createListUsersFromJson(data);
+                BaseApplication.post(new MembersEvent(members));
             }
 
             @Override
@@ -390,7 +391,7 @@ public class MemberService {
             e.printStackTrace();
         }
 
-        this.api.passwordReset(ParseHelper.createTypedInputFromJsonObject(jsonResetPasswordMember), new Callback<JsonElement>() {
+        this.api.passwordReset(ParseHelpers.createTypedInputFromJsonObject(jsonResetPasswordMember), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -407,12 +408,12 @@ public class MemberService {
 
     public void sendEmailConfirmationOnRegister(int userId) {
 
-        this.api.sendEmailConfirmationOnRegister(ParseHelper.createTypedInputFromOneKeyValue("id", userId), new Callback<JsonElement>() {
+        this.api.sendEmailConfirmationOnRegister(ParseHelpers.createTypedInputFromOneKeyValue("id", userId), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Member member = Member.createUserFromJson(response);
-                BaseApplication.post(new MemberEvent(member));
+                BaseApplication.post(new SaveMemberEvent(member));
             }
 
             @Override
@@ -425,7 +426,7 @@ public class MemberService {
 
     public void validateEmailConfirmationOnRegister(String token) {
 
-        this.api.validateEmailConfirmationOnRegister(ParseHelper.createTypedInputFromOneKeyValue("token",token), new Callback<JsonElement>() {
+        this.api.validateEmailConfirmationOnRegister(ParseHelpers.createTypedInputFromOneKeyValue("token", token), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

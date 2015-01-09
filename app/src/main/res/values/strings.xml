@@ -12,7 +12,10 @@
         <item>Market Place</item>
         <item>Me</item>
     </string-array>
+    <string name="title_directory_fragment">Directory</string>
     <string name="title_me_fragment">Profile</string>
+    <string name="title_todos_fragment">To Do\'s</string>
+    <string name="title_find_fragment">Find People</string>
 
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
@@ -51,5 +54,7 @@
     <string name="action_send_mail_title">Send email</string>
     <string name="action_send_mail_object">HQ Contact</string>
     <string name="search_members">Search members ...</string>
+    <string name="search_all_members">Display more results</string>
+    <string name="my_position">My position</string>
 
 </resources>

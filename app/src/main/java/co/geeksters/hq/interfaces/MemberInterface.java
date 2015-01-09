@@ -57,14 +57,14 @@ public interface MemberInterface {
     @GET("/members/{id}")
     void getMemberInfo(@Path("id") int userId, Callback<JsonElement> callback);
 
-    @GET("/member/search")
+    @GET("/members/search")
     void searchForMembersFromKey(@Query("string") String string, Callback<JsonElement> callback);
 
     @GET("/member/suggest")
     void suggestionMember(@Query("string") String search, Callback<JsonElement> callback);
 
     @GET("/members/{id}/around")
-    void getMembersArroundMe(@Path("id") int userId, @Query("radius") float radius, Callback<JSONArray> callback);
+    void getMembersArroundMe(@Path("id") int userId, @Query("radius") float radius, Callback<JsonElement> callback);
 
     @FormUrlEncoded
     @POST("/members/{id}")

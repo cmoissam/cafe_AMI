@@ -3,22 +3,13 @@ package co.geeksters.hq.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -26,22 +17,16 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
-import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
-import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.ConnectService;
 import co.geeksters.hq.services.MemberService;
-
-import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends Activity {
@@ -202,9 +187,9 @@ public class LoginActivity extends Activity {
     }
 
     @Subscribe
-    public void onGetCurrentMemberEvent(MemberEvent event) {
+    public void onGetCurrentMemberEvent(SaveMemberEvent event) {
         // save the current Member
-        editor.putString("current_member", ParseHelper.createJsonStringFromModel(event.member));
+        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
         editor.commit();
 
         Intent intent = new Intent(this, GlobalMenuActivity_.class);

@@ -21,7 +21,7 @@ import co.geeksters.hq.events.success.HubEvent;
 import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.interfaces.HubInterface;
 import co.geeksters.hq.models.Hub;
@@ -82,7 +82,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        apiLogin.login(ParseHelper.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
+        apiLogin.login(ParseHelpers.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 token = response.getAsJsonObject().get("access_token").toString().replace("\"","");
@@ -291,7 +291,7 @@ public class HubServiceTest extends InstrumentationTestCase {
         Hub hub = new Hub();
         hub.name = "Geeksters";
 
-        api.createHub(ParseHelper.createTypedInputFromModel(hub), new Callback<JsonElement>() {
+        api.createHub(ParseHelpers.createTypedInputFromModel(hub), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -326,7 +326,7 @@ public class HubServiceTest extends InstrumentationTestCase {
         Hub hub = new Hub();
         hub.name = "Geeksters";
 
-        api.updateHub(id, ParseHelper.createTypedInputFromModelByMethod(hub, "put"), new Callback<JsonElement>() {
+        api.updateHub(id, ParseHelpers.createTypedInputFromModelByMethod(hub, "put"), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -365,7 +365,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        api.updateImageHub(id, ParseHelper.createTypedInputFromJsonObject(imageFile), new Callback<JsonElement>() {
+        api.updateImageHub(id, ParseHelpers.createTypedInputFromJsonObject(imageFile), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -407,7 +407,7 @@ public class HubServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        api.updateHubAmbassadors(id, ParseHelper.createTypedInputFromJsonObject(idsAmbassadors), new Callback<JsonElement>() {
+        api.updateHubAmbassadors(id, ParseHelpers.createTypedInputFromJsonObject(idsAmbassadors), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId "co.geeksters.hq"
         minSdkVersion 14
-        targetSdkVersion 18
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }
@@ -45,7 +45,6 @@ dependencies {
     compile 'com.restfuse:com.eclipsesource.restfuse:1.2.0'
     compile 'net.vidageek:mirror:1.6.1'
     compile 'com.google.android.gms:play-services:6.1.71'
-
     androidTestCompile 'junit:junit:4.+'
     androidTestCompile('org.robolectric:robolectric:2.3') {
         exclude module: 'classworlds'

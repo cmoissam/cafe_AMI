@@ -9,7 +9,7 @@ import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.CompaniesEvent;
 import co.geeksters.hq.events.success.CompanyEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.CompanyInterface;
 import co.geeksters.hq.models.Company;
 import retrofit.Callback;
@@ -64,7 +64,7 @@ public class CompanyService {
 
     public void createCompany(Company company) {
 
-        this.api.createCompany(ParseHelper.createTypedInputFromModel(company), new Callback<JsonElement>() {
+        this.api.createCompany(ParseHelpers.createTypedInputFromModel(company), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -83,7 +83,7 @@ public class CompanyService {
 
     public void updateCompany(int companyId, Company company) {
 
-        this.api.updateCompany(companyId, ParseHelper.createTypedInputFromModelByMethod(company, "put"), new Callback<JsonElement>() {
+        this.api.updateCompany(companyId, ParseHelpers.createTypedInputFromModelByMethod(company, "put"), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -102,7 +102,7 @@ public class CompanyService {
 
     public void deleteCompany(int companyId) {
 
-        this.api.deleteCompany(companyId, ParseHelper.createTypedInputFromOneKeyValue("_method", "delete"), new Callback<JsonElement>() {
+        this.api.deleteCompany(companyId, ParseHelpers.createTypedInputFromOneKeyValue("_method", "delete"), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

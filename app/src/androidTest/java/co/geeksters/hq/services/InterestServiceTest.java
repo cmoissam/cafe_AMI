@@ -14,15 +14,11 @@ import org.junit.Test;
 
 import java.util.List;
 
-import co.geeksters.hq.events.success.CompaniesEvent;
-import co.geeksters.hq.events.success.CompanyEvent;
 import co.geeksters.hq.events.success.InterestEvent;
 import co.geeksters.hq.events.success.InterestsEvent;
-import co.geeksters.hq.global.helpers.ParseHelper;
-import co.geeksters.hq.interfaces.CompanyInterface;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.interfaces.InterestInterface;
-import co.geeksters.hq.models.Company;
 import co.geeksters.hq.models.Interest;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -78,7 +74,7 @@ public class InterestServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        apiLogin.login(ParseHelper.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
+        apiLogin.login(ParseHelpers.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 token = response.getAsJsonObject().get("access_token").toString().replace("\"","");
@@ -190,7 +186,7 @@ public class InterestServiceTest extends InstrumentationTestCase {
         Interest interest = new Interest();
         interest.name = "interest";
 
-        api.createInterest(ParseHelper.createTypedInputFromModel(interest), new retrofit.Callback<JsonElement>() {
+        api.createInterest(ParseHelpers.createTypedInputFromModel(interest), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
@@ -225,7 +221,7 @@ public class InterestServiceTest extends InstrumentationTestCase {
         Interest interest = new Interest();
         interest.name = "interest";
 
-        api.updateInterest(id, ParseHelper.createTypedInputFromModelByMethod(interest,"put"), new retrofit.Callback<JsonElement>() {
+        api.updateInterest(id, ParseHelpers.createTypedInputFromModelByMethod(interest, "put"), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
@@ -257,7 +253,7 @@ public class InterestServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.updateInterest(id, ParseHelper.createTypedInputFromOneKeyValue("_method","delete"), new retrofit.Callback<JsonElement>() {
+        api.updateInterest(id, ParseHelpers.createTypedInputFromOneKeyValue("_method", "delete"), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {

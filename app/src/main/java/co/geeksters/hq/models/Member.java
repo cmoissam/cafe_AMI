@@ -8,12 +8,11 @@ import com.google.gson.JsonElement;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.R;
+import co.geeksters.hq.global.helpers.GeneralHelpers;
 
 public class Member implements Serializable{
 
@@ -36,6 +35,7 @@ public class Member implements Serializable{
 	public String deviceId = "";
 	public float latitude = 0;
 	public float longitude = 0;
+	public float distance = 0;
 	public Boolean notifyByEmailOnComment = false;
 	public Boolean notifyByPushOnComment = false;
 	public Boolean notifyByEmailOnTodo = false;
@@ -148,15 +148,15 @@ public class Member implements Serializable{
     }
 
     public static JsonElement parseMemberResponse(JsonElement response){
-        if(response.getAsJsonObject().get("newsletter").toString().equals("false")){
+        if(response.getAsJsonObject().has("newsletter") && response.getAsJsonObject().get("newsletter").toString().equals("false")){
             response.getAsJsonObject().addProperty("newsletter", "0");
         }
 
-        if(response.getAsJsonObject().get("newsletter").toString().equals("true")){
+        if(response.getAsJsonObject().has("newsletter") && response.getAsJsonObject().get("newsletter").toString().equals("true")){
             response.getAsJsonObject().addProperty("newsletter", "1");
         }
 
-        if(response.getAsJsonObject().get("references") != null) {
+        if(response.getAsJsonObject().has("references") && response.getAsJsonObject().get("references") != null) {
             JsonArray references = response.getAsJsonObject().get("references").getAsJsonArray();
 
             for (int i = 0; i < references.size(); i++) {
@@ -181,7 +181,8 @@ public class Member implements Serializable{
                 response.getAsJsonObject().addProperty("updated_at", response.getAsJsonObject().get("updated_at").getAsJsonObject().get("date").toString().replace("\"", "")
                 );
             }
-        } else {
+        } else if(response.getAsJsonObject().has("createdAt") && response.getAsJsonObject().has("updatedAt")) {
+
             if (response.getAsJsonObject().get("createdAt").isJsonObject()) {
                 response.getAsJsonObject().addProperty("createdAt", response.getAsJsonObject().get("createdAt").getAsJsonObject().get("date").toString().replace("\"", "")
                 );
@@ -193,14 +194,14 @@ public class Member implements Serializable{
             }
         }
 
-        if(response.getAsJsonObject().get("ambassador") == null){
+        if(response.getAsJsonObject().has("ambassador") && response.getAsJsonObject().get("ambassador") == null){
             response.getAsJsonObject().addProperty("ambassador", "false");
         }
 
         return response;
     }
 
-    public static JsonArray parseMembersResponse(JsonArray response){
+    public static JsonArray parseMembersResponse(JsonArray response) {
         JsonArray parsedMembers = new JsonArray();
 
         for (int i = 0; i < response.size(); i++) {
@@ -222,7 +223,7 @@ public class Member implements Serializable{
         }
     }
 
-    public String returnNameForNullInterestsValue(int id){
+    public String returnNameForNullInterestsValue(int id) {
         if(this.interests.size() == 0)
             return "";
         else {
@@ -231,5 +232,31 @@ public class Member implements Serializable{
             else
                 return interests.get(id).name;
         }
+    }
+
+    public static ArrayList<HashMap<String, String>> membersInfoForItem(ArrayList<HashMap<String, String>> members, List<Member> membersList){
+
+        HashMap<String, String> map;
+
+        for(int i = 0; i < membersList.size(); i++) {
+            map = new HashMap<String, String>();
+
+            /*if(!membersList.get(i).image.equals(""))
+                map.put("picture", membersList.get(i).image);
+            else*/
+            map.put("picture", String.valueOf(R.drawable.no_image_member));
+            map.put("fullName", GeneralHelpers.firstToUpper(membersList.get(i).fullName));
+
+            if(membersList.get(i).hub != null && !membersList.get(i).hub.name.equals(""))
+                map.put("hubName", GeneralHelpers.firstToUpper(membersList.get(i).hub.name));
+            else
+                map.put("hubName", "Not specified");
+
+            map.put("distance", GeneralHelpers.distanceToKilometer(membersList.get(i).distance));
+
+            members.add(map);
+        }
+
+        return members;
     }
 }

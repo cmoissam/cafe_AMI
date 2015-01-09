@@ -5,10 +5,10 @@ import co.geeksters.hq.models.Member;
 /**
  * Created by soukaina on 03/12/14.
  */
-public class MemberEvent {
+public class SaveMemberEvent {
     public Member member;
 
-    public MemberEvent(Member member){
+    public SaveMemberEvent(Member member){
         this.member = member;
     }
 }

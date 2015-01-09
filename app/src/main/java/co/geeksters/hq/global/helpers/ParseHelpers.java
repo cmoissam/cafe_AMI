@@ -32,7 +32,7 @@ import retrofit.mime.TypedInput;
 /**
  * Created by soukaina on 04/12/14.
  */
-public class ParseHelper {
+public class ParseHelpers {
 
     public static TypedInput createTypedInputFromModel(Object modelObject){
         TypedInput inputHttpRequest = null;

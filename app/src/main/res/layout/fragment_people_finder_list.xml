@@ -1,0 +1,38 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="co.geeksters.hq.fragments.PeopleFinderListFragment">
+
+    <!-- Get Members progress -->
+    <ProgressBar android:id="@+id/peopleListProgress" style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp" android:visibility="gone"
+        android:layout_gravity="center_vertical" />
+
+    <LinearLayout
+        android:id="@+id/peopleListForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/search_no_element_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_no_element_found"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp" />
+
+        <!-- List View -->
+        <ListView
+            android:id="@+id/list_view_members"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:dividerHeight="3px"/>
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -58,12 +58,39 @@
             android:textSize="18dp"
             android:layout_marginTop="10dp" />
 
-        <!-- List View -->
-        <ListView
-            android:id="@+id/list_view_members"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:dividerHeight="3px"/>
+        <ScrollView android:id="@+id/directoryScrollView" android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <!-- List View -->
+                <ListView
+                    android:id="@+id/list_view_members"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:dividerHeight="3px"/>
+
+                <!-- Extend Search -->
+                <TextView android:id="@+id/displayAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:inputType="textPersonName"
+                    android:layout_margin="5dp"
+                    android:text="@string/search_all_members"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/darker_gray"
+                    android:padding="12dp"
+                    android:background="@drawable/border"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 

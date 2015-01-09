@@ -1,7 +1,6 @@
 package co.geeksters.hq.fragments;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -16,26 +15,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.FacebookRequestError;
 import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
 import com.facebook.model.GraphUser;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import co.geeksters.hq.R;
@@ -48,9 +38,8 @@ import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;
 
 import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
-import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterest;
-import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
 
 @EFragment(R.layout.fragment_one_profile_info)
 public class OneProfileInfoFragment extends Fragment {
@@ -106,31 +95,11 @@ public class OneProfileInfoFragment extends Fragment {
     // Beans
     LayoutInflater layoutInflater;
     SharedPreferences preferences;
-    //Member currentMember;
     Member memberToDisplay;
     String accessToken;
 
-    //private static final String NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY = "see_profile_member_key";
-    //static Boolean seeProfile = false;
-
-    /*public static OneProfileInfoFragment_ newInstance(Member member) {
-        seeProfile = true;
-
-        OneProfileInfoFragment_ fragment = new OneProfileInfoFragment_();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY, member);
-        fragment.setArguments(bundle);
-
-        return fragment;
-    }*/
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        /*Serializable var = getArguments().getSerializable(NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY);
-
-        if(var != null)
-            profileMember = (Member) getArguments().getSerializable(NEW_INSTANCE_MEMBER_SEE_PROFILE_KEY);*/
-
         layoutInflater = inflater;
 
         return null;
@@ -147,8 +116,6 @@ public class OneProfileInfoFragment extends Fragment {
             editInfo.setVisibility(View.GONE);
             memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("profile_member", "")));
         }
-
-
 
         companyName.setText(memberToDisplay.returnNameForNullCompaniesValue());
         goalContent.setText(memberToDisplay.goal);
@@ -180,7 +147,7 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactLinkdin)
     public void openLinkdinLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(memberToDisplay.social.linkedin.equals(""))
+            if(memberToDisplay.social == null || memberToDisplay.social.linkedin.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
                 if (!memberToDisplay.social.linkedin.startsWith("https://"))
@@ -197,7 +164,7 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactFacebook)
     public void openFacebookLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(memberToDisplay.social.facebook.equals(""))
+            if(memberToDisplay.social == null || memberToDisplay.social.facebook.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
                 if (!memberToDisplay.social.facebook.startsWith("https://"))
@@ -361,7 +328,7 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactTwitter)
     public void openTwitterLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(memberToDisplay.social.twitter.equals(""))
+            if(memberToDisplay.social == null || memberToDisplay.social.twitter.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
                 if (!memberToDisplay.social.twitter.startsWith("https://"))
@@ -378,7 +345,7 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactWebsite)
     public void openWebsiteLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(memberToDisplay.social.website.equals(""))
+            if(memberToDisplay.social == null || memberToDisplay.social.website.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.website));
@@ -391,7 +358,7 @@ public class OneProfileInfoFragment extends Fragment {
 
     @Click(R.id.contactSkype)
     public void openSkypeLink() {
-        if(GeneralHelpers.isInternetAvailable(getActivity())) {
+        if(memberToDisplay.social == null || GeneralHelpers.isInternetAvailable(getActivity())) {
             if(memberToDisplay.social.skype.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
@@ -409,7 +376,7 @@ public class OneProfileInfoFragment extends Fragment {
     @Click(R.id.contactBlog)
     public void openBlogLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(memberToDisplay.social.blog.equals(""))
+            if(memberToDisplay.social == null || memberToDisplay.social.blog.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.website));

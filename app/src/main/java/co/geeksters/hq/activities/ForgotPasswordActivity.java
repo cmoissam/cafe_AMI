@@ -3,16 +3,11 @@ package co.geeksters.hq.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,18 +21,12 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.events.failure.LoginFailureEvent;
-import co.geeksters.hq.events.success.LoginEvent;
-import co.geeksters.hq.events.success.MemberEvent;
 import co.geeksters.hq.events.success.PasswordResetEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelper;
 import co.geeksters.hq.global.helpers.ViewHelpers;
-import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.ConnectService;
-import co.geeksters.hq.services.MemberService;
 
 import static co.geeksters.hq.global.helpers.GeneralHelpers.generateEmailsListFromString;
 

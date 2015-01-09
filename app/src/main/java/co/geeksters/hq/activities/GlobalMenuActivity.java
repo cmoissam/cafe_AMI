@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,41 +14,33 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.squareup.otto.Subscribe;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
-
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.LogoutMemberEvent;
-import co.geeksters.hq.events.success.MemberEvent;
-import co.geeksters.hq.events.success.MembersByPaginationEvent;
-import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.fragments.HubsFragment;
 import co.geeksters.hq.fragments.MeFragment_;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
 import co.geeksters.hq.fragments.MyToDosFragment;
-import co.geeksters.hq.fragments.PeopleDirectoryFragment;
 import co.geeksters.hq.fragments.PeopleDirectoryFragment_;
-import co.geeksters.hq.fragments.PeopleFinderFragment;
+import co.geeksters.hq.fragments.PeopleFinderFragment_;
 import co.geeksters.hq.fragments.WebViewFragment;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.GPSTrackerHelpers;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;
-
-import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 @EActivity(R.layout.global_menu)
 public class GlobalMenuActivity extends FragmentActivity {
@@ -65,6 +56,8 @@ public class GlobalMenuActivity extends FragmentActivity {
     private String mTitle = "HQ";
 
     String accessToken;
+
+    public static FragmentManager fragmentManager;
 
     @ViewById
     TextView noConnectionText;
@@ -85,6 +78,8 @@ public class GlobalMenuActivity extends FragmentActivity {
         SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 
         accessToken = preferences.getString("access_token","").replace("\"","");
+
+        fragmentManager = getSupportFragmentManager();
     }
 
     @AfterViews
@@ -143,16 +138,43 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(!preferences.getString("current_member", "").equals("")) {
+        if(!GlobalVariables.isMenuOnPosition && !preferences.getString("current_member", "").equals("")) {
             currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
             // Adding a fragment to the fragment transaction
             if (currentMember.fullName.isEmpty() || currentMember.hub.name.isEmpty() || currentMember.companies == null || currentMember.goal.isEmpty() ||
                     currentMember.blurp.isEmpty() || currentMember.phone.isEmpty() || currentMember.interests == null || currentMember.social == null)
                 fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
-            else fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+            else
+                fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
 
         } else {
-            fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+            if(!GlobalVariables.isMenuOnPosition)
+                fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+            else {
+                // Adding a fragment to the fragment transaction
+                if(GlobalVariables.MENU_POSITION == 0) {
+                    mTitle = getResources().getString(R.string.title_directory_fragment);
+
+                    fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+                } else if(GlobalVariables.MENU_POSITION == 1) {
+                    mTitle = getResources().getString(R.string.title_find_fragment);
+
+                    fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+                } else if(GlobalVariables.MENU_POSITION == 2){
+                    fragmentTransaction.replace(R.id.contentFrame, new HubsFragment());
+                } else if(GlobalVariables.MENU_POSITION == 3){
+                    mTitle = getResources().getString(R.string.title_todos_fragment);
+
+                    fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment());
+                } else if(GlobalVariables.MENU_POSITION == 4){
+                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
+                } else if(GlobalVariables.MENU_POSITION == 5){
+                    mTitle = getResources().getString(R.string.title_me_fragment);
+
+                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+                }
+                getActionBar().setTitle(mTitle);
+            }
         }
 
         // Committing the transaction
@@ -161,6 +183,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        GlobalVariables.isMenuOnPosition = false;
         finish();
     }
 
@@ -186,6 +209,8 @@ public class GlobalMenuActivity extends FragmentActivity {
     public void onLogoutEvent(LogoutMemberEvent event) {
         preferences.edit().clear().commit();
 
+        GlobalVariables.isMenuOnPosition = false;
+
         Intent intent = new Intent(this, LoginActivity_.class);
         finish();
         startActivity(intent);
@@ -202,27 +227,6 @@ public class GlobalMenuActivity extends FragmentActivity {
         overridePendingTransition(0, 0);
     }
 
-    @Subscribe
-    public void onSaveMemberEvent(MemberEvent event) {
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
-
-        // save the current Member
-        editor.putString("current_member", ParseHelper.createJsonStringFromModel(event.member));
-        editor.commit();
-
-        // Getting reference to the FragmentManager
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        // Creating a fragment transaction
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        // Adding a fragment to the fragment transaction
-        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
-
-        // Committing the transaction
-        fragmentTransaction.commit();
-    }
-
     // Setting item click listener for the listview mDrawerList
     @ItemClick
     public void drawerListItemClicked(int position){
@@ -232,6 +236,8 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         // Currently selected river
         mTitle = menuItems[position];
+
+        GlobalVariables.isMenuOnPosition = true;
 
         // Creating a fragment object
         WebViewFragment rFragment = new WebViewFragment();
@@ -249,24 +255,24 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         // Adding a fragment to the fragment transaction
         if(position == 0) {
-            //ViewHelpers.showProgress(true, this, contentFrame, membersSearchProgress);
+            mTitle = getResources().getString(R.string.title_directory_fragment);
 
-            if(GeneralHelpers.isInternetAvailable(this)) {
-                MemberService memberService = new MemberService(accessToken);
-                memberService.listAllMembersByPaginationOrSearch(0, GlobalVariables.SEARCH_SIZE, "Asc", "full_name");
-            } else {
-                //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-            }
+            fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
         } else if(position == 1) {
-            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment());
+            mTitle = getResources().getString(R.string.title_find_fragment);
+
+            verifyGpsActivation();
         } else if(position == 2){
             fragmentTransaction.replace(R.id.contentFrame, new HubsFragment());
         } else if(position == 3){
+            mTitle = getResources().getString(R.string.title_todos_fragment);
+
             fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment());
         } else if(position == 4){
             fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
         } else if(position == 5){
+            mTitle = getResources().getString(R.string.title_me_fragment);
+
             fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
         }
 
@@ -277,15 +283,48 @@ public class GlobalMenuActivity extends FragmentActivity {
         drawerLayout.closeDrawer(drawerList);
     }
 
-    @Subscribe
-    public void onGetListMembersByPaginationEvent(MembersEvent event) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        Fragment fragment = PeopleDirectoryFragment_.newInstance(event.members);
-        fragmentTransaction.replace(R.id.contentFrame, fragment);
-        fragmentTransaction.commit();
+    public void verifyGpsActivation() {
+        GPSTrackerHelpers gps = new GPSTrackerHelpers(this);
+
+        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
+        Member updatedMember = currentMember;
+
+        // check if GPS enabled
+        if(gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+            // update longitude latitude
+            updatedMember.longitude = (float) latitude;
+            updatedMember.latitude = (float) longitude;
+        } else {
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            ViewHelpers.buildAlertMessageNoGps(this);
+        }
+
+        if (GeneralHelpers.isInternetAvailable(this)) {
+            MemberService memberService = new MemberService(accessToken);
+            memberService.updateMember(currentMember.id, updatedMember);
+
+            GlobalVariables.isMenuOnPosition = true;
+            GlobalVariables.MENU_POSITION = 1;
+        } else {
+            ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+        }
     }
 
-	@Override
+    @Subscribe
+    public void onSaveLocationMemberEvent(SaveMemberEvent event) {
+        // save the current Member
+        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
+        editor.commit();
+    }
+
+    @Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		mDrawerToggle.syncState();

@@ -2,8 +2,6 @@ package co.geeksters.hq.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -18,11 +16,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Random;
-
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.failure.ExistingAccountEvent;
-import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
@@ -160,7 +156,7 @@ public class RegisterActivity extends Activity {
     }
 
     @Subscribe
-    public void onRegisterEvent(MemberEvent event) {
+    public void onRegisterEvent(SaveMemberEvent event) {
         Intent intent = new Intent(this, LoginActivity_.class);
         intent.putExtra("username", event.member.email);
         finish();

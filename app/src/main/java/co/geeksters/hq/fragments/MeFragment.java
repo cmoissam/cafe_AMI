@@ -1,25 +1,13 @@
 package co.geeksters.hq.fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.Layout;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,10 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -41,7 +27,11 @@ import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.success.SaveMemberEvent;
+import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Company;
 import co.geeksters.hq.models.Interest;
@@ -50,8 +40,7 @@ import co.geeksters.hq.models.Social;
 import co.geeksters.hq.services.MemberService;
 import static co.geeksters.hq.global.helpers.GeneralHelpers.formatActualDate;
 import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
-import static co.geeksters.hq.global.helpers.ParseHelper.createJsonElementFromString;
-import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterest;
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterestToEdit;
 import static co.geeksters.hq.global.helpers.ViewHelpers.deleteTextAndSetHint;
 import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
@@ -79,9 +68,6 @@ public class MeFragment extends Fragment {
 
     @ViewById(R.id.logoutProgress)
     ProgressBar logoutProgress;
-
-    /*@ViewById(R.id.logoutButton)
-    Button logoutButton;*/
 
     @ViewById(R.id.contact)
     TextView contact;
@@ -131,19 +117,36 @@ public class MeFragment extends Fragment {
     // Beans
     LayoutInflater layoutInflater;
     SharedPreferences preferences;
+    SharedPreferences.Editor editor;
     Member currentMember;
     String accessToken;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        BaseApplication.register(this);
+
         layoutInflater = inflater;
+
         return null;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!BaseApplication.isRegistered(this))
+            BaseApplication.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BaseApplication.unregister(this);
     }
 
     @AfterViews
     void initFieldsFromCurrentMemberInformation() {
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        editor = preferences.edit();
         accessToken = preferences.getString("access_token", "").toString().replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
@@ -196,11 +199,24 @@ public class MeFragment extends Fragment {
             MemberService memberService = new MemberService(accessToken);
             Member updatedMember = createMemberFromFields();
             memberService.updateMember(currentMember.id, updatedMember);
+
+            GlobalVariables.isMenuOnPosition = true;
+            GlobalVariables.MENU_POSITION = 5;
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }
 
         showProgress(false, getActivity(), meScrollView, logoutProgress);
+    }
+
+    @Subscribe
+    public void onSaveMemberEvent(SaveMemberEvent event) {
+        if(GlobalVariables.MENU_POSITION == 5)
+            Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
+
+        // save the current Member
+        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
+        editor.commit();
     }
 
     @Click(R.id.deleteButton)
@@ -286,8 +302,8 @@ public class MeFragment extends Fragment {
     }
 
     public Member createMemberFromFields(){
-        Member member = new Member();
-        member.email = currentMember.email;
+        Member member = currentMember;
+        //member.email = currentMember.email;
 
         member.updatedAt = formatActualDate();
 

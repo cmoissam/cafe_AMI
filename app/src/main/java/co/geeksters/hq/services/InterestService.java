@@ -2,15 +2,13 @@ package co.geeksters.hq.services;
 
 import com.google.gson.JsonElement;
 
-import org.json.JSONArray;
-
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.InterestEvent;
 import co.geeksters.hq.events.success.InterestsEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.InterestInterface;
 import co.geeksters.hq.models.Interest;
 import retrofit.Callback;
@@ -63,7 +61,7 @@ public class InterestService {
 
     public void createInterest(Interest interest) {
 
-        this.api.createInterest(ParseHelper.createTypedInputFromModel(interest), new Callback<JsonElement>() {
+        this.api.createInterest(ParseHelpers.createTypedInputFromModel(interest), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -81,7 +79,7 @@ public class InterestService {
 
     public void updateInterest(int interestId, Interest interest) {
 
-        this.api.updateInterest(interestId, ParseHelper.createTypedInputFromModel(interest), new Callback<JsonElement>() {
+        this.api.updateInterest(interestId, ParseHelpers.createTypedInputFromModel(interest), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

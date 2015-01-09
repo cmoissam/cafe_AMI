@@ -6,23 +6,20 @@ import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.global.PredicateLayout;
-import co.geeksters.hq.models.Member;
 
 /**
  * Created by soukaina on 26/11/14.
@@ -65,12 +62,12 @@ public class ViewHelpers {
         }
     }
 
-    public static void deleteTextAndSetHint(EditText fiels, String hint){
+    public static void deleteTextAndSetHint(EditText fiels, String hint) {
         fiels.setText("");
         fiels.setHint(hint);
     }
 
-    public static void showPopup(Context context, String title, String message){
+    public static void showPopup(Context context, String title, String message) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
         builder1.setTitle(title);
         builder1.setMessage(message);
@@ -86,7 +83,7 @@ public class ViewHelpers {
         alert11.show();
     }
 
-    public static void createViewInterest(final Context context, LayoutInflater layoutInflater, final PredicateLayout interestsContent, String lastValue){
+    public static void createViewInterest(final Context context, LayoutInflater layoutInflater, final PredicateLayout interestsContent, String lastValue) {
         final View interestContent = layoutInflater.inflate(R.layout.interest_layout, null);
         final TextView text = (TextView) interestContent.findViewById(R.id.interest);
         text.setText(lastValue);
@@ -94,7 +91,7 @@ public class ViewHelpers {
         interestsContent.addView(interestContent);
     }
 
-    public static void createViewInterestToEdit(final Context context, LayoutInflater layoutInflater, final LinearLayout interestsContent, String lastValue){
+    public static void createViewInterestToEdit(final Context context, LayoutInflater layoutInflater, final LinearLayout interestsContent, String lastValue) {
         final View interestContent = layoutInflater.inflate(R.layout.interest_layout_edit, null);
         final EditText text = (EditText) interestContent.findViewById(R.id.interest);
         text.setText(lastValue);
@@ -114,32 +111,51 @@ public class ViewHelpers {
         interestsContent.addView(interestContent, 1);
     }
 
-/*    public static ArrayList<HashMap<String, String>> setListMembersContent(List<Member> eventMembers){
-        // ArrayList for Listview
-        ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> map;
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
 
-        for(int i = 0; i < eventMembers.size(); i++) {
-            map = new HashMap<String, String>();
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0){
+                ViewGroup.LayoutParams params = listView.getLayoutParams();
+                params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                params.width = desiredWidth;
+                listView.setLayoutParams(params);
+                listView.requestLayout();
 
-            if(!eventMembers.get(i).image.equals(""))
-                map.put("picture", eventMembers.get(i).image);
-            else
-                map.put("picture", String.valueOf(R.drawable.no_image_member));
-            map.put("fullName", eventMembers.get(i).fullName);
-            map.put("hubName", eventMembers.get(i).hub.name);
+                //view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
 
-            members.add(map);
+            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
         }
 
-        return members;
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
-    public void setListMembersAdapter(Context context, SimpleAdapter adapter, ListView listViewMembers, ArrayList<HashMap<String, String>> members){
-        // Adding items to listview
-        adapter = new SimpleAdapter(context, members, R.layout.list_item_people_directory,
-                new String[]{"picture", "fullName", "hubName"},
-                new int[]{R.id.picture, R.id.fullName, R.id.hubName});
-        listViewMembers.setAdapter(adapter);
-    }*/
+    public static void buildAlertMessageNoGps(final Context context) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+               .setCancelable(false)
+               .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                   public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                       context.startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                   }
+               })
+               .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                   public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                       dialog.cancel();
+                   }
+               });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

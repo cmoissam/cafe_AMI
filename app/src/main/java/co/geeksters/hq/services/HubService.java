@@ -9,17 +9,15 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.HubEvent;
 import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.HubInterface;
 import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -127,7 +125,7 @@ public class HubService {
 
     public void createHub(Hub hub) {
 
-        this.api.createHub(ParseHelper.createTypedInputFromModel(hub), new Callback<JsonElement>() {
+        this.api.createHub(ParseHelpers.createTypedInputFromModel(hub), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -151,7 +149,7 @@ public class HubService {
         hub.members = members;
         hub.ambassadors = ambassadors;
 
-        this.api.updateHub(hubId, ParseHelper.createTypedInputFromModel(hub), new Callback<JsonElement>() {
+        this.api.updateHub(hubId, ParseHelpers.createTypedInputFromModel(hub), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -176,7 +174,7 @@ public class HubService {
             e.printStackTrace();
         }
 
-        this.api.updateImageHub(hubId, ParseHelper.createTypedInputFromJsonObject(jsonFile), new Callback<JsonElement>() {
+        this.api.updateImageHub(hubId, ParseHelpers.createTypedInputFromJsonObject(jsonFile), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -201,7 +199,7 @@ public class HubService {
             e.printStackTrace();
         }
 
-        this.api.updateHubAmbassadors(hubId, ParseHelper.createTypedInputFromJsonObject(jsonAmbassadors), new Callback<JsonElement>() {
+        this.api.updateHubAmbassadors(hubId, ParseHelpers.createTypedInputFromJsonObject(jsonAmbassadors), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

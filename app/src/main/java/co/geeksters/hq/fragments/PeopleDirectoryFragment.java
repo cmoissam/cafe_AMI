@@ -3,20 +3,17 @@ package co.geeksters.hq.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.Filter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import com.squareup.otto.Subscribe;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -27,8 +24,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.GeneralHelpers;
+import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
+import co.geeksters.hq.services.MemberService;
 
 @EFragment(R.layout.fragment_people_directory)
 public class PeopleDirectoryFragment extends Fragment {
@@ -40,6 +43,7 @@ public class PeopleDirectoryFragment extends Fragment {
     ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
     String accessToken;
     List<Member> membersList = new ArrayList<Member>();
+    int from = 0;
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -58,6 +62,22 @@ public class PeopleDirectoryFragment extends Fragment {
     @ViewById(R.id.search_no_element_found)
     TextView emptySearch;
 
+    @ViewById(R.id.displayAll)
+    TextView displayAll;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!BaseApplication.isRegistered(this))
+            BaseApplication.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BaseApplication.unregister(this);
+    }
+
     public static PeopleDirectoryFragment_ newInstance(List<Member> members) {
         PeopleDirectoryFragment_ fragment = new PeopleDirectoryFragment_();
         Bundle bundle = new Bundle();
@@ -67,38 +87,43 @@ public class PeopleDirectoryFragment extends Fragment {
         return fragment;
     }
 
-    @AfterViews
-    public void addFooterToListview() {
-        listViewMembers.addFooterView(new View(getActivity()), null, true);
-    }
-
-    @AfterViews
-    public void setPreferences(){
+    public void listAllMembersByPaginationService(){
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
 
         accessToken = preferences.getString("access_token","").replace("\"","");
+
+        if(GeneralHelpers.isInternetAvailable(getActivity())) {
+            MemberService memberService = new MemberService(accessToken);
+            memberService.listAllMembersByPaginationOrSearch(this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
+        } else {
+            //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+        }
     }
 
-    @AfterViews
-    public void setListMembersContent(){
-        HashMap<String, String> map;
-
-        for(int i = 0; i < membersList.size(); i++) {
-            map = new HashMap<String, String>();
-
-            /*if(!membersList.get(i).image.equals(""))
-                map.put("picture", membersList.get(i).image);
-            else*/
-                map.put("picture", String.valueOf(R.drawable.no_image_member));
-            map.put("fullName", membersList.get(i).fullName);
-            map.put("hubName", membersList.get(i).hub.name);
-
-            members.add(map);
+    public void searchForMembersByPaginationService(String search){
+        if(GeneralHelpers.isInternetAvailable(getActivity())) {
+            MemberService memberService = new MemberService(accessToken);
+            memberService.searchForMembersFromKey(search);
+        } else {
+            //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }
     }
 
     @AfterViews
-    public void setListMembersAdapter(){
+    public void listAllMembersByPagination(){
+        listAllMembersByPaginationService();
+    }
+
+    @Subscribe
+    public void onGetListMembersByPaginationEvent(MembersEvent event) {
+        this.from += GlobalVariables.SEARCH_SIZE;
+
+        membersList = event.members;
+
+        members = Member.membersInfoForItem(members, membersList);
+
         // Adding items to listview
         adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
                 new String[]{"picture", "fullName", "hubName"},
@@ -106,6 +131,18 @@ public class PeopleDirectoryFragment extends Fragment {
 
         listViewMembers.setAdapter(adapter);
         listViewMembers.setItemsCanFocus(false);
+
+        if(members.size() < GlobalVariables.SEARCH_SIZE)
+            displayAll.setVisibility(View.GONE);
+        else
+            displayAll.setVisibility(View.VISIBLE);
+
+        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
+    }
+
+    @AfterViews
+    public void addFooterToListview() {
+        listViewMembers.addFooterView(new View(getActivity()), null, true);
     }
 
     @ItemClick(R.id.list_view_members)
@@ -117,25 +154,71 @@ public class PeopleDirectoryFragment extends Fragment {
     }
 
     @TextChange(R.id.inputSearch)
-    public void filterListMembers() {
-        adapter.getFilter().filter(inputSearch.getText(), new Filter.FilterListener() {
+    public void searchForMemberByPagination() {
+        if(!inputSearch.getText().toString().isEmpty())
+            searchForMembersByPaginationService(inputSearch.getText().toString());
+        else {
+            from = 0;
+            members = new ArrayList<HashMap<String, String>>();
+            listAllMembersByPaginationService();
+        }
+
+        /*adapter.getFilter().filter(inputSearch.getText(), new Filter.FilterListener() {
             public void onFilterComplete(int count) {
-                Log.d("Size adapter : ","" + adapter.getCount());
-                if(adapter.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
+                if(adapter.isEmpty()) {
+                    emptySearch.setVisibility(View.VISIBLE);
+                }
                 else emptySearch.setVisibility(View.GONE);
+
+                ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
             }
-        });
+        });*/
+    }
+
+    @Subscribe
+    public void onSearchForMemberByPaginationEvent(MembersSearchEvent event) {
+        members = new ArrayList<HashMap<String, String>>();
+
+        membersList = event.members;
+
+        members = Member.membersInfoForItem(members, membersList);
+
+        // Adding items to listview
+        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
+                new String[]{"picture", "fullName", "hubName"},
+                new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+
+        listViewMembers.setAdapter(adapter);
+        listViewMembers.setItemsCanFocus(false);
+
+        if(adapter.isEmpty()) {
+            emptySearch.setVisibility(View.VISIBLE);
+        }
+        else
+            emptySearch.setVisibility(View.GONE);
+
+        if(members.size() < GlobalVariables.SEARCH_SIZE)
+            displayAll.setVisibility(View.GONE);
+        else
+            displayAll.setVisibility(View.VISIBLE);
+
+        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
 
     @Click(R.id.clearContent)
-    public void clearSearchInput(){
+    public void clearSearchInput() {
         inputSearch.setText("");
+    }
+
+    @Click(R.id.displayAll)
+    public void displayAllMembers() {
+        listAllMembersByPaginationService();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        membersList = (List<Member>) getArguments().getSerializable(NEW_INSTANCE_MEMBERS_KEY);
-
+        //membersList = (List<Member>) getArguments().getSerializable(NEW_INSTANCE_MEMBERS_KEY);
+        BaseApplication.register(this);
         return null;
     }
 }

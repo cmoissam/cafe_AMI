@@ -16,15 +16,10 @@ import java.util.List;
 
 import co.geeksters.hq.events.success.CompaniesEvent;
 import co.geeksters.hq.events.success.CompanyEvent;
-import co.geeksters.hq.events.success.HubsEvent;
-import co.geeksters.hq.events.success.MembersEvent;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.CompanyInterface;
 import co.geeksters.hq.interfaces.ConnectInterface;
-import co.geeksters.hq.interfaces.HubInterface;
 import co.geeksters.hq.models.Company;
-import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -79,7 +74,7 @@ public class CompanyServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        apiLogin.login(ParseHelper.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
+        apiLogin.login(ParseHelpers.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 token = response.getAsJsonObject().get("access_token").toString().replace("\"","");
@@ -192,7 +187,7 @@ public class CompanyServiceTest extends InstrumentationTestCase {
         Company company = new Company();
         company.name = "company";
 
-        api.createCompany(ParseHelper.createTypedInputFromModel(company), new Callback<JsonElement>() {
+        api.createCompany(ParseHelpers.createTypedInputFromModel(company), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -227,7 +222,7 @@ public class CompanyServiceTest extends InstrumentationTestCase {
         Company company = new Company();
         company.name = "updated company";
 
-        api.updateCompany(id, ParseHelper.createTypedInputFromModelByMethod(company, "put"), new Callback<JsonElement>() {
+        api.updateCompany(id, ParseHelpers.createTypedInputFromModelByMethod(company, "put"), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -259,7 +254,7 @@ public class CompanyServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.deleteCompany(id, ParseHelper.createTypedInputFromOneKeyValue("_method", "delete"), new Callback<JsonElement>() {
+        api.deleteCompany(id, ParseHelpers.createTypedInputFromOneKeyValue("_method", "delete"), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

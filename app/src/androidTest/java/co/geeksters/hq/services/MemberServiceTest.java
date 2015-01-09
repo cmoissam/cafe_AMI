@@ -8,7 +8,6 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.otto.ThreadEnforcer;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -20,9 +19,9 @@ import java.net.URLConnection;
 import java.util.List;
 
 import co.geeksters.hq.events.success.LogoutMemberEvent;
-import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
-import co.geeksters.hq.global.helpers.ParseHelper;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.ConnectInterface;
 import co.geeksters.hq.interfaces.MemberInterface;
 import co.geeksters.hq.models.Member;
@@ -84,7 +83,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        apiLogin.login(ParseHelper.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
+        apiLogin.login(ParseHelpers.createTypedInputFromJsonObject(loginParams), new Callback<JsonElement>() {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 token = response.getAsJsonObject().get("access_token").toString().replace("\"","");
@@ -285,19 +284,14 @@ public class MemberServiceTest extends InstrumentationTestCase {
             }
         });
 
-        this.api.getMembersArroundMe(id, radius, new retrofit.Callback<JSONArray>() {
+        this.api.getMembersArroundMe(id, radius, new retrofit.Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, retrofit.client.Response rawResponse) {
-                /* JsonArray sources = response.getAsJsonObject().get("result").getAsJsonObject().get("hits").getAsJsonObject().get("hits").getAsJsonArray();
-                JsonArray responseAsArray = new JsonArray();
+            public void success(JsonElement response, retrofit.client.Response rawResponse) {
+                JsonArray data = response.getAsJsonObject().get("data").getAsJsonArray();
 
-                for (int i = 0; i < sources.size(); i++) {
-                    responseAsArray.add(sources.get(i).getAsJsonObject().get("_source"));
-                }
-
-                List<Member> members = Member.createListUsersFromJson(responseAsArray);
-                bus.post(new MembersEvent(members));*/
+                List<Member> members = Member.createListUsersFromJson(data);
+                bus.post(new MembersEvent(members));
             }
 
             @Override
@@ -314,7 +308,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onGetMemberEvent(MemberEvent event) {
+            public void onGetMemberEvent(SaveMemberEvent event) {
                 assertNotNull("on testGetMember",event.member);
                 assertTrue(event.member instanceof Member);
 
@@ -327,7 +321,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member member = Member.createUserFromJson(response.getAsJsonObject().get("data"));
-                bus.post(new MemberEvent(member));
+                bus.post(new SaveMemberEvent(member));
             }
 
             @Override
@@ -344,7 +338,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onUpdateMemberEvent(MemberEvent event) {
+            public void onUpdateMemberEvent(SaveMemberEvent event) {
                 assertNotNull("on updateUpdateMember",event.member);
 
                 // WE ARE DONE
@@ -362,7 +356,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
-                bus.post(new MemberEvent(updatedMember));
+                bus.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -381,7 +375,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onUpdateImageMemberEvent(MemberEvent event) {
+            public void onUpdateImageMemberEvent(SaveMemberEvent event) {
                 assertNotNull("on testUpdateMember",event.member);
 
                 // WE ARE DONE
@@ -450,7 +444,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                bus.post(new MemberEvent(updatedMember));
+                bus.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -468,7 +462,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onUpdateStatusMemberEvent(MemberEvent event) {
+            public void onUpdateStatusMemberEvent(SaveMemberEvent event) {
                 assertNotNull("on testUpdateMember",event.member);
 
                 // WE ARE DONE
@@ -478,12 +472,12 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         boolean ambassador = true;
 
-        api.updateStatusMember(id, ParseHelper.createTypedInputFromOneKeyValue("ambassador", ambassador), new retrofit.Callback<JsonElement>() {
+        api.updateStatusMember(id, ParseHelpers.createTypedInputFromOneKeyValue("ambassador", ambassador), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                bus.post(new MemberEvent(updatedMember));
+                bus.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -501,7 +495,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onUpdateTokenMemberEvent(MemberEvent event) {
+            public void onUpdateTokenMemberEvent(SaveMemberEvent event) {
                 assertNotNull("on testUpdateMember",event.member);
 
                 // WE ARE DONE
@@ -509,12 +503,12 @@ public class MemberServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.updateTokenMember(id, ParseHelper.createTypedInputFromOneKeyValue("device_token", token), new retrofit.Callback<JsonElement>() {
+        api.updateTokenMember(id, ParseHelpers.createTypedInputFromOneKeyValue("device_token", token), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                bus.post(new MemberEvent(updatedMember));
+                bus.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -532,7 +526,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onUpdateNotifyOptionsMemberEvent(MemberEvent event) {
+            public void onUpdateNotifyOptionsMemberEvent(SaveMemberEvent event) {
                 assertNotNull("on testUpdateMember",event.member);
 
                 // WE ARE DONE
@@ -555,12 +549,12 @@ public class MemberServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        api.updateNotifyOptionsMember(id, ParseHelper.createTypedInputFromJsonObject(jsonUpdateNotifMember), new retrofit.Callback<JsonElement>() {
+        api.updateNotifyOptionsMember(id, ParseHelpers.createTypedInputFromJsonObject(jsonUpdateNotifMember), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                bus.post(new MemberEvent(updatedMember));
+                bus.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override
@@ -578,7 +572,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onUpdateLocationEvent(MemberEvent event) {
+            public void onUpdateLocationEvent(SaveMemberEvent event) {
                 assertNotNull("on testUpdateMember",event.member);
 
                 // WE ARE DONE
@@ -598,12 +592,12 @@ public class MemberServiceTest extends InstrumentationTestCase {
             e.printStackTrace();
         }
 
-        api.updateLocationMember(id, ParseHelper.createTypedInputFromJsonObject(jsonUpdateLocationMember), new retrofit.Callback<JsonElement>() {
+        api.updateLocationMember(id, ParseHelpers.createTypedInputFromJsonObject(jsonUpdateLocationMember), new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 Member updatedMember = Member.createUserFromJson(response);
-                bus.post(new MemberEvent(updatedMember));
+                bus.post(new SaveMemberEvent(updatedMember));
             }
 
             @Override

@@ -9,7 +9,7 @@ import com.squareup.otto.ThreadEnforcer;
 
 import org.junit.Before;
 
-import co.geeksters.hq.events.success.MemberEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 
 /**
  * Created by soukaina on 03/12/14.
@@ -31,7 +31,7 @@ public class BaseApplicationTest extends InstrumentationTestCase {
         // to validate the event posted
         bus.register(new Object() {
             @Subscribe
-            public void onGetMemberInfoEvent(MemberEvent event) {
+            public void onGetMemberInfoEvent(SaveMemberEvent event) {
                 Log.d("onEvent", "GetMemberInfoEvent");
                 //assertEquals("test full name", event.member.full_name);
             }
