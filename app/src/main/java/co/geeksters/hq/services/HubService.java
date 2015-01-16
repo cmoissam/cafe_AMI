@@ -14,6 +14,7 @@ import java.util.List;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.HubEvent;
 import co.geeksters.hq.events.success.HubsEvent;
+import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.HubInterface;
@@ -100,7 +101,8 @@ public class HubService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                // BaseApplication.post(new ConnectionFailureEvent());
+                BaseApplication.post(new MembersEvent(null));
             }
         });
     }

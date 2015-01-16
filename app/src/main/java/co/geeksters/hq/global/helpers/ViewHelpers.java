@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import co.geeksters.hq.R;
+import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.global.PredicateLayout;
+import co.geeksters.hq.models.Hub;
 
 /**
  * Created by soukaina on 26/11/14.

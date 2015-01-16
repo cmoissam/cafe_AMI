@@ -95,7 +95,7 @@ public class PeopleFinderListFragment extends Fragment {
     public void onGetListMembersAroundMeEvent(MembersEvent event) {
         membersList = event.members;
         members = new ArrayList<HashMap<String, String>>();
-        members = Member.membersInfoForItem(members, event.members);
+        members = Member.membersInfoForItem(getActivity(), members, event.members);
 
         // Adding items to listview
         adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_list,

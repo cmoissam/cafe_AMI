@@ -34,8 +34,10 @@
     <!-- Me Fragment -->
     <string name="full_name">John Do</string>
     <string name="hub_name">Hub</string>
+    <string name="ambassadors_title">Ambassadors</string>
     <string name="company_name">Company</string>
     <string name="empty_field">This information is not available</string>
+    <string name="empty_hub_name">Not specified</string>
     <string name="goal_name">Goal</string>
     <string name="bio_name">Bio</string>
     <string name="interest_name">Interest</string>
@@ -54,7 +56,8 @@
     <string name="action_send_mail_title">Send email</string>
     <string name="action_send_mail_object">HQ Contact</string>
     <string name="search_members">Search members ...</string>
-    <string name="search_all_members">Display more results</string>
+    <string name="display_more">Display more results</string>
+    <string name="display_all">Display all results</string>
     <string name="my_position">My position</string>
 
 </resources>

@@ -121,7 +121,7 @@ public class OneProfileInfoFragment extends Fragment {
         goalContent.setText(memberToDisplay.goal);
         bioContent.setText(memberToDisplay.blurp);
 
-        if(memberToDisplay.interests == null) {
+        if(memberToDisplay.interests.size() == 0) {
             memberToDisplay.interests = new ArrayList<Interest>();
             Interest interest1 = new Interest();
             interest1.name = "Developement test";

@@ -25,6 +25,7 @@ import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.fragments.HubsFragment;
+import co.geeksters.hq.fragments.HubsFragment_;
 import co.geeksters.hq.fragments.MeFragment_;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
@@ -57,8 +58,6 @@ public class GlobalMenuActivity extends FragmentActivity {
 
     String accessToken;
 
-    public static FragmentManager fragmentManager;
-
     @ViewById
     TextView noConnectionText;
 
@@ -78,8 +77,6 @@ public class GlobalMenuActivity extends FragmentActivity {
         SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 
         accessToken = preferences.getString("access_token","").replace("\"","");
-
-        fragmentManager = getSupportFragmentManager();
     }
 
     @AfterViews
@@ -207,7 +204,9 @@ public class GlobalMenuActivity extends FragmentActivity {
 
     @Subscribe
     public void onLogoutEvent(LogoutMemberEvent event) {
-        preferences.edit().clear().commit();
+        // preferences.edit().clear().commit();
+        preferences.edit().remove("current_member").commit();
+        preferences.edit().remove("access_token").commit();
 
         GlobalVariables.isMenuOnPosition = false;
 
@@ -263,7 +262,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
             verifyGpsActivation();
         } else if(position == 2){
-            fragmentTransaction.replace(R.id.contentFrame, new HubsFragment());
+            fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
         } else if(position == 3){
             mTitle = getResources().getString(R.string.title_todos_fragment);
 

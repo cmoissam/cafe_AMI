@@ -1,14 +1,11 @@
 package co.geeksters.hq.global.helpers;
 
 import android.content.Context;
-import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.CameraPosition;
-
-import co.geeksters.hq.fragments.PeopleFinderRadarFragment_;
 
 /**
  * Created by soukaina on 09/01/15.

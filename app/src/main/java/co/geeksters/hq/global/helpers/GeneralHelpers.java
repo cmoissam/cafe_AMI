@@ -15,6 +15,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.models.Hub;
+
 /**
  * Created by soukaina on 11/12/14.
  */
@@ -92,13 +95,45 @@ public class GeneralHelpers {
         String distanceToKilometer = "";
 
         if (distance >= 1000) {
-            distanceToKilometer = (float) distance/1000 +" Km";
+            distanceToKilometer = (int) distance/1000 +" Km";
         } else {
-            distanceToKilometer = distance +" m";
+            distanceToKilometer = (int) distance +" m";
         }
 
         return distanceToKilometer;
+    }
 
+    public static String intervalToKilometer(String interval) {
+        String intervalToKilometer = "";
 
+        String[] intervalValues = interval.split("-");
+
+        intervalToKilometer += distanceToKilometer(Integer.valueOf(intervalValues[0]))
+                             + " - "
+                             + distanceToKilometer(Integer.valueOf(intervalValues[1]));
+        return intervalToKilometer;
+    }
+
+    public static String distanceBetweenValues(int min, int max) {
+        return min + "-" + max;
+    }
+
+    public static String distanceByInterval(float distance) {
+        String interval = "";
+        int i = (int) ((GlobalVariables.RADIUS / GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) + 1);
+
+        while(i > 0 && distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * i) {
+            if (distance >= (i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER && distance <= i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) {
+                int min = (i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER;
+                int max = i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER;
+                interval = distanceBetweenValues((i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER, i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER);
+
+                break;
+            }
+
+            i -= 1;
+        }
+
+        return intervalToKilometer(interval);
     }
 }

@@ -1,5 +1,7 @@
 package co.geeksters.hq.models;
 
+import android.content.Context;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,6 +10,8 @@ import com.google.gson.JsonElement;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -234,9 +238,28 @@ public class Member implements Serializable{
         }
     }
 
-    public static ArrayList<HashMap<String, String>> membersInfoForItem(ArrayList<HashMap<String, String>> members, List<Member> membersList){
+    public static List<Member> orderMembersByDescDistance(List<Member> listMembers) {
+        List<Member> membersByDistance = new ArrayList<Member>();
+        while(listMembers.size() > 0) {
+            Member memberWithLessDistance = listMembers.get(0);
+
+            for (int i = 0; i < listMembers.size(); i++) {
+                if(memberWithLessDistance.distance >= listMembers.get(i).distance)
+                    memberWithLessDistance = listMembers.get(i);
+            }
+
+            membersByDistance.add(memberWithLessDistance);
+            listMembers.remove(memberWithLessDistance);
+        }
+
+        return membersByDistance;
+    }
+
+    public static ArrayList<HashMap<String, String>> membersInfoForItem(Context context, ArrayList<HashMap<String, String>> members, List<Member> membersList){
 
         HashMap<String, String> map;
+
+        membersList = orderMembersByDescDistance(membersList);
 
         for(int i = 0; i < membersList.size(); i++) {
             map = new HashMap<String, String>();
@@ -250,9 +273,9 @@ public class Member implements Serializable{
             if(membersList.get(i).hub != null && !membersList.get(i).hub.name.equals(""))
                 map.put("hubName", GeneralHelpers.firstToUpper(membersList.get(i).hub.name));
             else
-                map.put("hubName", "Not specified");
+                map.put("hubName", context.getResources().getString(R.string.empty_hub_name));
 
-            map.put("distance", GeneralHelpers.distanceToKilometer(membersList.get(i).distance));
+            map.put("distance", GeneralHelpers.distanceByInterval(membersList.get(i).distance));
 
             members.add(map);
         }
