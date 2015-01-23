@@ -26,9 +26,11 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;
@@ -45,6 +47,7 @@ public class PeopleFinderListFragment extends Fragment {
     String accessToken;
     Member currentMember;
     List<Member> membersList = new ArrayList<Member>();
+    static String MEMBERS_AROUND_ME_KEY = "members_around_me";
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -59,25 +62,8 @@ public class PeopleFinderListFragment extends Fragment {
     @ViewById(R.id.search_no_element_found)
     TextView emptySearch;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(!BaseApplication.isRegistered(this))
-            BaseApplication.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        BaseApplication.unregister(this);
-    }
-
-    public void listAllMembersAroundMeService(){
-        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-
-        accessToken = preferences.getString("access_token","").replace("\"","");
-        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-
+    @AfterViews
+    public void listAllMembersAroundMeService() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             MemberService memberService = new MemberService(accessToken);
             memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
@@ -86,16 +72,25 @@ public class PeopleFinderListFragment extends Fragment {
         }
     }
 
-    @AfterViews
-    public void listAllMembersAroundMe(){
-        listAllMembersAroundMeService();
-    }
+//    @Subscribe
+//    public void onSaveLocationMemberEvent(SaveMemberEvent event) {
+//        // save the current Member
+//        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
+//        editor.commit();
+//
+//        listAllMembersAroundMeService();
+//    }
 
     @Subscribe
     public void onGetListMembersAroundMeEvent(MembersEvent event) {
-        membersList = event.members;
+        membersList = GlobalVariables.membersAroundMe;
+        displayMembersAroundMeOnList();
+    }
+
+    public void displayMembersAroundMeOnList() {
+        membersList = Member.orderMembersByDescDistance(membersList);
         members = new ArrayList<HashMap<String, String>>();
-        members = Member.membersInfoForItem(getActivity(), members, event.members);
+        members = Member.membersInfoForItemByDistance(getActivity(), members, membersList);
 
         // Adding items to listview
         adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_list,
@@ -113,13 +108,8 @@ public class PeopleFinderListFragment extends Fragment {
         ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
 
-    @AfterViews
-    public void addFooterToListview() {
-        listViewMembers.addFooterView(new View(getActivity()), null, true);
-    }
-
     @ItemClick(R.id.list_view_members)
-    public void setItemClickOnListViewMembers(int position){
+    public void setItemClickOnListViewMembers(int position) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
         fragmentTransaction.replace(R.id.contentFrame, fragment);
@@ -128,7 +118,14 @@ public class PeopleFinderListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(getArguments() != null)
+            membersList = (List<Member>) getArguments().getSerializable(MEMBERS_AROUND_ME_KEY);
+
         BaseApplication.register(this);
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        accessToken = preferences.getString("access_token","").replace("\"","");
+        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
         return null;
     }

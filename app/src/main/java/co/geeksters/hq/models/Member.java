@@ -240,16 +240,41 @@ public class Member implements Serializable{
 
     public static List<Member> orderMembersByDescDistance(List<Member> listMembers) {
         List<Member> membersByDistance = new ArrayList<Member>();
-        while(listMembers.size() > 0) {
-            Member memberWithLessDistance = listMembers.get(0);
 
-            for (int i = 0; i < listMembers.size(); i++) {
-                if(memberWithLessDistance.distance >= listMembers.get(i).distance)
-                    memberWithLessDistance = listMembers.get(i);
+        List<Member> listMembersRemovable = new ArrayList<Member>();
+        listMembersRemovable.addAll(listMembers);
+
+        while(listMembersRemovable.size() > 0) {
+            Member memberWithLessDistance = listMembersRemovable.get(0);
+
+            for (int i = 0; i < listMembersRemovable.size(); i++) {
+                if(memberWithLessDistance.distance >= listMembersRemovable.get(i).distance)
+                    memberWithLessDistance = listMembersRemovable.get(i);
             }
 
             membersByDistance.add(memberWithLessDistance);
-            listMembers.remove(memberWithLessDistance);
+            listMembersRemovable.remove(memberWithLessDistance);
+        }
+
+        return membersByDistance;
+    }
+
+    public static List<Member> orderMembersByAscDistance(List<Member> listMembers) {
+        List<Member> membersByDistance = new ArrayList<Member>();
+
+        List<Member> listMembersRemovable = new ArrayList<Member>();
+        listMembersRemovable.addAll(listMembers);
+
+        while(listMembersRemovable.size() > 0) {
+            Member memberWithHighterDistance = listMembersRemovable.get(0);
+
+            for (int i = 0; i < listMembersRemovable.size(); i++) {
+                if(memberWithHighterDistance.distance <= listMembersRemovable.get(i).distance)
+                    memberWithHighterDistance = listMembersRemovable.get(i);
+            }
+
+            membersByDistance.add(memberWithHighterDistance);
+            listMembersRemovable.remove(memberWithHighterDistance);
         }
 
         return membersByDistance;
@@ -259,7 +284,35 @@ public class Member implements Serializable{
 
         HashMap<String, String> map;
 
-        membersList = orderMembersByDescDistance(membersList);
+        //membersList = orderMembersByDescDistance(membersList);
+
+        for(int i = 0; i < membersList.size(); i++) {
+            map = new HashMap<String, String>();
+
+            /*if(!membersList.get(i).image.equals(""))
+                map.put("picture", membersList.get(i).image);
+            else*/
+            map.put("picture", String.valueOf(R.drawable.no_image_member));
+            map.put("fullName", GeneralHelpers.firstToUpper(membersList.get(i).fullName));
+
+            if(membersList.get(i).hub != null && !membersList.get(i).hub.name.equals(""))
+                map.put("hubName", GeneralHelpers.firstToUpper(membersList.get(i).hub.name));
+            else
+                map.put("hubName", context.getResources().getString(R.string.empty_hub_name));
+
+            map.put("distance", GeneralHelpers.distanceByInterval(membersList.get(i).distance));
+
+            members.add(map);
+        }
+
+        return members;
+    }
+
+    public static ArrayList<HashMap<String, String>> membersInfoForItemByDistance(Context context, ArrayList<HashMap<String, String>> members, List<Member> membersList){
+
+        HashMap<String, String> map;
+
+//        membersList = orderMembersByDescDistance(membersList);
 
         for(int i = 0; i < membersList.size(); i++) {
             map = new HashMap<String, String>();

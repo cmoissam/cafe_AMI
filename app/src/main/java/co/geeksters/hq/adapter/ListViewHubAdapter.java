@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class ListViewHubAdapter extends BaseAdapter {
 
         TextView hubName = (TextView) view.findViewById(R.id.hubName);
         TextView hubMembersNumber = (TextView) view.findViewById(R.id.membersNumber);
-        ImageView removeItem = (ImageView) view.findViewById(R.id.removeItem);
+        LinearLayout removeItem = (LinearLayout) view.findViewById(R.id.removeItem);
 
         hubName.setText(GeneralHelpers.firstToUpper(hub.name));
         hubMembersNumber.setText(hub.members.size() + " Members");

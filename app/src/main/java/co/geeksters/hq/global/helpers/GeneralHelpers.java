@@ -86,7 +86,7 @@ public class GeneralHelpers {
         return format.format(new Date());
     }
 
-    public static String firstToUpper(String string){
+    public static String firstToUpper(String string) {
         if(string == null || string.equals("")) return string;
         else return Character.toUpperCase(string.charAt(0)) + string.substring(1);
     }
@@ -95,9 +95,13 @@ public class GeneralHelpers {
         String distanceToKilometer = "";
 
         if (distance >= 1000) {
-            distanceToKilometer = (int) distance/1000 +" Km";
+            float newDistance = distance/1000;
+            if(newDistance == (int) newDistance)
+                distanceToKilometer += (int) newDistance + " Km";
+            else
+                distanceToKilometer += newDistance + " Km";
         } else {
-            distanceToKilometer = (int) distance +" m";
+            distanceToKilometer += (int) distance + " m";
         }
 
         return distanceToKilometer;
@@ -120,12 +124,11 @@ public class GeneralHelpers {
 
     public static String distanceByInterval(float distance) {
         String interval = "";
-        int i = (int) ((GlobalVariables.RADIUS / GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) + 1);
+        int i = (int) (((GlobalVariables.RADIUS * 1000) / GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) + 1);
+        setSliceNumber();
 
         while(i > 0 && distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * i) {
             if (distance >= (i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER && distance <= i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) {
-                int min = (i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER;
-                int max = i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER;
                 interval = distanceBetweenValues((i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER, i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER);
 
                 break;
@@ -135,5 +138,10 @@ public class GeneralHelpers {
         }
 
         return intervalToKilometer(interval);
+    }
+
+    public static int setSliceNumber() {
+        GlobalVariables.MAX_SLICE_NUMBER = (int) ((GlobalVariables.RADIUS * 1000) / GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) + 1;
+        return GlobalVariables.MAX_SLICE_NUMBER;
     }
 }

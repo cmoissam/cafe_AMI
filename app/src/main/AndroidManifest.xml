@@ -28,6 +28,13 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
+    <supports-screens android:resizeable="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"/>
+
     <application
         android:name="co.geeksters.hq.global.BaseApplication"
         android:allowBackup="true"
@@ -98,6 +105,18 @@
             android:name="co.geeksters.hq.activities.ForgotPasswordActivity_"
             android:label="@string/title_activity_forgot_password"
             android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+
+        <activity
+            android:name="co.geeksters.hq.activities.TestActivity"
+            android:label="@string/title_activity_forgot_password"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+
+        <activity
+            android:name="co.geeksters.hq.activities.MyAndroidAppActivity"
+            android:label="@string/title_activity_forgot_password"
+            android:windowSoftInputMode="adjustResize|stateHidden">
         </activity>
 
     </application>

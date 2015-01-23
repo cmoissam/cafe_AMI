@@ -8,12 +8,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +28,12 @@ import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
+import java.util.List;
+
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.CustomOnItemSelectedListener;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
@@ -51,8 +56,11 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.fullName)
     EditText fullName;
 
-    @ViewById(R.id.hubName)
-    EditText hubName;
+    /*@ViewById(R.id.hubName)
+    EditText hubName;*/
+
+    @ViewById(R.id.spinner)
+    Spinner spinner;
 
     @ViewById(R.id.companyName)
     EditText companyName;
@@ -151,7 +159,7 @@ public class MeFragment extends Fragment {
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
         fullName.setText(GeneralHelpers.firstToUpper(currentMember.fullName));
-        hubName.setText(GeneralHelpers.firstToUpper(currentMember.hub.name));
+//        hubName.setText(GeneralHelpers.firstToUpper(currentMember.hub.name));
         companyName.setText(currentMember.returnNameForNullCompaniesValue());
         goalContent.setText(GeneralHelpers.firstToUpper(currentMember.goal));
         bioContent.setText(GeneralHelpers.firstToUpper(currentMember.blurp));
@@ -189,7 +197,37 @@ public class MeFragment extends Fragment {
             checkBoxPushComment.setChecked(true);
         if(currentMember.notifyByPushOnTodo)
             checkBoxPushTodo.setChecked(true);
+
+//        addItemsOnSpinner();
+//        addListenerOnButton();
+//        addListenerOnSpinnerItemSelection();
     }
+
+    public void addItemsOnSpinner() {
+        List<String> list = new ArrayList<String>();
+        list.add("list 1");
+        list.add("list 2");
+        list.add("list 3");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item,list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }
+
+    public void addListenerOnSpinnerItemSelection() {
+        spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+    }
+
+    // add items into spinner dynamically
+    /*public void addItemsOnSpinner() {
+        List<String> list = new ArrayList<String>();
+        list.add("list 1");
+        list.add("list 2");
+        list.add("list 3");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+    }*/
 
     @Click(R.id.saveButton)
     public void save(){
@@ -308,7 +346,7 @@ public class MeFragment extends Fragment {
         member.updatedAt = formatActualDate();
 
         member.fullName = fullName.getText().toString();
-        member.hub.name = hubName.getText().toString();
+        member.hub.name = String.valueOf(spinner.getSelectedItem());
 
         if(!companyName.getText().toString().equals("")) {
             member.companies = new ArrayList<Company>();

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,8 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
+import co.geeksters.hq.global.CircleView;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.PredicateLayout;
 import co.geeksters.hq.models.Hub;
 
@@ -116,6 +120,10 @@ public class ViewHelpers {
         interestsContent.addView(interestContent, 1);
     }
 
+    public static void createCircleView(final Context context, final LinearLayout radarLayout, float circleRadius) {
+        radarLayout.addView(new CircleView(context));
+    }
+
     public static void setListViewHeightBasedOnChildren(ListView listView) {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null)
@@ -144,6 +152,17 @@ public class ViewHelpers {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    public static void drawRadarSlice(ImageView myPosition, float radius, Canvas canvas, Paint paint) {
+        int[] myPositionCoordinates = new int[2];
+        myPosition.getLocationInWindow(myPositionCoordinates);
+
+        for(int i=1; i<=GlobalVariables.MAX_SLICE_NUMBER; i++) {
+            // Maryeme portable
+            // canvas.drawCircle(myPositionCoordinates[0] - 17 * radius / 8, myPositionCoordinates[1] - myPosition.getY(), 50 * i, paint);
+            canvas.drawCircle(myPosition.getX() + myPosition.getWidth()/2, myPosition.getY() + myPosition.getHeight()/2, radius * i, paint);
+        }
     }
 
     public static void buildAlertMessageNoGps(final Context context) {

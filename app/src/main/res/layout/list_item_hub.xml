@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hubItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -14,8 +15,9 @@
         <LinearLayout
             android:id="@+id/hubInformation"
             android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="10dp"
@@ -25,7 +27,6 @@
                 android:id="@+id/hubName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
                 android:hint="@string/full_name"
                 android:textSize="18dp"
                 android:focusable="false"
@@ -50,7 +51,6 @@
                     android:id="@+id/membersNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
                     android:hint="@string/hub_name"
                     android:ems="10"
                     android:layout_weight="1"
@@ -63,14 +63,19 @@
 
         </LinearLayout>
 
-        <ImageView
+        <LinearLayout
             android:id="@+id/removeItem"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="15dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/delete"
-            android:visibility="gone"/>
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/delete"/>
+        </LinearLayout>
 
     </LinearLayout>
 

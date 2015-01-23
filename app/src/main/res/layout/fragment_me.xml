@@ -60,14 +60,20 @@
                             android:layout_gravity="left"
                             android:src="@drawable/home" />
 
-                        <EditText
-                            android:id="@+id/hubName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:hint="@string/hub_name"
-                            android:ems="10"
-                            android:layout_weight="1" />
+                        <!--<EditText-->
+                            <!--android:id="@+id/hubName"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:inputType="textPersonName"-->
+                            <!--android:hint="@string/hub_name"-->
+                            <!--android:ems="10"-->
+                            <!--android:layout_weight="1" />-->
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
                     </LinearLayout>
 
                 </LinearLayout>

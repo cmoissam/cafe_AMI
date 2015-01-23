@@ -5,44 +5,62 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.LevelListDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.ActionMenuView;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.internal.my;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.GPSTrackerHelpers;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.MyMapFragment;
+import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
+import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;
 
@@ -50,15 +68,63 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 
 @EFragment(R.layout.fragment_people_finder_radar)
 public class PeopleFinderRadarFragment extends Fragment {
-
-    private static GoogleMap map;
-    private static View view;
-    MapFragment mMapFragment;
-    ViewGroup.LayoutParams params;
-    String accessToken;
+    View view;
     static Member currentMember;
+    List<Member> membersList = new ArrayList<Member>();
+    Bitmap bitMap;
+    static String MEMBERS_AROUND_ME_KEY = "members_around_me";
+    String accessToken;
+    SharedPreferences.Editor editor;
+    static boolean afterViews = false;
 
-    public void listAllMembersAroundMeService(){
+    @ViewById(R.id.radarForm)
+    LinearLayout radarForm;
+
+    @ViewById(R.id.me)
+    ImageView myPosition;
+
+    public void verifyGpsActivation() {
+        if(!afterViews) {
+            GPSTrackerHelpers gps = new GPSTrackerHelpers(getActivity());
+
+            SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+            editor = preferences.edit();
+            currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
+            Member updatedMember = currentMember;
+
+            // check if GPS enabled
+            if (gps.canGetLocation()) {
+
+                double latitude = gps.getLatitude();
+                double longitude = gps.getLongitude();
+
+                // update longitude latitude
+                updatedMember.longitude = (float) latitude;
+                updatedMember.latitude = (float) longitude;
+            } else {
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                ViewHelpers.buildAlertMessageNoGps(getActivity());
+            }
+
+            if (GeneralHelpers.isInternetAvailable(getActivity())) {
+                MemberService memberService = new MemberService(accessToken);
+                memberService.updateMember(currentMember.id, updatedMember);
+
+                GlobalVariables.isMenuOnPosition = true;
+                GlobalVariables.MENU_POSITION = 1;
+            } else {
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            }
+
+            afterViews = true;
+        }
+    }
+
+    @AfterViews
+    public void listAllMembersAroundMeService() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             MemberService memberService = new MemberService(accessToken);
             memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
@@ -67,88 +133,199 @@ public class PeopleFinderRadarFragment extends Fragment {
         }
     }
 
-    @AfterViews
-    public void listAllMembersAroundMe(){
+    @Subscribe
+    public void onSaveLocationMemberEvent(SaveMemberEvent event) {
+        // save the current Member
+        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
+        editor.commit();
+
         listAllMembersAroundMeService();
     }
 
     @Subscribe
     public void onGetListMembersAroundMeEvent(MembersEvent event) {
-        BitmapDrawable icon= (BitmapDrawable) getResources().getDrawable(R.drawable.no_image_member);
-        Bitmap bitmap = icon.getBitmap();
-        Bitmap bitmapIcon=Bitmap.createScaledBitmap(bitmap, bitmap.getWidth()/3,bitmap.getHeight()/3, false);
+        GlobalVariables.membersAroundMe = new ArrayList<Member>();
+        GlobalVariables.membersAroundMe.addAll(event.members);
+        membersList = event.members;
 
-        for (int i = 0; i < event.members.size(); i++) {
-            /*map.addMarker(new MarkerOptions().position(new LatLng(event.members.get(i).latitude, event.members.get(i).longitude)).title(event.members.get(i).fullName))
-                    .setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));*/
+        membersList = Member.orderMembersByDescDistance(membersList);
 
-            MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(event.members.get(i).latitude, event.members.get(i).longitude))
-                    .title(event.members.get(i).fullName)
-                    .icon(BitmapDescriptorFactory.fromBitmap(bitmapIcon));
+        GeneralHelpers.setSliceNumber();
 
-            map.addMarker(markerOptions);
+        float radius = (radarForm.getHeight()) / (GlobalVariables.MAX_SLICE_NUMBER + 1);
+
+        ViewGroup.LayoutParams params = myPosition.getLayoutParams();
+        params.width = (int) (2 * radius/3);
+        params.height = (int) (2 * radius/3);
+        myPosition.setLayoutParams(params);
+        myPosition.requestLayout();
+
+        // TODO : return to @AfterViews
+        createBitMap(radius);
+
+        for (int i = 0; i < membersList.size(); i++) {
+            int sliceIndex = getSliceIndex(membersList.get(i));
+
+            ImageView memberImage = new ImageView(getActivity());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius/3), (int) (radius/3));
+            memberImage.setLayoutParams(layoutParams);
+            memberImage.setBackgroundDrawable(getResources().getDrawable(R.drawable.no_image_member));
+
+            float angle = 0;
+            float randomX = 0;
+            float randomY = 0;
+            boolean positionOk = false;
+
+            while(true) {
+                angle = (float) (Math.random() * Math.PI * 2);
+                randomX = (float) (Math.cos(angle) * sliceIndex * radius);
+                randomY = (float) (Math.sin(angle) * sliceIndex * radius);
+
+                float minExeptLeft = - sliceIndex * radius;
+                float maxExeptLeft = (1 - sliceIndex) * radius;
+
+                float minExeptRight = (sliceIndex - 1) * radius;
+                float maxExeptRight = sliceIndex * radius;
+
+                float minExeptMyPositionX = - myPosition.getWidth()/2;
+                float minExeptMyPositionY = - myPosition.getHeight()/2 + myPosition.getHeight()/2;
+                float maxExeptMyPositionX = myPosition.getWidth()/2;
+                float maxExeptMyPositionY = myPosition.getHeight()/2 + myPosition.getHeight()/2;
+
+                //if(randomX >= - radarForm.getWidth()/2 && randomX <= radarForm.getWidth()/2
+//                        && randomY + radius + myPosition.getWidth()/2 > 20 && randomY + radius + myPosition.getWidth()/2 < 20 + myPosition.getHeight() + 20 - radarForm.getHeight()
+                //    ) {
+                if(- radarForm.getWidth()/2 < randomX && randomX < radarForm.getWidth()/2 && 0 > randomY &&
+                        randomY > myPosition.getHeight() - radarForm.getHeight()) {
+                    if (sliceIndex == 1) {
+                        if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + radius + myPosition.getWidth() / 2
+                                && randomY < maxExeptMyPositionY + radius + myPosition.getWidth() / 2))
+                            break;
+                    } else if ((randomX > minExeptLeft && randomX < maxExeptLeft && randomY > minExeptLeft && randomY < maxExeptLeft)
+                            || (randomX > minExeptRight && randomX < maxExeptRight && randomY > minExeptRight && randomY < maxExeptRight)) {
+                        break;
+                    }
+                }
+            }
+
+            memberImage.setX(randomX);
+            memberImage.setY(randomY + radius);
+
+//            memberImage.setX(0);
+//            memberImage.setY(myPosition.getHeight()/2 + 20 + (myPosition.getHeight() + 20 - radarForm.getHeight()));
+
+            final int index = i;
+            memberImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(index));
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+            radarForm.addView(memberImage,0);
         }
+    }
+
+    private void createBitMap(final float radius) {
+        if(GeneralHelpers.isInternetAvailable(getActivity())) {
+            if(bitMap != null) {
+                bitMap.recycle();
+                bitMap = null;
+            }
+
+            //Create a new bitmap to load the bitmap again.
+            bitMap = Bitmap.createBitmap(radarForm.getWidth(), radarForm.getHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        // bitMap = bitMap.copy(bitMap.getConfig(), true);
+        // Construct a canvas with the specified bitmap to draw into
+        final Canvas canvas = new Canvas(bitMap);
+        // Create a new paint with default settings.
+        final Paint paint = new Paint();
+
+        // smooths out the edges of what is being drawn
+        paint.setAntiAlias(true);
+        // set color
+        paint.setColor(Color.BLACK);
+        // set style
+        paint.setStyle(Paint.Style.STROKE);
+        // set stroke
+        paint.setStrokeWidth(1.0f);
+
+        // prepare a paint
+        /*mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(5);
+        mPaint.setAntiAlias(true);
+
+        // draw a rectangle
+        mPaint.setColor(Color.BLUE);
+        mPaint.setStyle(Paint.Style.FILL); //fill the background with blue color
+        canvas.drawRect(0+10, 0+10, width-10, height-10, mPaint);*/
+
+        final ViewTreeObserver vto = myPosition.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ViewHelpers.drawRadarSlice(myPosition, radius, canvas, paint);
+            }
+        });
+
+        // set on ImageView or any other view
+        BitmapDrawable ob = new BitmapDrawable(getActivity().getResources(), bitMap);
+        radarForm.setBackgroundDrawable(ob);
+    }
+
+    public int getSliceIndex(Member memberArroundMe) {
+        int j = GeneralHelpers.setSliceNumber();
+        int sliceIndex = 0;
+
+        while(j > 0 && memberArroundMe.distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * j) {
+            if(memberArroundMe.distance >= (j - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER &&
+                    memberArroundMe.distance <= j * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) {
+                sliceIndex = j;
+                break;
+            }
+            j -= 1;
+        }
+
+        return sliceIndex;
+    }
+
+    @Click(R.id.me)
+    public void seeMyProfile() {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        Fragment fragment = new OneProfileFragment_().newInstance(currentMember);
+        fragmentTransaction.replace(R.id.contentFrame, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
 
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null)
-                parent.removeView(view);
-        }
-
-        try {
-            view = inflater.inflate(R.layout.fragment_people_finder_radar, container, false);
-        } catch (InflateException e) {
-        /* map is already there, just return view as it is */
-        }
-
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-
         accessToken = preferences.getString("access_token","").replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
-        return view;
+
+//        radarForm = (LinearLayout) view.findViewById(R.id.radarForm);
+
+        if(!isAdded()) {
+            View view = inflater.inflate(R.layout.fragment_people_finder, container, false);
+            return view;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        map = ((MyMapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map)).getMap();
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-        LatLng latLng = new LatLng(currentMember.latitude, currentMember.longitude);
-        CameraUpdate center= CameraUpdateFactory.newLatLng(latLng);
-        CameraUpdate zoom= CameraUpdateFactory.zoomTo(13);
-
-        map.addMarker(new MarkerOptions().position(latLng).title(getResources().getString(R.string.my_position)));
-        map.moveCamera(center);
-        map.animateCamera(zoom);
-
-        mMapFragment = (MyMapFragment) getActivity().getFragmentManager().findFragmentById(R.id.map);
-        params = mMapFragment.getView().getLayoutParams();
-
-        //Display display = getActivity().getWindowManager().getDefaultDisplay();
-
-        /*Point size = new Point();
-        try {
-            display.getRealSize(size);
-            params.height = size.y;
-        } catch (NoSuchMethodError e) {*/
-
-        Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        //int rotation = display.getRotation();
-        int rotation = getResources().getConfiguration().orientation;
-
-        if(rotation == Configuration.ORIENTATION_PORTRAIT)
-            params.height = display.getHeight()-182;
-        else if(rotation == Configuration.ORIENTATION_LANDSCAPE)
-            params.height = display.getHeight()-158;
-
-        /*}*/
-
-        mMapFragment.getView().setLayoutParams(params);
+    public void onDestroy() {
+        super.onDestroy();
+        bitMap.recycle();
+        bitMap = null;
     }
 }

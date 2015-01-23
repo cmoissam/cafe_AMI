@@ -3,9 +3,12 @@ package co.geeksters.hq.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.Toast;
@@ -16,8 +19,12 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.DummyTabContent;
+import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -32,8 +39,6 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 
 @EFragment(R.layout.fragment_people_finder)
 public class PeopleFinderFragment extends Fragment {
-    @ViewById(R.id.peopleFinderScrollView)
-    ScrollView peopleFinderScrollView;
 
     @ViewById(R.id.tabhost)
     TabHost tabhost;
@@ -42,11 +47,10 @@ public class PeopleFinderFragment extends Fragment {
     SharedPreferences.Editor editor;
     String accessToken;
     Member currentMember;
+    List<Member> membersList = new ArrayList<Member>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BaseApplication.register(this);
-
         return null;
     }
 
@@ -75,11 +79,11 @@ public class PeopleFinderFragment extends Fragment {
 
                 if(tabId.equalsIgnoreCase("radar")){ /** If current tab is Info */
                     /** Create AndroidFragment and adding to fragmenttransaction */
-                    fragmentTransaction.add(R.id.realtabcontent,new PeopleFinderRadarFragment_(), "radar");
+                    fragmentTransaction.add(R.id.realtabcontent, new PeopleFinderRadarFragment_(), "radar");
                     /** Bring to the front, if already exists in the fragmenttransaction */
                 } else {	/** If current tab is Market */
                     /** Create AppleFragment and adding to fragmenttransaction */
-                    fragmentTransaction.add(R.id.realtabcontent,new PeopleFinderListFragment_(), "list");
+                    fragmentTransaction.add(R.id.realtabcontent, new PeopleFinderListFragment_(), "list");
                     /** Bring to the front, if already exists in the fragmenttransaction */
                 }
                 fragmentTransaction.commit();

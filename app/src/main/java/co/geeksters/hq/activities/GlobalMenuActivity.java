@@ -259,8 +259,8 @@ public class GlobalMenuActivity extends FragmentActivity {
             fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
         } else if(position == 1) {
             mTitle = getResources().getString(R.string.title_find_fragment);
-
-            verifyGpsActivation();
+//            verifyGpsActivation();
+            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
         } else if(position == 2){
             fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
         } else if(position == 3){
@@ -280,47 +280,6 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         // Closing the drawer
         drawerLayout.closeDrawer(drawerList);
-    }
-
-    public void verifyGpsActivation() {
-        GPSTrackerHelpers gps = new GPSTrackerHelpers(this);
-
-        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-
-        Member updatedMember = currentMember;
-
-        // check if GPS enabled
-        if(gps.canGetLocation()) {
-
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-
-            // update longitude latitude
-            updatedMember.longitude = (float) latitude;
-            updatedMember.latitude = (float) longitude;
-        } else {
-            // can't get location
-            // GPS or Network is not enabled
-            // Ask user to enable GPS/network in settings
-            ViewHelpers.buildAlertMessageNoGps(this);
-        }
-
-        if (GeneralHelpers.isInternetAvailable(this)) {
-            MemberService memberService = new MemberService(accessToken);
-            memberService.updateMember(currentMember.id, updatedMember);
-
-            GlobalVariables.isMenuOnPosition = true;
-            GlobalVariables.MENU_POSITION = 1;
-        } else {
-            ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-        }
-    }
-
-    @Subscribe
-    public void onSaveLocationMemberEvent(SaveMemberEvent event) {
-        // save the current Member
-        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
-        editor.commit();
     }
 
     @Override
