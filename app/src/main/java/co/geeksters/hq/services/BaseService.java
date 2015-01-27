@@ -10,7 +10,7 @@ import retrofit.converter.GsonConverter;
 
 public class BaseService {
 
-    public static String END_POINT_URL = "http://192.168.0.8:8000/api/v1";
+    public static String END_POINT_URL = "http://192.168.0.14:8000/api/v1";
     // public static String END_POINT_URL = "http://75371954.ngrok.com/api/v1";
 
     public static RestAdapter adapterWithoutToken() {

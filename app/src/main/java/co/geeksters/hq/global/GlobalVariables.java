@@ -31,6 +31,8 @@ public class GlobalVariables {
     public static boolean isCurrentMember = false;
     public static boolean isMenuOnPosition = false;
     public static int MENU_POSITION = 0;
+    public static boolean afterViewsRadar = true;
+//    public static boolean finder = true;
 
     public static List<String> emails;
     public static int indexPreference = 0;

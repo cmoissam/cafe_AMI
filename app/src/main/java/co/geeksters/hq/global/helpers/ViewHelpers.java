@@ -159,8 +159,6 @@ public class ViewHelpers {
         myPosition.getLocationInWindow(myPositionCoordinates);
 
         for(int i=1; i<=GlobalVariables.MAX_SLICE_NUMBER; i++) {
-            // Maryeme portable
-            // canvas.drawCircle(myPositionCoordinates[0] - 17 * radius / 8, myPositionCoordinates[1] - myPosition.getY(), 50 * i, paint);
             canvas.drawCircle(myPosition.getX() + myPosition.getWidth()/2, myPosition.getY() + myPosition.getHeight()/2, radius * i, paint);
         }
     }

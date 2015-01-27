@@ -19,6 +19,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+import org.junit.After;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,32 +64,8 @@ public class PeopleFinderListFragment extends Fragment {
     TextView emptySearch;
 
     @AfterViews
-    public void listAllMembersAroundMeService() {
-        if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            MemberService memberService = new MemberService(accessToken);
-            memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
-        } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-        }
-    }
-
-//    @Subscribe
-//    public void onSaveLocationMemberEvent(SaveMemberEvent event) {
-//        // save the current Member
-//        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
-//        editor.commit();
-//
-//        listAllMembersAroundMeService();
-//    }
-
-    @Subscribe
-    public void onGetListMembersAroundMeEvent(MembersEvent event) {
-        membersList = GlobalVariables.membersAroundMe;
-        displayMembersAroundMeOnList();
-    }
-
     public void displayMembersAroundMeOnList() {
-        membersList = Member.orderMembersByDescDistance(membersList);
+        membersList = Member.orderMembersByDescDistance(GlobalVariables.membersAroundMe);
         members = new ArrayList<HashMap<String, String>>();
         members = Member.membersInfoForItemByDistance(getActivity(), members, membersList);
 
@@ -98,15 +75,19 @@ public class PeopleFinderListFragment extends Fragment {
                 new int[]{R.id.picture, R.id.fullName, R.id.hubName, R.id.distance});
 
         listViewMembers.setAdapter(adapter);
-        listViewMembers.setItemsCanFocus(false);
 
         if(adapter.isEmpty())
             emptySearch.setVisibility(View.VISIBLE);
         else
             emptySearch.setVisibility(View.GONE);
 
-        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
+//        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
+
+    /*@AfterViews
+    public void addFooterToListview() {
+        listViewMembers.addFooterView(new View(getActivity()), null, true);
+    }*/
 
     @ItemClick(R.id.list_view_members)
     public void setItemClickOnListViewMembers(int position) {
@@ -118,9 +99,6 @@ public class PeopleFinderListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(getArguments() != null)
-            membersList = (List<Member>) getArguments().getSerializable(MEMBERS_AROUND_ME_KEY);
-
         BaseApplication.register(this);
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);

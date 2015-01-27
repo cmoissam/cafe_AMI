@@ -72,10 +72,9 @@ public class PeopleFinderRadarFragment extends Fragment {
     static Member currentMember;
     List<Member> membersList = new ArrayList<Member>();
     Bitmap bitMap;
-    static String MEMBERS_AROUND_ME_KEY = "members_around_me";
     String accessToken;
-    SharedPreferences.Editor editor;
-    static boolean afterViews = false;
+    static boolean finder = true;
+    static boolean setBitmap = true;
 
     @ViewById(R.id.radarForm)
     LinearLayout radarForm;
@@ -83,76 +82,56 @@ public class PeopleFinderRadarFragment extends Fragment {
     @ViewById(R.id.me)
     ImageView myPosition;
 
-    public void verifyGpsActivation() {
-        if(!afterViews) {
-            GPSTrackerHelpers gps = new GPSTrackerHelpers(getActivity());
+    @AfterViews
+    public void listAllMembersAroundMeService() {
+        setBitmap = true;
 
-            SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-            editor = preferences.edit();
-            currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+        if(GlobalVariables.afterViewsRadar)
+            finder = true;
 
-            Member updatedMember = currentMember;
-
-            // check if GPS enabled
-            if (gps.canGetLocation()) {
-
-                double latitude = gps.getLatitude();
-                double longitude = gps.getLongitude();
-
-                // update longitude latitude
-                updatedMember.longitude = (float) latitude;
-                updatedMember.latitude = (float) longitude;
-            } else {
-                // can't get location
-                // GPS or Network is not enabled
-                // Ask user to enable GPS/network in settings
-                ViewHelpers.buildAlertMessageNoGps(getActivity());
-            }
-
+        if(finder) {
             if (GeneralHelpers.isInternetAvailable(getActivity())) {
                 MemberService memberService = new MemberService(accessToken);
-                memberService.updateMember(currentMember.id, updatedMember);
-
-                GlobalVariables.isMenuOnPosition = true;
-                GlobalVariables.MENU_POSITION = 1;
+                memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
             } else {
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
             }
 
-            afterViews = true;
+            GlobalVariables.afterViewsRadar = false;
+            finder = false;
         }
     }
 
-    @AfterViews
-    public void listAllMembersAroundMeService() {
-        if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            MemberService memberService = new MemberService(accessToken);
-            memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
-        } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+    public void zoomOnRadar(List<Member> membersList) {
+        List<Integer> sliceIndexList = new ArrayList<Integer>();
+
+        for(int i=0; i<membersList.size(); i++) {
+            sliceIndexList.add(getSliceIndex(membersList.get(i)));
         }
-    }
 
-    @Subscribe
-    public void onSaveLocationMemberEvent(SaveMemberEvent event) {
-        // save the current Member
-        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
-        editor.commit();
+        int max = sliceIndexList.get(0);
+        for(int i=0; i<sliceIndexList.size(); i++) {
+            if(sliceIndexList.get(i) > max) {
+                max = sliceIndexList.get(i);
+            }
+        }
 
-        listAllMembersAroundMeService();
+        GlobalVariables.MAX_SLICE_NUMBER = max + 1;
     }
 
     @Subscribe
     public void onGetListMembersAroundMeEvent(MembersEvent event) {
+        GeneralHelpers.setSliceNumber();
+
+        zoomOnRadar(event.members);
+
         GlobalVariables.membersAroundMe = new ArrayList<Member>();
         GlobalVariables.membersAroundMe.addAll(event.members);
         membersList = event.members;
 
         membersList = Member.orderMembersByDescDistance(membersList);
 
-        GeneralHelpers.setSliceNumber();
-
-        float radius = (radarForm.getHeight()) / (GlobalVariables.MAX_SLICE_NUMBER + 1);
+        final float radius = (radarForm.getHeight()) / (GlobalVariables.MAX_SLICE_NUMBER + 1);
 
         ViewGroup.LayoutParams params = myPosition.getLayoutParams();
         params.width = (int) (2 * radius/3);
@@ -161,13 +140,14 @@ public class PeopleFinderRadarFragment extends Fragment {
         myPosition.requestLayout();
 
         // TODO : return to @AfterViews
+        //if(setBitmap) {
         createBitMap(radius);
 
         for (int i = 0; i < membersList.size(); i++) {
             int sliceIndex = getSliceIndex(membersList.get(i));
 
             ImageView memberImage = new ImageView(getActivity());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius/3), (int) (radius/3));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius / 3), (int) (radius / 3));
             memberImage.setLayoutParams(layoutParams);
             memberImage.setBackgroundDrawable(getResources().getDrawable(R.drawable.no_image_member));
 
@@ -176,26 +156,26 @@ public class PeopleFinderRadarFragment extends Fragment {
             float randomY = 0;
             boolean positionOk = false;
 
-            while(true) {
+            while (true) {
                 angle = (float) (Math.random() * Math.PI * 2);
                 randomX = (float) (Math.cos(angle) * sliceIndex * radius);
                 randomY = (float) (Math.sin(angle) * sliceIndex * radius);
 
-                float minExeptLeft = - sliceIndex * radius;
+                float minExeptLeft = -sliceIndex * radius;
                 float maxExeptLeft = (1 - sliceIndex) * radius;
 
                 float minExeptRight = (sliceIndex - 1) * radius;
                 float maxExeptRight = sliceIndex * radius;
 
-                float minExeptMyPositionX = - myPosition.getWidth()/2;
-                float minExeptMyPositionY = - myPosition.getHeight()/2 + myPosition.getHeight()/2;
-                float maxExeptMyPositionX = myPosition.getWidth()/2;
-                float maxExeptMyPositionY = myPosition.getHeight()/2 + myPosition.getHeight()/2;
+                float minExeptMyPositionX = -myPosition.getWidth() / 2;
+                float minExeptMyPositionY = -myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
+                float maxExeptMyPositionX = myPosition.getWidth() / 2;
+                float maxExeptMyPositionY = myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
 
                 //if(randomX >= - radarForm.getWidth()/2 && randomX <= radarForm.getWidth()/2
 //                        && randomY + radius + myPosition.getWidth()/2 > 20 && randomY + radius + myPosition.getWidth()/2 < 20 + myPosition.getHeight() + 20 - radarForm.getHeight()
                 //    ) {
-                if(- radarForm.getWidth()/2 < randomX && randomX < radarForm.getWidth()/2 && 0 > randomY &&
+                if (-radarForm.getWidth() / 2 < randomX && randomX < radarForm.getWidth() / 2 && 0 > randomY &&
                         randomY > myPosition.getHeight() - radarForm.getHeight()) {
                     if (sliceIndex == 1) {
                         if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + radius + myPosition.getWidth() / 2
@@ -211,9 +191,6 @@ public class PeopleFinderRadarFragment extends Fragment {
             memberImage.setX(randomX);
             memberImage.setY(randomY + radius);
 
-//            memberImage.setX(0);
-//            memberImage.setY(myPosition.getHeight()/2 + 20 + (myPosition.getHeight() + 20 - radarForm.getHeight()));
-
             final int index = i;
             memberImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -225,13 +202,16 @@ public class PeopleFinderRadarFragment extends Fragment {
                 }
             });
 
-            radarForm.addView(memberImage,0);
+            radarForm.addView(memberImage, 0);
+
+            if(i == membersList.size() - 1)
+                setBitmap = false;
         }
     }
 
     private void createBitMap(final float radius) {
-        if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            if(bitMap != null) {
+        if (GeneralHelpers.isInternetAvailable(getActivity())) {
+            if (bitMap != null) {
                 bitMap.recycle();
                 bitMap = null;
             }
@@ -264,6 +244,9 @@ public class PeopleFinderRadarFragment extends Fragment {
         mPaint.setColor(Color.BLUE);
         mPaint.setStyle(Paint.Style.FILL); //fill the background with blue color
         canvas.drawRect(0+10, 0+10, width-10, height-10, mPaint);*/
+
+
+        // modify Slice number depending on max index slice
 
         final ViewTreeObserver vto = myPosition.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -310,9 +293,6 @@ public class PeopleFinderRadarFragment extends Fragment {
         accessToken = preferences.getString("access_token","").replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
-
-//        radarForm = (LinearLayout) view.findViewById(R.id.radarForm);
-
         if(!isAdded()) {
             View view = inflater.inflate(R.layout.fragment_people_finder, container, false);
             return view;
@@ -325,7 +305,9 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        bitMap.recycle();
-        bitMap = null;
+        if(bitMap != null) {
+            bitMap.recycle();
+            bitMap = null;
+        }
     }
 }

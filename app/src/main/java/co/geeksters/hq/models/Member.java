@@ -314,16 +314,16 @@ public class Member implements Serializable{
 
 //        membersList = orderMembersByDescDistance(membersList);
 
-        for(int i = 0; i < membersList.size(); i++) {
+        for (int i = 0; i < membersList.size(); i++) {
             map = new HashMap<String, String>();
 
-            /*if(!membersList.get(i).image.equals(""))
-                map.put("picture", membersList.get(i).image);
-            else*/
+        /*if(!membersList.get(i).image.equals(""))
+            map.put("picture", membersList.get(i).image);
+        else*/
             map.put("picture", String.valueOf(R.drawable.no_image_member));
             map.put("fullName", GeneralHelpers.firstToUpper(membersList.get(i).fullName));
 
-            if(membersList.get(i).hub != null && !membersList.get(i).hub.name.equals(""))
+            if (membersList.get(i).hub != null && !membersList.get(i).hub.name.equals(""))
                 map.put("hubName", GeneralHelpers.firstToUpper(membersList.get(i).hub.name));
             else
                 map.put("hubName", context.getResources().getString(R.string.empty_hub_name));

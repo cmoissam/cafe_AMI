@@ -249,16 +249,16 @@ public class MeFragment extends Fragment {
 
     @Subscribe
     public void onSaveMemberEvent(SaveMemberEvent event) {
-        if(GlobalVariables.MENU_POSITION == 5)
-            Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
-
         // save the current Member
         editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
         editor.commit();
+
+        if(GlobalVariables.MENU_POSITION == 5)
+            Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
     }
 
     @Click(R.id.deleteButton)
-    public void deleteAccount(){
+    public void deleteAccount() {
         showProgress(true, getActivity(), meScrollView, logoutProgress);
         // Test internet availability
         if(isInternetAvailable(getActivity())) {

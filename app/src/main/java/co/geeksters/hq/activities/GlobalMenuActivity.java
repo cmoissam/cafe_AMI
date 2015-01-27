@@ -32,6 +32,7 @@ import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
 import co.geeksters.hq.fragments.MyToDosFragment;
 import co.geeksters.hq.fragments.PeopleDirectoryFragment_;
 import co.geeksters.hq.fragments.PeopleFinderFragment_;
+import co.geeksters.hq.fragments.PeopleFinderRadarFragment;
 import co.geeksters.hq.fragments.WebViewFragment;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -155,6 +156,8 @@ public class GlobalMenuActivity extends FragmentActivity {
                     fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 1) {
                     mTitle = getResources().getString(R.string.title_find_fragment);
+                    GlobalVariables.afterViewsRadar = true;
+                    fragmentTransaction.addToBackStack(null);
 
                     fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 2){
@@ -170,6 +173,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
                     fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
                 }
+
                 getActionBar().setTitle(mTitle);
             }
         }
@@ -180,8 +184,13 @@ public class GlobalMenuActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        GlobalVariables.isMenuOnPosition = false;
+        setResult(RESULT_CANCELED);
         finish();
+
+//        if (getFragmentManager().getBackStackEntryCount() == 0) {
+//        } else {
+//            getFragmentManager().popBackStack();
+//        }
     }
 
     @AfterViews
@@ -228,7 +237,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
     // Setting item click listener for the listview mDrawerList
     @ItemClick
-    public void drawerListItemClicked(int position){
+    public void drawerListItemClicked(int position) {
         // Getting an array of rivers
         String[] menuItems = getResources().getStringArray(
                 R.array.menus);
@@ -259,17 +268,18 @@ public class GlobalMenuActivity extends FragmentActivity {
             fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
         } else if(position == 1) {
             mTitle = getResources().getString(R.string.title_find_fragment);
-//            verifyGpsActivation();
-            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
-        } else if(position == 2){
+
+            verifyGpsActivation();
+            //fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+        } else if(position == 2) {
             fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
-        } else if(position == 3){
+        } else if(position == 3) {
             mTitle = getResources().getString(R.string.title_todos_fragment);
 
             fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment());
-        } else if(position == 4){
+        } else if(position == 4) {
             fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
-        } else if(position == 5){
+        } else if(position == 5) {
             mTitle = getResources().getString(R.string.title_me_fragment);
 
             fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
@@ -280,6 +290,65 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         // Closing the drawer
         drawerLayout.closeDrawer(drawerList);
+    }
+
+    public void verifyGpsActivation() {
+//        GlobalVariables.finder = true;
+
+        GPSTrackerHelpers gps = new GPSTrackerHelpers(this);
+
+        SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        editor = preferences.edit();
+        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
+        Member updatedMember = currentMember;
+
+        // check if GPS enabled
+        if (gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+
+            // update longitude latitude
+            updatedMember.longitude = (float) latitude;
+            updatedMember.latitude = (float) longitude;
+        } else {
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            ViewHelpers.buildAlertMessageNoGps(this);
+        }
+
+        if (GeneralHelpers.isInternetAvailable(this)) {
+            MemberService memberService = new MemberService(accessToken);
+            memberService.updateMember(currentMember.id, updatedMember);
+
+            GlobalVariables.isMenuOnPosition = true;
+            GlobalVariables.MENU_POSITION = 1;
+        } else {
+            ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+        }
+    }
+
+    @Subscribe
+    public void onSaveLocationMemberEvent(SaveMemberEvent event) {
+
+        if(GlobalVariables.MENU_POSITION == 1) {
+            // save the current Member
+            editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
+            editor.commit();
+
+            GlobalVariables.afterViewsRadar = true;
+
+            // Getting reference to the FragmentManager
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            // Creating a fragment transaction
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.addToBackStack(null);
+//            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+//            // Committing the transaction
+//            fragmentTransaction.commit();
+        }
     }
 
     @Override
@@ -311,4 +380,15 @@ public class GlobalMenuActivity extends FragmentActivity {
 		getMenuInflater().inflate(R.menu.menu_main, menu);
 		return true;
 	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(resultCode)
+        {
+            case RESULT_CANCELED:
+                setResult(RESULT_CANCELED);
+                finish();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

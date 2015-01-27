@@ -53,13 +53,13 @@ public class GeneralHelpers {
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo == null) {
+        if(networkInfo == null) {
             return false;
         } else
             return true;
     }
 
-    public static boolean isGPSEnabled(Context context){
+    public static boolean isGPSEnabled(Context context) {
         final LocationManager manager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {

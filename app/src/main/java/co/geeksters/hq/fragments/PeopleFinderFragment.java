@@ -51,6 +51,10 @@ public class PeopleFinderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        accessToken = preferences.getString("access_token","").replace("\"","");
+        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
         return null;
     }
 
@@ -79,6 +83,7 @@ public class PeopleFinderFragment extends Fragment {
 
                 if(tabId.equalsIgnoreCase("radar")){ /** If current tab is Info */
                     /** Create AndroidFragment and adding to fragmenttransaction */
+                    GlobalVariables.afterViewsRadar = true;
                     fragmentTransaction.add(R.id.realtabcontent, new PeopleFinderRadarFragment_(), "radar");
                     /** Bring to the front, if already exists in the fragmenttransaction */
                 } else {	/** If current tab is Market */

@@ -65,8 +65,6 @@ public class LoginActivity extends Activity {
         BaseApplication.register(this);
     }
 
-
-
     @AfterViews
     public void setPreferencesEditorAndVerifyLogin(){
         SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
@@ -79,6 +77,7 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(this, GlobalMenuActivity_.class);
             finish();
             overridePendingTransition(0, 0);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
             ViewHelpers.showProgress(false, this, loginForm, loginProgress);
@@ -195,6 +194,7 @@ public class LoginActivity extends Activity {
         Intent intent = new Intent(this, GlobalMenuActivity_.class);
         finish();
         overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
 
         ViewHelpers.showProgress(false, this, loginForm, loginProgress);
