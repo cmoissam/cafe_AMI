@@ -39,8 +39,11 @@ public interface MemberInterface {
     @FormUrlEncoded
     @POST("/members/{id}")
     void updateMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
-                      @Field("email") String email, @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("social") Social social,
-                      @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,
+                      @Field("email") String email, @Field("hub") String hub, @Field("blurp") String blurp, @Field("social[twitter]") String twitter,
+                      @Field("social[facebook]") String facebook, @Field("social[linkdin]") String linkdin, @Field("social[skype]") String skype,
+                      @Field("social[blog]") String blog, @Field("social[website]") String website, @Field("social[other]") String other,
+                      @Field("interests") String interests, @Field("companies") String companies, @Field("latitude") float latitude,
+                      @Field("longitude") float longitude, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,
                       @Field("notify_by_push_on_comment") Boolean notifyByPushOnComment, @Field("notify_by_email_on_todo") Boolean notifyByEmailOnTodo,
                       @Field("notify_by_push_on_todo") Boolean notifyByPushOnTodo, Callback<JsonElement> callback);
 

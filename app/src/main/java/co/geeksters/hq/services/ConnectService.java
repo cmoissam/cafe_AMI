@@ -77,7 +77,8 @@ public class ConnectService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 String accessToken = response.getAsJsonObject().get("access_token").toString();
-                BaseApplication.post(new LoginEvent(accessToken));
+                Member member = Member.createUserFromJson(response.getAsJsonObject().get("member"));
+                BaseApplication.post(new LoginEvent(accessToken, member));
             }
 
             @Override

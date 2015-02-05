@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import co.geeksters.hq.events.success.LogoutMemberEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.models.Interest;
@@ -39,8 +38,8 @@ public class BusRegistrationToMemberEventsTest extends InstrumentationTestCase {
         socials.put("twitter", "http://twitter.com");
 
         ArrayList<Todo> todos = new ArrayList<Todo>();
-        Todo todo = new Todo(1, "todo content", 2014120418);
-        todos.add(todo);
+//        Todo todo = new Todo(1, "todo content", 2014120418);
+//        todos.add(todo);
 
         ArrayList<Interest> interests = new ArrayList<Interest>();
         Interest interest = new Interest(1, "interest name");
@@ -86,16 +85,16 @@ public class BusRegistrationToMemberEventsTest extends InstrumentationTestCase {
         bus.post(new SaveMemberEvent(member));
     }
 
-    public void testDeleteMember() {
-        // Register an object
-        // to validate the event posted
-        bus.register(new Object() {
-            @Subscribe
-            public void onDeleteMemberEvent(LogoutMemberEvent event) {
-                assertEquals(true, event.inEvent);
-            }
-        });
-
-        bus.post(new LogoutMemberEvent());
-    }
+//    public void testDeleteMember() {
+//        // Register an object
+//        // to validate the event posted
+//        bus.register(new Object() {
+//            @Subscribe
+//            public void onDeleteMemberEvent(TodosEvent event) {
+//                assertEquals(true, event.inEvent);
+//            }
+//        });
+//
+//        bus.post(new TodosEvent());
+//    }
 }

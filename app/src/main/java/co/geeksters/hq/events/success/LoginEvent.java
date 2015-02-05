@@ -1,15 +1,17 @@
 package co.geeksters.hq.events.success;
 
+import co.geeksters.hq.models.Member;
+
 /**
  * Created by soukaina on 27/11/14.
  */
 public class LoginEvent {
 
     public String accessToken;
+    public Member member;
 
-    public LoginEvent(String accessToken) {
+    public LoginEvent(String accessToken, Member member) {
         this.accessToken = accessToken;
-        // store this access token in a SharedPreferences
-        // redirection (first login -> complete profile, else -> home page)
+        this.member = member;
     }
 }

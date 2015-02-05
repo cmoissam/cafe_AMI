@@ -67,14 +67,15 @@
             android:id="@+id/removeItem"
             android:layout_height="match_parent"
             android:layout_width="0dp"
-            android:layout_weight="0.3"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:layout_weight="0.3">
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/delete"/>
+
         </LinearLayout>
 
     </LinearLayout>

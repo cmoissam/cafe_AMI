@@ -7,9 +7,9 @@ import org.json.JSONArray;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.CommentPostEvent;
+import co.geeksters.hq.events.success.CommentEvent;
+import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.DeleteCommentEvent;
-import co.geeksters.hq.events.success.ListCommentsForPostEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.CommentInterface;
 import co.geeksters.hq.models.Comment;
@@ -32,7 +32,7 @@ public class CommentService {
             @Override
             public void success(JSONArray response, Response rawResponse) {
                 List<Comment> comments_for_post = Comment.createListCommentsFromJson(response);
-                BaseApplication.post(new ListCommentsForPostEvent(comments_for_post));
+                BaseApplication.post(new CommentsEvent(comments_for_post));
             }
 
             @Override
@@ -50,7 +50,7 @@ public class CommentService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Comment created_comment_for_post = Comment.createCommentFromJson(response);
-                BaseApplication.post(new CommentPostEvent(created_comment_for_post));
+                BaseApplication.post(new CommentEvent(created_comment_for_post));
             }
 
             @Override

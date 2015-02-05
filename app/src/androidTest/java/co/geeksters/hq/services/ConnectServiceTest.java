@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Random;
 
-import co.geeksters.hq.events.success.LogoutMemberEvent;
+import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -80,7 +80,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
         member = new Member();
         member.fullName = "soukaina";
         //member.email = "test" + randomNum + ".mjahed@gmail.com";
-        member.email = "soukaina.mjahed@gmail.com";
+        member.email = "soukaina00.mjahed@gmail.com";
         member.password = "soukaina";
         member.passwordConfirmation = "soukaina";
     }
@@ -145,7 +145,8 @@ public class ConnectServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 String access_token = response.getAsJsonObject().get("access_token").toString();
-                bus.post(new LoginEvent(access_token));
+                Member member = Member.createUserFromJson(response.getAsJsonObject().get("member"));
+                bus.post(new LoginEvent(access_token, member));
             }
 
             @Override
@@ -162,7 +163,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onPasssswordRemindEvent(LogoutMemberEvent event) {
+            public void onPasssswordRemindEvent(EmptyEvent event) {
                 // assertEquals("on testPasswordRemindMember",successMessage, "success");
 
                 // WE ARE DONE
@@ -179,7 +180,7 @@ public class ConnectServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 // successMessage = response.getAsJsonObject().get(emails.get(0)).getAsJsonObject().get("status").toString();
-                bus.post(new LogoutMemberEvent());
+                bus.post(new EmptyEvent());
             }
 
             @Override

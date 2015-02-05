@@ -18,7 +18,7 @@ import java.util.List;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.GPSFailureEvent;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
-import co.geeksters.hq.events.success.LogoutMemberEvent;
+import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
@@ -47,7 +47,7 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.post(new LogoutMemberEvent());
+                BaseApplication.post(new EmptyEvent());
             }
 
             @Override
@@ -58,15 +58,19 @@ public class MemberService {
     }
 
     public void updateMember(int userId, Member member) {
-
-/*
-        @Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
-        @Field("email") String email, @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("social") Social social,
-        @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies, @Field("updated_at") String updatedAt,
-*/
+//        @Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
+//        @Field("email") String email, @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("social[twitter]") String twitter,
+//        @Field("social[facebook]") String facebook, @Field("social[linkdin]") String linkdin, @Field("social[skype]") String skype,
+//        @Field("social[blog]") String blog, @Field("social[website]") String website, @Field("social[other]") String other,
+//        @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies, @Field("latitude") float latitude,
+//        @Field("longitude") float longitude, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,
+//        @Field("notify_by_push_on_comment") Boolean notifyByPushOnComment, @Field("notify_by_email_on_todo") Boolean notifyByEmailOnTodo,
+//        @Field("notify_by_push_on_todo") Boolean notifyByPushOnTodo, Callback<JsonElement> callback
 
         // TODO : Hub update
-        this.api.updateMember(userId, "put", this.token, member.fullName, member.email, null, member.blurp, null, null, null,
+        this.api.updateMember(userId, "put", this.token, member.fullName, member.email, member.hub.name, member.blurp, member.social.twitter, member.social.facebook,
+                member.social.linkedin, member.social.skype, member.social.blog, member.social.website, member.social.other, member.interestsToUpdate(), member.companiesToUpdate(),
+                member.latitude, member.longitude,
                 member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo,
                 new Callback<JsonElement>() {
 
@@ -326,7 +330,7 @@ public class MemberService {
 
     public void getMembersArroundMe(int userId, float radius) {
 
-        this.api.getMembersArroundMe(userId, radius, new Callback<JsonElement>() {
+        this.api.getMembersArroundMe(userId, 10, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -395,7 +399,7 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.post(new LogoutMemberEvent());
+                BaseApplication.post(new EmptyEvent());
             }
 
             @Override
@@ -430,7 +434,7 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                BaseApplication.post(new LogoutMemberEvent());
+                BaseApplication.post(new EmptyEvent());
             }
 
             @Override

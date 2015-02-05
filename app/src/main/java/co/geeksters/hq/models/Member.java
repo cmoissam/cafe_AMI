@@ -30,7 +30,7 @@ public class Member implements Serializable{
 	public String blurp = "";
 	public String phone = "";
 	public String address = "";
-	public int newsletter = 0;
+	public boolean newsletter = false;
     public String createdAt = "";
     public String updatedAt = "";
 	public String image;
@@ -108,6 +108,7 @@ public class Member implements Serializable{
                 this.setSocialId(response.getAsJsonObject().get("social_id").getAsInt());
             }
         }
+
         if(response.getAsJsonObject().has("hub_id")) {
             if (this.hub == null && !response.getAsJsonObject().get("hub_id").isJsonNull()) {
                 this.setHubId(response.getAsJsonObject().get("hub_id").getAsInt());
@@ -122,7 +123,7 @@ public class Member implements Serializable{
      **/
 
     public static Member createUserFromJson(JsonElement response) {
-        response = parseMemberResponse(response);
+//        response = parseMemberResponse(response);
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -217,14 +218,23 @@ public class Member implements Serializable{
     }
 
     public String returnNameForNullCompaniesValue(){
-        if(this.companies.size() == 0)
-            return "";
-        else {
-            if (this.companies.get(0) == null)
-                return "";
-            else
-                return Character.toUpperCase(companies.get(0).name.charAt(0)) + companies.get(0).name.substring(1);
+        String companiesString = "";
+//        if(this.companies.size() == 0)
+//            return companiesString;
+//        else {
+//            if (this.companies.get(0) == null)
+//                return "";
+//            else
+//                return Character.toUpperCase(companies.get(0).name.charAt(0)) + companies.get(0).name.substring(1);
+
+        for(int i=0; i<this.companies.size(); i++) {
+            companiesString += this.companies.get(i).name;
+
+            if(i!=this.companies.size()-1)
+                companiesString += ", ";
         }
+
+        return companiesString;
     }
 
     public String returnNameForNullInterestsValue(int id) {
@@ -236,6 +246,17 @@ public class Member implements Serializable{
             else
                 return interests.get(id).name;
         }
+
+//        String interestsString = "";
+//
+//        for(int i=0; i<this.interests.size(); i++) {
+//            interestsString += this.interests.get(i).name;
+//
+//            if(i!=this.interests.size()-1)
+//                interestsString += ",";
+//        }
+//
+//        return interestsString;
     }
 
     public static List<Member> orderMembersByDescDistance(List<Member> listMembers) {
@@ -334,5 +355,31 @@ public class Member implements Serializable{
         }
 
         return members;
+    }
+
+    public String interestsToUpdate() {
+        String interestsToUpdate = "";
+
+        for(int i = 0; i < this.interests.size(); i++) {
+            interestsToUpdate += this.interests.get(i).name;
+
+            if(i != this.interests.size()-1)
+                interestsToUpdate += ", ";
+        }
+
+        return interestsToUpdate;
+    }
+
+    public String companiesToUpdate() {
+        String companiesToUpdate = "";
+
+        for(int i = 0; i < this.companies.size(); i++) {
+            companiesToUpdate += GeneralHelpers.firstToUpper(this.companies.get(i).name);
+
+            if(i != this.companies.size()-1)
+                companiesToUpdate += ", ";
+        }
+
+        return companiesToUpdate;
     }
 }

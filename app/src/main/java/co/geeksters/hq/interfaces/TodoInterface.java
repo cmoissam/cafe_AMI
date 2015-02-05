@@ -16,8 +16,8 @@ import retrofit.http.Path;
 
 public interface TodoInterface {
 
-    @GET("/members/{id}/todos")
-    void listTodosForMember(@Path("id") int user_id, Callback<JSONArray> callback);
+    @GET("/members/todos")
+    void listTodosForMember(Callback<JsonElement> callback);
 
     @POST("/members/{id}/todos")
     //void createTodo(@Path("id") int user_id, String text, List<User> associated_members, Integer remind_me_at, Callback<JsonElement> callback);

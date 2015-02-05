@@ -1,16 +1,15 @@
 package co.geeksters.hq.services;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
-import org.json.JSONArray;
 
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.CreatePostEvent;
+import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.DeletePostEvent;
 import co.geeksters.hq.events.success.ListAllPostsEvent;
-import co.geeksters.hq.events.success.ListPostsForMemberEvent;
+import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.PostInterface;
 import co.geeksters.hq.models.Post;
@@ -26,14 +25,15 @@ public class PostService extends BaseService {
         this.api = BaseService.adapterWithToken(token).create(PostInterface.class);
     }
 
-    public void listPostsForMember(int user_id, String size) {
+    public void listPostsForMember() {
 
-        this.api.listPostsForMember(user_id, new Callback<JSONArray>() {
+        this.api.listPostsForMember(new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Post> posts_for_member = Post.createListPostsFromJson(response);
-                BaseApplication.post(new ListPostsForMemberEvent(posts_for_member));
+            public void success(JsonElement response, Response rawResponse) {
+                JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
+                List<Post> posts_for_member = Post.createListPostsFromJson(responseAsArray);
+                BaseApplication.post(new PostsEvent(posts_for_member));
             }
 
             @Override
@@ -44,14 +44,14 @@ public class PostService extends BaseService {
         });
     }
 
-    public void listAllPosts(String order, String from, String size) {
-
-        this.api.listAllPosts(order, from, size, new Callback<JSONArray>() {
+    public void listAllPosts() {
+        this.api.listAllPosts(new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Post> posts = Post.createListPostsFromJson(response);
-                BaseApplication.post(new ListAllPostsEvent(posts));
+            public void success(JsonElement response, Response rawResponse) {
+                JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
+                List<Post> posts = Post.createListPostsFromJson(responseAsArray);
+                BaseApplication.post(new PostsEvent(posts));
             }
 
             @Override
@@ -62,14 +62,14 @@ public class PostService extends BaseService {
         });
     }
 
-    public void createPost(int user_id, Post post) {
+    public void createPost(String token, Post post) {
 
-        this.api.createPost(user_id, post, new Callback<JsonElement>() {
+        this.api.createPost(token, post.title, post.content, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Post created_post = Post.createPostFromJson(response);
-                BaseApplication.post(new CreatePostEvent(created_post));
+                BaseApplication.post(new PostEvent(created_post));
             }
 
             @Override
@@ -87,7 +87,7 @@ public class PostService extends BaseService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Post deleted_post = Post.createPostFromJson(response);
-                BaseApplication.post(new DeletePostEvent(deleted_post));
+                BaseApplication.post(new PostEvent(deleted_post));
             }
 
             @Override

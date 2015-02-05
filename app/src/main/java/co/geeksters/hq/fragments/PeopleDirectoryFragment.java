@@ -65,19 +65,6 @@ public class PeopleDirectoryFragment extends Fragment {
     @ViewById(R.id.displayAll)
     TextView displayAll;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(!BaseApplication.isRegistered(this))
-            BaseApplication.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        BaseApplication.unregister(this);
-    }
-
     public static PeopleDirectoryFragment_ newInstance(List<Member> members) {
         PeopleDirectoryFragment_ fragment = new PeopleDirectoryFragment_();
         Bundle bundle = new Bundle();
@@ -147,6 +134,11 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @ItemClick(R.id.list_view_members)
     public void setItemClickOnListViewMembers(int position){
+        GlobalVariables.directory = true;
+        GlobalVariables.isMenuOnPosition = false;
+        GlobalVariables.MENU_POSITION = 5;
+        GlobalVariables.isMenuOnPosition = false;
+
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
         fragmentTransaction.replace(R.id.contentFrame, fragment);

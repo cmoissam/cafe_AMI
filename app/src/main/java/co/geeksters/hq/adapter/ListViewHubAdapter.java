@@ -2,21 +2,26 @@ package co.geeksters.hq.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Message;
+import android.content.SharedPreferences;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
 import co.geeksters.hq.R;
+import co.geeksters.hq.fragments.OneHubFragment_;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
+import co.geeksters.hq.global.helpers.ParseHelpers;
+import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
 
 /**
@@ -24,17 +29,19 @@ import co.geeksters.hq.models.Hub;
  */
 public class ListViewHubAdapter extends BaseAdapter {
 
-    private Activity activity;
+    private FragmentActivity activity;
     private List<Hub> hubsList = new ArrayList<Hub>();
     private List<Hub> lastHubs = new ArrayList<Hub>();
+    private ListView listViewHubs;
     private static LayoutInflater inflater = null;
 
-    public ListViewHubAdapter(Activity activity, List<Hub> hubsList, List<Hub> lastHubs) {
+    public ListViewHubAdapter(FragmentActivity activity, List<Hub> hubsList, List<Hub> lastHubs, ListView listViewHubs) {
         this.activity = activity;
         this.hubsList = hubsList;
         this.lastHubs = lastHubs;
-        inflater = (LayoutInflater) activity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.listViewHubs = listViewHubs;
+
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
@@ -49,7 +56,7 @@ public class ListViewHubAdapter extends BaseAdapter {
         return position;
     }
 
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (convertView == null)
             view = inflater.inflate(R.layout.list_item_hub, null);
@@ -59,6 +66,7 @@ public class ListViewHubAdapter extends BaseAdapter {
         TextView hubName = (TextView) view.findViewById(R.id.hubName);
         TextView hubMembersNumber = (TextView) view.findViewById(R.id.membersNumber);
         LinearLayout removeItem = (LinearLayout) view.findViewById(R.id.removeItem);
+        LinearLayout hubInformation = (LinearLayout) view.findViewById(R.id.hubInformation);
 
         hubName.setText(GeneralHelpers.firstToUpper(hub.name));
         hubMembersNumber.setText(hub.members.size() + " Members");
@@ -68,7 +76,44 @@ public class ListViewHubAdapter extends BaseAdapter {
             removeItem.setVisibility(View.VISIBLE);
         }
 
+        removeItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preferences = activity.getSharedPreferences("CurrentUser", activity.MODE_PRIVATE);
+                // GeneralHelpers.getPreferencesPositionFromItemPosition(position)
+                int id = hubsList.get(position).id;
+                preferences.edit().remove("last_hub" + hubsList.get(position).id).commit();
+
+                hubsList.remove(position);
+                lastHubs.remove(position);
+                ListViewHubAdapter adapterForHubList = new ListViewHubAdapter(activity, hubsList, lastHubs, listViewHubs);
+                listViewHubs.setAdapter(adapterForHubList);
+                ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
+                Toast.makeText(activity, "Remove Item", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        hubInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // save this hub as a last search
+                hubsList.get(position).saveLastHub(activity);
+                GlobalVariables.hubInformation = true;
+                GlobalVariables.isMenuOnPosition = false;
+                GlobalVariables.MENU_POSITION = 7;
+
+                SharedPreferences preferences = activity.getSharedPreferences("CurrentUser", activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("current_hub", ParseHelpers.createJsonStringFromModel(hubsList.get(position)));
+                editor.commit();
+
+                FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new OneHubFragment_().newInstance(hubsList.get(position));
+                fragmentTransaction.replace(R.id.contentFrame, fragment);
+                fragmentTransaction.commit();
+            }
+        });
+
         return view;
     }
-
 }

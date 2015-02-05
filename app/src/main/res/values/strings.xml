@@ -59,6 +59,7 @@
     <string name="display_more">Display more results</string>
     <string name="display_all">Display all results</string>
     <string name="my_position">My position</string>
+    <string name="button_reply_text">Reply</string>
 
     <string name="country_prompt">Choose a country</string>
 

@@ -18,7 +18,7 @@ import java.io.FileNotFoundException;
 import java.net.URLConnection;
 import java.util.List;
 
-import co.geeksters.hq.events.success.LogoutMemberEvent;
+import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.global.helpers.ParseHelpers;
@@ -190,6 +190,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
         waitTest();
     }
 
+
     @Test
     public void testSearchMembers() throws Exception {
         beforeTest();
@@ -203,6 +204,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
                 // WE ARE DONE
                 doneTest();
             }
+
         });
 
         api.searchForMembersFromKey("soukaina", new retrofit.Callback<JsonElement>() {
@@ -349,9 +351,21 @@ public class MemberServiceTest extends InstrumentationTestCase {
         Member member = new Member();
         member.fullName = "soukaina";
         member.email = "soukaina@geeksters.co";
+        member.blurp = "Blurp Bio";
+        member.latitude = (float) 30.4423;
+        member.longitude = (float) -9.47659;
 
-        api.updateMember(id, "put", token, member.fullName, member.email, null, null,
-                null, null, null, false, false, false, false, new retrofit.Callback<JsonElement>() {
+//        @Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
+//        @Field("email") String email, @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("social") Social social,
+//        @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies, @Field("latitude") float latitude,
+//        @Field("longitude") float longitude, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,
+//        @Field("notify_by_push_on_comment") Boolean notifyByPushOnComment, @Field("notify_by_email_on_todo") Boolean notifyByEmailOnTodo,
+//        @Field("notify_by_push_on_todo") Boolean notifyByPushOnTodo, Callback<JsonElement> callback
+
+        api.updateMember(id, "put", this.token, member.fullName, member.email, member.hub.name, member.blurp, member.social.twitter, member.social.facebook,
+                member.social.linkedin, member.social.skype, member.social.blog, member.social.website, member.social.other, "", "",
+                member.latitude, member.longitude, member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo,
+                new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
@@ -361,7 +375,6 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
             @Override
             public void failure(RetrofitError error) {
-                //422 : email exists
             }
         });
 
@@ -614,7 +627,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onDeleteMemberEvent(LogoutMemberEvent event) {
+            public void onDeleteMemberEvent(EmptyEvent event) {
                 assertNotNull("on testDeleteMember", successMessage);
                 assertEquals("on testDeleteMember", successMessage, "Member successfully deleted");
 
@@ -628,7 +641,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 successMessage = response.getAsJsonObject().get("message").toString();
-                bus.post(new LogoutMemberEvent());
+                bus.post(new EmptyEvent());
             }
 
             @Override
@@ -645,7 +658,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         bus.register(new Object() {
             @Subscribe
-            public void onLogoutMemberEvent(LogoutMemberEvent event) {
+            public void onLogoutMemberEvent(EmptyEvent event) {
                 assertEquals("on testLogoutMember",successMessage, "success");
 
                 // WE ARE DONE
@@ -658,7 +671,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {
                 successMessage = response.getAsJsonObject().get("status").getAsString();
-                bus.post(new LogoutMemberEvent());
+                bus.post(new EmptyEvent());
             }
 
             @Override

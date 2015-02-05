@@ -9,7 +9,7 @@ import java.util.List;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.CreateTodoEvent;
 import co.geeksters.hq.events.success.DeleteTodoEvent;
-import co.geeksters.hq.events.success.ListTodosForMemberEvent;
+import co.geeksters.hq.events.success.TodosEvent;
 import co.geeksters.hq.events.success.UpdateTodoEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.TodoInterface;
@@ -27,14 +27,12 @@ public class TodoService {
         this.api = BaseService.adapterWithToken(token).create(TodoInterface.class);
     }
 
-    public void listTodosForMember(int user_id) {
-
-        this.api.listTodosForMember(user_id, new Callback<JSONArray>() {
-
+    public void listTodosForMember() {
+        this.api.listTodosForMember(new Callback<JsonElement>() {
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Todo> todos_for_member = Todo.createListTodosFromJson(response);
-                BaseApplication.post(new ListTodosForMemberEvent(todos_for_member));
+            public void success(JsonElement response, Response rawResponse) {
+                List<Todo> todos_for_member = Todo.createListTodosFromJson(response.getAsJsonObject().get("data").getAsJsonArray());
+                BaseApplication.post(new TodosEvent(todos_for_member));
             }
 
             @Override

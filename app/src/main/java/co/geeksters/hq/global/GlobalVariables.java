@@ -32,11 +32,18 @@ public class GlobalVariables {
     public static boolean isMenuOnPosition = false;
     public static int MENU_POSITION = 0;
     public static boolean afterViewsRadar = true;
-//    public static boolean finder = true;
+    public static boolean finderRadar = false;
+    public static boolean finderList = false;
+    public static boolean directory = false;
+    public static boolean editMyInformation = false;
+    public static boolean hubInformation = false;
+    public static boolean hubMember = false;
 
     public static List<String> emails;
     public static int indexPreference = 0;
     public static List<Member> membersAroundMe = new ArrayList<Member>();
+
+    public static float listViewPostsHeight = 0;
 
     // Getting the API Key for the app by registering it at Google Cloud Console
     // NOM DU PROJET : HQ project

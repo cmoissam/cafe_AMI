@@ -103,20 +103,24 @@ public class PeopleFinderRadarFragment extends Fragment {
     }
 
     public void zoomOnRadar(List<Member> membersList) {
-        List<Integer> sliceIndexList = new ArrayList<Integer>();
+        if(membersList.size() != 0) {
+            List<Integer> sliceIndexList = new ArrayList<Integer>();
 
-        for(int i=0; i<membersList.size(); i++) {
-            sliceIndexList.add(getSliceIndex(membersList.get(i)));
-        }
-
-        int max = sliceIndexList.get(0);
-        for(int i=0; i<sliceIndexList.size(); i++) {
-            if(sliceIndexList.get(i) > max) {
-                max = sliceIndexList.get(i);
+            for (int i = 0; i < membersList.size(); i++) {
+                sliceIndexList.add(getSliceIndex(membersList.get(i)));
             }
-        }
 
-        GlobalVariables.MAX_SLICE_NUMBER = max + 1;
+            int max = sliceIndexList.get(0);
+            for (int i = 0; i < sliceIndexList.size(); i++) {
+                if (sliceIndexList.get(i) > max) {
+                    max = sliceIndexList.get(i);
+                }
+            }
+
+            GlobalVariables.MAX_SLICE_NUMBER = max + 1;
+        } else {
+            GlobalVariables.MAX_SLICE_NUMBER = 1;
+        }
     }
 
     @Subscribe
@@ -195,6 +199,9 @@ public class PeopleFinderRadarFragment extends Fragment {
             memberImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+//                    GlobalVariables.finderRadar = false;
+                    GlobalVariables.isMenuOnPosition = false;
+
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(index));
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
@@ -279,6 +286,10 @@ public class PeopleFinderRadarFragment extends Fragment {
 
     @Click(R.id.me)
     public void seeMyProfile() {
+        GlobalVariables.finderRadar = true;
+        GlobalVariables.isMenuOnPosition = false;
+        GlobalVariables.MENU_POSITION = 5;
+
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(currentMember);
         fragmentTransaction.replace(R.id.contentFrame, fragment);
@@ -288,6 +299,7 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+        GlobalVariables.finderRadar = true;
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token","").replace("\"","");
@@ -305,6 +317,7 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if(bitMap != null) {
             bitMap.recycle();
             bitMap = null;

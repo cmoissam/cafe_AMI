@@ -415,14 +415,16 @@ public class OneProfileInfoFragment extends Fragment {
 
     @Click(R.id.editImage)
     public void editProfile(){
+        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+
+        GlobalVariables.editMyInformation = true;
+        GlobalVariables.isMenuOnPosition = false;
+
         // Getting reference to the FragmentManager
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
-
         // Committing the transaction
         fragmentTransaction.commit();
     }

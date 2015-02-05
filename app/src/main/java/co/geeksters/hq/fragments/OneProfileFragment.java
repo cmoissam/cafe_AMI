@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TabHost;
@@ -18,6 +19,7 @@ import co.geeksters.hq.R;
 import co.geeksters.hq.activities.DummyTabContent;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ParseHelpers;
+import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
@@ -37,6 +39,9 @@ public class OneProfileFragment extends Fragment {
 
     @ViewById(R.id.hubName)
     TextView hubName;
+
+    @ViewById(R.id.picture)
+    ImageView picture;
 
     @ViewById(R.id.personalInformation)
     LinearLayout personalInformation;
@@ -62,6 +67,11 @@ public class OneProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if(getArguments() != null)
             profileMember = (Member) getArguments().getSerializable(NEW_INSTANCE_MEMBER_KEY);
+
+        GlobalVariables.MENU_POSITION = 5;
+//        GlobalVariables.directory = false;
+//        GlobalVariables.finderRadar = false;
+//        GlobalVariables.finderList = false;
 
         return null;
     }
@@ -92,6 +102,8 @@ public class OneProfileFragment extends Fragment {
             editor.commit();
         }
 
+        if(memberToDisplay.image.startsWith("http"))
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, memberToDisplay.image);
         fullName.setText(memberToDisplay.fullName);
         hubName.setText(memberToDisplay.hub.name);
     }

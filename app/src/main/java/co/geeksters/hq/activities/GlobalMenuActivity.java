@@ -1,5 +1,7 @@
 package co.geeksters.hq.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,17 +24,19 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
-import co.geeksters.hq.events.success.LogoutMemberEvent;
+import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.fragments.HubsFragment;
 import co.geeksters.hq.fragments.HubsFragment_;
 import co.geeksters.hq.fragments.MeFragment_;
+import co.geeksters.hq.fragments.MyToDosFragment_;
+import co.geeksters.hq.fragments.OneHubFragment_;
+import co.geeksters.hq.fragments.OneHubMembersFragment_;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
 import co.geeksters.hq.fragments.MyToDosFragment;
 import co.geeksters.hq.fragments.PeopleDirectoryFragment_;
 import co.geeksters.hq.fragments.PeopleFinderFragment_;
-import co.geeksters.hq.fragments.PeopleFinderRadarFragment;
 import co.geeksters.hq.fragments.WebViewFragment;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -40,23 +44,20 @@ import co.geeksters.hq.global.helpers.GPSTrackerHelpers;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
+import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 @EActivity(R.layout.global_menu)
 public class GlobalMenuActivity extends FragmentActivity {
-
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     Member currentMember;
-
     // ActionBarDrawerToggle indicates the presence of Navigation Drawer in the action bar
     private ActionBarDrawerToggle mDrawerToggle;
-
     // Title of the action bar
     private String mTitle = "HQ";
-
     String accessToken;
 
     @ViewById
@@ -117,7 +118,7 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     @AfterViews
-    public void setActionBarColorAndTitle(){
+    public void setActionBarColorAndTitle() {
         getActionBar().setTitle(mTitle);
         // Enabling Home button
         getActionBar().setHomeButtonEnabled(true);
@@ -126,7 +127,7 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     @AfterViews
-    public void setPreferencesAandDefaultFragment(){
+    public void setPreferencesAndDefaultFragment() {
         preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         editor = preferences.edit();
 
@@ -140,11 +141,13 @@ public class GlobalMenuActivity extends FragmentActivity {
             currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
             // Adding a fragment to the fragment transaction
             if (currentMember.fullName.isEmpty() || currentMember.hub.name.isEmpty() || currentMember.companies == null || currentMember.goal.isEmpty() ||
-                    currentMember.blurp.isEmpty() || currentMember.phone.isEmpty() || currentMember.interests == null || currentMember.social == null)
+                    currentMember.blurp.isEmpty() || currentMember.phone.isEmpty() || currentMember.interests == null || currentMember.social == null) {
+//                GlobalVariables.isMenuOnPosition = true;
+                GlobalVariables.editMyInformation = false;
                 fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
+            }
             else
                 fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
-
         } else {
             if(!GlobalVariables.isMenuOnPosition)
                 fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
@@ -157,15 +160,15 @@ public class GlobalMenuActivity extends FragmentActivity {
                 } else if(GlobalVariables.MENU_POSITION == 1) {
                     mTitle = getResources().getString(R.string.title_find_fragment);
                     GlobalVariables.afterViewsRadar = true;
-                    fragmentTransaction.addToBackStack(null);
+//                    fragmentTransaction.addToBackStack(null);
 
                     fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 2){
-                    fragmentTransaction.replace(R.id.contentFrame, new HubsFragment());
+                    fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 3){
                     mTitle = getResources().getString(R.string.title_todos_fragment);
 
-                    fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment());
+                    fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 4){
                     fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
                 } else if(GlobalVariables.MENU_POSITION == 5){
@@ -184,13 +187,55 @@ public class GlobalMenuActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
-        finish();
+        if(GlobalVariables.isMenuOnPosition) {
+            setResult(RESULT_CANCELED);
+            finish();
+        } else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            // Creating a fragment transaction
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.addToBackStack(null);
 
-//        if (getFragmentManager().getBackStackEntryCount() == 0) {
-//        } else {
-//            getFragmentManager().popBackStack();
-//        }
+            // MeFragment : GlobalVariables.MENU_POSITION == 6
+            // OneHubFragment : GlobalVariables.MENU_POSITION == 7
+            if(GlobalVariables.MENU_POSITION == 6 && !GlobalVariables.editMyInformation) {
+                setResult(RESULT_CANCELED);
+                finish();
+            } else if(GlobalVariables.MENU_POSITION == 6 && GlobalVariables.editMyInformation) {
+                GlobalVariables.MENU_POSITION = 5;
+                GlobalVariables.isMenuOnPosition = true;
+                fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+            } else if(GlobalVariables.MENU_POSITION == 5) {
+                if(GlobalVariables.directory) {
+                    GlobalVariables.directory = false;
+                    GlobalVariables.MENU_POSITION = 0;
+                    GlobalVariables.isMenuOnPosition = true;
+                    fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+                } else if(GlobalVariables.finderRadar) {
+                    GlobalVariables.finderRadar = false;
+                    GlobalVariables.MENU_POSITION = 1;
+                    GlobalVariables.isMenuOnPosition = true;
+                    fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+                } else if(GlobalVariables.finderList) {
+                    GlobalVariables.finderList = false;
+                    GlobalVariables.MENU_POSITION = 1;
+                    GlobalVariables.isMenuOnPosition = true;
+                    fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+                } else if(GlobalVariables.hubMember) {
+                    GlobalVariables.hubMember = false;
+                    Hub hub = Hub.createHubFromJson(createJsonElementFromString(preferences.getString("current_hub", "")));
+                    GlobalVariables.MENU_POSITION = 7;
+                    fragmentTransaction.replace(R.id.contentFrame, new OneHubFragment_().newInstance(hub));
+                }
+            } else if(GlobalVariables.MENU_POSITION == 7 && GlobalVariables.hubInformation) {
+                GlobalVariables.hubInformation = false;
+                GlobalVariables.MENU_POSITION = 2;
+                GlobalVariables.isMenuOnPosition = true;
+                fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
+            }
+
+            fragmentTransaction.commit();
+        }
     }
 
     @AfterViews
@@ -212,7 +257,7 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     @Subscribe
-    public void onLogoutEvent(LogoutMemberEvent event) {
+    public void onLogoutEvent(EmptyEvent event) {
         // preferences.edit().clear().commit();
         preferences.edit().remove("current_member").commit();
         preferences.edit().remove("access_token").commit();
@@ -269,14 +314,34 @@ public class GlobalMenuActivity extends FragmentActivity {
         } else if(position == 1) {
             mTitle = getResources().getString(R.string.title_find_fragment);
 
-            verifyGpsActivation();
+            if(!GeneralHelpers.isGPSEnabled(this)) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                       .setCancelable(false)
+                       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                           public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                               startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                           }
+                       })
+                       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                               verifyGpsActivation();
+                               dialog.cancel();
+                           }
+                        });
+                final AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                verifyGpsActivation();
+            }
+
             //fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
         } else if(position == 2) {
             fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
         } else if(position == 3) {
             mTitle = getResources().getString(R.string.title_todos_fragment);
 
-            fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment());
+            fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
         } else if(position == 4) {
             fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
         } else if(position == 5) {
@@ -293,8 +358,6 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     public void verifyGpsActivation() {
-//        GlobalVariables.finder = true;
-
         GPSTrackerHelpers gps = new GPSTrackerHelpers(this);
 
         SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
@@ -305,13 +368,12 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         // check if GPS enabled
         if (gps.canGetLocation()) {
-
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
 
             // update longitude latitude
-            updatedMember.longitude = (float) latitude;
-            updatedMember.latitude = (float) longitude;
+            updatedMember.longitude = (float) longitude;
+            updatedMember.latitude  = (float) latitude;
         } else {
             // can't get location
             // GPS or Network is not enabled
@@ -339,15 +401,6 @@ public class GlobalMenuActivity extends FragmentActivity {
             editor.commit();
 
             GlobalVariables.afterViewsRadar = true;
-
-            // Getting reference to the FragmentManager
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            // Creating a fragment transaction
-//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//            fragmentTransaction.addToBackStack(null);
-//            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
-//            // Committing the transaction
-//            fragmentTransaction.commit();
         }
     }
 

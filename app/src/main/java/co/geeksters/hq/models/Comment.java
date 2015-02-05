@@ -22,7 +22,9 @@ public class Comment implements Serializable {
 
     public int id;
     public String text = "";
-    public integer createdAt;
+    public String createdAt;
+    public String updatedAt;
+    public Member member;
 
     /**
      * Methods

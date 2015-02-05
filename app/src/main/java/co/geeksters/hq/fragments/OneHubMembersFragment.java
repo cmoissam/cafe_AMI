@@ -44,9 +44,7 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 @EFragment(R.layout.fragment_one_hub_members)
 public class OneHubMembersFragment extends Fragment {
     private static final String NEW_INSTANCE_HUBS_KEY = "hub_key";
-    // Listview Adapter
     SimpleAdapter adapter;
-    // ArrayList for Listview
     ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
     List<Member> membersList = new ArrayList<Member>();
     String accessToken;
@@ -144,6 +142,9 @@ public class OneHubMembersFragment extends Fragment {
 
     @ItemClick(R.id.list_view_members)
     public void setItemClickOnListViewMembers(int position){
+        GlobalVariables.isMenuOnPosition = false;
+        GlobalVariables.hubMember = true;
+
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
         fragmentTransaction.replace(R.id.contentFrame, fragment);

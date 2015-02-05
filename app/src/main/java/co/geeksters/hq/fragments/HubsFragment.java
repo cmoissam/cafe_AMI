@@ -65,19 +65,6 @@ public class HubsFragment extends Fragment {
     /*@ViewById(R.id.displayAll)
     TextView displayAll;*/
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(!BaseApplication.isRegistered(this))
-            BaseApplication.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        BaseApplication.unregister(this);
-    }
-
     public void listAllHubsService(){
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
 
@@ -102,37 +89,9 @@ public class HubsFragment extends Fragment {
         lastHubs = Hub.getLastSavedHubs(getActivity(), event.hubs);
         hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, event.hubs);
 
-        adapterForHubList = new ListViewHubAdapter(getActivity(), hubsList, lastHubs);
+        adapterForHubList = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
         listViewHubs.setAdapter(adapterForHubList);
 
-        listViewHubs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position, long arg) {
-                if(v.getId() == R.id.removeItem) {
-                    SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-                    // GeneralHelpers.getPreferencesPositionFromItemPosition(position)
-                    int id = hubsList.get(position).id;
-                    preferences.edit().remove("last_hub" + hubsList.get(position).id).commit();
-
-                    hubsList.remove(position);
-                    lastHubs.remove(position);
-                    adapterForHubList = new ListViewHubAdapter(getActivity(), hubsList, lastHubs);
-                    listViewHubs.setAdapter(adapterForHubList);
-                    ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
-                    Toast.makeText(getActivity(), "Remove Item", Toast.LENGTH_LONG).show();
-                } else if(v.getId() == R.id.hubInformation) {
-                    // save this hub as a last search
-                    hubsList.get(position).saveLastHub(getActivity());
-
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragment = new OneHubFragment_().newInstance(hubsList.get(position));
-                    fragmentTransaction.replace(R.id.contentFrame, fragment);
-                    fragmentTransaction.commit();
-                }
-            }
-        });
-
-        //displayAll.setVisibility(View.VISIBLE);
         ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
     }
 
@@ -140,42 +99,6 @@ public class HubsFragment extends Fragment {
     public void addFooterToListview() {
         listViewHubs.addFooterView(new View(getActivity()), null, true);
     }
-
-//    @ItemClick(R.id.list_view_hubs)
-//    public void setItemClickOnListViewhubs(final int position) {
-//        LinearLayout removeItem = (LinearLayout) listViewHubs.getChildAt(position).findViewById(R.id.removeItem);
-//        // set on click to remove item
-//        removeItem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-//                // GeneralHelpers.getPreferencesPositionFromItemPosition(position)
-//                int id = hubsList.get(position).id;
-//                preferences.edit().remove("last_hub" + hubsList.get(position).id).commit();
-//
-//                hubsList.remove(position);
-//                lastHubs.remove(position);
-//                adapterForHubList = new ListViewHubAdapter(getActivity(), hubsList, lastHubs);
-//                listViewHubs.setAdapter(adapterForHubList);
-//                ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
-//                Toast.makeText(getActivity(), "Remove Item", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//        LinearLayout hubInformation = (LinearLayout) listViewHubs.getChildAt(position).findViewById(R.id.hubInformation);
-//        hubInformation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // save this hub as a last search
-//                hubsList.get(position).saveLastHub(getActivity());
-//
-//                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                Fragment fragment = new OneHubFragment_().newInstance(hubsList.get(position));
-//                fragmentTransaction.replace(R.id.contentFrame, fragment);
-//                fragmentTransaction.commit();
-//            }
-//        });
-//    }
 
     @TextChange(R.id.inputSearch)
     public void searchForHub() {

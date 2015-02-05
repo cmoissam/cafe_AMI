@@ -40,7 +40,6 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 
 @EFragment(R.layout.fragment_people_finder_list)
 public class PeopleFinderListFragment extends Fragment {
-
     // Listview Adapter
     SimpleAdapter adapter;
     // ArrayList for Listview
@@ -91,6 +90,10 @@ public class PeopleFinderListFragment extends Fragment {
 
     @ItemClick(R.id.list_view_members)
     public void setItemClickOnListViewMembers(int position) {
+        GlobalVariables.finderList = true;
+        GlobalVariables.isMenuOnPosition = false;
+        GlobalVariables.MENU_POSITION = 5;
+
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
         fragmentTransaction.replace(R.id.contentFrame, fragment);
@@ -100,6 +103,7 @@ public class PeopleFinderListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+        GlobalVariables.finderList = true;
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token","").replace("\"","");

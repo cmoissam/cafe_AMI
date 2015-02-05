@@ -21,6 +21,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.util.List;
 
 import co.geeksters.hq.R;
@@ -179,5 +183,18 @@ public class ViewHelpers {
                });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public static void setImageViewBackgroundFromURL(Context context, ImageView picture, String url) {
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+                .build();
+        ImageLoader.getInstance().init(config);
+
+        ImageLoader.getInstance().displayImage(url, picture, options);
     }
 }

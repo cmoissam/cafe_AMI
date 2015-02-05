@@ -44,10 +44,8 @@ public class PeopleFinderFragment extends Fragment {
     TabHost tabhost;
 
     SharedPreferences preferences;
-    SharedPreferences.Editor editor;
     String accessToken;
     Member currentMember;
-    List<Member> membersList = new ArrayList<Member>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

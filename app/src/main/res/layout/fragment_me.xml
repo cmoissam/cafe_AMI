@@ -23,12 +23,12 @@
                 android:background="@drawable/border"
                 android:padding="10dp"
                 android:id="@+id/personalInformation">
+
                 <ImageView
                     android:id="@+id/picture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="left"
-                    android:background="@drawable/border"
                     android:src="@drawable/no_image_member" />
 
                 <LinearLayout
@@ -70,7 +70,7 @@
                             <!--android:layout_weight="1" />-->
 
                         <Spinner
-                            android:id="@+id/spinner"
+                            android:id="@+id/spinnerHubName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
 

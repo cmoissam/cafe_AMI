@@ -21,10 +21,9 @@
 
                 <ImageView
                     android:id="@+id/picture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:background="@drawable/border"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_vertical|left"
                     android:src="@drawable/no_image_member" />
 
                 <LinearLayout
