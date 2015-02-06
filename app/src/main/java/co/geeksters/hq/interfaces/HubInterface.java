@@ -28,7 +28,7 @@ public interface HubInterface {
     void getHubInfo(@Path("id") int hubId, Callback<JsonElement> callback);
 
     @GET("/hubs/{id}/members")
-    void getHubMembers(@Path("id") int hubId, Callback<JSONArray> callback);
+    void getHubMembers(@Path("id") int hubId, Callback<JsonElement> callback);
 
     @GET("/hubs/{id}/ambassadors")
     void getHubAmbassadors(@Path("id") int hubId, Callback<JSONArray> callback);

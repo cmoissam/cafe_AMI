@@ -103,35 +103,37 @@ public class PeopleFinderRadarFragment extends Fragment {
     }
 
     public void zoomOnRadar(List<Member> membersList) {
-        if(membersList.size() != 0) {
-            List<Integer> sliceIndexList = new ArrayList<Integer>();
+        List<Integer> sliceIndexList = new ArrayList<Integer>();
 
-            for (int i = 0; i < membersList.size(); i++) {
-                sliceIndexList.add(getSliceIndex(membersList.get(i)));
-            }
-
-            int max = sliceIndexList.get(0);
-            for (int i = 0; i < sliceIndexList.size(); i++) {
-                if (sliceIndexList.get(i) > max) {
-                    max = sliceIndexList.get(i);
-                }
-            }
-
-            GlobalVariables.MAX_SLICE_NUMBER = max + 1;
-        } else {
-            GlobalVariables.MAX_SLICE_NUMBER = 1;
+        for(int i=0; i<membersList.size(); i++) {
+            sliceIndexList.add(getSliceIndex(membersList.get(i)));
         }
+
+        int max = 0;
+
+        if(sliceIndexList.size() != 0)
+            max = sliceIndexList.get(0);
+
+        for(int i=0; i<sliceIndexList.size(); i++) {
+            if(sliceIndexList.get(i) > max) {
+                max = sliceIndexList.get(i);
+            }
+        }
+
+        GlobalVariables.MAX_SLICE_NUMBER = max + 1;
     }
 
     @Subscribe
     public void onGetListMembersAroundMeEvent(MembersEvent event) {
-        GeneralHelpers.setSliceNumber();
+//        GeneralHelpers.setSliceNumber();
 
         zoomOnRadar(event.members);
 
         GlobalVariables.membersAroundMe = new ArrayList<Member>();
-        GlobalVariables.membersAroundMe.addAll(event.members);
-        membersList = event.members;
+
+        GlobalVariables.membersAroundMe.addAll(Member.addMemberAroundMe(event.members));
+
+        membersList = Member.addMemberAroundMe(event.members);
 
         membersList = Member.orderMembersByDescDistance(membersList);
 
@@ -148,7 +150,8 @@ public class PeopleFinderRadarFragment extends Fragment {
         createBitMap(radius);
 
         for (int i = 0; i < membersList.size(); i++) {
-            int sliceIndex = getSliceIndex(membersList.get(i));
+//            int sliceIndex = getSliceIndex(membersList.get(i));
+            int sliceIndex = 1;
 
             ImageView memberImage = new ImageView(getActivity());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius / 3), (int) (radius / 3));
@@ -158,7 +161,6 @@ public class PeopleFinderRadarFragment extends Fragment {
             float angle = 0;
             float randomX = 0;
             float randomY = 0;
-            boolean positionOk = false;
 
             while (true) {
                 angle = (float) (Math.random() * Math.PI * 2);
@@ -185,10 +187,14 @@ public class PeopleFinderRadarFragment extends Fragment {
                         if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + radius + myPosition.getWidth() / 2
                                 && randomY < maxExeptMyPositionY + radius + myPosition.getWidth() / 2))
                             break;
-                    } else if ((randomX > minExeptLeft && randomX < maxExeptLeft && randomY > minExeptLeft && randomY < maxExeptLeft)
-                            || (randomX > minExeptRight && randomX < maxExeptRight && randomY > minExeptRight && randomY < maxExeptRight)) {
-                        break;
                     }
+//                    else if ((randomX > minExeptLeft && randomX < maxExeptLeft && randomY > minExeptLeft && randomY < maxExeptLeft)
+//                            || (randomX > minExeptRight && randomX < maxExeptRight && randomY > minExeptRight && randomY < maxExeptRight)) {
+//                        break;
+//                    }
+                    else if ((randomX > minExeptLeft && randomX < maxExeptLeft && randomY > minExeptLeft && randomY < maxExeptLeft)
+                            || (randomX > minExeptRight && randomX < maxExeptRight && randomY > minExeptRight && randomY < maxExeptRight))
+                        break;
                 }
             }
 
@@ -199,9 +205,6 @@ public class PeopleFinderRadarFragment extends Fragment {
             memberImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    GlobalVariables.finderRadar = false;
-                    GlobalVariables.isMenuOnPosition = false;
-
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(index));
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
@@ -269,7 +272,7 @@ public class PeopleFinderRadarFragment extends Fragment {
     }
 
     public int getSliceIndex(Member memberArroundMe) {
-        int j = GeneralHelpers.setSliceNumber();
+        int j = GlobalVariables.MAX_SLICE_NUMBER;
         int sliceIndex = 0;
 
         while(j > 0 && memberArroundMe.distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * j) {
@@ -286,10 +289,6 @@ public class PeopleFinderRadarFragment extends Fragment {
 
     @Click(R.id.me)
     public void seeMyProfile() {
-        GlobalVariables.finderRadar = true;
-        GlobalVariables.isMenuOnPosition = false;
-        GlobalVariables.MENU_POSITION = 5;
-
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(currentMember);
         fragmentTransaction.replace(R.id.contentFrame, fragment);
@@ -299,7 +298,6 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
-        GlobalVariables.finderRadar = true;
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token","").replace("\"","");
@@ -317,7 +315,6 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         if(bitMap != null) {
             bitMap.recycle();
             bitMap = null;

@@ -90,12 +90,12 @@ public class HubService {
 
     public void getHubMembers(int hubId) {
 
-        this.api.getHubMembers(hubId, new Callback<JSONArray>() {
+        this.api.getHubMembers(hubId, new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                //List<Member> members_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.post(new MembersEvent(members_of_hub));
+            public void success(JsonElement response, Response rawResponse) {
+                List<Member> members_of_hub = Member.createListUsersFromJson(response.getAsJsonObject().get("data").getAsJsonArray());
+                BaseApplication.post(new MembersEvent(members_of_hub));
             }
 
             @Override

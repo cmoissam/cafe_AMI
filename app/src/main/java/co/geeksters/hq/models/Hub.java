@@ -59,11 +59,11 @@ public class Hub implements Serializable {
                 .create();
 
         if(response.getAsJsonObject().has("members") && response.getAsJsonObject().get("members") != null) {
-            response.getAsJsonObject().add("members", Member.parseMembersResponse(response.getAsJsonObject().get("members").getAsJsonArray()));
+            response.getAsJsonObject().add("members", response.getAsJsonObject().get("members").getAsJsonArray());
         }
 
         if(response.getAsJsonObject().has("ambassadors") && response.getAsJsonObject().get("ambassadors") != null) {
-            response.getAsJsonObject().add("ambassadors", Member.parseMembersResponse(response.getAsJsonObject().get("ambassadors").getAsJsonArray()));
+            response.getAsJsonObject().add("ambassadors", response.getAsJsonObject().get("ambassadors").getAsJsonArray());
         }
 
         Hub hub = gson.fromJson (response, Hub.class);

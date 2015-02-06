@@ -60,7 +60,7 @@ public interface MemberInterface {
     @GET("/members/{id}")
     void getMemberInfo(@Path("id") int userId, Callback<JsonElement> callback);
 
-    @GET("/members/search")
+    @GET("/member/search")
     void searchForMembersFromKey(@Query("string") String string, Callback<JsonElement> callback);
 
     @GET("/member/suggest")

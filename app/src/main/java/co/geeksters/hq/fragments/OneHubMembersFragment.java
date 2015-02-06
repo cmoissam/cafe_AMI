@@ -48,7 +48,7 @@ public class OneHubMembersFragment extends Fragment {
     ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
     List<Member> membersList = new ArrayList<Member>();
     String accessToken;
-    Hub currentHub = new Hub();
+    Member currentMember;
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -91,12 +91,12 @@ public class OneHubMembersFragment extends Fragment {
 
     public void listAllMembersOfHubService(){
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-
+        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
         accessToken = preferences.getString("access_token","").replace("\"","");
 
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             HubService hubService = new HubService(accessToken);
-            hubService.getHubMembers(currentHub.id);
+            hubService.getHubMembers(currentMember.hub.id);
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -111,14 +111,7 @@ public class OneHubMembersFragment extends Fragment {
     @Subscribe
     public void onGetListMembersOfHubEvent(MembersEvent event) {
         // TODO : Delete this bloc (data for test)
-        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-        membersList.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-        membersList.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-        membersList.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-        membersList.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-        membersList.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-        membersList.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-
+        membersList = event.members;
         members = Member.membersInfoForItem(getActivity(), members, membersList);
 
         // Adding items to listview

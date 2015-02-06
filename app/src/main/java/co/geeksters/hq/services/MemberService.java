@@ -309,11 +309,11 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                JsonArray sources = response.getAsJsonObject().get("result").getAsJsonObject().get("hits").getAsJsonObject().get("hits").getAsJsonArray();
+                JsonArray sources = response.getAsJsonObject().get("members").getAsJsonArray();
                 JsonArray responseAsArray = new JsonArray();
 
                 for(int i = 0; i < sources.size(); i++) {
-                    responseAsArray.add(sources.get(i).getAsJsonObject().get("_source"));
+                    responseAsArray.add(sources.get(i).getAsJsonObject().get("payload"));
                 }
 
                 List<Member> members = Member.createListUsersFromJson(responseAsArray);
@@ -330,7 +330,7 @@ public class MemberService {
 
     public void getMembersArroundMe(int userId, float radius) {
 
-        this.api.getMembersArroundMe(userId, 10, new Callback<JsonElement>() {
+        this.api.getMembersArroundMe(userId, radius, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

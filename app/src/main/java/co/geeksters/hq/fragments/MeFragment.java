@@ -220,7 +220,7 @@ public class MeFragment extends Fragment {
         goalContent.setText(GeneralHelpers.firstToUpper(currentMember.goal));
         bioContent.setText(GeneralHelpers.firstToUpper(currentMember.blurp));
 
-        if(currentMember.image.startsWith("http"))
+        if(currentMember.image.startsWith("http://"))
             ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, currentMember.image);
 
         linkdin.setText(currentMember.social.linkedin);
@@ -301,7 +301,7 @@ public class MeFragment extends Fragment {
             memberService.updateMember(currentMember.id, updatedMember);
 
             GlobalVariables.isMenuOnPosition = true;
-            GlobalVariables.MENU_POSITION = 5;
+//            GlobalVariables.MENU_POSITION = 5;
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }

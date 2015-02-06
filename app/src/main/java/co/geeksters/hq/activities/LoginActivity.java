@@ -81,14 +81,6 @@ public class LoginActivity extends Activity {
             startActivity(intent);
 
             ViewHelpers.showProgress(false, this, loginForm, loginProgress);
-
-            /*if(GeneralHelpers.isInternetAvailable(this)) {
-                ViewHelpers.showProgress(true, this, loginForm, loginProgress);
-                MemberService memberService = new MemberService(accessToken);
-                memberService.getMemberInfo(780);
-            } else {
-                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-            }*/
         }
     }
 
@@ -176,18 +168,6 @@ public class LoginActivity extends Activity {
         editor.putString("access_token", event.accessToken);
         editor.commit();
 
-        if(GeneralHelpers.isInternetAvailable(this)) {
-            MemberService memberService = new MemberService(event.accessToken.replace("\"",""));
-            memberService.getMemberInfo(780);
-        } else {
-            ViewHelpers.showProgress(false, this, loginForm, loginProgress);
-            ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-        }
-    }
-
-    @Subscribe
-    public void onGetCurrentMemberEvent(SaveMemberEvent event) {
-        // save the current Member
         editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
         editor.commit();
 
@@ -198,7 +178,30 @@ public class LoginActivity extends Activity {
         startActivity(intent);
 
         ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+
+//        if(GeneralHelpers.isInternetAvailable(this)) {
+//            MemberService memberService = new MemberService(event.accessToken.replace("\"",""));
+//            memberService.getMemberInfo(780);
+//        } else {
+//            ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+//            ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+//        }
     }
+
+//    @Subscribe
+//    public void onGetCurrentMemberEvent(SaveMemberEvent event) {
+//        // save the current Member
+//        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
+//        editor.commit();
+//
+//        Intent intent = new Intent(this, GlobalMenuActivity_.class);
+//        finish();
+//        overridePendingTransition(0, 0);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//
+//        ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+//    }
 
     @Subscribe
     public void onLoginFailureEvent(LoginFailureEvent event) {

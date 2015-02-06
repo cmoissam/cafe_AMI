@@ -65,6 +65,19 @@ public class PeopleDirectoryFragment extends Fragment {
     @ViewById(R.id.displayAll)
     TextView displayAll;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!BaseApplication.isRegistered(this))
+            BaseApplication.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BaseApplication.unregister(this);
+    }
+
     public static PeopleDirectoryFragment_ newInstance(List<Member> members) {
         PeopleDirectoryFragment_ fragment = new PeopleDirectoryFragment_();
         Bundle bundle = new Bundle();
@@ -91,7 +104,7 @@ public class PeopleDirectoryFragment extends Fragment {
     public void searchForMembersByPaginationService(String search){
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             MemberService memberService = new MemberService(accessToken);
-            memberService.searchForMembersFromKey(search);
+            memberService.suggestionMember(search);
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -153,7 +166,6 @@ public class PeopleDirectoryFragment extends Fragment {
             from = 0;
             members = new ArrayList<HashMap<String, String>>();
             listAllMembersByPaginationService();
-            emptySearch.setVisibility(View.GONE);
         }
 
         /*adapter.getFilter().filter(inputSearch.getText(), new Filter.FilterListener() {
@@ -210,8 +222,8 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //membersList = (List<Member>) getArguments().getSerializable(NEW_INSTANCE_MEMBERS_KEY);
         BaseApplication.register(this);
-
         return null;
     }
 }

@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageView;
@@ -43,7 +42,7 @@ import co.geeksters.hq.services.HubService;
 public class HubsFragment extends Fragment {
 
     // Listview Adapter
-    ListViewHubAdapter adapterForHubList;
+    ListViewHubAdapter adapter;
     // ArrayList for Listview
     ArrayList<HashMap<String, String>> hubs = new ArrayList<HashMap<String, String>>();
     String accessToken;
@@ -64,6 +63,19 @@ public class HubsFragment extends Fragment {
 
     /*@ViewById(R.id.displayAll)
     TextView displayAll;*/
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!BaseApplication.isRegistered(this))
+            BaseApplication.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        BaseApplication.unregister(this);
+    }
 
     public void listAllHubsService(){
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
@@ -89,15 +101,53 @@ public class HubsFragment extends Fragment {
         lastHubs = Hub.getLastSavedHubs(getActivity(), event.hubs);
         hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, event.hubs);
 
-        adapterForHubList = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
-        listViewHubs.setAdapter(adapterForHubList);
+        adapter = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
+        listViewHubs.setAdapter(adapter);
+        //listViewHubs.setItemsCanFocus(false);
 
+        //displayAll.setVisibility(View.VISIBLE);
         ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
     }
 
     @AfterViews
     public void addFooterToListview() {
         listViewHubs.addFooterView(new View(getActivity()), null, true);
+    }
+
+    @ItemClick(R.id.list_view_hubs)
+    public void setItemClickOnListViewhubs(final int position) {
+        ImageView removeItem = (ImageView) listViewHubs.getChildAt(position).findViewById(R.id.removeItem);
+        // set on click to remove item
+        removeItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+                // GeneralHelpers.getPreferencesPositionFromItemPosition(position)
+                int id = hubsList.get(position).id;
+                preferences.edit().remove("last_hub" + hubsList.get(position).id).commit();
+
+                hubsList.remove(position);
+                lastHubs.remove(position);
+                adapter = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
+                listViewHubs.setAdapter(adapter);
+                ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
+                Toast.makeText(getActivity(), "Remove Item", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        LinearLayout hubInformation = (LinearLayout) listViewHubs.getChildAt(position).findViewById(R.id.hubInformation);
+        hubInformation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // save this hub as a last search
+                hubsList.get(position).saveLastHub(getActivity());
+
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                Fragment fragment = new OneHubFragment_().newInstance(hubsList.get(position));
+                fragmentTransaction.replace(R.id.contentFrame, fragment);
+                fragmentTransaction.commit();
+            }
+        });
     }
 
     @TextChange(R.id.inputSearch)
@@ -112,7 +162,7 @@ public class HubsFragment extends Fragment {
                 new int[]{R.id.hubName, R.id.membersNumber});
 
         if(inputSearch.getText().toString().isEmpty()) {
-            listViewHubs.setAdapter(adapterForHubList);
+            listViewHubs.setAdapter(adapter);
             ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
 
             //displayAll.setVisibility(View.VISIBLE);

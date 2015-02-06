@@ -146,15 +146,20 @@ public class GlobalMenuActivity extends FragmentActivity {
                 GlobalVariables.editMyInformation = false;
                 fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
             }
-            else
+            else {
+                GlobalVariables.fromPaginationDirectory = 0;
                 fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+            }
         } else {
-            if(!GlobalVariables.isMenuOnPosition)
+            if(!GlobalVariables.isMenuOnPosition) {
+                GlobalVariables.fromPaginationDirectory = 0;
                 fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+            }
             else {
                 // Adding a fragment to the fragment transaction
                 if(GlobalVariables.MENU_POSITION == 0) {
                     mTitle = getResources().getString(R.string.title_directory_fragment);
+                    GlobalVariables.fromPaginationDirectory = 0;
 
                     fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 1) {
@@ -210,6 +215,8 @@ public class GlobalMenuActivity extends FragmentActivity {
                     GlobalVariables.directory = false;
                     GlobalVariables.MENU_POSITION = 0;
                     GlobalVariables.isMenuOnPosition = true;
+                    GlobalVariables.fromPaginationDirectory = 0;
+                    GlobalVariables.fromPaginationDirectory = 0;
                     fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
                 } else if(GlobalVariables.finderRadar) {
                     GlobalVariables.finderRadar = false;
@@ -309,6 +316,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Adding a fragment to the fragment transaction
         if(position == 0) {
             mTitle = getResources().getString(R.string.title_directory_fragment);
+            GlobalVariables.fromPaginationDirectory = 0;
 
             fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
         } else if(position == 1) {
@@ -401,6 +409,17 @@ public class GlobalMenuActivity extends FragmentActivity {
             editor.commit();
 
             GlobalVariables.afterViewsRadar = true;
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+            fragmentTransaction.commit();
+
+        } else if(GlobalVariables.MENU_POSITION == 6) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+            fragmentTransaction.commit();
         }
     }
 

@@ -136,9 +136,11 @@ public class GeneralHelpers {
 
         String[] intervalValues = interval.split("-");
 
-        intervalToKilometer += distanceToKilometer(Integer.valueOf(intervalValues[0]))
-                             + " - "
-                             + distanceToKilometer(Integer.valueOf(intervalValues[1]));
+        if(!intervalValues[0].equals("") && !intervalValues[1].equals(""))
+            intervalToKilometer += distanceToKilometer(Integer.valueOf(intervalValues[0]))
+                                 + " - "
+                                 + distanceToKilometer(Integer.valueOf(intervalValues[1]));
+
         return intervalToKilometer;
     }
 
@@ -148,8 +150,8 @@ public class GeneralHelpers {
 
     public static String distanceByInterval(float distance) {
         String interval = "";
-        int i = (int) (((GlobalVariables.RADIUS * 1000) / GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) + 1);
-        setSliceNumber();
+        int i = GlobalVariables.MAX_SLICE_NUMBER;
+//        setSliceNumber();
 
         while(i > 0 && distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * i) {
             if (distance >= (i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER && distance <= i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) {

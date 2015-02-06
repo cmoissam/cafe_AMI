@@ -47,7 +47,7 @@ public class Post implements Serializable {
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
 
-        Member.parseMemberResponse(response);
+//        Member.parseMemberResponse(response);
 
         Post post = gson.fromJson(response, Post.class);
 

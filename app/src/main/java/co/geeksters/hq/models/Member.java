@@ -152,70 +152,70 @@ public class Member implements Serializable{
         return members;
     }
 
-    public static JsonElement parseMemberResponse(JsonElement response){
-        if(response.getAsJsonObject().has("newsletter") && response.getAsJsonObject().get("newsletter").toString().equals("false")){
-            response.getAsJsonObject().addProperty("newsletter", "0");
-        }
+//    public static JsonElement parseMemberResponse(JsonElement response){
+//        if(response.getAsJsonObject().has("newsletter") && response.getAsJsonObject().get("newsletter").toString().equals("false")){
+//            response.getAsJsonObject().addProperty("newsletter", "0");
+//        }
+//
+//        if(response.getAsJsonObject().has("newsletter") && response.getAsJsonObject().get("newsletter").toString().equals("true")){
+//            response.getAsJsonObject().addProperty("newsletter", "1");
+//        }
+//
+//        if(response.getAsJsonObject().has("references") && response.getAsJsonObject().get("references") != null) {
+//            JsonArray references = response.getAsJsonObject().get("references").getAsJsonArray();
+//
+//            for (int i = 0; i < references.size(); i++) {
+//                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("false")) {
+//                    references.get(i).getAsJsonObject().addProperty("newsletter", "0");
+//                }
+//
+//                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("true")) {
+//                    references.get(i).getAsJsonObject().addProperty("newsletter", "1");
+//                }
+//            }
+//        }
+//
+//        if(response.getAsJsonObject().has("created_at") && response.getAsJsonObject().has("updated_at")) {
+//
+//            if (response.getAsJsonObject().get("created_at").isJsonObject()) {
+//                response.getAsJsonObject().addProperty("created_at", response.getAsJsonObject().get("created_at").getAsJsonObject().get("date").toString().replace("\"", "")
+//                );
+//            }
+//
+//            if (response.getAsJsonObject().get("updated_at").isJsonObject()) {
+//                response.getAsJsonObject().addProperty("updated_at", response.getAsJsonObject().get("updated_at").getAsJsonObject().get("date").toString().replace("\"", "")
+//                );
+//            }
+//        } else if(response.getAsJsonObject().has("createdAt") && response.getAsJsonObject().has("updatedAt")) {
+//
+//            if (response.getAsJsonObject().get("createdAt").isJsonObject()) {
+//                response.getAsJsonObject().addProperty("createdAt", response.getAsJsonObject().get("createdAt").getAsJsonObject().get("date").toString().replace("\"", "")
+//                );
+//            }
+//
+//            if (response.getAsJsonObject().get("updatedAt").isJsonObject()) {
+//                response.getAsJsonObject().addProperty("updatedAt", response.getAsJsonObject().get("updatedAt").getAsJsonObject().get("date").toString().replace("\"", "")
+//                );
+//            }
+//        }
+//
+//        if(response.getAsJsonObject().has("ambassador") && response.getAsJsonObject().get("ambassador") == null){
+//            response.getAsJsonObject().addProperty("ambassador", "false");
+//        }
+//
+//        return response;
+//    }
 
-        if(response.getAsJsonObject().has("newsletter") && response.getAsJsonObject().get("newsletter").toString().equals("true")){
-            response.getAsJsonObject().addProperty("newsletter", "1");
-        }
-
-        if(response.getAsJsonObject().has("references") && response.getAsJsonObject().get("references") != null) {
-            JsonArray references = response.getAsJsonObject().get("references").getAsJsonArray();
-
-            for (int i = 0; i < references.size(); i++) {
-                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("false")) {
-                    references.get(i).getAsJsonObject().addProperty("newsletter", "0");
-                }
-
-                if (references.get(i).getAsJsonObject().get("newsletter").toString().equals("true")) {
-                    references.get(i).getAsJsonObject().addProperty("newsletter", "1");
-                }
-            }
-        }
-
-        if(response.getAsJsonObject().has("created_at") && response.getAsJsonObject().has("updated_at")) {
-
-            if (response.getAsJsonObject().get("created_at").isJsonObject()) {
-                response.getAsJsonObject().addProperty("created_at", response.getAsJsonObject().get("created_at").getAsJsonObject().get("date").toString().replace("\"", "")
-                );
-            }
-
-            if (response.getAsJsonObject().get("updated_at").isJsonObject()) {
-                response.getAsJsonObject().addProperty("updated_at", response.getAsJsonObject().get("updated_at").getAsJsonObject().get("date").toString().replace("\"", "")
-                );
-            }
-        } else if(response.getAsJsonObject().has("createdAt") && response.getAsJsonObject().has("updatedAt")) {
-
-            if (response.getAsJsonObject().get("createdAt").isJsonObject()) {
-                response.getAsJsonObject().addProperty("createdAt", response.getAsJsonObject().get("createdAt").getAsJsonObject().get("date").toString().replace("\"", "")
-                );
-            }
-
-            if (response.getAsJsonObject().get("updatedAt").isJsonObject()) {
-                response.getAsJsonObject().addProperty("updatedAt", response.getAsJsonObject().get("updatedAt").getAsJsonObject().get("date").toString().replace("\"", "")
-                );
-            }
-        }
-
-        if(response.getAsJsonObject().has("ambassador") && response.getAsJsonObject().get("ambassador") == null){
-            response.getAsJsonObject().addProperty("ambassador", "false");
-        }
-
-        return response;
-    }
-
-    public static JsonArray parseMembersResponse(JsonArray response) {
-        JsonArray parsedMembers = new JsonArray();
-
-        for (int i = 0; i < response.size(); i++) {
-            JsonElement parsedMember = parseMemberResponse(response.get(i));
-            parsedMembers.add(parsedMember);
-        }
-
-        return parsedMembers;
-    }
+//    public static JsonArray parseMembersResponse(JsonArray response) {
+//        JsonArray parsedMembers = new JsonArray();
+//
+//        for (int i = 0; i < response.size(); i++) {
+//            JsonElement parsedMember = parseMemberResponse(response.get(i));
+//            parsedMembers.add(parsedMember);
+//        }
+//
+//        return parsedMembers;
+//    }
 
     public String returnNameForNullCompaniesValue(){
         String companiesString = "";
@@ -351,6 +351,7 @@ public class Member implements Serializable{
 
             map.put("distance", GeneralHelpers.distanceByInterval(membersList.get(i).distance));
 
+//            if(!GeneralHelpers.distanceByInterval(membersList.get(i).distance).equals(""))
             members.add(map);
         }
 
@@ -381,5 +382,27 @@ public class Member implements Serializable{
         }
 
         return companiesToUpdate;
+    }
+
+    public static List<Member> concatenateTwoListsOfMembers(List<Member> list1, List<Member> list2) {
+        List<Member> listConcatenate = new ArrayList<Member>();
+        // Add Bookmarks
+        listConcatenate.addAll(list1);
+        // Add hubs
+        listConcatenate.addAll(list2);
+
+        return listConcatenate;
+    }
+
+    public static List<Member> addMemberAroundMe(List<Member> membersAroundMe) {
+        List<Member> exactAroundMeMembers = new ArrayList<Member>();
+
+        for(int i=0; i<membersAroundMe.size(); i++) {
+            if(!GeneralHelpers.distanceByInterval(membersAroundMe.get(i).distance).equals("")) {
+                exactAroundMeMembers.add(membersAroundMe.get(i));
+            }
+        }
+
+        return exactAroundMeMembers;
     }
 }

@@ -36,7 +36,7 @@ public class Company implements Serializable{
                 .create();
 
         if(response.getAsJsonObject().get("members") != null) {
-            response.getAsJsonObject().add("members", Member.parseMembersResponse(response.getAsJsonObject().get("members").getAsJsonArray()));
+            response.getAsJsonObject().add("members", response.getAsJsonObject().get("members").getAsJsonArray());
         }
 
         Company company = gson.fromJson (response, Company.class);

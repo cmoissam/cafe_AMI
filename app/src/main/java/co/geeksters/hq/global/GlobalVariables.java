@@ -14,8 +14,8 @@ import co.geeksters.hq.models.Member;
 public class GlobalVariables {
     // Radar configuration
     public static int MAX_SLICE_NUMBER = 5;
-    public static final int MAX_INTERVAL_DISTANCE_FINDER = 30;
-    public static float RADIUS = (float) 0.1;
+    public static final int MAX_INTERVAL_DISTANCE_FINDER = 1000;
+    public static float RADIUS = (float) 7.0;
 
     // Contact configuration
     public static Facebook facebook = new Facebook(Config.FACEBOOK_API_KEY);
@@ -44,6 +44,8 @@ public class GlobalVariables {
     public static List<Member> membersAroundMe = new ArrayList<Member>();
 
     public static float listViewPostsHeight = 0;
+
+    public static int fromPaginationDirectory = 0;
 
     // Getting the API Key for the app by registering it at Google Cloud Console
     // NOM DU PROJET : HQ project
