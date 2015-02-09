@@ -103,6 +103,8 @@ public class PeopleFinderRadarFragment extends Fragment {
     }
 
     public void zoomOnRadar(List<Member> membersList) {
+        GeneralHelpers.setSliceNumber();
+
         List<Integer> sliceIndexList = new ArrayList<Integer>();
 
         for(int i=0; i<membersList.size(); i++) {
@@ -125,12 +127,11 @@ public class PeopleFinderRadarFragment extends Fragment {
 
     @Subscribe
     public void onGetListMembersAroundMeEvent(MembersEvent event) {
-//        GeneralHelpers.setSliceNumber();
-
         zoomOnRadar(event.members);
 
         GlobalVariables.membersAroundMe = new ArrayList<Member>();
 
+//        GlobalVariables.membersAroundMe.addAll(event.members);
         GlobalVariables.membersAroundMe.addAll(Member.addMemberAroundMe(event.members));
 
         membersList = Member.addMemberAroundMe(event.members);
@@ -150,8 +151,8 @@ public class PeopleFinderRadarFragment extends Fragment {
         createBitMap(radius);
 
         for (int i = 0; i < membersList.size(); i++) {
-//            int sliceIndex = getSliceIndex(membersList.get(i));
-            int sliceIndex = 1;
+            int sliceIndex = getSliceIndex(membersList.get(i));
+//            int sliceIndex = 1;
 
             ImageView memberImage = new ImageView(getActivity());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius / 3), (int) (radius / 3));
@@ -184,16 +185,16 @@ public class PeopleFinderRadarFragment extends Fragment {
                 if (-radarForm.getWidth() / 2 < randomX && randomX < radarForm.getWidth() / 2 && 0 > randomY &&
                         randomY > myPosition.getHeight() - radarForm.getHeight()) {
                     if (sliceIndex == 1) {
-                        if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + radius + myPosition.getWidth() / 2
-                                && randomY < maxExeptMyPositionY + radius + myPosition.getWidth() / 2))
+                        if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
+                                && randomY < maxExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2))
                             break;
                     }
 //                    else if ((randomX > minExeptLeft && randomX < maxExeptLeft && randomY > minExeptLeft && randomY < maxExeptLeft)
 //                            || (randomX > minExeptRight && randomX < maxExeptRight && randomY > minExeptRight && randomY < maxExeptRight)) {
 //                        break;
 //                    }
-                    else if ((randomX > minExeptLeft && randomX < maxExeptLeft && randomY > minExeptLeft && randomY < maxExeptLeft)
-                            || (randomX > minExeptRight && randomX < maxExeptRight && randomY > minExeptRight && randomY < maxExeptRight))
+                    else if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
+                            && randomY < maxExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2))
                         break;
                 }
             }

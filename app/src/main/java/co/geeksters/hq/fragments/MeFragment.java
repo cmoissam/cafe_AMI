@@ -214,8 +214,10 @@ public class MeFragment extends Fragment {
         accessToken = preferences.getString("access_token", "").toString().replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
+        if(currentMember.hub.name == null || !currentMember.hub.name.equals(""))
+            listItemHubSpinner.add(GeneralHelpers.firstToUpper(currentMember.hub.name));
+
         fullName.setText(GeneralHelpers.firstToUpper(currentMember.fullName));
-        listItemHubSpinner.add(GeneralHelpers.firstToUpper(currentMember.hub.name));
         companyName.setText(currentMember.returnNameForNullCompaniesValue());
         goalContent.setText(GeneralHelpers.firstToUpper(currentMember.goal));
         bioContent.setText(GeneralHelpers.firstToUpper(currentMember.blurp));
@@ -411,11 +413,21 @@ public class MeFragment extends Fragment {
         member.hub.name = String.valueOf(hubName.getSelectedItem());
         member.image = urlPicture;
 
+        member.companies = new ArrayList<Company>();
+
         if(!companyName.getText().toString().equals("")) {
-            member.companies = new ArrayList<Company>();
-            Company company = new Company();
-            company.name = companyName.getText().toString();
-            member.companies.add(company);
+            String[] companies = companyName.getText().toString().trim().split(",");
+
+            for(int i=0; i<companies.length; i++) {
+                Company company = new Company();
+
+                if (!companies[i].equals("Company"))
+                    company.name = companyName.getText().toString();
+                else
+                    company.name = "";
+
+                member.companies.add(company);
+            }
         }
 
         member.goal = goalContent.getText().toString();
@@ -429,11 +441,17 @@ public class MeFragment extends Fragment {
         member.social.skype = skype.getText().toString();
         member.social.website = website.getText().toString();
 
+        member.interests = new ArrayList<Interest>();
+
         if(!((EditText) (interestsContent.getChildAt(0)).findViewById(R.id.interest)).getText().toString().equals("")) {
-            member.interests = new ArrayList<Interest>();
             for (int i = 0; i < interestsContent.getChildCount(); i++) {
                 Interest interest = new Interest();
-                interest.name = ((EditText) (interestsContent.getChildAt(i)).findViewById(R.id.interest)).getText().toString();
+
+                if(!((EditText) (interestsContent.getChildAt(i)).findViewById(R.id.interest)).getText().toString().equals("Interest"))
+                    interest.name = ((EditText) (interestsContent.getChildAt(i)).findViewById(R.id.interest)).getText().toString();
+                else
+                    interest.name = "";
+
                 member.interests.add(interest);
             }
         }

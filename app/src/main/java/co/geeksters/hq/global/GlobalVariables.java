@@ -15,7 +15,7 @@ public class GlobalVariables {
     // Radar configuration
     public static int MAX_SLICE_NUMBER = 5;
     public static final int MAX_INTERVAL_DISTANCE_FINDER = 1000;
-    public static float RADIUS = (float) 7.0;
+    public static float RADIUS = (float) 8.0;
 
     // Contact configuration
     public static Facebook facebook = new Facebook(Config.FACEBOOK_API_KEY);

@@ -44,6 +44,7 @@ public class PeopleDirectoryFragment extends Fragment {
     String accessToken;
     List<Member> membersList = new ArrayList<Member>();
     int from = 0;
+    boolean onSearch = false;
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -103,6 +104,7 @@ public class PeopleDirectoryFragment extends Fragment {
 
     public void searchForMembersByPaginationService(String search){
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
+            onSearch = true;
             MemberService memberService = new MemberService(accessToken);
             memberService.suggestionMember(search);
         } else {
@@ -122,6 +124,11 @@ public class PeopleDirectoryFragment extends Fragment {
 
         membersList = event.members;
 
+        if(onSearch) {
+            members = new ArrayList<HashMap<String, String>>();
+            onSearch = false;
+        }
+
         members = Member.membersInfoForItem(getActivity(), members, membersList);
 
         // Adding items to listview
@@ -136,6 +143,11 @@ public class PeopleDirectoryFragment extends Fragment {
             displayAll.setVisibility(View.GONE);
         else
             displayAll.setVisibility(View.VISIBLE);
+
+        if(adapter.isEmpty())
+            emptySearch.setVisibility(View.VISIBLE);
+        else
+            emptySearch.setVisibility(View.GONE);
 
         ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
