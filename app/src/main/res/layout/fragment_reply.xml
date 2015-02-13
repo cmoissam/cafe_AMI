@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.ReplyMarketFragment"
+    android:id="@+id/frameLayout">
+
+    <!-- Logout progress -->
+    <!--<ProgressBar android:id="@+id/logoutProgress" style="?android:attr/progressBarStyleLarge"-->
+        <!--android:layout_width="wrap_content" android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp" android:visibility="gone"-->
+        <!--android:layout_gravity="center_vertical" />-->
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/commentNumber"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="@string/your_comment"-->
+                <!--android:padding="7dp"-->
+                <!--android:background="@drawable/border"/>-->
+
+        <!--</RelativeLayout>-->
+
+        <ScrollView android:id="@+id/replyScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/commentNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="7dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/commentsLayout"
+                    android:layout_marginTop="4dp">
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <EditText
+                android:id="@+id/commentContent"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="textMultiLine"
+                android:maxLength="300"
+                android:hint="@string/your_comment"
+                android:padding="7dp"
+                android:background="@drawable/border"/>
+
+            <ImageButton
+                android:id="@+id/send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/abc_ic_cab_done_holo_dark"
+                android:layout_centerVertical="true"
+                android:layout_margin="5dp"
+                android:text="Send"
+                android:layout_alignWithParentIfMissing="false" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

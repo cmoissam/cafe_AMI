@@ -1,5 +1,7 @@
 package co.geeksters.hq.events.success;
 
+import com.google.android.gms.internal.co;
+
 import co.geeksters.hq.models.Comment;
 
 /**
@@ -7,9 +9,9 @@ import co.geeksters.hq.models.Comment;
  */
 public class CommentEvent {
 
-    Comment created_comment_for_post;
+    public Comment comment;
 
-    public CommentEvent(Comment created_comment_for_post) {
-        this.created_comment_for_post = created_comment_for_post;
+    public CommentEvent(Comment comment) {
+        this.comment = comment;
     }
 }

@@ -37,6 +37,7 @@ import co.geeksters.hq.adapter.ListViewMarketAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
+import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -56,12 +57,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     String accessToken;
     List<Post> postsList = new ArrayList<Post>();
     ListViewMarketAdapter adapter;
-
     static int from = 0;
-
-    // List view
-//    @ViewById(R.id.list_markets_profile)
-//    ListView listMarketsProfile;
 
     @ViewById(R.id.marketProfileProgress)
     ProgressBar membersProgress;
@@ -70,13 +66,9 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     TextView emptySearch;
 
     public void listPostForCurrentMemberService() {
-        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-        accessToken = preferences.getString("access_token","").replace("\"","");
-
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             PostService postService = new PostService(accessToken);
             postService.listPostsForMember();
-//            postService.listAllPosts();
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -91,16 +83,30 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     @Subscribe
     public void onGetListPostsEvent(PostsEvent event) {
         postsList = event.posts;
+//        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
+        PostsAdapter adapter = new PostsAdapter(this, postsList, accessToken);
+        adapter.makeList();
+    }
 
-        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
+    @Subscribe
+    public void onGetDeletedPostEvent(PostEvent event) {
+        for(int i=0; i<postsList.size(); i++) {
+            if(postsList.get(i).id == event.post.id) {
+                postsList.remove(i);
+                break;
+            }
+        }
 
-        PostsAdapter adapter = new PostsAdapter(getActivity(), posts);
+        PostsAdapter adapter = new PostsAdapter(this, postsList, accessToken);
         adapter.makeList();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        accessToken = preferences.getString("access_token","").replace("\"","");
 
         return null;
     }

@@ -11,9 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -23,12 +29,19 @@ import java.util.ArrayList;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.DummyTabContent;
+import co.geeksters.hq.adapter.AmbassadorsAdapter;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
+import co.geeksters.hq.adapter.PostsAdapter;
+import co.geeksters.hq.events.success.AmbassadorsEvent;
+import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
+import co.geeksters.hq.services.HubService;
 
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
@@ -58,6 +71,9 @@ public class OneHubFragment extends Fragment {
     private static final String NEW_INSTANCE_HUB_KEY = "member_key";
     SharedPreferences preferences;
     Hub hubToDisplay;
+    Member currentMember;
+    String accessToken;
+    LayoutInflater inflater;
 
     public static OneHubFragment_ newInstance(Hub hub) {
         OneHubFragment_ fragment = new OneHubFragment_();
@@ -70,53 +86,52 @@ public class OneHubFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.inflater = inflater;
+
         if(getArguments() != null)
             hubToDisplay = (Hub) getArguments().getSerializable(NEW_INSTANCE_HUB_KEY);
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+        accessToken = preferences.getString("access_token","").replace("\"","");
+
+        BaseApplication.register(this);
 
         return null;
     }
 
+    public void listAllAmbassadorsOfHubService() {
+        if(GeneralHelpers.isInternetAvailable(getActivity())) {
+            HubService hubService = new HubService(accessToken);
+            hubService.getHubAmbassadors(hubToDisplay.id);
+        } else {
+            //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+        }
+    }
+
     @AfterViews
-    public void setNameAndHub() {
+    public void listAllAmbassadorsByPagination() {
         headerHub.getBackground().setAlpha(100);
 
-        preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        listAllAmbassadorsOfHubService();
+    }
+
+    @Subscribe
+    public void onGetListAmbassadorsOfHubEvent(AmbassadorsEvent event) {
 
         hubName.setText(hubToDisplay.name);
 
-        // TODO : Delete this bloc (test information)
-        if(hubToDisplay.ambassadors.size() == 0){
-            hubToDisplay.ambassadors = new ArrayList<Member>();
-            hubToDisplay.ambassadors.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-            hubToDisplay.ambassadors.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-            hubToDisplay.ambassadors.add(Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", ""))));
-        }
+        hubToDisplay.ambassadors = new ArrayList<Member>();
+        hubToDisplay.ambassadors = event.members;
 
         if(hubToDisplay.ambassadors.size() == 0)
-            ambassadorsTitle.setVisibility(View.GONE);
+            ambassadorsTitle.setVisibility(View.VISIBLE);
 
-        for (int i=0; i<hubToDisplay.ambassadors.size(); i++) {
-            ImageView imageAmbassador = new ImageView(getActivity().getApplicationContext());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(40, 40);
-            imageAmbassador.setLayoutParams(layoutParams);
-            //if(hubToDisplay.ambassadors.get(i).image.isEmpty())
-                imageAmbassador.setImageResource(R.drawable.no_image_ambassador);
-            // from cloudinary
-            /*else
-                imageAmbassador.setImageResource();*/
-            ambassadorsLayout.addView(imageAmbassador);
+        //TODO : set background hub image layout with the correspondant image
 
-            final int index = i;
-            imageAmbassador.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragment = new OneProfileFragment_().newInstance(hubToDisplay.ambassadors.get(index));
-                    fragmentTransaction.replace(R.id.contentFrame, fragment);
-                    fragmentTransaction.commit();
-                }
-            });
-        }
+        AmbassadorsAdapter adapter = new AmbassadorsAdapter(this, hubToDisplay, this.inflater);
+        adapter.makeList();
     }
 
     @AfterViews

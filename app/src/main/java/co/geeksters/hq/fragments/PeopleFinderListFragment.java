@@ -13,6 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -26,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.adapter.DirectoryAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -41,7 +45,7 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 @EFragment(R.layout.fragment_people_finder_list)
 public class PeopleFinderListFragment extends Fragment {
     // Listview Adapter
-    SimpleAdapter adapter;
+    DirectoryAdapter adapter;
     // ArrayList for Listview
     ArrayList<HashMap<String, String>> members;
     String accessToken;
@@ -65,28 +69,24 @@ public class PeopleFinderListFragment extends Fragment {
     @AfterViews
     public void displayMembersAroundMeOnList() {
         membersList = Member.orderMembersByDescDistance(GlobalVariables.membersAroundMe);
+
         members = new ArrayList<HashMap<String, String>>();
         members = Member.membersInfoForItemByDistance(getActivity(), members, membersList);
 
-        // Adding items to listview
-        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_list,
-                new String[]{"picture", "fullName", "hubName", "distance"},
-                new int[]{R.id.picture, R.id.fullName, R.id.hubName, R.id.distance});
+//        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_list,
+//                new String[]{"picture", "fullName", "hubName", "distance"},
+//                new int[]{R.id.picture, R.id.fullName, R.id.hubName, R.id.distance});
+//        listViewMembers.setAdapter(adapter);
 
+        adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
+//        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
         if(adapter.isEmpty())
             emptySearch.setVisibility(View.VISIBLE);
         else
             emptySearch.setVisibility(View.GONE);
-
-//        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
-
-    /*@AfterViews
-    public void addFooterToListview() {
-        listViewMembers.addFooterView(new View(getActivity()), null, true);
-    }*/
 
     @ItemClick(R.id.list_view_members)
     public void setItemClickOnListViewMembers(int position) {

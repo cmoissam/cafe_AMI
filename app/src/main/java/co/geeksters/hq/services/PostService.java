@@ -20,9 +20,11 @@ import retrofit.client.Response;
 public class PostService extends BaseService {
 
     public final PostInterface api;
+    public String token;
 
     public PostService(String token) {
         this.api = BaseService.adapterWithToken(token).create(PostInterface.class);
+        this.token = token;
     }
 
     public void listPostsForMember() {
@@ -80,13 +82,13 @@ public class PostService extends BaseService {
         });
     }
 
-    public void deletePost(int post_id) {
+    public void deletePost(int postId) {
 
-        this.api.deletePost(post_id, new Callback<JsonElement>() {
+        this.api.deletePost(postId, "delete", this.token, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Post deleted_post = Post.createPostFromJson(response);
+                Post deleted_post = Post.createPostFromJson(response.getAsJsonObject().get("data"));
                 BaseApplication.post(new PostEvent(deleted_post));
             }
 

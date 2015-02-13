@@ -104,8 +104,13 @@ public class OneProfileFragment extends Fragment {
 
         if(memberToDisplay.image != null && memberToDisplay.image.startsWith("http"))
             ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, memberToDisplay.image);
+
         fullName.setText(memberToDisplay.fullName);
-        hubName.setText(memberToDisplay.hub.name);
+
+        if(memberToDisplay.hub == null || memberToDisplay.hub.name == null)
+            hubName.setText(getResources().getString(R.string.empty_hub_name));
+        else
+            hubName.setText(memberToDisplay.hub.name);
     }
 
     @AfterViews

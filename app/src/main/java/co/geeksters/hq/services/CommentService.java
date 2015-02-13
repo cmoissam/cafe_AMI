@@ -1,18 +1,17 @@
 package co.geeksters.hq.services;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
-import org.json.JSONArray;
 
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.DeleteCommentEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.CommentInterface;
 import co.geeksters.hq.models.Comment;
+import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -20,18 +19,20 @@ import retrofit.client.Response;
 public class CommentService {
 
     public final CommentInterface api;
+    public String token;
 
     public CommentService(String token) {
         this.api = BaseService.adapterWithToken(token).create(CommentInterface.class);
+        this.token = token;
     }
 
     public void listCommentsForPost(int post_id) {
 
-        this.api.listCommentsForPost(post_id, new Callback<JSONArray>() {
+        this.api.listCommentsForPost(post_id, new Callback<JsonArray>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                List<Comment> comments_for_post = Comment.createListCommentsFromJson(response);
+            public void success(JsonArray response, Response rawResponse) {
+                List<Comment> comments_for_post = Comment.createListCommentsFromJson(response, null);
                 BaseApplication.post(new CommentsEvent(comments_for_post));
             }
 
@@ -43,14 +44,14 @@ public class CommentService {
         });
     }
 
-    public void commentPost(int post_id, Comment comment) {
+    public void commentPost(int post_id, final Comment comment, final Member currentMember) {
 
-        this.api.commentPost(post_id, comment, new Callback<JsonElement>() {
+        this.api.commentPost(post_id, this.token, comment.text, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Comment created_comment_for_post = Comment.createCommentFromJson(response);
-                BaseApplication.post(new CommentEvent(created_comment_for_post));
+                List<Comment> created_comment_for_post = Comment.createListCommentsFromJson(response.getAsJsonObject().get("data").getAsJsonArray(), currentMember);
+                BaseApplication.post(new CommentsEvent(created_comment_for_post));
             }
 
             @Override
@@ -67,7 +68,7 @@ public class CommentService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                Comment deleted_comment = Comment.createCommentFromJson(response);
+                Comment deleted_comment = Comment.createCommentFromJson(response, null);
                 BaseApplication.post(new DeleteCommentEvent(deleted_comment));
             }
 
@@ -78,5 +79,4 @@ public class CommentService {
             }
         });
     }
-
 }

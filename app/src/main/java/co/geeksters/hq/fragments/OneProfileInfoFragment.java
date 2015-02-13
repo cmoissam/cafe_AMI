@@ -112,7 +112,7 @@ public class OneProfileInfoFragment extends Fragment {
 
         if(GlobalVariables.isCurrentMember) {
             memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-        } else{
+        } else {
             editInfo.setVisibility(View.GONE);
             memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("profile_member", "")));
         }
@@ -121,21 +121,21 @@ public class OneProfileInfoFragment extends Fragment {
         goalContent.setText(memberToDisplay.goal);
         bioContent.setText(memberToDisplay.blurp);
 
-        if(memberToDisplay.interests.size() == 0) {
-            memberToDisplay.interests = new ArrayList<Interest>();
-            Interest interest1 = new Interest();
-            interest1.name = "Developement test";
-            Interest interest2 = new Interest();
-            interest2.name = "WEB";
-            Interest interest3 = new Interest();
-            interest3.name = "Finance";
-            Interest interest4 = new Interest();
-            interest4.name = "Law";
-            memberToDisplay.interests.add(interest1);
-            memberToDisplay.interests.add(interest2);
-            memberToDisplay.interests.add(interest3);
-            memberToDisplay.interests.add(interest4);
-        }
+//        if(memberToDisplay.interests.size() == 0) {
+//            memberToDisplay.interests = new ArrayList<Interest>();
+//            Interest interest1 = new Interest();
+//            interest1.name = "Developement test";
+//            Interest interest2 = new Interest();
+//            interest2.name = "WEB";
+//            Interest interest3 = new Interest();
+//            interest3.name = "Finance";
+//            Interest interest4 = new Interest();
+//            interest4.name = "Law";
+//            memberToDisplay.interests.add(interest1);
+//            memberToDisplay.interests.add(interest2);
+//            memberToDisplay.interests.add(interest3);
+//            memberToDisplay.interests.add(interest4);
+//        }
 
         if(memberToDisplay.interests.size() != 0)
             interestsTitle.setVisibility(View.VISIBLE);

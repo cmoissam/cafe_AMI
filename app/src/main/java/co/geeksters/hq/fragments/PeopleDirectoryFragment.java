@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import co.geeksters.hq.R;
+import co.geeksters.hq.adapter.DirectoryAdapter;
+import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -38,7 +40,7 @@ public class PeopleDirectoryFragment extends Fragment {
 
     private static final String NEW_INSTANCE_MEMBERS_KEY = "members_key";
     // Listview Adapter
-    SimpleAdapter adapter;
+    DirectoryAdapter adapter;
     // ArrayList for Listview
     ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
     String accessToken;
@@ -122,22 +124,27 @@ public class PeopleDirectoryFragment extends Fragment {
     public void onGetListMembersByPaginationEvent(MembersEvent event) {
         this.from += GlobalVariables.SEARCH_SIZE;
 
-        membersList = event.members;
-
         if(onSearch) {
             members = new ArrayList<HashMap<String, String>>();
+            membersList = new ArrayList<Member>();
             onSearch = false;
         }
+
+        membersList.addAll(event.members);
 
         members = Member.membersInfoForItem(getActivity(), members, membersList);
 
         // Adding items to listview
-        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
-                new String[]{"picture", "fullName", "hubName"},
-                new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+//        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
+//                new String[]{"picture", "fullName", "hubName"},
+//                new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+//
+//        listViewMembers.setAdapter(adapter);
+//        listViewMembers.setItemsCanFocus(false);
 
+        adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
-        listViewMembers.setItemsCanFocus(false);
+        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
         if(members.size() < GlobalVariables.SEARCH_SIZE)
             displayAll.setVisibility(View.GONE);
@@ -148,8 +155,6 @@ public class PeopleDirectoryFragment extends Fragment {
             emptySearch.setVisibility(View.VISIBLE);
         else
             emptySearch.setVisibility(View.GONE);
-
-        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
 
     @AfterViews
@@ -157,18 +162,18 @@ public class PeopleDirectoryFragment extends Fragment {
         listViewMembers.addFooterView(new View(getActivity()), null, true);
     }
 
-    @ItemClick(R.id.list_view_members)
-    public void setItemClickOnListViewMembers(int position){
-        GlobalVariables.directory = true;
-        GlobalVariables.isMenuOnPosition = false;
-        GlobalVariables.MENU_POSITION = 5;
-        GlobalVariables.isMenuOnPosition = false;
-
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
-        fragmentTransaction.replace(R.id.contentFrame, fragment);
-        fragmentTransaction.commit();
-    }
+//    @ItemClick(R.id.list_view_members)
+//    public void setItemClickOnListViewMembers(int position){
+//        GlobalVariables.directory = true;
+//        GlobalVariables.isMenuOnPosition = false;
+//        GlobalVariables.MENU_POSITION = 5;
+//        GlobalVariables.isMenuOnPosition = false;
+//
+//        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
+//        fragmentTransaction.replace(R.id.contentFrame, fragment);
+//        fragmentTransaction.commit();
+//    }
 
     @TextChange(R.id.inputSearch)
     public void searchForMemberByPagination() {
@@ -201,12 +206,15 @@ public class PeopleDirectoryFragment extends Fragment {
         members = Member.membersInfoForItem(getActivity(), members, membersList);
 
         // Adding items to listview
-        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
-                new String[]{"picture", "fullName", "hubName"},
-                new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+//        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
+//                new String[]{"picture", "fullName", "hubName"},
+//                new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+//        listViewMembers.setAdapter(adapter);
+//        listViewMembers.setItemsCanFocus(false);
 
+        adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
-        listViewMembers.setItemsCanFocus(false);
+        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
         if(adapter.isEmpty()) {
             emptySearch.setVisibility(View.VISIBLE);
@@ -218,8 +226,6 @@ public class PeopleDirectoryFragment extends Fragment {
             displayAll.setVisibility(View.GONE);
         else
             displayAll.setVisibility(View.VISIBLE);
-
-        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
 
     @Click(R.id.clearContent)

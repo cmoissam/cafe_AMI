@@ -21,6 +21,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -186,15 +187,17 @@ public class ViewHelpers {
     }
 
     public static void setImageViewBackgroundFromURL(Context context, ImageView picture, String url) {
+//        if(ImageLoader.getInstance().isInited()) {
+//        ImageLoader.getInstance().destroy();
+//        }
+
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-                .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
         ImageLoader.getInstance().init(config);
-
         ImageLoader.getInstance().displayImage(url, picture, options);
     }
 }

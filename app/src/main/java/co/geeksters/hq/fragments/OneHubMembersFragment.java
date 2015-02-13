@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.adapter.AmbassadorsAdapter;
+import co.geeksters.hq.adapter.DirectoryAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -44,11 +46,12 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 @EFragment(R.layout.fragment_one_hub_members)
 public class OneHubMembersFragment extends Fragment {
     private static final String NEW_INSTANCE_HUBS_KEY = "hub_key";
-    SimpleAdapter adapter;
+    DirectoryAdapter adapter;
     ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
     List<Member> membersList = new ArrayList<Member>();
     String accessToken;
     Member currentMember;
+    Hub currentHub;
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -67,19 +70,6 @@ public class OneHubMembersFragment extends Fragment {
     @ViewById(R.id.search_no_element_found)
     TextView emptySearch;
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if(!BaseApplication.isRegistered(this))
-            BaseApplication.register(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        BaseApplication.unregister(this);
-    }
-
     public static OneHubMembersFragment_ newInstance(Hub hub) {
         OneHubMembersFragment_ fragment = new OneHubMembersFragment_();
         Bundle bundle = new Bundle();
@@ -89,14 +79,14 @@ public class OneHubMembersFragment extends Fragment {
         return fragment;
     }
 
-    public void listAllMembersOfHubService(){
+    public void listAllMembersOfHubService() {
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
         accessToken = preferences.getString("access_token","").replace("\"","");
 
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             HubService hubService = new HubService(accessToken);
-            hubService.getHubMembers(currentMember.hub.id);
+            hubService.getHubMembers(currentHub.id);
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -112,20 +102,28 @@ public class OneHubMembersFragment extends Fragment {
     public void onGetListMembersOfHubEvent(MembersEvent event) {
         // TODO : Delete this bloc (data for test)
         membersList = event.members;
+
+        for(int i=0; i<membersList.size(); i++) {
+            membersList.get(i).hub = currentHub;
+        }
+
         members = Member.membersInfoForItem(getActivity(), members, membersList);
 
         // Adding items to listview
-        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
-                  new String[]{"picture", "fullName", "hubName"},
-                  new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+//        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
+//                  new String[]{"picture", "fullName", "hubName"},
+//                  new int[]{R.id.picture, R.id.fullName, R.id.hubName});
+//
+//        listViewMembers.setAdapter(adapter);
+//        listViewMembers.setItemsCanFocus(false);
 
+        adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
-        listViewMembers.setItemsCanFocus(false);
+        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
         if(adapter.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
         else                  emptySearch.setVisibility(View.GONE);
 
-        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
     }
 
     @AfterViews
@@ -147,6 +145,7 @@ public class OneHubMembersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+        currentHub = (Hub) getArguments().getSerializable(NEW_INSTANCE_HUBS_KEY);
 
         return null;
     }

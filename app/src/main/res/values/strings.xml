@@ -62,6 +62,7 @@
     <string name="button_reply_text">Reply</string>
 
     <string name="country_prompt">Choose a country</string>
+    <string name="your_comment">Your comment</string>
 
     <string-array name="country_arrays">
         <item>Malaysia</item>

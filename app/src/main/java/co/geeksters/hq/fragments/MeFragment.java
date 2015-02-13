@@ -224,6 +224,8 @@ public class MeFragment extends Fragment {
 
         if(currentMember.image.startsWith("http://"))
             ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, currentMember.image);
+        else
+            picture.setImageResource(R.drawable.no_image_member);
 
         linkdin.setText(currentMember.social.linkedin);
         twitter.setText(currentMember.social.twitter);

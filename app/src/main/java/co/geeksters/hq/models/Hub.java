@@ -33,7 +33,7 @@ public class Hub implements Serializable {
     public String image = "";
 	// A Member have a list of hubs and each hub contains a list of members
     public ArrayList<Member> members = new ArrayList<Member>();
-    public ArrayList<Member> ambassadors = new ArrayList<Member>();
+    public List<Member> ambassadors = new ArrayList<Member>();
     public int index;
 
 

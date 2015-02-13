@@ -46,12 +46,12 @@
                     android:layout_height="1dp"
                     android:background="@android:color/darker_gray"/>
 
-                <LinearLayout
-                    android:id="@+id/commentsMarket"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/commentsMarket"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="vertical" >-->
+                <!--</LinearLayout>-->
 
             </LinearLayout>
 

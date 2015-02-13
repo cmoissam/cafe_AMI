@@ -128,16 +128,10 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Subscribe
     public void onGetListMembersAroundMeEvent(MembersEvent event) {
         zoomOnRadar(event.members);
-
         GlobalVariables.membersAroundMe = new ArrayList<Member>();
-
-//        GlobalVariables.membersAroundMe.addAll(event.members);
         GlobalVariables.membersAroundMe.addAll(Member.addMemberAroundMe(event.members));
-
         membersList = Member.addMemberAroundMe(event.members);
-
         membersList = Member.orderMembersByDescDistance(membersList);
-
         final float radius = (radarForm.getHeight()) / (GlobalVariables.MAX_SLICE_NUMBER + 1);
 
         ViewGroup.LayoutParams params = myPosition.getLayoutParams();
@@ -146,54 +140,46 @@ public class PeopleFinderRadarFragment extends Fragment {
         myPosition.setLayoutParams(params);
         myPosition.requestLayout();
 
-        // TODO : return to @AfterViews
-        //if(setBitmap) {
         createBitMap(radius);
 
         for (int i = 0; i < membersList.size(); i++) {
             int sliceIndex = getSliceIndex(membersList.get(i));
-//            int sliceIndex = 1;
 
             ImageView memberImage = new ImageView(getActivity());
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius / 3), (int) (radius / 3));
             memberImage.setLayoutParams(layoutParams);
-            memberImage.setBackgroundDrawable(getResources().getDrawable(R.drawable.no_image_member));
+
+            if(membersList.get(i).image != null && membersList.get(i).image.startsWith("http://"))
+                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(i).image);
+            else
+                memberImage.setImageResource(R.drawable.no_image_member);
 
             float angle = 0;
             float randomX = 0;
             float randomY = 0;
 
-            while (true) {
+            while(true) {
                 angle = (float) (Math.random() * Math.PI * 2);
                 randomX = (float) (Math.cos(angle) * sliceIndex * radius);
                 randomY = (float) (Math.sin(angle) * sliceIndex * radius);
 
-                float minExeptLeft = -sliceIndex * radius;
-                float maxExeptLeft = (1 - sliceIndex) * radius;
-
-                float minExeptRight = (sliceIndex - 1) * radius;
-                float maxExeptRight = sliceIndex * radius;
+//                float minExeptLeft = -sliceIndex * radius;
+//                float maxExeptLeft = (1 - sliceIndex) * radius;
+//                float minExeptRight = (sliceIndex - 1) * radius;
+//                float maxExeptRight = sliceIndex * radius;
 
                 float minExeptMyPositionX = -myPosition.getWidth() / 2;
                 float minExeptMyPositionY = -myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
                 float maxExeptMyPositionX = myPosition.getWidth() / 2;
                 float maxExeptMyPositionY = myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
 
-                //if(randomX >= - radarForm.getWidth()/2 && randomX <= radarForm.getWidth()/2
-//                        && randomY + radius + myPosition.getWidth()/2 > 20 && randomY + radius + myPosition.getWidth()/2 < 20 + myPosition.getHeight() + 20 - radarForm.getHeight()
-                //    ) {
                 if (-radarForm.getWidth() / 2 < randomX && randomX < radarForm.getWidth() / 2 && 0 > randomY &&
                         randomY > myPosition.getHeight() - radarForm.getHeight()) {
                     if (sliceIndex == 1) {
                         if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
                                 && randomY < maxExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2))
                             break;
-                    }
-//                    else if ((randomX > minExeptLeft && randomX < maxExeptLeft && randomY > minExeptLeft && randomY < maxExeptLeft)
-//                            || (randomX > minExeptRight && randomX < maxExeptRight && randomY > minExeptRight && randomY < maxExeptRight)) {
-//                        break;
-//                    }
-                    else if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
+                    } else if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
                             && randomY < maxExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2))
                         break;
                 }
@@ -227,7 +213,6 @@ public class PeopleFinderRadarFragment extends Fragment {
                 bitMap = null;
             }
 
-            //Create a new bitmap to load the bitmap again.
             bitMap = Bitmap.createBitmap(radarForm.getWidth(), radarForm.getHeight(), Bitmap.Config.ARGB_8888);
         }
 

@@ -17,6 +17,7 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
+import co.geeksters.hq.global.helpers.ViewHelpers;
 
 public class Member implements Serializable{
 
@@ -338,10 +339,13 @@ public class Member implements Serializable{
         for (int i = 0; i < membersList.size(); i++) {
             map = new HashMap<String, String>();
 
-        /*if(!membersList.get(i).image.equals(""))
-            map.put("picture", membersList.get(i).image);
-        else*/
-            map.put("picture", String.valueOf(R.drawable.no_image_member));
+            membersList.get(i).image = "http://res.cloudinary.com/dbrnidhop/image/upload/v1422378169/ge2lozuet5jgmca9tzn2.jpg";
+
+            if(membersList.get(i).image != null && membersList.get(i).image.startsWith("http://"))
+                map.put("picture", membersList.get(i).image);
+            else
+                map.put("picture", String.valueOf(R.drawable.no_image_member));
+
             map.put("fullName", GeneralHelpers.firstToUpper(membersList.get(i).fullName));
 
             if (membersList.get(i).hub != null && !membersList.get(i).hub.name.equals(""))

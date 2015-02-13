@@ -235,7 +235,6 @@ public class MemberService {
         });
     }
 
-
     public void listAllMembersByPaginationOrSearch(int from, int size, String order, String col) {
 
         this.api.listAllMembersByPaginationOrSearch(from, size, order, col, new Callback<JsonElement>() {

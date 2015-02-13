@@ -14,7 +14,6 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 
 public interface PostInterface {
-
     @GET("/posts")
     void listAllPosts(Callback<JsonElement> callback);
 
@@ -25,6 +24,7 @@ public interface PostInterface {
     @POST("/posts")
     void createPost(@Field("access_token") String accessToken, @Field("title") String title, @Field("content") String content, Callback<JsonElement> callback);
 
-    @POST("/posts/{id}")
-    void deletePost(@Path("id") int post_id, Callback<JsonElement> callback);
+    @FormUrlEncoded
+    @POST("/members/posts/{id}")
+    void deletePost(@Path("id") int postId, @Field("_method") String method, @Field("access_token") String token, Callback<JsonElement> callback);
 }

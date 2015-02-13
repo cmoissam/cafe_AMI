@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
+import co.geeksters.hq.events.success.AmbassadorsEvent;
 import co.geeksters.hq.events.success.HubEvent;
 import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.events.success.MembersEvent;
@@ -109,12 +110,12 @@ public class HubService {
 
     public void getHubAmbassadors(int hubId) {
 
-        this.api.getHubAmbassadors(hubId, new Callback<JSONArray>() {
+        this.api.getHubAmbassadors(hubId, new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
-                //List<Member> ambassadors_of_hub = Member.createListUsersFromJson(response);
-                //BaseApplication.post(new GetHubAmbassadorsEvent(ambassadors_of_hub));
+            public void success(JsonElement response, Response rawResponse) {
+                List<Member> members_of_hub = Member.createListUsersFromJson(response.getAsJsonObject().get("data").getAsJsonArray());
+                BaseApplication.post(new AmbassadorsEvent(members_of_hub));
             }
 
             @Override

@@ -87,8 +87,8 @@ public class MyToDosFragment extends Fragment {
 
         ArrayList<HashMap<String, String>> posts = Todo.todosInfoForItem(todosList);
 
-        PostsAdapter adapter = new PostsAdapter(getActivity(), posts);
-        adapter.makeList();
+//        PostsAdapter adapter = new PostsAdapter(getActivity(), posts);
+//        adapter.makeList();
         //adapterForHubList = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
         //listViewHubs.setAdapter(adapterForHubList);
         //iewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
