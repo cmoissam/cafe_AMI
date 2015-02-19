@@ -24,6 +24,7 @@ public class Comment implements Serializable {
      **/
 
     public int id;
+    public int postId;
     public String text = "";
     public String createdAt;
     public String updatedAt;

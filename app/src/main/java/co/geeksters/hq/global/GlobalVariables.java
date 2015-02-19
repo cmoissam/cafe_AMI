@@ -46,6 +46,11 @@ public class GlobalVariables {
     public static float listViewPostsHeight = 0;
 
     public static int fromPaginationDirectory = 0;
+    public static int commentClickedIndex = 0;
+    public static int postClickedIndex = -1;
+    public static boolean onDeleteComment = false;
+    public static boolean onReply = false;
+    public static boolean onClickComment = false;
 
     // Getting the API Key for the app by registering it at Google Cloud Console
     // NOM DU PROJET : HQ project

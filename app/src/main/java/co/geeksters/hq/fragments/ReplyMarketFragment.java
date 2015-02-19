@@ -114,6 +114,8 @@ public class ReplyMarketFragment extends Fragment {
             postId = (Integer) getArguments().getSerializable(NEW_INSTANCE_POST_KEY);
         }
 
+        GlobalVariables.MENU_POSITION = 8;
+        GlobalVariables.isMenuOnPosition = false;
         layoutInflater = inflater;
         BaseApplication.register(this);
 
@@ -130,26 +132,28 @@ public class ReplyMarketFragment extends Fragment {
     }
 
     public void setCommentsList() {
-        commentNumber.setText(commentList.size() + " comments");
-        commentsLayout.removeAllViews();
+        if(GlobalVariables.onReply) {
+            commentNumber.setText(commentList.size() + " comments");
+            commentsLayout.removeAllViews();
 
-        for(int i = 0 ; i < commentList.size() ; i++) {
-            View childViewComment = layoutInflater.inflate(R.layout.list_item_comment, null); //same layout you gave to the adapter
+            for(int i = 0; i < commentList.size(); i++) {
+                View childViewComment = layoutInflater.inflate(R.layout.list_item_comment, null); //same layout you gave to the adapter
 
-            TextView fullNameTextView = (TextView)childViewComment.findViewById(R.id.fullName);
-            fullNameTextView.setText(commentList.get(i).member.fullName);
+                TextView fullNameTextView = (TextView) childViewComment.findViewById(R.id.fullName);
+                fullNameTextView.setText(commentList.get(i).member.fullName);
 
-            TextView commentTextView = (TextView)childViewComment.findViewById(R.id.comment);
-            commentTextView.setText(commentList.get(i).text);
+                TextView commentTextView = (TextView) childViewComment.findViewById(R.id.comment);
+                commentTextView.setText(commentList.get(i).text);
 
-            TextView date = (TextView)childViewComment.findViewById(R.id.date);
-            date.setText(commentList.get(i).createdAt);
+                TextView date = (TextView) childViewComment.findViewById(R.id.date);
+                date.setText(commentList.get(i).createdAt);
 
-            ImageView picture = (ImageView)childViewComment.findViewById(R.id.picture);
-            if(commentList.get(i).member.image != null && commentList.get(i).member.image.startsWith("http://"))
-                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, commentList.get(i).member.image);
+                ImageView picture = (ImageView) childViewComment.findViewById(R.id.picture);
+                if(commentList.get(i).member.image != null && commentList.get(i).member.image.startsWith("http://"))
+                    ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, commentList.get(i).member.image);
 
-            commentsLayout.addView(childViewComment, 0);
+                commentsLayout.addView(childViewComment, 0);
+            }
         }
     }
 
@@ -160,6 +164,7 @@ public class ReplyMarketFragment extends Fragment {
             commentContent.setError(getString(R.string.error_short_text));
             commentContent.requestFocus();
         } else {
+            GlobalVariables.onReply = true;
             Comment comment = new Comment();
             comment.text = String.valueOf(commentContent.getText());
 
@@ -170,10 +175,16 @@ public class ReplyMarketFragment extends Fragment {
 
     @Subscribe
     public void onGetCommentsEvent(CommentsEvent event) {
-        commentList = new ArrayList<Comment>();
-        commentList = event.comments;
+        if(GlobalVariables.onReply) {
+            commentList = new ArrayList<Comment>();
+            commentList = event.comments;
 
-        commentContent.setText("");
-        setCommentsList();
+            commentContent.setText("");
+            setCommentsList();
+
+//            GlobalVariables.onClickComment = false;
+
+            GlobalVariables.onReply = false;
+        }
     }
 }

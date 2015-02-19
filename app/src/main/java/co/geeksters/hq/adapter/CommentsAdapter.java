@@ -14,8 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Comment;
+import co.geeksters.hq.services.CommentService;
+import co.geeksters.hq.services.PostService;
 
 /**
  * Created by soukaina on 04/02/15.
@@ -25,11 +28,13 @@ public class CommentsAdapter {
     Context context;
     List<Comment> commentList;
     LinearLayout childView;
+    String accessToken;
 
-    public CommentsAdapter(Context c, List<Comment> commentList, LinearLayout childView) {
-        context = c;
+    public CommentsAdapter(Context context, List<Comment> commentList, LinearLayout childView, String accessToken) {
+        this.context = context;
         this.commentList = commentList;
         this.childView = childView;
+        this.accessToken = accessToken;
     }
 
     public void makeList() {
@@ -53,6 +58,18 @@ public class CommentsAdapter {
             ImageView picture = (ImageView)childView.findViewById(R.id.picture);
             if(commentList.get(i).member.image != null && commentList.get(i).member.image.startsWith("http://"))
                 ViewHelpers.setImageViewBackgroundFromURL(context, picture, commentList.get(i).member.image);
+
+            ImageView deleteComment = (ImageView)childView.findViewById(R.id.deleteComment);
+            final int index = i;
+            deleteComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.onDeleteComment = true;
+                    CommentService commentService = new CommentService(accessToken);
+                    commentService.deleteComment(commentList.get(index).postId, commentList.get(index).id);
+                    GlobalVariables.commentClickedIndex = index;
+                }
+            });
 
             llList.addView(childView,0);
         }

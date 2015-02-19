@@ -188,16 +188,19 @@ public class ViewHelpers {
 
     public static void setImageViewBackgroundFromURL(Context context, ImageView picture, String url) {
 //        if(ImageLoader.getInstance().isInited()) {
-//        ImageLoader.getInstance().destroy();
+//            ImageLoader.getInstance().destroy();
 //        }
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
+//        DisplayImageOptions options = new DisplayImageOptions.Builder()
+//                .cacheInMemory(true)
+//                .cacheOnDisk(true)
+//                .build();
+//
+//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
+//        ImageLoader.getInstance().init(config);
+//        ImageLoader.getInstance().displayImage(url, picture, options);
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
-        ImageLoader.getInstance().init(config);
-        ImageLoader.getInstance().displayImage(url, picture, options);
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage(url, picture);
     }
 }

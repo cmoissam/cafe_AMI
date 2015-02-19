@@ -75,7 +75,7 @@ public class DirectoryAdapter extends BaseAdapter {
         else
             hubName.setText(GeneralHelpers.firstToUpper(activity.getResources().getString(R.string.empty_hub_name)));
 
-        if(distance != null)
+        if(distance != null && GlobalVariables.finderList)
             distance.setText(GeneralHelpers.distanceByInterval(memberList.get(position).distance));
 
         if(memberList.get(position).image == null || memberList.get(position).image.startsWith("http://"))

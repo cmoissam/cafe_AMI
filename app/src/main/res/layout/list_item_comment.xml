@@ -8,12 +8,21 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
+
+    <ImageView
+        android:id="@+id/deleteComment"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_gravity="right"
+        android:layout_marginRight="7dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
     
     <!-- Single ListItem -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="-7dp"
         android:padding="4dp"
         android:id="@+id/personalInformation">
 
@@ -42,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:focusable="false"
+                android:textStyle="bold"
                 android:focusableInTouchMode="false"/>
 
             <TextView

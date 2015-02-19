@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:inputType="textPersonName"
-                android:hint="@string/search_members"
+                android:hint="@string/search_hubs"
                 android:ems="10"
                 android:layout_weight="1"
                 android:layout_gravity="left"

@@ -125,7 +125,7 @@ public class OneHubFragment extends Fragment {
         hubToDisplay.ambassadors = new ArrayList<Member>();
         hubToDisplay.ambassadors = event.members;
 
-        if(hubToDisplay.ambassadors.size() == 0)
+        if(hubToDisplay.ambassadors.size() != 0)
             ambassadorsTitle.setVisibility(View.VISIBLE);
 
         //TODO : set background hub image layout with the correspondant image

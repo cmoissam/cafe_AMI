@@ -56,6 +56,7 @@
     <string name="action_send_mail_title">Send email</string>
     <string name="action_send_mail_object">HQ Contact</string>
     <string name="search_members">Search members ...</string>
+    <string name="search_hubs">Search hubs ...</string>
     <string name="display_more">Display more results</string>
     <string name="display_all">Display all results</string>
     <string name="my_position">My position</string>

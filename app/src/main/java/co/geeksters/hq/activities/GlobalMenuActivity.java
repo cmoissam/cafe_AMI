@@ -32,6 +32,7 @@ import co.geeksters.hq.fragments.MeFragment_;
 import co.geeksters.hq.fragments.MyToDosFragment_;
 import co.geeksters.hq.fragments.OneHubFragment_;
 import co.geeksters.hq.fragments.OneHubMembersFragment_;
+import co.geeksters.hq.fragments.OneProfileFragment;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
 import co.geeksters.hq.fragments.MyToDosFragment;
@@ -239,6 +240,10 @@ public class GlobalMenuActivity extends FragmentActivity {
                 GlobalVariables.MENU_POSITION = 2;
                 GlobalVariables.isMenuOnPosition = true;
                 fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
+            } else if(GlobalVariables.MENU_POSITION == 8) {
+                GlobalVariables.MENU_POSITION = 5;
+                GlobalVariables.isMenuOnPosition = true;
+                fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
             }
 
             fragmentTransaction.commit();

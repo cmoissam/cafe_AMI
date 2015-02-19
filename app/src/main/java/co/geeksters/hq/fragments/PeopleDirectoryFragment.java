@@ -181,6 +181,7 @@ public class PeopleDirectoryFragment extends Fragment {
             searchForMembersByPaginationService(inputSearch.getText().toString());
         else {
             from = 0;
+            membersList = new ArrayList<Member>();
             members = new ArrayList<HashMap<String, String>>();
             listAllMembersByPaginationService();
         }

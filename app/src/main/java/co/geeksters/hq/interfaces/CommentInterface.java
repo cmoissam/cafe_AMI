@@ -23,6 +23,7 @@ public interface CommentInterface {
     @POST("/posts/{id}/comments")
     void commentPost(@Path("id") int post_id, @Field("access_token") String token, @Field("text") String comment, Callback<JsonElement> callback);
 
-    @POST("/comments/{comment_id}")
-    void deleteComment(@Path("id") int comment_id, Callback<JsonElement> callback);
+    @FormUrlEncoded
+    @POST("/posts/{id}/comments/{comment}")
+    void deleteComment(@Path("id") int postId, @Path("comment") int commentId, @Field("_method") String method, @Field("access_token") String token, Callback<JsonElement> callback);
 }

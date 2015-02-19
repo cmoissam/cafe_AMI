@@ -22,6 +22,7 @@ import java.util.List;
 import co.geeksters.hq.R;
 import co.geeksters.hq.fragments.ReplyMarketFragment;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.PostService;
 
@@ -32,23 +33,25 @@ public class PostsAdapter {
 
     Fragment context;
     private List<Post> postList;
-    static boolean onClickComment = false;
     String accessToken;
+    LinearLayout llList;
+    LayoutInflater inflater;
+    static List<Integer> lastClickedPosts = new ArrayList<Integer>();
 
-    public PostsAdapter(Fragment fragment, List<Post> postList, String accessToken) {
-        context = fragment;
+    public PostsAdapter(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken) {
+        this.context = fragment;
         this.postList = postList;
         this.accessToken = accessToken;
+        this.llList = llList;
+        this.inflater = inflater;
     }
 
     public void makeList() {
-        final LayoutInflater inflater = LayoutInflater.from(context.getActivity());
-
-        final LinearLayout llList = (LinearLayout) context.getActivity().findViewById(R.id.postsMarket);
-
         llList.removeAllViews();
 
-        for(int i = 0 ; i < postList.size() ; i++) {
+        for(int i = 0 ; i < postList.size(); i++) {
+            final int index = i;
+
             final LinearLayout childView = (LinearLayout)inflater.inflate(R.layout.list_item_post, null, false);
             TextView postTextView = (TextView)childView.findViewById(R.id.post);
             postTextView.setText(postList.get(i).content);
@@ -60,19 +63,30 @@ public class PostsAdapter {
                 TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);
                 commentSizeTextView.setText(postList.get(i).comments.size() + " comments");
 
-                final int index = i;
                 commentDisplay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(onClickComment) {
+                        if(lastClickedPosts.contains(index)) {
+                            GlobalVariables.onClickComment = true;
+
+                            for(int i=0; i<lastClickedPosts.size(); i++) {
+                                if(lastClickedPosts.get(i) == index) {
+                                    lastClickedPosts.remove(i);
+                                    break;
+                                }
+                            }
+                        } else {
+                            GlobalVariables.onClickComment = false;
+                        }
+
+                        if (GlobalVariables.onClickComment) {
                             commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
                             commentsLayout.setVisibility(View.GONE);
-                            onClickComment = false;
                         } else {
-                            onClickComment = true;
                             commentDisplay.setBackgroundColor(Color.parseColor("#eeeeee"));
                             commentsLayout.setVisibility(View.VISIBLE);
-                            CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView);
+                            lastClickedPosts.add(index);
+                            CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
                             adapter.makeList();
                         }
                     }
@@ -80,10 +94,10 @@ public class PostsAdapter {
             } else
                 commentDisplay.setVisibility(View.GONE);
 
-            final int index = i;
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    GlobalVariables.onReply = true;
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new ReplyMarketFragment_().newInstance(postList.get(index).id, postList.get(index).comments);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);

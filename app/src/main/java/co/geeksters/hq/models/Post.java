@@ -105,4 +105,14 @@ public class Post implements Serializable {
         return posts;
     }
 
+    public static List<Post> orderDescPost(List<Post> postsList) {
+        List<Post> posts = new ArrayList<Post>();
+
+        for(int i=postsList.size()-1; i>=0; i--) {
+            posts.add(postsList.get(i));
+        }
+
+        return posts;
+    }
+
 }
