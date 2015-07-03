@@ -171,6 +171,7 @@ public class RegisterActivity extends Activity {
         ViewHelpers.showProgress(false, this, registerForm, registerProgress);
 
         email.setError(getString(R.string.error_field_exists));
+        email.requestFocus();
     }
 
     @Click(R.id.emailSignInButton)

@@ -137,7 +137,7 @@ public class OneHubMembersFragment extends Fragment {
         GlobalVariables.hubMember = true;
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
+        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position), 0);
         fragmentTransaction.replace(R.id.contentFrame, fragment);
         fragmentTransaction.commit();
     }

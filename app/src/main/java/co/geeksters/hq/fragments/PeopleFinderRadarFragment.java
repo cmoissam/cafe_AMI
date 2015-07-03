@@ -193,11 +193,17 @@ public class PeopleFinderRadarFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(index));
+                    Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(index), 0);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
             });
+
+            membersList.get(index).image = "http://res.cloudinary.com/dbrnidhop/image/upload/v1422378169/ge2lozuet5jgmca9tzn2.jpg";
+            if(membersList.get(index).image == null || membersList.get(index).image.startsWith("http://"))
+                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(index).image);
+            else
+                memberImage.setImageResource(R.drawable.no_image_member);
 
             radarForm.addView(memberImage, 0);
 
@@ -212,6 +218,9 @@ public class PeopleFinderRadarFragment extends Fragment {
                 bitMap.recycle();
                 bitMap = null;
             }
+
+            int width = radarForm.getWidth();
+            int height = radarForm.getHeight();
 
             bitMap = Bitmap.createBitmap(radarForm.getWidth(), radarForm.getHeight(), Bitmap.Config.ARGB_8888);
         }
@@ -276,7 +285,7 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Click(R.id.me)
     public void seeMyProfile() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new OneProfileFragment_().newInstance(currentMember);
+        Fragment fragment = new OneProfileFragment_().newInstance(currentMember, 0);
         fragmentTransaction.replace(R.id.contentFrame, fragment);
         fragmentTransaction.commit();
     }

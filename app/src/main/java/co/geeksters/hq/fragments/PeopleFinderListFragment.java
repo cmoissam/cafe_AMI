@@ -95,7 +95,7 @@ public class PeopleFinderListFragment extends Fragment {
         GlobalVariables.MENU_POSITION = 5;
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position));
+        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position), 0);
         fragmentTransaction.replace(R.id.contentFrame, fragment);
         fragmentTransaction.commit();
     }

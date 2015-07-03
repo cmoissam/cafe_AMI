@@ -116,7 +116,7 @@ public class HubsFragment extends Fragment {
 
     @ItemClick(R.id.list_view_hubs)
     public void setItemClickOnListViewhubs(final int position) {
-        ImageView removeItem = (ImageView) listViewHubs.getChildAt(position).findViewById(R.id.removeItem);
+        LinearLayout removeItem = (LinearLayout) listViewHubs.getChildAt(position).findViewById(R.id.removeItem);
         // set on click to remove item
         removeItem.setOnClickListener(new View.OnClickListener() {
             @Override

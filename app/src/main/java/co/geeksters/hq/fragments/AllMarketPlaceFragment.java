@@ -1,61 +1,39 @@
 package co.geeksters.hq.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.adapter.ListViewMarketAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
-import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
-import co.geeksters.hq.events.success.MembersEvent;
-import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
-import co.geeksters.hq.models.Comment;
-import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
-import co.geeksters.hq.services.MemberService;
 import co.geeksters.hq.services.PostService;
 
 @EFragment(R.layout.fragment_one_profile_market_place)
-public class OneProfileMarketPlaceFragment extends Fragment {
+public class AllMarketPlaceFragment extends Fragment {
     // ArrayList for Listview
     String accessToken;
     List<Post> postsList = new ArrayList<Post>();

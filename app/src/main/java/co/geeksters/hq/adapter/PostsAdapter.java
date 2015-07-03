@@ -23,6 +23,7 @@ import co.geeksters.hq.R;
 import co.geeksters.hq.fragments.ReplyMarketFragment;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
 import co.geeksters.hq.global.GlobalVariables;
+import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.PostService;
 
@@ -36,7 +37,7 @@ public class PostsAdapter {
     String accessToken;
     LinearLayout llList;
     LayoutInflater inflater;
-    static List<Integer> lastClickedPosts = new ArrayList<Integer>();
+    public static List<Integer> lastClickedPosts = new ArrayList<Integer>();
 
     public PostsAdapter(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken) {
         this.context = fragment;
@@ -58,6 +59,39 @@ public class PostsAdapter {
             final LinearLayout commentDisplay = (LinearLayout) childView.findViewById(R.id.commentDisplay);
             Button reply = (Button) childView.findViewById(R.id.reply);
             final LinearLayout commentsLayout = (LinearLayout) childView.findViewById(R.id.commentsLayout);
+            ImageView picture = (ImageView) childView.findViewById(R.id.picture);
+
+            if(postList.get(i).member.image.startsWith("http://"))
+                ViewHelpers.setImageViewBackgroundFromURL(context.getActivity(), picture, postList.get(i).member.image);
+
+            TextView fullName = (TextView) childView.findViewById(R.id.fullName);
+            fullName.setText(postList.get(i).member.fullName);
+            TextView datePost = (TextView) childView.findViewById(R.id.datePost);
+            datePost.setText(postList.get(i).createdAt);
+
+//            if(lastClickedPosts.contains(index)) {
+//                GlobalVariables.onClickComment = true;
+//
+//                for(int j=0; j<lastClickedPosts.size(); j++) {
+//                    if(lastClickedPosts.get(j) == index) {
+//                        lastClickedPosts.remove(j);
+//                        break;
+//                    }
+//                }
+//            } else {
+//                GlobalVariables.onClickComment = false;
+//            }
+//
+//            if(GlobalVariables.onClickComment) {
+//                commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
+//                commentsLayout.setVisibility(View.GONE);
+//            } else {
+//                commentDisplay.setBackgroundColor(Color.parseColor("#eeeeee"));
+//                commentsLayout.setVisibility(View.VISIBLE);
+//                lastClickedPosts.add(index);
+//                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
+//                adapter.makeList();
+//            }
 
             if(postList.get(i).comments.size() != 0) {
                 TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);
@@ -79,7 +113,7 @@ public class PostsAdapter {
                             GlobalVariables.onClickComment = false;
                         }
 
-                        if (GlobalVariables.onClickComment) {
+                        if(GlobalVariables.onClickComment) {
                             commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
                             commentsLayout.setVisibility(View.GONE);
                         } else {

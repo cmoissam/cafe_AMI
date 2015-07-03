@@ -54,7 +54,7 @@ public class AmbassadorsAdapter {
                 public void onClick(View v) {
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     ambassadors.get(index).hub.name = hub.name;
-                    Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(index));
+                    Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(index), 0);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }

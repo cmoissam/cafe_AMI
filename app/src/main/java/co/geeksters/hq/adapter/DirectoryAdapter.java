@@ -92,7 +92,7 @@ public class DirectoryAdapter extends BaseAdapter {
                 GlobalVariables.isMenuOnPosition = false;
 
                 FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
-                Fragment fragment = new OneProfileFragment_().newInstance(memberList.get(position));
+                Fragment fragment = new OneProfileFragment_().newInstance(memberList.get(position), 0);
                 fragmentTransaction.replace(R.id.contentFrame, fragment);
                 fragmentTransaction.commit();
             }

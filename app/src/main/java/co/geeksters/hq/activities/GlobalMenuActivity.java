@@ -28,6 +28,7 @@ import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.fragments.HubsFragment;
 import co.geeksters.hq.fragments.HubsFragment_;
+import co.geeksters.hq.fragments.MarketPlaceFragment_;
 import co.geeksters.hq.fragments.MeFragment_;
 import co.geeksters.hq.fragments.MyToDosFragment_;
 import co.geeksters.hq.fragments.OneHubFragment_;
@@ -176,7 +177,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
                     fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 4){
-                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
+                    fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
                 } else if(GlobalVariables.MENU_POSITION == 5){
                     mTitle = getResources().getString(R.string.title_me_fragment);
 
@@ -243,7 +244,7 @@ public class GlobalMenuActivity extends FragmentActivity {
             } else if(GlobalVariables.MENU_POSITION == 8) {
                 GlobalVariables.MENU_POSITION = 5;
                 GlobalVariables.isMenuOnPosition = true;
-                fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+                fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(currentMember, 1));
             }
 
             fragmentTransaction.commit();
@@ -327,7 +328,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         } else if(position == 1) {
             mTitle = getResources().getString(R.string.title_find_fragment);
 
-            if(!GeneralHelpers.isGPSEnabled(this)) {
+            /*if(!GeneralHelpers.isGPSEnabled(this)) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
                        .setCancelable(false)
@@ -346,9 +347,9 @@ public class GlobalMenuActivity extends FragmentActivity {
                 alert.show();
             } else {
                 verifyGpsActivation();
-            }
+            }*/
 
-            //fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
         } else if(position == 2) {
             fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
         } else if(position == 3) {
@@ -356,7 +357,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
             fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
         } else if(position == 4) {
-            fragmentTransaction.replace(R.id.contentFrame, new OneProfileMarketPlaceFragment());
+            fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
         } else if(position == 5) {
             mTitle = getResources().getString(R.string.title_me_fragment);
 

@@ -47,17 +47,17 @@ public class OneProfileFragment extends Fragment {
     LinearLayout personalInformation;
 
     private static final String NEW_INSTANCE_MEMBER_KEY = "member_key";
+    private static final String DEFAULT_INDEX_KEY = "index_key";
     SharedPreferences preferences;
     Member memberToDisplay;
     Member profileMember;
-    //static Boolean seeProfile = false;
+    int defaultIndex = 0;
 
-    public static OneProfileFragment_ newInstance(Member member) {
-        //seeProfile = true;
-
+    public static OneProfileFragment_ newInstance(Member member, int defaultIndex) {
         OneProfileFragment_ fragment = new OneProfileFragment_();
         Bundle bundle = new Bundle();
         bundle.putSerializable(NEW_INSTANCE_MEMBER_KEY, member);
+        bundle.putSerializable(DEFAULT_INDEX_KEY, defaultIndex);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -65,13 +65,12 @@ public class OneProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(getArguments() != null)
+        if(getArguments() != null) {
             profileMember = (Member) getArguments().getSerializable(NEW_INSTANCE_MEMBER_KEY);
+            defaultIndex = (Integer) getArguments().getSerializable(DEFAULT_INDEX_KEY);
+        }
 
         GlobalVariables.MENU_POSITION = 5;
-//        GlobalVariables.directory = false;
-//        GlobalVariables.finderRadar = false;
-//        GlobalVariables.finderList = false;
 
         return null;
     }
@@ -162,5 +161,7 @@ public class OneProfileFragment extends Fragment {
         tSpecApple.setIndicator("Market Place",getResources().getDrawable(R.drawable.delete));
         tSpecApple.setContent(new DummyTabContent(getActivity().getBaseContext()));
         tabhost.addTab(tSpecApple);
+
+        tabhost.setCurrentTab(defaultIndex);
     }
 }

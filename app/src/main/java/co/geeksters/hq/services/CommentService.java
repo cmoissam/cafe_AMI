@@ -8,6 +8,7 @@ import java.util.List;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
+import co.geeksters.hq.events.success.CommentsEventOnReplay;
 import co.geeksters.hq.events.success.DeleteCommentEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -56,7 +57,7 @@ public class CommentService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 List<Comment> created_comment_for_post = Comment.createListCommentsFromJson(response.getAsJsonObject().get("data").getAsJsonArray(), currentMember);
-                BaseApplication.post(new CommentsEvent(created_comment_for_post));
+                BaseApplication.post(new CommentsEventOnReplay(created_comment_for_post));
             }
 
             @Override
