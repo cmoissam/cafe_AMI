@@ -52,6 +52,10 @@ public class GlobalVariables {
     public static boolean onReply = false;
     public static boolean onClickComment = false;
 
+    public static String UrlApiImage = "http://192.168.1.177:8000/images/";
+    public static String UrlApi = "http://192.168.1.177:8000/api/v1";
+
+
     // Getting the API Key for the app by registering it at Google Cloud Console
     // NOM DU PROJET : HQ project
     // IDENTIFIANT DU PROJET : weighty-wonder-819

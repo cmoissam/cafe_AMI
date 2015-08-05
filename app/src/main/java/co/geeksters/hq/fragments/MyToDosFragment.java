@@ -56,9 +56,6 @@ public class MyToDosFragment extends Fragment {
     @ViewById(R.id.list_view_my_todos)
     ListView listViewMyTodos;
 
-    // Search EditText
-    @ViewById(R.id.inputSearch)
-    EditText inputSearch;
 
     @ViewById(R.id.search_no_element_found)
     TextView emptySearch;
@@ -85,7 +82,7 @@ public class MyToDosFragment extends Fragment {
     public void onGetListTodosEvent(TodosEvent event) {
         todosList = event.todos;
 
-        ArrayList<HashMap<String, String>> posts = Todo.todosInfoForItem(todosList);
+        ArrayList<HashMap<String, String>> todos = Todo.todosInfoForItem(todosList);
 
 //        PostsAdapter adapter = new PostsAdapter(getActivity(), posts);
 //        adapter.makeList();

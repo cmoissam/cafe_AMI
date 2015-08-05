@@ -38,6 +38,8 @@ import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.services.HubService;
 
+import static co.geeksters.hq.models.Hub.getHubsByAlphabeticalOrder;
+
 @EFragment(R.layout.fragment_hubs)
 public class HubsFragment extends Fragment {
 
@@ -48,6 +50,7 @@ public class HubsFragment extends Fragment {
     String accessToken;
     List<Hub> hubsList = new ArrayList<Hub>();
     List<Hub> lastHubs = new ArrayList<Hub>();
+    List<Hub> eventHubsList = new ArrayList<Hub>();
     SharedPreferences.Editor editor;
 
     // List view
@@ -99,6 +102,8 @@ public class HubsFragment extends Fragment {
     @Subscribe
     public void onGetListHubsEvent(HubsEvent event) {
         lastHubs = Hub.getLastSavedHubs(getActivity(), event.hubs);
+        eventHubsList.clear();
+        eventHubsList.addAll(getHubsByAlphabeticalOrder(event.hubs));
         hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, event.hubs);
 
         adapter = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
@@ -155,7 +160,7 @@ public class HubsFragment extends Fragment {
         //displayAll.setVisibility(View.GONE);
 
         hubs = new ArrayList<HashMap<String, String>>();
-        hubs = Hub.hubsInfoForItem(hubs, hubsList, 0, hubsList.size());
+        hubs = Hub.hubsInfoForItem(hubs, eventHubsList, 0, eventHubsList.size());
 
         final SimpleAdapter adapterToSearch = new SimpleAdapter(getActivity().getBaseContext(), hubs, R.layout.list_item_hub,
                 new String[]{"hubName", "membersNumber"},

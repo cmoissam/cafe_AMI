@@ -15,16 +15,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/search_no_element_found"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search_no_element_found"
-            android:visibility="gone"
-            android:gravity="center"
-            android:textSize="18dp"
-            android:layout_marginTop="10dp" />
-
         <ScrollView android:id="@+id/myTodosScrollView" android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -32,8 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-
                 <!-- List View -->
+
                 <ListView
                     android:id="@+id/list_view_my_todos"
                     android:layout_width="match_parent"
@@ -58,6 +48,14 @@
             </LinearLayout>
 
         </ScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="ON TODO"
+            android:id="@+id/textView"
+            android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
 

@@ -27,9 +27,28 @@ public class PostService extends BaseService {
         this.token = token;
     }
 
-    public void listPostsForMember() {
+    public void listPostsForMe() {
 
-        this.api.listPostsForMember(new Callback<JsonElement>() {
+        this.api.listPostsForMe(new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                JsonArray responseAsArray = response.getAsJsonObject().get("data").getAsJsonArray();
+                List<Post> posts_for_member = Post.createListPostsFromJson(responseAsArray);
+                BaseApplication.post(new PostsEvent(posts_for_member));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // popup to inform the current user of the failure
+                BaseApplication.post(new ConnectionFailureEvent());
+            }
+        });
+    }
+
+    public void listPostsForMember(int memberId) {
+
+        this.api.listPostsForMember(memberId, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

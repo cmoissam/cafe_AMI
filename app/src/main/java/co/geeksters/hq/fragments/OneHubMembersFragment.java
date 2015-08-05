@@ -116,7 +116,7 @@ public class OneHubMembersFragment extends Fragment {
 //
 //        listViewMembers.setAdapter(adapter);
 //        listViewMembers.setItemsCanFocus(false);
-
+        GlobalVariables.finderList = false;
         adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
         ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);

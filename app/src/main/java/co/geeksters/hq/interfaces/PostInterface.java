@@ -18,7 +18,10 @@ public interface PostInterface {
     void listAllPosts(Callback<JsonElement> callback);
 
     @GET("/members/posts")
-    void listPostsForMember(Callback<JsonElement> callback);
+    void listPostsForMe(Callback<JsonElement> callback);
+
+    @GET("/members/{id}/posts")
+    void listPostsForMember(@Path("id") int memberId, Callback<JsonElement> callback);
 
     @FormUrlEncoded
     @POST("/posts")

@@ -1,5 +1,5 @@
 <resources>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Thousand Network</string>
     <string name="title_activity_register">Sign up</string>
     <string name="title_activity_forgot_password">Forgot password</string>
 
@@ -15,6 +15,7 @@
     <string name="action_reset_password">Send reset link</string>
     <string name="no_connection">No network connection found</string>
     <string name="alert_title">Alert</string>
+    <string name="alert_invalid_file">You try to upload an invalid file</string>
     <string name="alert_save">Your account was successfully updated</string>
     <string name="alert_reset">A link to reset your password was sent to you by email</string>
 

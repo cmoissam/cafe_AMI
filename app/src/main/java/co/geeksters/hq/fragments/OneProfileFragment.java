@@ -101,8 +101,8 @@ public class OneProfileFragment extends Fragment {
             editor.commit();
         }
 
-        if(memberToDisplay.image != null && memberToDisplay.image.startsWith("http"))
-            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, memberToDisplay.image);
+
+        ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, memberToDisplay.image);
 
         fullName.setText(memberToDisplay.fullName);
 

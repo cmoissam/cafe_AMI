@@ -106,9 +106,9 @@ public class PeopleDirectoryFragment extends Fragment {
 
     public void searchForMembersByPaginationService(String search){
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            onSearch = true;
+
             MemberService memberService = new MemberService(accessToken);
-            memberService.suggestionMember(search);
+            memberService.searchForMembersFromKey(search,this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -124,11 +124,11 @@ public class PeopleDirectoryFragment extends Fragment {
     public void onGetListMembersByPaginationEvent(MembersEvent event) {
         this.from += GlobalVariables.SEARCH_SIZE;
 
-        if(onSearch) {
+      /*  if(onSearch) {
             members = new ArrayList<HashMap<String, String>>();
             membersList = new ArrayList<Member>();
             onSearch = false;
-        }
+        }*/
 
         membersList.addAll(event.members);
 
@@ -141,7 +141,7 @@ public class PeopleDirectoryFragment extends Fragment {
 //
 //        listViewMembers.setAdapter(adapter);
 //        listViewMembers.setItemsCanFocus(false);
-
+        GlobalVariables.finderList = false;
         adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
         ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
@@ -177,12 +177,12 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @TextChange(R.id.inputSearch)
     public void searchForMemberByPagination() {
+        from = 0;
+        membersList = new ArrayList<Member>();
+        members = new ArrayList<HashMap<String, String>>();
         if(!inputSearch.getText().toString().isEmpty())
             searchForMembersByPaginationService(inputSearch.getText().toString());
         else {
-            from = 0;
-            membersList = new ArrayList<Member>();
-            members = new ArrayList<HashMap<String, String>>();
             listAllMembersByPaginationService();
         }
 
@@ -200,11 +200,13 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @Subscribe
     public void onSearchForMemberByPaginationEvent(MembersSearchEvent event) {
-        members = new ArrayList<HashMap<String, String>>();
 
-        membersList = event.members;
+        this.from += GlobalVariables.SEARCH_SIZE;
 
-        members = Member.membersInfoForItem(getActivity(), members, membersList);
+
+        membersList.addAll(event.members);
+
+        //members = Member.membersInfoForItem(getActivity(), members, membersList);
 
         // Adding items to listview
 //        adapter = new SimpleAdapter(getActivity().getBaseContext(), members, R.layout.list_item_people_directory,
@@ -223,11 +225,15 @@ public class PeopleDirectoryFragment extends Fragment {
         else
             emptySearch.setVisibility(View.GONE);
 
-        if(members.size() < GlobalVariables.SEARCH_SIZE)
+        if(event.members.size() < GlobalVariables.SEARCH_SIZE)
             displayAll.setVisibility(View.GONE);
         else
             displayAll.setVisibility(View.VISIBLE);
+
+        if(event.members.size() == 0)
+            displayAll.setVisibility(View.GONE);
     }
+
 
     @Click(R.id.clearContent)
     public void clearSearchInput() {
@@ -236,7 +242,11 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @Click(R.id.displayAll)
     public void displayAllMembers() {
-        listAllMembersByPaginationService();
+        if(!inputSearch.getText().toString().isEmpty())
+            searchForMembersByPaginationService(inputSearch.getText().toString());
+        else {
+            listAllMembersByPaginationService();
+        }
     }
 
     @Override

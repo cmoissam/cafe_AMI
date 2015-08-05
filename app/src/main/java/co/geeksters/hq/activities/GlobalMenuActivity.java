@@ -22,6 +22,9 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
+
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.EmptyEvent;
@@ -93,6 +96,7 @@ public class GlobalMenuActivity extends FragmentActivity {
             /** Called when drawer is closed */
             public void onDrawerClosed(View view) {
                 getActionBar().setTitle(mTitle);
+                getActionBar().setHomeButtonEnabled(true);
                 invalidateOptionsMenu();
             }
 
@@ -108,9 +112,10 @@ public class GlobalMenuActivity extends FragmentActivity {
         drawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+
     @AfterViews
     public void drawerListSetting(){
-        // Creating an ArrayAdapter to add items to the listview mDrawerList
+//        Creating an ArrayAdapter to add items to the listview mDrawerList
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getBaseContext(), R.layout.drawer_list_item, getResources()
                 .getStringArray(R.array.menus));
@@ -126,6 +131,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         getActionBar().setHomeButtonEnabled(true);
         // Enabling Up navigation
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @AfterViews
@@ -268,7 +274,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         super.onStop();
         BaseApplication.unregister(this);
     }
-
+     // TODO EMPTY EVENT IN GLOBAL MENU ACTIVTY
     @Subscribe
     public void onLogoutEvent(EmptyEvent event) {
         // preferences.edit().clear().commit();
@@ -406,7 +412,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         }
     }
 
-    @Subscribe
+    /*@Subscribe
     public void onSaveLocationMemberEvent(SaveMemberEvent event) {
 
         if(GlobalVariables.MENU_POSITION == 1) {
@@ -427,7 +433,7 @@ public class GlobalMenuActivity extends FragmentActivity {
             fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
             fragmentTransaction.commit();
         }
-    }
+    }*/
 
     @Override
 	protected void onPostCreate(Bundle savedInstanceState) {

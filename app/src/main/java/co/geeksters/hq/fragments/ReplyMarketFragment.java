@@ -149,8 +149,8 @@ public class ReplyMarketFragment extends Fragment {
             date.setText(commentList.get(i).createdAt);
 
             ImageView picture = (ImageView) childViewComment.findViewById(R.id.picture);
-            if(commentList.get(i).member.image != null && commentList.get(i).member.image.startsWith("http://"))
-                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, commentList.get(i).member.image);
+
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, commentList.get(i).member.image);
 
             commentsLayout.addView(childViewComment, 0);
         }

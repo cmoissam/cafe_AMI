@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloudinary.Cloudinary;
+import com.github.kevinsawicki.http.HttpRequest;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -45,7 +47,10 @@ import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -59,6 +64,8 @@ import java.util.Map;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
+import co.geeksters.hq.events.failure.InvalidFileFailureEvent;
+import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -75,15 +82,20 @@ import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Social;
 import co.geeksters.hq.services.HubService;
 import co.geeksters.hq.services.MemberService;
+import retrofit.mime.TypedFile;
+
 import static co.geeksters.hq.global.helpers.GeneralHelpers.formatActualDate;
 import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterestToEdit;
 import static co.geeksters.hq.global.helpers.ViewHelpers.deleteTextAndSetHint;
 import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
+import static co.geeksters.hq.models.Hub.getHubsByAlphabeticalOrder;
 
 @EFragment(R.layout.fragment_me)
 public class MeFragment extends Fragment {
+
+    Bitmap yourSelectedImage = null;
 
     @ViewById(R.id.fullName)
     EditText fullName;
@@ -189,11 +201,11 @@ public class MeFragment extends Fragment {
     }
 
     public void listAllHubsService() {
-        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+
 
         accessToken = preferences.getString("access_token","").replace("\"","");
 
-        if(GeneralHelpers.isInternetAvailable(getActivity())) {
+        if(GeneralHelpers.isInternetAvailable(getActivity())) {SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
             HubService hubService = new HubService(accessToken);
             hubService.listAllHubs();
         } else {
@@ -222,10 +234,9 @@ public class MeFragment extends Fragment {
         goalContent.setText(GeneralHelpers.firstToUpper(currentMember.goal));
         bioContent.setText(GeneralHelpers.firstToUpper(currentMember.blurp));
 
-        if(currentMember.image.startsWith("http://"))
-            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, currentMember.image);
-        else
-            picture.setImageResource(R.drawable.no_image_member);
+
+        ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, currentMember.image);
+
 
         linkdin.setText(currentMember.social.linkedin);
         twitter.setText(currentMember.social.twitter);
@@ -235,21 +246,7 @@ public class MeFragment extends Fragment {
         website.setText(currentMember.social.website);
 
         if(currentMember.interests == null) {
-            currentMember.interests = new ArrayList<Interest>();
-
-            Interest interest1 = new Interest();
-            interest1.name = "Developement test";
-            Interest interest2 = new Interest();
-            interest2.name = "WEB";
-            Interest interest3 = new Interest();
-            interest3.name = "Finance";
-            Interest interest4 = new Interest();
-            interest4.name = "Law";
-
-            currentMember.interests.add(interest1);
-            currentMember.interests.add(interest2);
-            currentMember.interests.add(interest3);
-            currentMember.interests.add(interest4);
+            interest.setText("");
         }
 
         interest.setText(currentMember.returnNameForNullInterestsValue(0));
@@ -268,13 +265,26 @@ public class MeFragment extends Fragment {
 
         for(int i=0; i<event.hubs.size(); i++) {
             if(!event.hubs.get(i).name.equals(currentMember.hub.name))
-                listItemHubSpinner.add(event.hubs.get(i).name);
+                listItemHubSpinner.add(getHubsByAlphabeticalOrder(event.hubs).get(i).name);
         }
 
 //        tv.setText("Uploading file path :- '/sdcard/android_1.png'");
 
         addItemsOnSpinner();
         //addListenerOnSpinnerItemSelection();
+    }
+
+    @Subscribe
+    public void onValidFileUploadEvent(EmptyEvent event) {
+
+        picture.setImageBitmap(yourSelectedImage);
+    }
+
+    @Subscribe
+    public void onInvalidFileUploadEvent(InvalidFileFailureEvent event) {
+
+        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.alert_invalid_file));
+
     }
 
     @Click(R.id.picture)
@@ -304,8 +314,8 @@ public class MeFragment extends Fragment {
             Member updatedMember = createMemberFromFields();
             memberService.updateMember(currentMember.id, updatedMember);
 
-            GlobalVariables.isMenuOnPosition = true;
-//            GlobalVariables.MENU_POSITION = 5;
+            //GlobalVariables.isMenuOnPosition = true;
+            //GlobalVariables.MENU_POSITION = 5;
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }
@@ -321,8 +331,20 @@ public class MeFragment extends Fragment {
         editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
         editor.commit();
 
-        if(GlobalVariables.MENU_POSITION == 5)
-            Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
+        //if(GlobalVariables.MENU_POSITION == 5)
+        Toast.makeText(getActivity().getApplicationContext(), getResources().getString(R.string.alert_save), Toast.LENGTH_LONG).show();
+        GlobalVariables.isMenuOnPosition = true;
+        GlobalVariables.MENU_POSITION = 5;
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+        // Committing the transaction
+        fragmentTransaction.commit();
+
+
     }
 
     @Click(R.id.deleteButton)
@@ -465,6 +487,14 @@ public class MeFragment extends Fragment {
 
         return member;
     }
+    private static Bitmap codec(Bitmap src, Bitmap.CompressFormat format,
+                                int quality) {
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        src.compress(format, quality, os);
+
+        byte[] array = os.toByteArray();
+        return BitmapFactory.decodeByteArray(array, 0, array.length);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
@@ -477,13 +507,29 @@ public class MeFragment extends Fragment {
                     InputStream imageStream = null;
                     try {
                         imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
-//                    Bitmap yourSelectedImage = BitmapFactory.decodeStream(imageStream);
-                        Bitmap yourSelectedImage = GeneralHelpers.decodeUri(getActivity(), imageReturnedIntent.getData());
-                        picture.setImageBitmap(yourSelectedImage);
+                        yourSelectedImage = GeneralHelpers.decodeUri(getActivity(), imageReturnedIntent.getData());
+
+                        String selectedImagePath = null;
+
+                        Cursor cursor = getActivity().getContentResolver().query(
+                                selectedImage, null, null, null, null);
+                        if (cursor == null) {
+                            selectedImagePath = selectedImage.getPath();
+                        } else {
+                            cursor.moveToFirst();
+                            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                            selectedImagePath = cursor.getString(idx);
+                        }
+                        File photo = new File(selectedImagePath);
+                        TypedFile typedImage = new TypedFile("application/octet-stream", photo);
+
+
+
+
+                        MemberService memberService = new MemberService(accessToken);
+                        memberService.updateImage(currentMember.id,typedImage);
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
-
-                        urlPicture = String.valueOf(cloudinary.uploader().upload(imageStream, Cloudinary.asMap()).get("url"));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {

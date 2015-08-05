@@ -1,5 +1,9 @@
 package co.geeksters.hq.services;
 
+import android.graphics.Bitmap;
+import android.util.Log;
+import android.net.Uri;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -17,6 +21,7 @@ import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.GPSFailureEvent;
+import co.geeksters.hq.events.failure.InvalidFileFailureEvent;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
@@ -74,59 +79,40 @@ public class MemberService {
                 member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo,
                 new Callback<JsonElement>() {
 
-            @Override
-            public void success(JsonElement response, Response rawResponse) {
-                Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
-                BaseApplication.post(new SaveMemberEvent(updatedMember));
-            }
+                    @Override
+                    public void success(JsonElement response, Response rawResponse) {
+                        Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
+                        BaseApplication.post(new SaveMemberEvent(updatedMember));
+                    }
 
-            @Override
-            public void failure(RetrofitError error) {
-                BaseApplication.post(new ConnectionFailureEvent());
-            }
-        });
+                    @Override
+                    public void failure(RetrofitError error) {
+                        BaseApplication.post(new ConnectionFailureEvent());
+                    }
+                });
     }
 
-    public void updateImageMember(int userId, File file) {
+    public void updateImage(int userId,TypedFile file) {
+        //uploadImage(@Path("id") int userId,@Part("access_token") String token,
+        // @Part("_method") String method, @Part("file") File file, Callback<JsonElement> callback);
 
-        /*JSONObject jsonUpdateImageMember = new JSONObject();
-        try {
-            jsonUpdateImageMember.put("id", userId)
-                                 .put("file", file);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
+        this.api.uploadImage(userId, this.token, "put", file,new Callback<JsonElement>() {
 
-        InputStream is = null;
-        try {
-            is = new BufferedInputStream(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+                    @Override
+                    public void success(JsonElement response, Response rawResponse) {
+                        Log.e("Upload", "Success");
+                        BaseApplication.post(new EmptyEvent());
+                    }
 
-        String mimeType = null;
-        try {
-            mimeType = URLConnection.guessContentTypeFromStream(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("Upload", "Fail");
 
-        TypedFile fileTyped = new TypedFile(mimeType, file);
-
-        this.api.updateImageMember(userId, new TypedString(this.token), fileTyped, new Callback<JsonElement>() {
-
-            @Override
-            public void success(JsonElement response, Response rawResponse) {
-                Member updatedMember = Member.createUserFromJson(response);
-                BaseApplication.post(new SaveMemberEvent(updatedMember));
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                BaseApplication.post(new ConnectionFailureEvent());
-            }
-        });
+                        BaseApplication.post(new InvalidFileFailureEvent());
+                    }
+                });
     }
+
 
     public void updateStatusMember(int userId, boolean ambassador) {
 
@@ -241,14 +227,9 @@ public class MemberService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                JsonArray sources = response.getAsJsonObject().get("result").getAsJsonObject().get("hits").getAsJsonObject().get("hits").getAsJsonArray();
-                JsonArray responseAsArray = new JsonArray();
+                JsonArray sources = response.getAsJsonObject().get("result").getAsJsonArray();
 
-                for(int i = 0; i < sources.size(); i++) {
-                    responseAsArray.add(sources.get(i).getAsJsonObject().get("_source"));
-                }
-
-                List<Member> members = Member.createListUsersFromJson(responseAsArray);
+                List<Member> members = Member.createListUsersFromJson(sources);
                 BaseApplication.post(new MembersEvent(members));
             }
 
@@ -277,17 +258,17 @@ public class MemberService {
         });
     }
 
-    public void searchForMembersFromKey(String search) {
+    public void searchForMembersFromKey(String search, int from, int size, String order, String col) {
 
-        this.api.searchForMembersFromKey(search, new Callback<JsonElement>() {
+        this.api.searchForMembersFromKey(search,from, size, order, col, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                JsonArray sources = response.getAsJsonObject().get("result").getAsJsonObject().get("hits").getAsJsonObject().get("hits").getAsJsonArray();
+                JsonArray sources = response.getAsJsonObject().get("result").getAsJsonArray();
                 JsonArray responseAsArray = new JsonArray();
 
                 for(int i = 0; i < sources.size(); i++) {
-                    responseAsArray.add(sources.get(i).getAsJsonObject().get("_source"));
+                    responseAsArray.add(sources.get(i).getAsJsonObject());
                 }
 
                 List<Member> members = Member.createListUsersFromJson(responseAsArray);

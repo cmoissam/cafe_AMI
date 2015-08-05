@@ -91,9 +91,9 @@ public class LoginActivity extends Activity {
         if(emailOnRegister != null){
             email.setText(emailOnRegister);
         } else {
-            email.setText("soukaina@geeksters.co");
+            email.setText("issam@geeksters.co");
         }
-        password.setText("soukaina");
+        password.setText("passfortest");
     }
 
     @Override

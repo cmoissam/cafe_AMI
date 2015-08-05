@@ -1,6 +1,7 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -54,6 +55,8 @@ import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.MemberService;
 import co.geeksters.hq.services.PostService;
 
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
+
 @EFragment(R.layout.fragment_one_profile_market_place)
 public class OneProfileMarketPlaceFragment extends Fragment {
     // ArrayList for Listview
@@ -62,6 +65,9 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     ListViewMarketAdapter adapter;
     LayoutInflater inflater;
     static int from = 0;
+
+    @ViewById(R.id.progressBar)
+    ProgressBar spinner;
 
     @ViewById(R.id.marketProfileProgress)
     ProgressBar membersProgress;
@@ -77,8 +83,19 @@ public class OneProfileMarketPlaceFragment extends Fragment {
 
     public void listPostForCurrentMemberService() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            PostService postService = new PostService(accessToken);
-            postService.listPostsForMember();
+            if(GlobalVariables.isCurrentMember == true) {
+               spinner.setVisibility(View.VISIBLE);
+                PostService postService = new PostService(accessToken);
+                postService.listPostsForMe();
+            }
+            else{
+
+               spinner.setVisibility(View.VISIBLE);
+                SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+                Member member = Member.createUserFromJson(createJsonElementFromString(preferences.getString("profile_member", "")));
+                PostService postService = new PostService(accessToken);
+                postService.listPostsForMember(member.id);
+            }
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -89,16 +106,19 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     public void listPostForCurrentMember() {
 
         myPostsSearchForm.setBackgroundColor(Color.parseColor("#eeeeee"));
-
         listPostForCurrentMemberService();
     }
 
     @Subscribe
     public void onGetListPostsEvent(PostsEvent event) {
+        spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
         adapter.makeList();
+        if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
+        else                  emptySearch.setVisibility(View.GONE);
+
     }
 
     @Subscribe
@@ -112,9 +132,11 @@ public class OneProfileMarketPlaceFragment extends Fragment {
 
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
         adapter.makeList();
+        if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
+        else                  emptySearch.setVisibility(View.GONE);
     }
 
-//    TODO : return just one comment (the deleted one) -> CommentEvent
+
     @Subscribe
     public void onGetDeletedCommentEvent(CommentsEvent event) {
           if(event.comments.size() != 0) {

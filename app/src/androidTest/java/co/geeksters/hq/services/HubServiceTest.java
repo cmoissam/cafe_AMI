@@ -224,10 +224,10 @@ public class HubServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.getHubMembers(id, new Callback<JSONArray>() {
+        api.getHubMembers(id, new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
+            public void success(JsonElement response, Response rawResponse) {
                // List<Member> members_of_hub = Member.createListUsersFromJson(response);
                 //BaseApplication.post(new MembersEvent(members_of_hub));
             }
@@ -256,10 +256,10 @@ public class HubServiceTest extends InstrumentationTestCase {
             }
         });
 
-        api.getHubAmbassadors(id, new Callback<JSONArray>() {
+        api.getHubAmbassadors(id, new Callback<JsonElement>() {
 
             @Override
-            public void success(JSONArray response, Response rawResponse) {
+            public void success(JsonElement response, Response rawResponse) {
                 // List<Member> members_of_hub = Member.createListUsersFromJson(response);
                 //BaseApplication.post(new MembersEvent(members_of_hub));
             }

@@ -1,5 +1,8 @@
 package co.geeksters.hq.interfaces;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 import com.google.gson.JsonElement;
 
 import org.json.JSONArray;
@@ -54,14 +57,14 @@ public interface MemberInterface {
     @GET("/members")
     void listAllMembers(Callback<JsonElement> callback);
 
-    @GET("/member/list")
+    @GET("/members/list")
     void listAllMembersByPaginationOrSearch(@Query("from") int from, @Query("size") int size, @Query("order") String order, @Query("col") String col, Callback<JsonElement> callback);
 
     @GET("/members/{id}")
     void getMemberInfo(@Path("id") int userId, Callback<JsonElement> callback);
 
     @GET("/member/search")
-    void searchForMembersFromKey(@Query("string") String string, Callback<JsonElement> callback);
+    void searchForMembersFromKey(@Query("string") String string,@Query("from") int from, @Query("size") int size, @Query("order") String order,@Query("col") String col, Callback<JsonElement> callback);
 
     @GET("/member/suggest")
     void suggestionMember(@Query("string") String search, Callback<JsonElement> callback);
@@ -69,9 +72,13 @@ public interface MemberInterface {
     @GET("/members/{id}/around")
     void getMembersArroundMe(@Path("id") int userId, @Query("radius") float radius, Callback<JsonElement> callback);
 
+    @Multipart
+    @POST("/members/{id}/image")
+    void uploadImage(@Path("id") int userId,@Part("access_token") String token,@Part("_method") String method, @Part("file") TypedFile file, Callback<JsonElement> callback);
+
     @FormUrlEncoded
     @POST("/members/{id}")
-    void deleteMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, Callback<JsonElement> callback);
+    void deleteMember(@Path("id") int userId, @Field("_method") String method, @Query("order") String order, Callback<JsonElement> callback);
 
     /*@POST("/members/password/remind")
     void passwordReminder(@Body TypedInput emails, Callback<JsonElement> callback);*/
@@ -99,4 +106,5 @@ public interface MemberInterface {
 
     @POST("/members/{id}/geolocation")
     void updateLocationMember(@Path("id") int userId, @Body TypedInput locations, Callback<JsonElement> callback);
+
 }

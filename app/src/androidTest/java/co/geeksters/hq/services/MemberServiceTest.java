@@ -207,7 +207,7 @@ public class MemberServiceTest extends InstrumentationTestCase {
 
         });
 
-        api.searchForMembersFromKey("soukaina", new retrofit.Callback<JsonElement>() {
+        api.searchForMembersFromKey("soukaina", from, size, order, col, new retrofit.Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, retrofit.client.Response rawResponse) {

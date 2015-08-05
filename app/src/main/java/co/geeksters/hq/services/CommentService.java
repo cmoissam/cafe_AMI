@@ -3,6 +3,7 @@ package co.geeksters.hq.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
@@ -39,6 +40,13 @@ public class CommentService {
             @Override
             public void success(JsonArray response, Response rawResponse) {
                 List<Comment> comments_for_post = Comment.createListCommentsFromJson(response, null);
+                List invertedList = new ArrayList();
+                for (int i = comments_for_post.size() - 1; i >= 0; i--) {
+                    invertedList.add(comments_for_post.get(i));
+                }
+
+                comments_for_post.clear();
+                comments_for_post.addAll(invertedList);
                 BaseApplication.post(new CommentsEvent(comments_for_post));
             }
 
@@ -57,6 +65,13 @@ public class CommentService {
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 List<Comment> created_comment_for_post = Comment.createListCommentsFromJson(response.getAsJsonObject().get("data").getAsJsonArray(), currentMember);
+                List invertedList = new ArrayList();
+                for (int i = created_comment_for_post.size() - 1; i >= 0; i--) {
+                    invertedList.add(created_comment_for_post.get(i));
+                }
+
+                created_comment_for_post.clear();
+                created_comment_for_post.addAll(invertedList);
                 BaseApplication.post(new CommentsEventOnReplay(created_comment_for_post));
             }
 
@@ -76,8 +91,8 @@ public class CommentService {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
-                List<Comment> deleted_comment = Comment.createListCommentsFromJson(response.getAsJsonObject().get("data").getAsJsonArray(), null);
-                BaseApplication.post(new CommentsEvent(deleted_comment));
+                Comment deleted_comment = Comment.getCommentFromJson(response.getAsJsonObject().get("data"));
+                BaseApplication.post(new CommentEvent(deleted_comment));
             }
 
             @Override

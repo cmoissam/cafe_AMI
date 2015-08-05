@@ -4,13 +4,14 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import co.geeksters.hq.global.GlobalVariables;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 
 public class BaseService {
 
-    public static String END_POINT_URL = "http://192.168.0.10:8000/api/v1";
+    public static String END_POINT_URL = GlobalVariables.UrlApi;
     // public static String END_POINT_URL = "http://75371954.ngrok.com/api/v1";
 
     public static RestAdapter adapterWithoutToken() {

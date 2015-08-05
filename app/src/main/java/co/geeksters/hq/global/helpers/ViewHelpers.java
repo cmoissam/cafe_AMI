@@ -186,7 +186,7 @@ public class ViewHelpers {
         alert.show();
     }
 
-    public static void setImageViewBackgroundFromURL(Context context, ImageView picture, String url) {
+    public static void setImageViewBackgroundFromURL(Context context, ImageView picture, String image) {
 //        if(ImageLoader.getInstance().isInited()) {
 //            ImageLoader.getInstance().destroy();
 //        }
@@ -200,7 +200,9 @@ public class ViewHelpers {
 //        ImageLoader.getInstance().init(config);
 //        ImageLoader.getInstance().displayImage(url, picture, options);
 
+
+        String imageurl = GlobalVariables.UrlApiImage + image;
         ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(url, picture);
+        imageLoader.displayImage(imageurl, picture);
     }
 }

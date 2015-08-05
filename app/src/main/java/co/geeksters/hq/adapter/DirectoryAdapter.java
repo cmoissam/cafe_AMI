@@ -75,13 +75,13 @@ public class DirectoryAdapter extends BaseAdapter {
         else
             hubName.setText(GeneralHelpers.firstToUpper(activity.getResources().getString(R.string.empty_hub_name)));
 
-        if(distance != null && GlobalVariables.finderList)
+        if(GlobalVariables.finderList)
             distance.setText(GeneralHelpers.distanceByInterval(memberList.get(position).distance));
-
-        if(memberList.get(position).image == null || memberList.get(position).image.startsWith("http://"))
-            ViewHelpers.setImageViewBackgroundFromURL(activity, picture, memberList.get(position).image);
         else
-            picture.setImageResource(R.drawable.no_image_member);
+            distance.setText("");
+
+        ViewHelpers.setImageViewBackgroundFromURL(activity, picture, memberList.get(position).image);
+
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +89,6 @@ public class DirectoryAdapter extends BaseAdapter {
                 GlobalVariables.directory = true;
                 GlobalVariables.isMenuOnPosition = false;
                 GlobalVariables.MENU_POSITION = 5;
-                GlobalVariables.isMenuOnPosition = false;
 
                 FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
                 Fragment fragment = new OneProfileFragment_().newInstance(memberList.get(position), 0);

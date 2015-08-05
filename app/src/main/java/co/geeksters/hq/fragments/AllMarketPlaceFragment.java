@@ -23,6 +23,7 @@ import java.util.List;
 import co.geeksters.hq.R;
 import co.geeksters.hq.adapter.ListViewMarketAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
+import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
@@ -44,6 +45,9 @@ public class AllMarketPlaceFragment extends Fragment {
     @ViewById(R.id.marketProfileProgress)
     ProgressBar membersProgress;
 
+    @ViewById(R.id.progressBar)
+    ProgressBar spinner;
+
     @ViewById(R.id.search_no_element_found)
     TextView emptySearch;
 
@@ -53,10 +57,11 @@ public class AllMarketPlaceFragment extends Fragment {
     @ViewById(R.id.myPostsSearchForm)
     LinearLayout myPostsSearchForm;
 
-    public void listPostForCurrentMemberService() {
+    public void listAllPostService() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
+            spinner.setVisibility(View.VISIBLE);
             PostService postService = new PostService(accessToken);
-            postService.listPostsForMember();
+            postService.listAllPosts();
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -68,11 +73,12 @@ public class AllMarketPlaceFragment extends Fragment {
 
         myPostsSearchForm.setBackgroundColor(Color.parseColor("#eeeeee"));
 
-        listPostForCurrentMemberService();
+        listAllPostService();
     }
 
     @Subscribe
     public void onGetListPostsEvent(PostsEvent event) {
+        spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
@@ -92,42 +98,23 @@ public class AllMarketPlaceFragment extends Fragment {
         adapter.makeList();
     }
 
-//    TODO : return just one comment (the deleted one) -> CommentEvent
+
     @Subscribe
-    public void onGetDeletedCommentEvent(CommentsEvent event) {
-          if(event.comments.size() != 0) {
-//        if(GlobalVariables.onDeleteComment) {
-            for(int i = 0; i < postsList.size(); i++) {
-                if (postsList.get(i).id == event.comments.get(event.comments.size()-1).postId) {
-//            if(postsList.get(i).id == event.comment.postId) {
-//                for(int j=0; j<postsList.get(i).comments.size(); i++) {
-//                    if(postsList.get(i).comments.get(j).id == event.comment.id) {
-//                        postsList.get(i).comments.remove(j);
-//                        break;
-//                    }
-                    postsList.get(i).comments.remove(event.comments.size());
-                    break;
-//                }
+    public void onGetDeletedCommentEvent(CommentEvent event) {
+        for(int i=0; i<postsList.size(); i++) {
+            if(postsList.get(i).id == event.comment.postId) {
+                for ( int j = 0 ; j<postsList.get(i).comments.size(); j++){
+                    if (postsList.get(i).comments.get(j).id == event.comment.id)
+                    {
+                        postsList.get(i).comments.remove(j);
+                        break;
+                    }
                 }
+
             }
-
-//            GlobalVariables.onDeleteComment = false;
-
-//            if(PostsAdapter.lastClickedPosts.contains(event.comment.postId))
-//            if(PostsAdapter.lastClickedPosts.contains(event.comments.get(event.comments.size()-1).postId)) {
-//                for(int i=0; i<PostsAdapter.lastClickedPosts.size(); i++) {
-//                    if(PostsAdapter.lastClickedPosts.get(i) == event.comments.get(event.comments.size()-1).postId) {
-//                        PostsAdapter.lastClickedPosts.remove(i);
-//                        break;
-//                    }
-//                }
-//            }
-
-//            PostsAdapter.lastClickedPosts = new ArrayList<Integer>();
-
-            PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
-            adapter.makeList();
-          }
+        }
+        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
+        adapter.makeList();
     }
 
     @Override

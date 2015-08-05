@@ -15,6 +15,7 @@
         android:layout_height="20dp"
         android:layout_gravity="right"
         android:layout_marginRight="7dp"
+        android:visibility="invisible"
         android:src="@android:drawable/ic_menu_close_clear_cancel" />
     
     <!-- Single ListItem -->

@@ -2,6 +2,7 @@ package co.geeksters.hq.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import org.androidannotations.annotations.Click;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,8 +26,11 @@ import co.geeksters.hq.fragments.ReplyMarketFragment;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
+import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.PostService;
+
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 /**
  * Created by soukaina on 04/02/15.
@@ -37,6 +42,8 @@ public class PostsAdapter {
     String accessToken;
     LinearLayout llList;
     LayoutInflater inflater;
+    SharedPreferences preferences;
+    Member currentUser;
     public static List<Integer> lastClickedPosts = new ArrayList<Integer>();
 
     public PostsAdapter(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken) {
@@ -61,8 +68,8 @@ public class PostsAdapter {
             final LinearLayout commentsLayout = (LinearLayout) childView.findViewById(R.id.commentsLayout);
             ImageView picture = (ImageView) childView.findViewById(R.id.picture);
 
-            if(postList.get(i).member.image.startsWith("http://"))
-                ViewHelpers.setImageViewBackgroundFromURL(context.getActivity(), picture, postList.get(i).member.image);
+
+            ViewHelpers.setImageViewBackgroundFromURL(context.getActivity(), picture, postList.get(i).member.image);
 
             TextView fullName = (TextView) childView.findViewById(R.id.fullName);
             fullName.setText(postList.get(i).member.fullName);
@@ -140,6 +147,11 @@ public class PostsAdapter {
             });
 
             ImageView deletePost = (ImageView)childView.findViewById(R.id.deletePost);
+            preferences = context.getActivity().getSharedPreferences("CurrentUser", context.getActivity().MODE_PRIVATE);
+            currentUser = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+            if(postList.get(i).member.id == currentUser.id) {
+                deletePost.setVisibility(View.VISIBLE);
+            }
             deletePost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -151,4 +163,6 @@ public class PostsAdapter {
             llList.addView(childView);
         }
     }
+
+
 }

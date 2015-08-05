@@ -149,10 +149,8 @@ public class PeopleFinderRadarFragment extends Fragment {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius / 3), (int) (radius / 3));
             memberImage.setLayoutParams(layoutParams);
 
-            if(membersList.get(i).image != null && membersList.get(i).image.startsWith("http://"))
                 ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(i).image);
-            else
-                memberImage.setImageResource(R.drawable.no_image_member);
+
 
             float angle = 0;
             float randomX = 0;
@@ -199,12 +197,7 @@ public class PeopleFinderRadarFragment extends Fragment {
                 }
             });
 
-            membersList.get(index).image = "http://res.cloudinary.com/dbrnidhop/image/upload/v1422378169/ge2lozuet5jgmca9tzn2.jpg";
-            if(membersList.get(index).image == null || membersList.get(index).image.startsWith("http://"))
-                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(index).image);
-            else
-                memberImage.setImageResource(R.drawable.no_image_member);
-
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(index).image);
             radarForm.addView(memberImage, 0);
 
             if(i == membersList.size() - 1)

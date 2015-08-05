@@ -47,9 +47,10 @@ public class MarketPlaceFragment extends Fragment {
         @Override
         public void onTabChanged(String tabId) {
             android.support.v4.app.FragmentManager fragmentManager =  getActivity().getSupportFragmentManager();
-            OneProfileInfoFragment_ infoFragment = (OneProfileInfoFragment_) fragmentManager.findFragmentByTag("all");
-            OneProfileMarketPlaceFragment_ marketFragment = (OneProfileMarketPlaceFragment_) fragmentManager.findFragmentByTag("me");
+            AllMarketPlaceFragment_ infoFragment = (AllMarketPlaceFragment_) fragmentManager.findFragmentByTag("all");
+            MeMarketPlaceFragment_ marketFragment = (MeMarketPlaceFragment_) fragmentManager.findFragmentByTag("me");
             android.support.v4.app.FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
 
             /** Detaches the androidfragment if exists */
             if(infoFragment!=null) {
@@ -63,11 +64,11 @@ public class MarketPlaceFragment extends Fragment {
 
             if(tabId.equalsIgnoreCase("all")){ /** If current tab is Info */
                 /** Create AndroidFragment and adding to fragmenttransaction */
-                fragmentTransaction.add(R.id.realtabcontent,new OneProfileMarketPlaceFragment_(), "all");
+                fragmentTransaction.add(R.id.realtabcontent,new AllMarketPlaceFragment_(), "all");
                 /** Bring to the front, if already exists in the fragmenttransaction */
             } else {	/** If current tab is Market */
                 /** Create AppleFragment and adding to fragmenttransaction */
-                fragmentTransaction.add(R.id.realtabcontent,new OneProfileMarketPlaceFragment_(), "me");
+                fragmentTransaction.add(R.id.realtabcontent,new MeMarketPlaceFragment_(), "me");
                 /** Bring to the front, if already exists in the fragmenttransaction */
             }
             fragmentTransaction.commit();

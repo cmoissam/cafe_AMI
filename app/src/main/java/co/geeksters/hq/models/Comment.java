@@ -48,6 +48,15 @@ public class Comment implements Serializable {
         return comment;
     }
 
+    public static Comment getCommentFromJson(JsonElement response) {
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
+        Comment comment = gson.fromJson (response, Comment.class);
+
+        return comment;
+    }
     public static List<Comment> createListCommentsFromJson(JsonArray response, Member currentMember) {
 //        Gson gson = new GsonBuilder()
 //                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
