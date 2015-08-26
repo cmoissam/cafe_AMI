@@ -29,7 +29,7 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.adapter.AmbassadorsAdapter;
-import co.geeksters.hq.adapter.DirectoryAdapter;
+import co.geeksters.hq.adapter.HubMembersAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -46,7 +46,7 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 @EFragment(R.layout.fragment_one_hub_members)
 public class OneHubMembersFragment extends Fragment {
     private static final String NEW_INSTANCE_HUBS_KEY = "hub_key";
-    DirectoryAdapter adapter;
+    HubMembersAdapter adapter;
     ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
     List<Member> membersList = new ArrayList<Member>();
     String accessToken;
@@ -117,7 +117,7 @@ public class OneHubMembersFragment extends Fragment {
 //        listViewMembers.setAdapter(adapter);
 //        listViewMembers.setItemsCanFocus(false);
         GlobalVariables.finderList = false;
-        adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
+        adapter = new HubMembersAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
         ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
@@ -129,17 +129,6 @@ public class OneHubMembersFragment extends Fragment {
     @AfterViews
     public void addFooterToListview() {
         listViewMembers.addFooterView(new View(getActivity()), null, true);
-    }
-
-    @ItemClick(R.id.list_view_members)
-    public void setItemClickOnListViewMembers(int position){
-        GlobalVariables.isMenuOnPosition = false;
-        GlobalVariables.hubMember = true;
-
-        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position), 0);
-        fragmentTransaction.replace(R.id.contentFrame, fragment);
-        fragmentTransaction.commit();
     }
 
     @Override
