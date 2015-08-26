@@ -21,20 +21,23 @@ public class Todo implements Serializable {
      * Attributes
      **/
 
+
     public int id;
     public String text;
     public String remindMeAt;
     public String createdAt;
     public String updatedAt;
-    public Member creator;
+    public int memberId;
 	// List of members associated to the current todo task
     public ArrayList<Member> members = new ArrayList<Member>();
 
+/*
     public Todo(int id, String text, String remind_me_at) {
         this.id = id;
         this.text = text;
         this.remindMeAt = remind_me_at;
     }
+*/
 
     /**
      * Methods
@@ -78,4 +81,19 @@ public class Todo implements Serializable {
 
         return todos;
     }
+
+    public static String arrayToString(List<Member> members) {
+
+        String membersString = "";
+        for (int i = 0; i < members.size(); i++) {
+            if (i < members.size() - 1)
+                membersString = membersString + members.get(i).id + ",";
+            else
+                membersString = membersString + members.get(i).id;
+        }
+
+        return membersString;
+    }
+
+
 }

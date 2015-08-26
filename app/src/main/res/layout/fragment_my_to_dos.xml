@@ -1,63 +1,67 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="co.geeksters.hq.fragments.MyToDosFragment">
+
+<!-- Get Members progress -->
+<ProgressBar android:id="@+id/todoProgress" style="?android:attr/progressBarStyleLarge"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp" android:visibility="gone"
+    android:layout_gravity="center_vertical" />
+
+<LinearLayout
+    android:id="@+id/myTodoForm"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.geeksters.hq.fragments.MyToDosFragment">
+    android:orientation="vertical"
+    android:background="#eeeeee">
 
-    <!-- Get Members progress -->
-    <ProgressBar android:id="@+id/todosProgress" style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" android:visibility="gone"
-        android:layout_gravity="center_vertical" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
 
-    <LinearLayout
-        android:id="@+id/todosForm"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+    <ScrollView android:id="@+id/todoScrollView" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
 
-        <ScrollView android:id="@+id/myTodosScrollView" android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/search_no_element_found"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_no_element_found"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:layout_marginTop="10dp" />
 
             <LinearLayout
+                android:id="@+id/todoList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-                <!-- List View -->
-
-                <ListView
-                    android:id="@+id/list_view_my_todos"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:dividerHeight="3px"/>
-
-                <!-- Extend Search -->
-                <!--<TextView android:id="@+id/displayAll"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textPersonName"
-                    android:layout_margin="5dp"
-                    android:text="@string/display_all"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/darker_gray"
-                    android:padding="12dp"
-                    android:background="@drawable/border"
-                    android:layout_gravity="center"
-                    android:gravity="center_horizontal" />-->
 
             </LinearLayout>
 
-        </ScrollView>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="ON TODO"
-            android:id="@+id/textView"
-            android:layout_gravity="center_horizontal" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
 
 </FrameLayout>
 

@@ -16,85 +16,33 @@
         android:layout_marginBottom="3dp"
         android:gravity="center_vertical"
         android:minHeight="?android:attr/listPreferredItemHeight"
-        android:background="@drawable/border">
+        android:background="@drawable/border"
+        android:weightSum="1">
 
         <ImageView
-            android:id="@+id/deletePost"
+            android:id="@+id/deleteTodo"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="right"
             android:visibility="invisible"
             android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:layout_marginTop="-20dp"
-            android:id="@+id/personalInformation">
-
-            <ImageView
-                android:id="@+id/picture"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="left"
-                android:background="@drawable/border"
-                android:src="@drawable/no_image_member"
-                android:focusable="false"
-                android:focusableInTouchMode="false"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/fullName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/full_name"
-                    android:textSize="14dp"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"/>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/hubInformation"
-                    android:layout_marginTop="4dp">
-
-                    <TextView
-                        android:id="@+id/datePost"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:layout_weight="1"
-                        android:textSize="12dp"
-                        android:textColor="@android:color/secondary_text_light"
-                        android:layout_marginTop="3dp"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/editTodo"
+            android:src="@drawable/edit"
+            android:visibility="invisible"
+            android:layout_gravity="center_vertical|right"
+            android:layout_weight="0.90" />
 
         <TextView
-            android:id="@+id/post"
-            android:layout_width="match_parent"
+            android:id="@+id/todo"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:layout_gravity="center_horizontal" />
+            android:focusableInTouchMode="false" />
 
         <RelativeLayout
             android:orientation="vertical"
@@ -113,47 +61,39 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="bottom|left"
-                    android:src="@drawable/comment"
+                    android:src="@drawable/member"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:layout_marginTop="3dp" />
 
                 <TextView
-                    android:id="@+id/commentsSize"
+                    android:id="@+id/member_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="14dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="3dp"
-                    android:text="test"
+                    android:text="3 members"
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:focusable="false"
                     android:focusableInTouchMode="false" />
 
+
             </LinearLayout>
 
-            <Button
-                android:id="@+id/reply"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/button_reply_text"
-                android:textSize="14dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Date"
+                android:id="@+id/date_text"
+                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"/>
+                android:layout_alignParentEnd="true" />
+
 
         </RelativeLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/commentsLayout"
-            android:layout_marginTop="4dp">
-
-        </LinearLayout>
-
     </LinearLayout>
-
 </LinearLayout>

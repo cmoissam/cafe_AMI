@@ -19,6 +19,7 @@ import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.DummyTabContent;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
@@ -34,7 +35,7 @@ public class MarketPlaceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         GlobalVariables.MENU_POSITION = 4;
-
+        GlobalVariables.inMarketPlaceFragment = true;
         return null;
     }
 
@@ -85,10 +86,19 @@ public class MarketPlaceFragment extends Fragment {
 
         /** Defining tab builder for Apple tab */
         TabHost.TabSpec tSpecApple = tabhost.newTabSpec("me");
-        tSpecApple.setIndicator("Me",getResources().getDrawable(R.drawable.delete));
+        tSpecApple.setIndicator("Me", getResources().getDrawable(R.drawable.delete));
         tSpecApple.setContent(new DummyTabContent(getActivity().getBaseContext()));
         tabhost.addTab(tSpecApple);
 
+
 //        tabhost.setCurrentTab(defaultIndex);
     }
+    @Override
+    public void onDestroyView(){
+
+        super.onDestroyView();
+        GlobalVariables.inMarketPlaceFragment = false;
+    }
+
+
 }

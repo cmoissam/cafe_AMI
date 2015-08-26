@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <ScrollView android:id="@+id/NewTodoScrollView" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/NewTodoForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+    <EditText android:id="@+id/todo_input"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:inputType="textMultiLine"
+        android:hint="your todo here ..."
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:ems="10"
+        android:padding="12dp"
+        android:layout_weight="5.85" />
+    <LinearLayout
+        android:id="@+id/dateform"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:orientation="horizontal"
+        android:background="#eeeeee">
+
+        <EditText
+            android:id="@+id/date_text"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:editable="false" >
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/date_button"
+            android:layout_width="46dp"
+            android:layout_height="41dp"
+            android:contentDescription="selectdate"
+            android:cropToPadding="true"
+            android:src="@drawable/calenda" />
+
+        <EditText
+            android:id="@+id/time_text"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:editable="false" >
+        </EditText>
+
+        <ImageButton
+            android:id="@+id/time_button"
+            android:layout_width="56dp"
+            android:layout_height="43dp"
+            android:contentDescription="selectdate"
+            android:cropToPadding="true"
+            android:src="@drawable/clock" />
+        </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/members"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="members"
+        android:textSize="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="0.07" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@android:drawable/ic_search_category_default"/>
+
+        <!-- Editext for Search -->
+        <EditText android:id="@+id/inputSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:hint="@string/search_members"
+            android:ems="10"
+            android:layout_gravity="left"
+            android:padding="12dp"/>
+
+        <ImageView
+            android:id="@+id/clearContent"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="7dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/delete"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_no_element_found"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/search_no_element_found"
+        android:visibility="gone"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:layout_marginTop="10dp" />
+
+   <ScrollView android:id="@+id/directoryScrollView" android:layout_width="match_parent"
+        android:layout_height="140dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="0.04"
+        android:weightSum="1">
+
+        <!-- List View -->
+        <ListView
+            android:id="@+id/list_view_members"
+            android:layout_width="match_parent"
+            android:layout_height="139dp"
+            android:dividerHeight="3px"
+            android:layout_weight="9.45" />
+
+        <!-- Extend Search -->
+        <TextView android:id="@+id/displayAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:layout_margin="5dp"
+            android:text="@string/display_more"
+            android:textAlignment="center"
+            android:textColor="@android:color/darker_gray"
+            android:padding="12dp"
+            android:background="@drawable/border"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal" />
+
+    </LinearLayout>
+   </ScrollView>
+
+    <Button
+        android:layout_width="146dp"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:id="@+id/save_button"
+        android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

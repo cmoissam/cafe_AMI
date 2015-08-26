@@ -1,5 +1,9 @@
 package co.geeksters.hq.services;
 
+import android.app.Activity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -100,6 +104,7 @@ public class PostService extends BaseService {
             }
         });
     }
+
 
     public void deletePost(int postId) {
 

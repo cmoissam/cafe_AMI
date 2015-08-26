@@ -201,9 +201,9 @@ public class MeFragment extends Fragment {
     }
 
     public void listAllHubsService() {
-
-
-        accessToken = preferences.getString("access_token","").replace("\"","");
+        preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        editor = preferences.edit();
+        accessToken = preferences.getString("access_token", "").toString().replace("\"","");
 
         if(GeneralHelpers.isInternetAvailable(getActivity())) {SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
             HubService hubService = new HubService(accessToken);
@@ -221,9 +221,6 @@ public class MeFragment extends Fragment {
 
     @Subscribe
     public void onGetListHubsEvent(HubsEvent event) {
-        preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-        editor = preferences.edit();
-        accessToken = preferences.getString("access_token", "").toString().replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
         if(currentMember.hub.name == null || !currentMember.hub.name.equals(""))

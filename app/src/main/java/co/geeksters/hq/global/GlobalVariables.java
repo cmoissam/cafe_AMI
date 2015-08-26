@@ -51,9 +51,14 @@ public class GlobalVariables {
     public static boolean onDeleteComment = false;
     public static boolean onReply = false;
     public static boolean onClickComment = false;
+    public static boolean inMarketPlaceFragment = false;
+    public static boolean inMyTodosFragment = false;
 
-    public static String UrlApiImage = "http://192.168.1.177:8000/images/";
-    public static String UrlApi = "http://192.168.1.177:8000/api/v1";
+
+    // TODO GET IMAGE FROM MAC
+
+    public static String UrlApiImage = "http://192.168.1.117:8000/images/";
+    public static String UrlApi = "http://192.168.1.117:8000/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

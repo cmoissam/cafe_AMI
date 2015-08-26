@@ -11,9 +11,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +36,10 @@ import co.geeksters.hq.fragments.HubsFragment_;
 import co.geeksters.hq.fragments.MarketPlaceFragment_;
 import co.geeksters.hq.fragments.MeFragment_;
 import co.geeksters.hq.fragments.MyToDosFragment_;
+import co.geeksters.hq.fragments.NewPostFragment;
+import co.geeksters.hq.fragments.NewPostFragment_;
+import co.geeksters.hq.fragments.NewTodoFragment;
+import co.geeksters.hq.fragments.NewTodoFragment_;
 import co.geeksters.hq.fragments.OneHubFragment_;
 import co.geeksters.hq.fragments.OneHubMembersFragment_;
 import co.geeksters.hq.fragments.OneProfileFragment;
@@ -435,6 +441,34 @@ public class GlobalMenuActivity extends FragmentActivity {
         }
     }*/
 
+    public void onAddPostPressed(){
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.contentFrame, new NewPostFragment_());
+
+        // Committing the transaction
+        fragmentTransaction.commit();
+    }
+
+    public void onAddTodoPressed(){
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.contentFrame, new NewTodoFragment_());
+
+        // Committing the transaction
+        fragmentTransaction.commit();
+    }
+
     @Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
@@ -446,6 +480,14 @@ public class GlobalMenuActivity extends FragmentActivity {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
+        if (item.getItemId() == R.id.action_add)
+        {
+            if(GlobalVariables.inMarketPlaceFragment)
+            onAddPostPressed();
+            else
+                onAddTodoPressed();
+        }
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -453,16 +495,21 @@ public class GlobalMenuActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If the drawer is open, hide action items related to the content view
-		boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
 
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        if(GlobalVariables.inMarketPlaceFragment || GlobalVariables.inMyTodosFragment) {
+            menu.findItem(R.id.action_add).setVisible(!drawerOpen);
+        }
+        else
+            menu.findItem(R.id.action_add).setVisible(false);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
 	}
 
     @Override

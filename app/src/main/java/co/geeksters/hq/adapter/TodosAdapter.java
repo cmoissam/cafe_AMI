@@ -1,8 +1,12 @@
 package co.geeksters.hq.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +15,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.androidannotations.annotations.Click;
+
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.fragments.MyToDosFragment_;
+import co.geeksters.hq.fragments.ReplyMarketFragment;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
+import co.geeksters.hq.fragments.UpdateTodoFragment;
+import co.geeksters.hq.fragments.UpdateTodoFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
+import co.geeksters.hq.models.Todo;
 import co.geeksters.hq.services.PostService;
+import co.geeksters.hq.services.TodoService;
 
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
@@ -29,126 +43,75 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
  */
 public class TodosAdapter {
 
-    Fragment context;
-    private List<Post> postList;
+
+    private List<Todo> todoList;
     String accessToken;
     LinearLayout llList;
     LayoutInflater inflater;
     SharedPreferences preferences;
     Member currentUser;
-    public static List<Integer> lastClickedPosts = new ArrayList<Integer>();
+    Fragment context;
 
-    public TodosAdapter(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken) {
+    public TodosAdapter(LayoutInflater inflater, Member currentUser, LinearLayout llList, List<Todo> todoList, String accessToken,Fragment fragment) {
+
         this.context = fragment;
-        this.postList = postList;
+        this.currentUser = currentUser;
+        this.todoList = todoList;
         this.accessToken = accessToken;
         this.llList = llList;
         this.inflater = inflater;
+
     }
 
     public void makeList() {
         llList.removeAllViews();
 
-        for(int i = 0 ; i < postList.size(); i++) {
+        for(int i = 0 ; i < todoList.size(); i++) {
             final int index = i;
 
-            final LinearLayout childView = (LinearLayout)inflater.inflate(R.layout.list_item_post, null, false);
-            TextView postTextView = (TextView)childView.findViewById(R.id.post);
-            postTextView.setText(postList.get(i).content);
-            final LinearLayout commentDisplay = (LinearLayout) childView.findViewById(R.id.commentDisplay);
-            Button reply = (Button) childView.findViewById(R.id.reply);
-            final LinearLayout commentsLayout = (LinearLayout) childView.findViewById(R.id.commentsLayout);
-            ImageView picture = (ImageView) childView.findViewById(R.id.picture);
+            final LinearLayout childView = (LinearLayout)inflater.inflate(R.layout.list_item_todo, null, false);
+            TextView todoTextView = (TextView)childView.findViewById(R.id.todo);
+            todoTextView.setText(todoList.get(i).text);
 
 
-            ViewHelpers.setImageViewBackgroundFromURL(context.getActivity(), picture, postList.get(i).member.image);
+            TextView memberCount = (TextView) childView.findViewById(R.id.member_text);
+            memberCount.setText(todoList.get(i).members.size() + " members");
+            TextView tododate = (TextView) childView.findViewById(R.id.date_text);
+            tododate.setText(todoList.get(i).createdAt);
 
-            TextView fullName = (TextView) childView.findViewById(R.id.fullName);
-            fullName.setText(postList.get(i).member.fullName);
-            TextView datePost = (TextView) childView.findViewById(R.id.datePost);
-            datePost.setText(postList.get(i).createdAt);
 
-//            if(lastClickedPosts.contains(index)) {
-//                GlobalVariables.onClickComment = true;
-//
-//                for(int j=0; j<lastClickedPosts.size(); j++) {
-//                    if(lastClickedPosts.get(j) == index) {
-//                        lastClickedPosts.remove(j);
-//                        break;
-//                    }
-//                }
-//            } else {
-//                GlobalVariables.onClickComment = false;
-//            }
-//
-//            if(GlobalVariables.onClickComment) {
-//                commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
-//                commentsLayout.setVisibility(View.GONE);
-//            } else {
-//                commentDisplay.setBackgroundColor(Color.parseColor("#eeeeee"));
-//                commentsLayout.setVisibility(View.VISIBLE);
-//                lastClickedPosts.add(index);
-//                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
-//                adapter.makeList();
-//            }
+            ImageView deleteTodo = (ImageView)childView.findViewById(R.id.deleteTodo);
+            ImageView editTodo = (ImageView)childView.findViewById(R.id.editTodo);
 
-            if(postList.get(i).comments.size() != 0) {
-                TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);
-                commentSizeTextView.setText(postList.get(i).comments.size() + " comments");
 
-                commentDisplay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(lastClickedPosts.contains(index)) {
-                            GlobalVariables.onClickComment = true;
+            if(todoList.get(i).memberId == currentUser.id) {
+                deleteTodo.setVisibility(View.VISIBLE);
+                editTodo.setVisibility(View.VISIBLE);
+            }
 
-                            for(int i=0; i<lastClickedPosts.size(); i++) {
-                                if(lastClickedPosts.get(i) == index) {
-                                    lastClickedPosts.remove(i);
-                                    break;
-                                }
-                            }
-                        } else {
-                            GlobalVariables.onClickComment = false;
-                        }
-
-                        if(GlobalVariables.onClickComment) {
-                            commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
-                            commentsLayout.setVisibility(View.GONE);
-                        } else {
-                            commentDisplay.setBackgroundColor(Color.parseColor("#eeeeee"));
-                            commentsLayout.setVisibility(View.VISIBLE);
-                            lastClickedPosts.add(index);
-                            CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
-                            adapter.makeList();
-                        }
-                    }
-                });
-            } else
-                commentDisplay.setVisibility(View.GONE);
-
-            reply.setOnClickListener(new View.OnClickListener() {
+            editTodo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GlobalVariables.onReply = true;
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragment = new ReplyMarketFragment_().newInstance(postList.get(index).id, postList.get(index).comments);
-                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+
+                    // Getting reference to the FragmentManager
+                    FragmentManager fragmentManager = context.getActivity().getSupportFragmentManager();
+
+                    // Creating a fragment transaction
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.replace(R.id.contentFrame, new UpdateTodoFragment_().newInstance(todoList.get(index)));
+
+                    // Committing the transaction
                     fragmentTransaction.commit();
+
                 }
             });
 
-            ImageView deletePost = (ImageView)childView.findViewById(R.id.deletePost);
-            preferences = context.getActivity().getSharedPreferences("CurrentUser", context.getActivity().MODE_PRIVATE);
-            currentUser = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-            if(postList.get(i).member.id == currentUser.id) {
-                deletePost.setVisibility(View.VISIBLE);
-            }
-            deletePost.setOnClickListener(new View.OnClickListener() {
+            deleteTodo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PostService postService = new PostService(accessToken);
-                    postService.deletePost(postList.get(index).id);
+                    TodoService todoService = new TodoService(accessToken);
+                    todoService.deleteTodo(todoList.get(index).id);
                 }
             });
 
