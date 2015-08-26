@@ -3,6 +3,8 @@ package co.geeksters.hq.fragments;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +29,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.global.GlobalVariables;
@@ -121,22 +124,6 @@ public class OneProfileInfoFragment extends Fragment {
         goalContent.setText(memberToDisplay.goal);
         bioContent.setText(memberToDisplay.blurp);
 
-//        if(memberToDisplay.interests.size() == 0) {
-//            memberToDisplay.interests = new ArrayList<Interest>();
-//            Interest interest1 = new Interest();
-//            interest1.name = "Developement test";
-//            Interest interest2 = new Interest();
-//            interest2.name = "WEB";
-//            Interest interest3 = new Interest();
-//            interest3.name = "Finance";
-//            Interest interest4 = new Interest();
-//            interest4.name = "Law";
-//            memberToDisplay.interests.add(interest1);
-//            memberToDisplay.interests.add(interest2);
-//            memberToDisplay.interests.add(interest3);
-//            memberToDisplay.interests.add(interest4);
-//        }
-
         if(memberToDisplay.interests.size() != 0)
             interestsTitle.setVisibility(View.VISIBLE);
 
@@ -150,11 +137,19 @@ public class OneProfileInfoFragment extends Fragment {
             if(memberToDisplay.social == null || memberToDisplay.social.linkedin.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                if (!memberToDisplay.social.linkedin.startsWith("https://"))
-                    memberToDisplay.social.linkedin = "https://" + memberToDisplay.social.linkedin;
+                // get the LinkedIn app if possible
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("linkedin://you"));
+                final PackageManager packageManager = getActivity().getPackageManager();
+                final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.linkedin));
-                startActivity(browserIntent);
+                if (list.isEmpty()) {
+                    if (!memberToDisplay.social.linkedin.startsWith("https://") && !memberToDisplay.social.linkedin.startsWith("http://"))
+                        memberToDisplay.social.linkedin = "https://" + memberToDisplay.social.linkedin;
+
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.linkedin));
+                }
+
+                startActivity(intent);
             }
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -167,162 +162,15 @@ public class OneProfileInfoFragment extends Fragment {
             if(memberToDisplay.social == null || memberToDisplay.social.facebook.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                if (!memberToDisplay.social.facebook.startsWith("https://"))
+                if (!memberToDisplay.social.facebook.startsWith("https://") && !memberToDisplay.social.facebook.startsWith("http://"))
                     memberToDisplay.social.facebook = "https://" + memberToDisplay.social.facebook;
 
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.facebook));
                 startActivity(browserIntent);
-
-                //"http://facebook.com/darienjay100"
-                //"https://www.facebook.com/alexmsimon"
-                // https://www.facebook.com/soukaina.mjahed
-
-                /*final Session session = Session.getActiveSession();
-                makeMeRequest(session);*/
-
-                /*if (session != null && session.isOpened()) {
-                    // If the session is open, make an API call to get user data
-                    // and define a new callback to handle the response
-                    Request request = Request.newMeRequest(session, new Request.GraphUserCallback() {
-                        @Override
-                        public void onCompleted(GraphUser user, Response response) {
-                            // If the response is successful
-                            if (session == Session.getActiveSession()) {
-                                if (user != null) {
-                                    String user_ID = user.getId();//user id
-                                    String profileName = user.getName();//user's profile name
-                                }
-                            }
-                        }
-                    });
-                    Request.executeBatchAsync(request);
-                }*/
-
-
-                /*if (GlobalVariables.facebook.getAccessToken() != null) {
-                    JSONObject userInfo = null;
-                    try {
-                        userInfo = new JSONObject(GlobalVariables.facebook.request("https://graph.facebook.com/soukaina.mjahed"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        String id = userInfo.getString("id");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    final String url = "fb://page/" + "20531316728";
-                    Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                    startActivity(facebookAppIntent);
-                } else {
-
-                    if (!GlobalVariables.facebook.isSessionValid()) {
-                        GlobalVariables.facebook.authorize(getActivity(), new String[]{},
-                                new Facebook.DialogListener() {
-
-                                    @Override
-                                    public void onCancel() {
-                                        // Function to handle cancel event
-                                        JSONObject userInfo = null;
-                                        try {
-                                            userInfo = new JSONObject(GlobalVariables.facebook.request("https://graph.facebook.com/soukaina.mjahed"));
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                        try {
-                                            String id = userInfo.getString("id");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        final String url = "fb://page/" + "20531316728";
-                                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                                        startActivity(facebookAppIntent);
-                                    }
-
-                                    @Override
-                                    public void onComplete(Bundle values) {
-                                        JSONObject userInfo = null;
-                                        try {
-                                            userInfo = new JSONObject(GlobalVariables.facebook.request("https://graph.facebook.com/soukaina.mjahed"));
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                        try {
-                                            String id = userInfo.getString("id");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        final String url = "fb://page/" + "20531316728";
-                                        Intent facebookAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                        facebookAppIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-                                        startActivity(facebookAppIntent);
-                                    }
-
-                                    @Override
-                                    public void onError(DialogError error) {
-                                        // Function to handle error
-                                    }
-
-                                    @Override
-                                    public void onFacebookError(FacebookError fberror) {
-                                        // Function to handle Facebook errors
-                                        //pwindo.dismiss();
-                                        //Toast.makeText(c, "Facebook Error", Toast.LENGTH_LONG).show();
-                                    }
-
-                                });
-                    }
-                }*/
             }
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }
-    }
-
-    private void makeMeRequest(final Session session) {
-        // Make an API call to get user data and define a
-        // new callback to handle the response.
-
-        Log.i("++++++++AuthenticatedFragment", "++++++MakeRequest");
-
-        Request request = Request.newMeRequest(session,
-                new Request.GraphUserCallback() {
-
-                    public void onCompleted(GraphUser user,com.facebook.Response response) {
-                        Log.i("*****************AuthenticatedFragment:","onCompleted**********");
-                        // If the response is successful
-                        if (session == Session.getActiveSession()) {
-                            if (user != null) {
-
-                                String token = session.getAccessToken();
-                                // fbUser = user;
-                                Log.i("HOME XXXXXXXXXXXXXXXXXXX", "" + user.getName());
-
-                                Object[] media = {"facebook",token};
-                                //params_facebook =  media;
-                                //editor.putString("provider", "facebook");
-                                //editor.commit();
-                                //connect_facebook();
-                            }
-                        }
-                        if (response.getError() != null) {
-                            FacebookRequestError error1 = response.getError();
-                            FacebookRequestError error2 = response.getError();
-                        }
-                    }
-                });
-        request.executeAsync();
     }
 
     @Click(R.id.contactTwitter)
@@ -331,11 +179,20 @@ public class OneProfileInfoFragment extends Fragment {
             if(memberToDisplay.social == null || memberToDisplay.social.twitter.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                if (!memberToDisplay.social.twitter.startsWith("https://"))
-                    memberToDisplay.social.twitter = "https://twitter.com/" + memberToDisplay.social.twitter.split("@")[1];
+                Intent intent = null;
+                try {
+                    // get the Twitter app if possible
+                    getActivity().getPackageManager().getPackageInfo("com.twitter.android", 0);
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name="+memberToDisplay.social.twitter.split("@")[0]));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                } catch (Exception e) {
+                    // no Twitter app, revert to browser
+                    if (!memberToDisplay.social.twitter.startsWith("https://") && !memberToDisplay.social.twitter.startsWith("http://"))
+                        memberToDisplay.social.twitter = "https://twitter.com/" + memberToDisplay.social.twitter.split("@")[0];
 
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.twitter));
-                startActivity(browserIntent);
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.twitter));
+                }
+                startActivity(intent);
             }
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -379,7 +236,7 @@ public class OneProfileInfoFragment extends Fragment {
             if(memberToDisplay.social == null || memberToDisplay.social.blog.equals(""))
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.empty_field));
             else {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.website));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.blog));
                 startActivity(browserIntent);
             }
         } else {
@@ -415,7 +272,7 @@ public class OneProfileInfoFragment extends Fragment {
 
     @Click(R.id.editImage)
     public void editProfile(){
-        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        //SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
 
         GlobalVariables.editMyInformation = true;
         GlobalVariables.isMenuOnPosition = false;
