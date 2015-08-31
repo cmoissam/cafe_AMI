@@ -93,6 +93,7 @@ public class MyToDosFragment extends Fragment {
     @Subscribe
     public void onGetListTodosEvent(TodosEvent event) {
 
+        GlobalVariables.notifiyedByTodo = false;
         spinner.setVisibility(View.GONE);
         todosList = event.todos;
         TodosAdapter adapter = new TodosAdapter(inflater,currentMember, todoList, todosList, accessToken,this);
@@ -102,13 +103,9 @@ public class MyToDosFragment extends Fragment {
     @Subscribe
     public void onGetDeletedTodoEvent(DeleteTodosEvent event) {
 
-        //if(GeneralHelpers.isInternetAvailable(getActivity())) {
-        //    spinner.setVisibility(View.VISIBLE);
             TodoService todoService = new TodoService(accessToken);
             todoService.listTodosForMember();
-        //} else {
-        //    ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-        //}
+
     }
 
     @Override

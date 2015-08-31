@@ -153,7 +153,7 @@ public class UpdateTodoFragment extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
+        getActivity().invalidateOptionsMenu();
         BaseApplication.register(this);
         layoutInflater = inflater;
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);

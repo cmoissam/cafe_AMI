@@ -361,6 +361,11 @@
                     </LinearLayout>
                 </LinearLayout>
                 <CheckBox
+                    android:id="@+id/checkBoxRadarVisibility"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Radar visibility"/>
+                <CheckBox
                     android:id="@+id/checkBoxEmailComment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

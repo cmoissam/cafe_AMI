@@ -9,6 +9,8 @@ import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -115,6 +117,7 @@ public class ReplyMarketFragment extends Fragment {
             postId = (Integer) getArguments().getSerializable(NEW_INSTANCE_POST_KEY);
         }
 
+        getActivity().invalidateOptionsMenu();
         GlobalVariables.MENU_POSITION = 8;
         GlobalVariables.isMenuOnPosition = false;
         layoutInflater = inflater;
@@ -130,7 +133,7 @@ public class ReplyMarketFragment extends Fragment {
     @AfterViews
     public void setCommentList() {
         setCommentsList();
-    }
+      }
 
     public void setCommentsList() {
         commentNumber.setText(commentList.size() + " comments");

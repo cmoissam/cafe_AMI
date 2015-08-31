@@ -53,12 +53,20 @@ public class GlobalVariables {
     public static boolean onClickComment = false;
     public static boolean inMarketPlaceFragment = false;
     public static boolean inMyTodosFragment = false;
+    public static boolean notifiyedByPost = false;
+    public static int notificationPostId = -1;
+    public static boolean notifiyedByTodo = false;
+
+
+    // Notifications constants
+
+    public static String PROJECT_NUMBER = "773290153741";
 
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://192.168.1.117:8000/images/";
-    public static String UrlApi = "http://192.168.1.117:8000/api/v1";
+    public static String UrlApiImage = "http://192.168.1.187:8000/images/";
+    public static String UrlApi = "http://192.168.1.187:8000/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

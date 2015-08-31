@@ -3,9 +3,13 @@ package co.geeksters.hq.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -25,6 +29,7 @@ import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Post;
@@ -92,6 +97,8 @@ public class NewPostFragment extends Fragment {
         super.onStart();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
+
+        getActivity().invalidateOptionsMenu();
     }
 
     public static void hide_keyboard(Activity activity) {
@@ -113,10 +120,25 @@ public class NewPostFragment extends Fragment {
 
     @AfterViews
     public void setPreferences() {
-
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", Context.MODE_PRIVATE);
 
         accessToken = preferences.getString("access_token", "").replace("\"", "");
     }
+
+    // POUR SUPPRIMER LE BUTTON ADD DU MENU........
+/*
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+
+
+        //fragment specific menu creation
+    }*/
+
+    /** Called whenever we call invalidateOptionsMenu() */
+
+
 }
 

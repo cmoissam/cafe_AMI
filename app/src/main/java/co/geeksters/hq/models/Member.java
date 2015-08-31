@@ -38,6 +38,7 @@ public class Member implements Serializable{
 	public Boolean confirmed = false;
     public String confirmation = "";
 	public String deviceId = "";
+    public String deviceType="android";
 	public float latitude = 0;
 	public float longitude = 0;
 	public float distance = 0;
@@ -45,6 +46,7 @@ public class Member implements Serializable{
 	public Boolean notifyByPushOnComment = false;
 	public Boolean notifyByEmailOnTodo = false;
 	public Boolean notifyByPushOnTodo = false;
+    public Boolean radarVisibility = false;
 
 	// A User can be a member or an ambassador
 	public Boolean ambassador = false;

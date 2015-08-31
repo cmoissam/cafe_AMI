@@ -76,7 +76,7 @@ public class MemberService {
         this.api.updateMember(userId, "put", this.token, member.fullName, member.email, member.hub.name, member.blurp, member.social.twitter, member.social.facebook,
                 member.social.linkedin, member.social.skype, member.social.blog, member.social.website, member.social.other, member.interestsToUpdate(), member.companiesToUpdate(),
                 member.latitude, member.longitude,
-                member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo,
+                member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo,member.radarVisibility,member.deviceToken,member.deviceType,
                 new Callback<JsonElement>() {
 
                     @Override

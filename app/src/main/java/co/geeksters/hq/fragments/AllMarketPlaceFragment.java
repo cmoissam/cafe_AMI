@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Post;
@@ -83,6 +85,22 @@ public class AllMarketPlaceFragment extends Fragment {
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
         adapter.makeList();
+        if(GlobalVariables.notifiyedByPost) {
+            Post notifiedPost = new Post();
+            for (int i = 0; i < event.posts.size(); i++) {
+                if (event.posts.get(i).id == GlobalVariables.notificationPostId) {
+                    notifiedPost = event.posts.get(i);
+                    break;
+                }
+            }
+            GlobalVariables.onReply = true;
+            GlobalVariables.notifiyedByPost = false;
+            GlobalVariables.notificationPostId = -1;
+            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            Fragment fragment = new ReplyMarketFragment_().newInstance(notifiedPost.id, notifiedPost.comments);
+            fragmentTransaction.replace(R.id.contentFrame, fragment);
+            fragmentTransaction.commit();
+        }
     }
 
     @Subscribe

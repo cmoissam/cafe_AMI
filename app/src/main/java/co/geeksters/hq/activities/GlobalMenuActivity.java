@@ -151,55 +151,60 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(!GlobalVariables.isMenuOnPosition && !preferences.getString("current_member", "").equals("")) {
-            currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-            // Adding a fragment to the fragment transaction
-            if (currentMember.fullName.isEmpty() || currentMember.hub.name.isEmpty() || currentMember.companies == null || currentMember.goal.isEmpty() ||
-                    currentMember.blurp.isEmpty() || currentMember.phone.isEmpty() || currentMember.interests == null || currentMember.social == null) {
-//                GlobalVariables.isMenuOnPosition = true;
-                GlobalVariables.editMyInformation = false;
-                fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
-            }
-            else {
-                GlobalVariables.fromPaginationDirectory = 0;
-                fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
-            }
-        } else {
-            if(!GlobalVariables.isMenuOnPosition) {
-                GlobalVariables.fromPaginationDirectory = 0;
-                fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
-            }
-            else {
+        if(GlobalVariables.notifiyedByPost) {
+            fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
+        }
+        else if(GlobalVariables.notifiyedByTodo){
+            fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
+        }
+        else {
+            if (!GlobalVariables.isMenuOnPosition && !preferences.getString("current_member", "").equals("")) {
+                currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
                 // Adding a fragment to the fragment transaction
-                if(GlobalVariables.MENU_POSITION == 0) {
-                    mTitle = getResources().getString(R.string.title_directory_fragment);
+                if (currentMember.fullName.isEmpty() || currentMember.hub.name.isEmpty() || currentMember.companies == null || currentMember.goal.isEmpty() ||
+                        currentMember.blurp.isEmpty() || currentMember.phone.isEmpty() || currentMember.interests == null || currentMember.social == null) {
+//                GlobalVariables.isMenuOnPosition = true;
+                    GlobalVariables.editMyInformation = false;
+                    fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
+                } else {
                     GlobalVariables.fromPaginationDirectory = 0;
-
                     fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
-                } else if(GlobalVariables.MENU_POSITION == 1) {
-                    mTitle = getResources().getString(R.string.title_find_fragment);
-                    GlobalVariables.afterViewsRadar = true;
+                }
+            } else {
+                if (!GlobalVariables.isMenuOnPosition) {
+                    GlobalVariables.fromPaginationDirectory = 0;
+                    fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+                } else {
+                    // Adding a fragment to the fragment transaction
+                    if (GlobalVariables.MENU_POSITION == 0) {
+                        mTitle = getResources().getString(R.string.title_directory_fragment);
+                        GlobalVariables.fromPaginationDirectory = 0;
+
+                        fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+                    } else if (GlobalVariables.MENU_POSITION == 1) {
+                        mTitle = getResources().getString(R.string.title_find_fragment);
+                        GlobalVariables.afterViewsRadar = true;
 //                    fragmentTransaction.addToBackStack(null);
 
-                    fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
-                } else if(GlobalVariables.MENU_POSITION == 2){
-                    fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
-                } else if(GlobalVariables.MENU_POSITION == 3){
-                    mTitle = getResources().getString(R.string.title_todos_fragment);
+                        fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+                    } else if (GlobalVariables.MENU_POSITION == 2) {
+                        fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
+                    } else if (GlobalVariables.MENU_POSITION == 3) {
+                        mTitle = getResources().getString(R.string.title_todos_fragment);
 
-                    fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
-                } else if(GlobalVariables.MENU_POSITION == 4){
-                    fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
-                } else if(GlobalVariables.MENU_POSITION == 5){
-                    mTitle = getResources().getString(R.string.title_me_fragment);
+                        fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
+                    } else if (GlobalVariables.MENU_POSITION == 4) {
+                        fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
+                    } else if (GlobalVariables.MENU_POSITION == 5) {
+                        mTitle = getResources().getString(R.string.title_me_fragment);
 
-                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+                        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+                    }
+
+                    getActionBar().setTitle(mTitle);
                 }
-
-                getActionBar().setTitle(mTitle);
             }
         }
-
         // Committing the transaction
         fragmentTransaction.commit();
     }

@@ -154,6 +154,9 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.interestContent)
     LinearLayout interestContent;
 
+    @ViewById(R.id.checkBoxRadarVisibility)
+    CheckBox checkBoxRadarVisibility;
+
     @ViewById(R.id.checkBoxEmailComment)
     CheckBox checkBoxEmailComment;
 
@@ -251,6 +254,8 @@ public class MeFragment extends Fragment {
         for(int i = 1; i < currentMember.interests.size(); i++)
             createViewInterestToEdit(getActivity(), layoutInflater, interestsContent, currentMember.interests.get(i).name);
 
+        if(currentMember.radarVisibility)
+            checkBoxRadarVisibility.setChecked(true);
         if(currentMember.notifyByEmailOnComment)
             checkBoxEmailComment.setChecked(true);
         if(currentMember.notifyByEmailOnTodo)
@@ -476,7 +481,7 @@ public class MeFragment extends Fragment {
                 member.interests.add(interest);
             }
         }
-
+        member.radarVisibility = checkBoxRadarVisibility.isChecked();
         member.notifyByEmailOnComment = checkBoxEmailComment.isChecked();
         member.notifyByEmailOnTodo = checkBoxEmailTodo.isChecked();
         member.notifyByPushOnComment = checkBoxPushComment.isChecked();

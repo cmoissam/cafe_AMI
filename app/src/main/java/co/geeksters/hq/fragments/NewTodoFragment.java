@@ -152,6 +152,7 @@ public class NewTodoFragment extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+        getActivity().invalidateOptionsMenu();
         layoutInflater = inflater;
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));

@@ -2,7 +2,6 @@ package co.geeksters.hq.interfaces;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-
 import org.json.JSONArray;
 
 import co.geeksters.hq.models.Comment;

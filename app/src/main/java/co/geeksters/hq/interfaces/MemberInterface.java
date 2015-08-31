@@ -48,7 +48,7 @@ public interface MemberInterface {
                       @Field("interests") String interests, @Field("companies") String companies, @Field("latitude") float latitude,
                       @Field("longitude") float longitude, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,
                       @Field("notify_by_push_on_comment") Boolean notifyByPushOnComment, @Field("notify_by_email_on_todo") Boolean notifyByEmailOnTodo,
-                      @Field("notify_by_push_on_todo") Boolean notifyByPushOnTodo, Callback<JsonElement> callback);
+                      @Field("notify_by_push_on_todo") Boolean notifyByPushOnTodo,@Field("radar_visibility") Boolean radarVisibility,@Field("device_token") String deviceToken,@Field("device_type") String deviceType, Callback<JsonElement> callback);
 
     @Multipart
     @POST("/member/profile/image")

@@ -15,6 +15,14 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <!-- Only this application can receive the messages and registration result -->
+    <permission android:name="co.geeksters.hq.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="co.geeksters.hq.permission.C2D_MESSAGE" />
+
+    <!-- This app has permission to register and receive message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
     <!-- Creating Permission to receive Google Maps -->
     <permission
         android:name="co.geeksters.hq.permission.MAPS_RECEIVE"
@@ -109,6 +117,21 @@
             android:label="@string/title_activity_forgot_password"
             android:windowSoftInputMode="adjustResize|stateHidden">
         </activity>
+
+
+        <receiver
+            android:name=".services.notifications.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="co.geeksters.hq" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".services.notifications.GcmIntentService" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
     </application>
 
