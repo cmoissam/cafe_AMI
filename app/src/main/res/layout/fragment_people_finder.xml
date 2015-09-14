@@ -19,12 +19,29 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="5">
                     <TabWidget
                         android:id="@android:id/tabs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"/>
+                        android:layout_width="0dp"
+                        android:layout_weight="3.5"
+                        android:layout_height="wrap_content" />
+
+                    <Switch
+                        android:id="@+id/switchRadarActivation"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.5"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:textOff="OFF"
+                        android:textOn="ON"
+                        android:textSize="11dp" />
+                </LinearLayout>
+
+
 
                     <FrameLayout
                         android:id="@android:id/tabcontent"
@@ -36,6 +53,8 @@
                         android:id="@+id/realtabcontent"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
+
                     </FrameLayout>
 
                 </LinearLayout>

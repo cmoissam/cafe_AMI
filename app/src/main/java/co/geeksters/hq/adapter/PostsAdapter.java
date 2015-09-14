@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.fragments.ReplyMarketFragment;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;

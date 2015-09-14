@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
@@ -40,6 +44,8 @@ import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.ConnectService;
 import co.geeksters.hq.services.MemberService;
 
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
+
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends Activity {
     private SharedPreferences.Editor editor;
@@ -52,10 +58,10 @@ public class LoginActivity extends Activity {
     EditText password;
 
     @ViewById
-    View loginForm;
+    pl.droidsonroids.gif.GifImageView loadingGif;
 
     @ViewById
-    View loginProgress;
+    View loginForm;
 
     @ViewById
     View emailLoginForm;
@@ -65,6 +71,9 @@ public class LoginActivity extends Activity {
 
     @ViewById
     Button registerButton;
+
+    @ViewById
+    TextView welcome;
 
     @ViewById
     Button forgotPasswordButton;
@@ -86,16 +95,29 @@ public class LoginActivity extends Activity {
         editor = preferences.edit();
 
         String accessToken = preferences.getString("access_token","").replace("\"", "");
-        //Member currentMember =  Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+        Typeface typeFace=Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Regular.ttf");
+        welcome.setTypeface(typeFace);
+        email.setTypeface(typeFace);
+        password.setTypeface(typeFace);
+        noConnectionText.setTypeface(typeFace);
+        registerButton.setTypeface(typeFace);
+        emailSignInButton.setTypeface(typeFace);
+        forgotPasswordButton.setTypeface(typeFace);
+        loadingGif.setVisibility(View.INVISIBLE);
 
-        if(!accessToken.equals("")) {
-            Intent intent = new Intent(this, GlobalMenuActivity_.class);
-            finish();
-            overridePendingTransition(0, 0);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
 
-            ViewHelpers.showProgress(false, this, loginForm, loginProgress);
+        if(GlobalVariables.sessionExpired)
+        {
+            ViewHelpers.showPopup(this, "Info", "Your session is expired !!");
+            GlobalVariables.sessionExpired = false;
+
+        }
+        else {
+            if (!accessToken.equals("")) {
+                Member currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+                MemberService memberService = new MemberService(accessToken);
+                memberService.updateMember(currentMember.id, currentMember);
+            }
         }
     }
 
@@ -114,10 +136,9 @@ public class LoginActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+        getActionBar().hide();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
-
-
     }
 
     @Override
@@ -126,9 +147,72 @@ public class LoginActivity extends Activity {
         BaseApplication.unregister(this);
     }
 
-    @Click(R.id.emailSignInButton)
+    @Touch(R.id.emailSignInButton)
+    public void attemptLogin(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.setBackgroundColor(Color.parseColor("#89c4c7"));
+        } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
+
+
+        email.setEnabled(false);
+        password.setEnabled(false);
+        // Reset errors.
+        email.setError(null);
+        password.setError(null);
+
+        // Store values at the time of the login attempt.
+        String emailContent = email.getText().toString();
+        String passwordContent = password.getText().toString();
+
+        boolean login = false;
+        View focusView = null;
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(emailContent)) {
+            email.setError(getString(R.string.error_field_required));
+            focusView = email;
+        } else if (!GeneralHelpers.isEmailValid(emailContent)) {
+            email.setError(getString(R.string.error_invalid_email));
+            focusView = email;
+        }
+
+        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(passwordContent)) {
+            password.setError(getString(R.string.error_field_required));
+            focusView = password;
+        } else if (!GeneralHelpers.isPasswordValid(passwordContent)) {
+            password.setError(getString(R.string.error_invalid_password));
+            focusView = password;
+        }
+
+        if (GeneralHelpers.isEmailValid(emailContent) && GeneralHelpers.isPasswordValid(passwordContent))
+            login = true;
+
+        if (!login) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            // Test internet availability
+            if (GeneralHelpers.isInternetAvailable(this)) {
+                loadingGif.setVisibility(View.VISIBLE);
+                ConnectService connectService = new ConnectService();
+                connectService.login("password", 1, "pioner911", emailContent, passwordContent, "basic");
+            } else {
+                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            }
+        }
+    }
+    }
+
+    /*@Click(R.id.emailSignInButton)
     public void attemptLogin() {
         // Reset errors.
+        emailSignInButton.setBackgroundColor(Color.parseColor("#89c4c7"));
+
         email.setError(null);
         password.setError(null);
 
@@ -167,99 +251,25 @@ public class LoginActivity extends Activity {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            ViewHelpers.showProgress(true, this, loginForm, loginProgress);
             // Test internet availability
             if(GeneralHelpers.isInternetAvailable(this)) {
+                loadingGif.setVisibility(View.VISIBLE);
                 ConnectService connectService = new ConnectService();
                 connectService.login("password", 1, "pioner911", emailContent, passwordContent, "basic");
             } else {
-                ViewHelpers.showProgress(false, this, loginForm, loginProgress);
                 ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
             }
         }
-    }
-
-    /*  GCM */
-   /* @Background
-    public void registerDevice(){
-        longRunningProcessStarted();
-        String msg = "";
-        try {
-            if (gcm == null) {
-                gcm = GoogleCloudMessaging.getInstance(getAppContext());
-            }
-            regid = gcm.register("773290153741");
-            msg = "Device registered, registration ID=" + regid;
-            Log.i("1234 GCM",  msg);
-
-
-
-        } catch (IOException ex) {
-            msg = "Error :" + ex.getMessage();
-            Log.i("Error regeister GCM", msg);
-
-        }
-        longRunningProcessEnded(regid);
-
-
-
-    }
-
-    @UiThread
-    void longRunningProcessStarted() {
-
-    }
-
-    @UiThread
-    void longRunningProcessEnded(String regid) {
-
-        storeRegId(regid);
-        //Toast.makeText(context,"Device DEJA registered, registration ID=" + regid,Toast.LENGTH_SHORT).show();
-        Log.i("-------REG ID --------",regid);
-
-    }
-
-    public static void storeRegId(String regId){
-
-        *//*editor.putString(REG_ID, regId);
-        editor.commit();*//*
-    }
-
-    public static String retreiveRegIdPref(){
-        *//*String regId = sharedPref.getString(REG_ID, "");
-        return regId;*//*
-        return "";
-    }
-
-    public void checkRegId(){
-        regid = retreiveRegIdPref();
-        if(regid== null ||regid.equals("")){
-            //getRegId();
-            //Toast.makeText(context,"Device non enregistré ---> Il va etre enregitres mnt",Toast.LENGTH_SHORT).show();
-            registerDevice();
-        }else {
-            //Toast.makeText(context,"Device DEJA registered, registration ID=" + regid,Toast.LENGTH_SHORT).show();
-            Log.i("-------REG ID --------",regid);
-        }
-    }
-
-    public static String getDeviceId(){
-        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-    }
-    //	GCM END*/
+    }*/
 
     @Subscribe
     public void onLoginEvent(LoginEvent event) {
         // save the token
-
         context = getApplicationContext();
         editor.putString("access_token", event.accessToken.replace("\"", ""));
         editor.commit();
 
-
-
-        registerInBackground(event.member,event.accessToken.replace("\"", ""));
-
+        registerInBackground(event.member, event.accessToken.replace("\"", ""));
 
         //        if(GeneralHelpers.isInternetAvailable(this)) {
 //            MemberService memberService = new MemberService(event.accessToken.replace("\"",""));
@@ -317,15 +327,12 @@ public class LoginActivity extends Activity {
 
     @Subscribe
     public void onUpdateEvent(SaveMemberEvent event){
-
-
+        loadingGif.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(this, GlobalMenuActivity_.class);
         finish();
         overridePendingTransition(0, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-
-        ViewHelpers.showProgress(false, this, loginForm, loginProgress);
     }
 
 //    @Subscribe
@@ -345,24 +352,40 @@ public class LoginActivity extends Activity {
 
     @Subscribe
     public void onLoginFailureEvent(LoginFailureEvent event) {
-        ViewHelpers.showProgress(false, this, loginForm, loginProgress);
         email.setError(getString(R.string.error_field_incorrect_identifiers));
     }
 
-    @Click(R.id.registerButton)
-    public void registerRedirection() {
-        Intent intent = new Intent(this, RegisterActivity_.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0, 0);
+    @Touch(R.id.registerButton)
+    public void registerRedirection(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.setBackgroundColor(Color.parseColor("#89c4c7"));
+        } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            Intent intent = new Intent(this, RegisterActivity_.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(0, 0);
+        }
     }
 
-    @Click(R.id.forgotPasswordButton)
-    public void forgotPasswordRedirection() {
-        Intent intent = new Intent(this, ForgotPasswordActivity_.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0, 0);
+    @Touch(R.id.forgotPasswordButton)
+    public void forgotPasswordRedirection(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.setBackgroundColor(Color.parseColor("#89c4c7"));
+        } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            Intent intent = new Intent(this, ForgotPasswordActivity_.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(0, 0);
+        }
+    }
+
+    @Override
+    public void onDestroy () {
+        super.onDestroy();
+        if(BaseApplication.isRegistered(this))
+        BaseApplication.unregister(this);
     }
 }
 

@@ -24,6 +24,8 @@ import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
 
+import static co.geeksters.hq.models.Hub.getHubsByAlphabeticalOrder;
+
 /**
  * Created by soukaina on 12/01/15.
  */
@@ -84,9 +86,11 @@ public class ListViewHubAdapter extends BaseAdapter {
                 int id = hubsList.get(position).id;
                 preferences.edit().remove("last_hub" + hubsList.get(position).id).commit();
 
-                hubsList.remove(position);
+                //hubsList.add(lastHubs.get(position));
+                List<Hub> orderedHubList = new ArrayList<Hub>();
+                orderedHubList.addAll(getHubsByAlphabeticalOrder(hubsList));
                 lastHubs.remove(position);
-                ListViewHubAdapter adapterForHubList = new ListViewHubAdapter(activity, hubsList, lastHubs, listViewHubs);
+                ListViewHubAdapter adapterForHubList = new ListViewHubAdapter(activity, orderedHubList, lastHubs, listViewHubs);
                 listViewHubs.setAdapter(adapterForHubList);
                 ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
                 Toast.makeText(activity, "Remove Item", Toast.LENGTH_LONG).show();

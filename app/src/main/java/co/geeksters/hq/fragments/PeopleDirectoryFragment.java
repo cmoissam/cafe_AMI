@@ -56,9 +56,6 @@ public class PeopleDirectoryFragment extends Fragment {
     @ViewById(R.id.inputSearch)
     EditText inputSearch;
 
-    @ViewById(R.id.membersProgress)
-    ProgressBar membersProgress;
-
     @ViewById(R.id.membersSearchForm)
     LinearLayout membersSearchForm;
 
@@ -232,12 +229,6 @@ public class PeopleDirectoryFragment extends Fragment {
 
         if(event.members.size() == 0)
             displayAll.setVisibility(View.GONE);
-    }
-
-
-    @Click(R.id.clearContent)
-    public void clearSearchInput() {
-        inputSearch.setText("");
     }
 
     @Click(R.id.displayAll)

@@ -5,12 +5,12 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="menus">
-        <item>People Directory</item>
-        <item>People Finder</item>
-        <item>Hubs</item>
-        <item>My ToDos</item>
-        <item>Market Place</item>
-        <item>Me</item>
+        <item>meet the family</item>
+        <item>search members</item>
+        <item>hubs</item>
+        <item>action items</item>
+        <item>opportunities</item>
+        <item>me</item>
     </string-array>
     <string name="title_directory_fragment">Directory</string>
     <string name="title_me_fragment">Profile</string>

@@ -2,7 +2,9 @@ package co.geeksters.hq.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import com.squareup.otto.Subscribe;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
@@ -36,6 +39,9 @@ public class RegisterActivity extends Activity {
     AutoCompleteTextView email;
 
     @ViewById
+    pl.droidsonroids.gif.GifImageView loadingGif;
+
+    @ViewById
     EditText password;
 
     @ViewById
@@ -43,9 +49,6 @@ public class RegisterActivity extends Activity {
 
     @ViewById
     View registerForm;
-
-    @ViewById
-    View registerProgress;
 
     @ViewById
     View memberRegisterForm;
@@ -72,11 +75,13 @@ public class RegisterActivity extends Activity {
         email.setText("soukaina@geeksters.co");
         password.setText("soukaina");
         passwordConfirmation.setText("soukaina");
+        loadingGif.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        getActionBar().hide();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
     }
@@ -87,70 +92,76 @@ public class RegisterActivity extends Activity {
         BaseApplication.unregister(this);
     }
 
-    @Click(R.id.registerButton)
-    public void attemptRegister() {
-        // Reset errors.
-        fullName.setError(null);
-        email.setError(null);
-        password.setError(null);
-        passwordConfirmation.setError(null);
+    @Touch(R.id.registerButton)
+    public void attemptRegister(View v, MotionEvent event) {
 
-        // Store values at the time of the login attempt.
-        String fullNameContent = fullName.getText().toString();
-        String emailContent = email.getText().toString();
-        String passwordContent = password.getText().toString();
-        String passwordConfirmationContent = passwordConfirmation.getText().toString();
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                v.setBackgroundColor(Color.parseColor("#89c4c7"));
+        }else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
-        boolean register = false;
-        View focusView = null;
+            // Reset errors.
+            fullName.setError(null);
+            email.setError(null);
+            password.setError(null);
+            passwordConfirmation.setError(null);
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(fullNameContent)) {
-            fullName.setError(getString(R.string.error_field_required));
-            focusView = fullName;
-        }
+            // Store values at the time of the login attempt.
+            String fullNameContent = fullName.getText().toString();
+            String emailContent = email.getText().toString();
+            String passwordContent = password.getText().toString();
+            String passwordConfirmationContent = passwordConfirmation.getText().toString();
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(emailContent)) {
-            email.setError(getString(R.string.error_field_required));
-            focusView = email;
-        } else if (!GeneralHelpers.isEmailValid(emailContent)) {
-            email.setError(getString(R.string.error_invalid_email));
-            focusView = email;
-        }
+            boolean register = false;
+            View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(passwordContent)) {
-            password.setError(getString(R.string.error_field_required));
-            focusView = password;
-        } else if (!GeneralHelpers.isPasswordValid(passwordContent)) {
-            password.setError(getString(R.string.error_invalid_password));
-            focusView = password;
-        } else if(!GeneralHelpers.isPasswordConfirmed(passwordContent, passwordConfirmationContent)){
-            password.setError(getString(R.string.error_invalid_password_confirmation));
-            passwordConfirmation.setError(getString(R.string.error_invalid_password_confirmation));
-            focusView = password;
-        }
+            // Check for a valid email address.
+            if (TextUtils.isEmpty(fullNameContent)) {
+                fullName.setError(getString(R.string.error_field_required));
+                focusView = fullName;
+            }
 
-        if(GeneralHelpers.isEmailValid(emailContent) && GeneralHelpers.isPasswordValid(passwordContent) && !TextUtils.isEmpty(fullNameContent) && GeneralHelpers.isPasswordConfirmed(passwordContent, passwordConfirmationContent))
-            register = true;
+            // Check for a valid email address.
+            if (TextUtils.isEmpty(emailContent)) {
+                email.setError(getString(R.string.error_field_required));
+                focusView = email;
+            } else if (!GeneralHelpers.isEmailValid(emailContent)) {
+                email.setError(getString(R.string.error_invalid_email));
+                focusView = email;
+            }
 
-        if (!register) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            ViewHelpers.showProgress(true, this, registerForm, registerProgress);
-            // Test internet availability
-            if(GeneralHelpers.isInternetAvailable(this)) {
-                ConnectService connectService = new ConnectService();
-                Member member = new Member(fullNameContent, emailContent, passwordContent, passwordConfirmationContent);
-                connectService.register(member);
-            } else{
-                ViewHelpers.showProgress(false, this, registerForm, registerProgress);
-                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            // Check for a valid password, if the user entered one.
+            if (TextUtils.isEmpty(passwordContent)) {
+                password.setError(getString(R.string.error_field_required));
+                focusView = password;
+            } else if (!GeneralHelpers.isPasswordValid(passwordContent)) {
+                password.setError(getString(R.string.error_invalid_password));
+                focusView = password;
+            } else if (!GeneralHelpers.isPasswordConfirmed(passwordContent, passwordConfirmationContent)) {
+                password.setError(getString(R.string.error_invalid_password_confirmation));
+                passwordConfirmation.setError(getString(R.string.error_invalid_password_confirmation));
+                focusView = password;
+            }
+
+            if (GeneralHelpers.isEmailValid(emailContent) && GeneralHelpers.isPasswordValid(passwordContent) && !TextUtils.isEmpty(fullNameContent) && GeneralHelpers.isPasswordConfirmed(passwordContent, passwordConfirmationContent))
+                register = true;
+
+            if (!register) {
+                // There was an error; don't attempt login and focus the first
+                // form field with an error.
+                focusView.requestFocus();
+            } else {
+                // Show a progress spinner, and kick off a background task to
+                // perform the user login attempt.
+                // Test internet availability
+                if (GeneralHelpers.isInternetAvailable(this)) {
+                    loadingGif.setVisibility(View.VISIBLE);
+                    ConnectService connectService = new ConnectService();
+                    Member member = new Member(fullNameContent, emailContent, passwordContent, passwordConfirmationContent);
+                    connectService.register(member);
+                } else {
+                    ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                }
             }
         }
     }
@@ -159,27 +170,30 @@ public class RegisterActivity extends Activity {
     public void onRegisterEvent(SaveMemberEvent event) {
         Intent intent = new Intent(this, LoginActivity_.class);
         intent.putExtra("username", event.member.email);
+        loadingGif.setVisibility(View.INVISIBLE);
         finish();
         startActivity(intent);
         overridePendingTransition(0, 0);
-
-        ViewHelpers.showProgress(false, this, registerForm, registerProgress);
     }
 
     @Subscribe
     public void onRegisterFailureEvent(ExistingAccountEvent event) {
-        ViewHelpers.showProgress(false, this, registerForm, registerProgress);
-
+        loadingGif.setVisibility(View.INVISIBLE);
         email.setError(getString(R.string.error_field_exists));
         email.requestFocus();
     }
 
-    @Click(R.id.emailSignInButton)
-    public void loginRedirection() {
-        Intent intent = new Intent(this, LoginActivity_.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0, 0);
+    @Touch(R.id.emailSignInButton)
+    public void loginRedirection(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.setBackgroundColor(Color.parseColor("#89c4c7"));
+        } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            Intent intent = new Intent(this, LoginActivity_.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(0, 0);
+        }
     }
 }
 

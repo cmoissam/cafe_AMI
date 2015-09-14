@@ -84,8 +84,10 @@ public class ConnectService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                if(error.getResponse().getStatus() == 400) {
-                    BaseApplication.post(new LoginFailureEvent());
+                if(error != null) {
+                    if (error.getResponse().getStatus() == 400) {
+                        BaseApplication.post(new LoginFailureEvent());
+                    }
                 }
             }
         });

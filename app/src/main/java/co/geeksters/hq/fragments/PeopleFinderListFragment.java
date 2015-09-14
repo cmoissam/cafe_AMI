@@ -30,7 +30,9 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.adapter.DirectoryAdapter;
+import co.geeksters.hq.events.success.MembersAroundMeEvent;
 import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.events.success.RefreshRadarEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -50,6 +52,7 @@ public class PeopleFinderListFragment extends Fragment {
     ArrayList<HashMap<String, String>> members;
     String accessToken;
     Member currentMember;
+
     List<Member> membersList = new ArrayList<Member>();
     static String MEMBERS_AROUND_ME_KEY = "members_around_me";
 
@@ -66,7 +69,45 @@ public class PeopleFinderListFragment extends Fragment {
     @ViewById(R.id.search_no_element_found)
     TextView emptySearch;
 
+    @Subscribe
+    public void onRefreshRadarEvent(RefreshRadarEvent event){
+
+        if (currentMember.radarVisibility) {
+            listViewMembers.setVisibility(View.VISIBLE);
+
+        if(GlobalVariables.listRadarLock) {
+          GlobalVariables.listRadarLock = false;
+            if (GeneralHelpers.isInternetAvailable(getActivity())) {
+                MemberService memberService = new MemberService(accessToken);
+                memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
+            } else {
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            }
+        }
+        } else {
+            listViewMembers.setVisibility(View.GONE);
+        }
+    }
+
     @AfterViews
+    public void checkRadarActivation() {
+        if (!currentMember.radarVisibility) {
+            listViewMembers.setVisibility(View.GONE);
+        } else {
+            listViewMembers.setVisibility(View.VISIBLE);
+            displayMembersAroundMeOnList();
+        }
+    }
+
+    @Subscribe
+    public void onGetListMembersAroundMeEvent(MembersAroundMeEvent event) {
+
+        GlobalVariables.membersAroundMe = new ArrayList<Member>();
+        GlobalVariables.membersAroundMe.addAll(event.members);
+
+        displayMembersAroundMeOnList();
+    }
+
     public void displayMembersAroundMeOnList() {
         membersList = Member.orderMembersByDescDistance(GlobalVariables.membersAroundMe);
 
@@ -86,6 +127,8 @@ public class PeopleFinderListFragment extends Fragment {
             emptySearch.setVisibility(View.VISIBLE);
         else
             emptySearch.setVisibility(View.GONE);
+
+        GlobalVariables.listRadarLock = true;
     }
 
     @ItemClick(R.id.list_view_members)
@@ -104,11 +147,18 @@ public class PeopleFinderListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
         GlobalVariables.finderList = true;
+        GlobalVariables.listRadarLock = true;
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token","").replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BaseApplication.unregister(this);
     }
 }

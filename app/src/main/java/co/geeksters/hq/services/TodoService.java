@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
+import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.CreateTodoEvent;
 import co.geeksters.hq.events.success.DeleteTodosEvent;
 import co.geeksters.hq.events.success.PostsEvent;
@@ -42,7 +43,17 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -61,7 +72,17 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -79,7 +100,17 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -97,7 +128,17 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

@@ -3,50 +3,50 @@
     android:layout_height="match_parent"
     tools:context="co.geeksters.hq.fragments.PeopleDirectoryFragment">
 
-    <!-- Get Members progress -->
-    <ProgressBar android:id="@+id/membersProgress" style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" android:visibility="gone"
-        android:layout_gravity="center_vertical" />
-
     <LinearLayout
         android:id="@+id/membersSearchForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border">
+            android:layout_height="100dp"
+            android:background="@drawable/directory_searchback_1242x364">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="find by city or by name"
+                android:textSize="18dp"
+                android:textColor="#FFFFFF"
+                android:id="@+id/textView" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="45dp"
                 android:layout_gravity="left"
-                android:background="@android:drawable/ic_search_category_default"/>
+                android:background="@drawable/directory_search_125x125"/>
 
             <!-- Editext for Search -->
             <EditText android:id="@+id/inputSearch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="40dp"
                 android:inputType="textPersonName"
                 android:hint="@string/search_members"
-                android:ems="10"
-                android:layout_weight="1"
                 android:layout_gravity="left"
+                android:layout_marginRight="10dp"
+                android:background="#FFFFFF"
                 android:padding="12dp"/>
 
-            <ImageView
-                android:id="@+id/clearContent"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="7dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/delete"/>
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/search_no_element_found"

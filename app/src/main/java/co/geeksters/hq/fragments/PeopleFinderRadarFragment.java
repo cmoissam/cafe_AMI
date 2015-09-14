@@ -52,7 +52,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.success.MembersAroundMeEvent;
 import co.geeksters.hq.events.success.MembersEvent;
+import co.geeksters.hq.events.success.RefreshRadarEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -75,6 +77,8 @@ public class PeopleFinderRadarFragment extends Fragment {
     String accessToken;
     static boolean finder = true;
     static boolean setBitmap = true;
+    static int radarWidth = 0;
+    static int radarHeight = 0;
 
     @ViewById(R.id.radarForm)
     LinearLayout radarForm;
@@ -82,7 +86,33 @@ public class PeopleFinderRadarFragment extends Fragment {
     @ViewById(R.id.me)
     ImageView myPosition;
 
+    @Subscribe
+    public void onRefreshRadarEvent(RefreshRadarEvent event){
+
+        if(GlobalVariables.radarLock) {
+            GlobalVariables.radarLock = false;
+            if (GeneralHelpers.isInternetAvailable(getActivity())) {
+                MemberService memberService = new MemberService(accessToken);
+                memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
+            } else {
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            }
+        }
+
+    }
     @AfterViews
+    public void checkRadarActivation(){
+        if(!currentMember.radarVisibility) {
+            radarForm.setVisibility(View.GONE);
+        }
+        else{
+            radarForm.setVisibility(View.VISIBLE);
+            listAllMembersAroundMeService();
+        }
+
+
+    }
+
     public void listAllMembersAroundMeService() {
         setBitmap = true;
 
@@ -91,6 +121,8 @@ public class PeopleFinderRadarFragment extends Fragment {
 
         if(finder) {
             if (GeneralHelpers.isInternetAvailable(getActivity())) {
+                //GlobalVariables.getPeopleAroundMe = true;
+                BaseApplication.register(this);
                 MemberService memberService = new MemberService(accessToken);
                 memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
             } else {
@@ -126,22 +158,36 @@ public class PeopleFinderRadarFragment extends Fragment {
     }
 
     @Subscribe
-    public void onGetListMembersAroundMeEvent(MembersEvent event) {
+    public void onGetListMembersAroundMeEvent(MembersAroundMeEvent event) {
+        if (BaseApplication.isRegistered(this))
+            BaseApplication.unregister(this);
+
+        radarForm.setVisibility(View.VISIBLE);
+        if(radarWidth==0 && radarHeight==0) {
+            radarWidth = radarForm.getWidth();
+            radarHeight = radarForm.getHeight();
+            //GlobalVariables.getPeopleAroundMe = false;
+        }
+
         zoomOnRadar(event.members);
         GlobalVariables.membersAroundMe = new ArrayList<Member>();
         GlobalVariables.membersAroundMe.addAll(Member.addMemberAroundMe(event.members));
+        membersList.clear();
         membersList = Member.addMemberAroundMe(event.members);
         membersList = Member.orderMembersByDescDistance(membersList);
-        final float radius = (radarForm.getHeight()) / (GlobalVariables.MAX_SLICE_NUMBER + 1);
+
+        final float radius = (radarHeight) / (GlobalVariables.MAX_SLICE_NUMBER + 1);
 
         ViewGroup.LayoutParams params = myPosition.getLayoutParams();
-        params.width = (int) (2 * radius/3);
-        params.height = (int) (2 * radius/3);
+        params.width = (int) (2 * radius / 3);
+        params.height = (int) (2 * radius / 3);
         myPosition.setLayoutParams(params);
         myPosition.requestLayout();
 
         createBitMap(radius);
 
+        radarForm.removeAllViews();
+        radarForm.addView(myPosition);
         for (int i = 0; i < membersList.size(); i++) {
             int sliceIndex = getSliceIndex(membersList.get(i));
 
@@ -149,14 +195,15 @@ public class PeopleFinderRadarFragment extends Fragment {
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius / 3), (int) (radius / 3));
             memberImage.setLayoutParams(layoutParams);
 
-                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(i).image);
-
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(i).image);
 
             float angle = 0;
             float randomX = 0;
             float randomY = 0;
 
-            while(true) {
+            int count = 0;
+            while (true) {
+
                 angle = (float) (Math.random() * Math.PI * 2);
                 randomX = (float) (Math.cos(angle) * sliceIndex * radius);
                 randomY = (float) (Math.sin(angle) * sliceIndex * radius);
@@ -166,12 +213,18 @@ public class PeopleFinderRadarFragment extends Fragment {
 //                float minExeptRight = (sliceIndex - 1) * radius;
 //                float maxExeptRight = sliceIndex * radius;
 
-                float minExeptMyPositionX = -myPosition.getWidth() / 2;
+                /*float minExeptMyPositionX = -myPosition.getWidth() / 2;
                 float minExeptMyPositionY = -myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
                 float maxExeptMyPositionX = myPosition.getWidth() / 2;
                 float maxExeptMyPositionY = myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
 
-                if (-radarForm.getWidth() / 2 < randomX && randomX < radarForm.getWidth() / 2 && 0 > randomY &&
+                float w = myPosition.getX();
+                float h = myPosition.getY();
+
+                float ww = radarForm.getX();
+                float hh = radarForm.getY();*/
+
+                /*if (-radarForm.getWidth() / 2 < randomX && randomX < radarForm.getWidth() / 2 && 0 > randomY &&
                         randomY > myPosition.getHeight() - radarForm.getHeight()) {
                     if (sliceIndex == 1) {
                         if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
@@ -180,6 +233,26 @@ public class PeopleFinderRadarFragment extends Fragment {
                     } else if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
                             && randomY < maxExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2))
                         break;
+                }*/
+
+                /*if(sliceIndex == 1) {
+                    if (randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY && randomY < maxExeptMyPositionY)
+                        break;
+                }
+                else {
+
+                }*/
+
+                if (0 < randomX && randomX < radarForm.getWidth() && myPosition.getHeight()/2 - radarForm.getHeight() < randomY && randomY < 0) {
+                    count = 0;
+                    break;
+                } else {
+                    count += 1;
+                }
+
+                if(count == 10) {
+                    count = 0;
+                    break;
                 }
             }
 
@@ -198,11 +271,16 @@ public class PeopleFinderRadarFragment extends Fragment {
             });
 
             ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(index).image);
+
             radarForm.addView(memberImage, 0);
 
-            if(i == membersList.size() - 1)
+            if (i == membersList.size() - 1)
                 setBitmap = false;
         }
+
+        GlobalVariables.radarLock = true;
+
+        BaseApplication.register(this);
     }
 
     private void createBitMap(final float radius) {
@@ -212,10 +290,7 @@ public class PeopleFinderRadarFragment extends Fragment {
                 bitMap = null;
             }
 
-            int width = radarForm.getWidth();
-            int height = radarForm.getHeight();
-
-            bitMap = Bitmap.createBitmap(radarForm.getWidth(), radarForm.getHeight(), Bitmap.Config.ARGB_8888);
+            bitMap = Bitmap.createBitmap(radarWidth, radarHeight, Bitmap.Config.ARGB_8888);
         }
 
         // bitMap = bitMap.copy(bitMap.getConfig(), true);
@@ -254,8 +329,8 @@ public class PeopleFinderRadarFragment extends Fragment {
             }
         });
 
-        // set on ImageView or any other view
         BitmapDrawable ob = new BitmapDrawable(getActivity().getResources(), bitMap);
+        //radarForm.setBackgroundDrawable(null);
         radarForm.setBackgroundDrawable(ob);
     }
 
@@ -288,21 +363,27 @@ public class PeopleFinderRadarFragment extends Fragment {
         BaseApplication.register(this);
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
-        accessToken = preferences.getString("access_token","").replace("\"","");
+        accessToken = preferences.getString("access_token","").replace("\"", "");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+        return null;
+//        if(!isAdded()) {
+//            View view = inflater.inflate(R.layout.fragment_people_finder, container, false);
+//            return view;
+//        }
+//        else {
+//            return null;
+//        }
 
-        if(!isAdded()) {
-            View view = inflater.inflate(R.layout.fragment_people_finder, container, false);
-            return view;
-        }
-        else {
-            return null;
-        }
+
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        if (BaseApplication.isRegistered(this))
+            BaseApplication.unregister(this);
+
         if(bitMap != null) {
             bitMap.recycle();
             bitMap = null;

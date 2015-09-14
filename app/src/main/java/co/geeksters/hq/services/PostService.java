@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
+import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.DeletePostEvent;
 import co.geeksters.hq.events.success.ListAllPostsEvent;
@@ -45,7 +46,17 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -64,7 +75,17 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -82,7 +103,17 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -100,7 +131,17 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -119,7 +160,17 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

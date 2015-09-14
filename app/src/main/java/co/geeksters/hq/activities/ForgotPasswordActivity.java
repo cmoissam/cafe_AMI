@@ -3,7 +3,10 @@ package co.geeksters.hq.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -16,6 +19,7 @@ import com.squareup.otto.Subscribe;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -39,13 +43,11 @@ public class ForgotPasswordActivity extends Activity {
     AutoCompleteTextView emails;
 
     @ViewById
-    EditText password;
+    pl.droidsonroids.gif.GifImageView loadingGif;
+
 
     @ViewById
     View forgotPasswordForm;
-
-    @ViewById
-    View forgotPasswordProgress;
 
     @ViewById
     Button resetPasswordButton;
@@ -58,7 +60,12 @@ public class ForgotPasswordActivity extends Activity {
 
     @AfterViews
     public void initListEmails(){
-        //emails.setText("soukaina@geeksters.co, abc@email.com");
+        Typeface typeFace=Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Regular.ttf");
+        emails.setTypeface(typeFace);
+        noConnectionText.setTypeface(typeFace);
+        loginButton.setTypeface(typeFace);
+        resetPasswordButton.setTypeface(typeFace);
+        loadingGif.setVisibility(View.INVISIBLE);
     }
 
     @AfterViews
@@ -69,6 +76,7 @@ public class ForgotPasswordActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+        getActionBar().hide();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
     }
@@ -79,64 +87,71 @@ public class ForgotPasswordActivity extends Activity {
         BaseApplication.unregister(this);
     }
 
-    @Click(R.id.resetPasswordButton)
-    public void resetPassword() {
+    @Touch(R.id.resetPasswordButton)
+    public void resetPassword(View v, MotionEvent event) {
         // Reset errors.
-        emails.setError(null);
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.setBackgroundColor(Color.parseColor("#89c4c7"));
+        } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
 
-        // Store values at the time of the reset attempt.
-        String emailsContent = emails.getText().toString();
 
-        boolean forgotPassword = false;
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            emails.setError(null);
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(emailsContent)) {
-            emails.setError(getString(R.string.error_field_required));
-        } else {
-            String[] emailsList = emailsContent.trim().split(",");
+            // Store values at the time of the reset attempt.
+            String emailsContent = emails.getText().toString();
 
-            for (int i = 0; i < emailsList.length; i++) {
-                if (GeneralHelpers.isEmailValid(emailsList[i])) {
-                    forgotPassword = true;
-                }
-                else {
-                    emails.setError(getString(R.string.error_field_incorrect_emails));
-                    forgotPassword = false;
-                    break;
+            boolean forgotPassword = false;
+
+            // Check for a valid email address.
+            if (TextUtils.isEmpty(emailsContent)) {
+                emails.setError(getString(R.string.error_field_required));
+            } else {
+                String[] emailsList = emailsContent.trim().split(",");
+
+                for (int i = 0; i < emailsList.length; i++) {
+                    if (GeneralHelpers.isEmailValid(emailsList[i])) {
+                        forgotPassword = true;
+                    } else {
+                        emails.setError(getString(R.string.error_field_incorrect_emails));
+                        forgotPassword = false;
+                        break;
+                    }
                 }
             }
-        }
 
-        if(forgotPassword){
-            emails.requestFocus();
+            if (forgotPassword) {
+                emails.requestFocus();
 
-            if(GeneralHelpers.isInternetAvailable(this)) {
-                ViewHelpers.showProgress(true, this, forgotPasswordForm, forgotPasswordProgress);
-
-                ConnectService service = new ConnectService();
-                GlobalVariables.emails = new ArrayList<String>();
-                GlobalVariables.emails = generateEmailsListFromString(emails.getText().toString());
-                service.passwordReminder(GlobalVariables.emails);
-            } else{
-                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                if (GeneralHelpers.isInternetAvailable(this)) {
+                    loadingGif.setVisibility(View.VISIBLE);
+                    ConnectService service = new ConnectService();
+                    GlobalVariables.emails = new ArrayList<String>();
+                    GlobalVariables.emails = generateEmailsListFromString(emails.getText().toString());
+                    service.passwordReminder(GlobalVariables.emails);
+                } else {
+                    ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                }
             }
         }
     }
-
-    @Click(R.id.loginButton)
-    public void loginRedirection() {
-        Intent intent = new Intent(this, LoginActivity_.class);
-        startActivity(intent);
-        finish();
-        overridePendingTransition(0, 0);
+    @Touch(R.id.loginButton)
+    public void loginRedirection(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.setBackgroundColor(Color.parseColor("#89c4c7"));
+        } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+            v.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            Intent intent = new Intent(this, LoginActivity_.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(0, 0);
+        }
     }
 
     @Subscribe
     public void onPasswordResetEvent(PasswordResetEvent event) {
-        ViewHelpers.showProgress(false, this, forgotPasswordForm, forgotPasswordProgress);
-
         Boolean reset = false;
-
+        loadingGif.setVisibility(View.INVISIBLE);
         for(int i = 0; i < event.emailsResponse.size(); i++) {
             if(event.emailsResponse.get(i).status.replace("\"","").equals("error")) {
                 emails.setError(event.emailsResponse.get(i).email + " " + getString(R.string.error_field_incorrect_email));

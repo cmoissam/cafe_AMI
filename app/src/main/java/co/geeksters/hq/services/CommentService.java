@@ -1,5 +1,7 @@
 package co.geeksters.hq.services;
 
+import android.util.Log;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
+import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.CommentsEventOnReplay;
@@ -53,8 +56,20 @@ public class CommentService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
+
             }
+
         });
     }
 
@@ -78,7 +93,17 @@ public class CommentService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -98,7 +123,17 @@ public class CommentService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

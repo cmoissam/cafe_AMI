@@ -50,7 +50,8 @@ public class GcmIntentService extends IntentService {
 
         notificationMessage = intent.getStringExtra("message");
         String jsonData = "";
-        if(notificationMessage.equals("You have a new comment on your post")){
+        if(notificationMessage!=null){
+                if( notificationMessage.equals("You have a new comment on your post")){
 
 
       /*      try {
@@ -74,6 +75,8 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
+    }
+
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with
     // a GCM message.
@@ -82,7 +85,7 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = null;
-        if(notificationMessage.equals("You have a new comment on your post")){
+        if(notificationMessage!=null && notificationMessage.equals("You have a new comment on your post")){
             resultIntent = new Intent(this, GlobalMenuActivity_.class);
             GlobalVariables.notificationPostId = notificationPostId;
             GlobalVariables.notifiyedByPost = true;

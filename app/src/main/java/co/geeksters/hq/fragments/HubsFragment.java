@@ -104,7 +104,18 @@ public class HubsFragment extends Fragment {
         lastHubs = Hub.getLastSavedHubs(getActivity(), event.hubs);
         eventHubsList.clear();
         eventHubsList.addAll(getHubsByAlphabeticalOrder(event.hubs));
-        hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, event.hubs);
+        for (int i = 0; i < lastHubs.size(); i++) {
+            for(int j =0;j<eventHubsList.size();j++)
+            {
+                if(eventHubsList.get(j).id == lastHubs.get(i).id)
+                {
+                    eventHubsList.remove(j);
+                    break;
+                }
+
+            }
+        }
+        hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, eventHubsList);
 
         adapter = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
         listViewHubs.setAdapter(adapter);

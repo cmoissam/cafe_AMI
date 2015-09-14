@@ -22,12 +22,16 @@ import java.util.List;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.GPSFailureEvent;
 import co.geeksters.hq.events.failure.InvalidFileFailureEvent;
+import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.DeleteMemberEvent;
 import co.geeksters.hq.events.success.EmptyEvent;
+import co.geeksters.hq.events.success.MembersAroundMeEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
+import co.geeksters.hq.events.success.UpdateMemberLocationEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.interfaces.MemberInterface;
 import co.geeksters.hq.models.Member;
@@ -57,7 +61,17 @@ public class MemberService {
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -76,18 +90,31 @@ public class MemberService {
         this.api.updateMember(userId, "put", this.token, member.fullName, member.email, member.hub.name, member.blurp, member.social.twitter, member.social.facebook,
                 member.social.linkedin, member.social.skype, member.social.blog, member.social.website, member.social.other, member.interestsToUpdate(), member.companiesToUpdate(),
                 member.latitude, member.longitude,
-                member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo,member.radarVisibility,member.deviceToken,member.deviceType,
+                member.notifyByEmailOnComment, member.notifyByPushOnComment, member.notifyByEmailOnTodo, member.notifyByPushOnTodo, member.radarVisibility, member.deviceToken, member.deviceType,
                 new Callback<JsonElement>() {
 
                     @Override
                     public void success(JsonElement response, Response rawResponse) {
                         Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
-                        BaseApplication.post(new SaveMemberEvent(updatedMember));
+                        if (!GlobalVariables.updatePositionFromRadar)
+                            BaseApplication.post(new SaveMemberEvent(updatedMember));
+                        else
+                            BaseApplication.post(new UpdateMemberLocationEvent(updatedMember));
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        BaseApplication.post(new ConnectionFailureEvent());
+                        if(error.getResponse() == null) {
+                            BaseApplication.post(new UnauthorizedFailureEvent());
+                        }
+                        else
+                        if(error.getResponse() != null) {
+                            if (error.getResponse().getStatus() == 401) {
+                                BaseApplication.post(new UnauthorizedFailureEvent());
+                            }
+                        }
+                        else
+                            BaseApplication.post(new ConnectionFailureEvent());
                     }
                 });
     }
@@ -96,21 +123,28 @@ public class MemberService {
         //uploadImage(@Path("id") int userId,@Part("access_token") String token,
         // @Part("_method") String method, @Part("file") File file, Callback<JsonElement> callback);
 
-        this.api.uploadImage(userId, this.token, "put", file,new Callback<JsonElement>() {
+        this.api.uploadImage(userId, this.token, "put", file, new Callback<JsonElement>() {
 
-                    @Override
-                    public void success(JsonElement response, Response rawResponse) {
-                        Log.e("Upload", "Success");
-                        BaseApplication.post(new EmptyEvent());
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                BaseApplication.post(new EmptyEvent());
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
                     }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("Upload", "Fail");
-
-                        BaseApplication.post(new InvalidFileFailureEvent());
-                    }
-                });
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
+            }
+        });
     }
 
 
@@ -126,7 +160,10 @@ public class MemberService {
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.post(new ConnectionFailureEvent());
+                if (error.getResponse().getStatus() == 401) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                } else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -143,7 +180,10 @@ public class MemberService {
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.post(new ConnectionFailureEvent());
+                if (error.getResponse().getStatus() == 401) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                } else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -171,7 +211,10 @@ public class MemberService {
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.post(new ConnectionFailureEvent());
+                if (error.getResponse().getStatus() == 401) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                } else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -197,7 +240,17 @@ public class MemberService {
 
             @Override
             public void failure(RetrofitError error) {
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -216,7 +269,17 @@ public class MemberService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -236,6 +299,16 @@ public class MemberService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
                 BaseApplication.post(new ConnectionFailureEvent());
             }
         });
@@ -253,6 +326,10 @@ public class MemberService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error.getResponse().getStatus() == 401) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
                 BaseApplication.post(new ConnectionFailureEvent());
             }
         });
@@ -278,7 +355,17 @@ public class MemberService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -303,6 +390,10 @@ public class MemberService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error.getResponse().getStatus() == 401) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
                 BaseApplication.post(new ConnectionFailureEvent());
             }
         });
@@ -317,12 +408,22 @@ public class MemberService {
                 JsonArray data = response.getAsJsonObject().get("data").getAsJsonArray();
 
                 List<Member> members = Member.createListUsersFromJson(data);
-                BaseApplication.post(new MembersEvent(members));
+                BaseApplication.post(new MembersAroundMeEvent(members));
             }
 
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
                 BaseApplication.post(new GPSFailureEvent());
             }
         });
@@ -340,7 +441,17 @@ public class MemberService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                BaseApplication.post(new ConnectionFailureEvent());
+                if(error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                }
+                else
+                if(error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                }
+                else
+                    BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
