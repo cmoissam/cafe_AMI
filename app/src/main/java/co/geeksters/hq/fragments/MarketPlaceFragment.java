@@ -31,15 +31,17 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 public class MarketPlaceFragment extends Fragment {
     private static final String NEW_INSTANCE_MEMBER_KEY = "post_key";
     private static final String DEFAULT_INDEX_KEY = "index_key";
+    public static int defaultIndex = 0;
 
     @ViewById(R.id.tabhost)
     TabHost tabhost;
 
-    public static MarketPlaceFragment_ newInstance(Member member, int defaultIndex) {
+    public static MarketPlaceFragment_ newInstance(Member member, int index) {
         MarketPlaceFragment_ fragment = new MarketPlaceFragment_();
         Bundle bundle = new Bundle();
         bundle.putSerializable(NEW_INSTANCE_MEMBER_KEY, member);
-        bundle.putSerializable(DEFAULT_INDEX_KEY, defaultIndex);
+        bundle.putSerializable(DEFAULT_INDEX_KEY, index);
+        defaultIndex = index;
         fragment.setArguments(bundle);
 
         return fragment;
@@ -104,11 +106,10 @@ public class MarketPlaceFragment extends Fragment {
         tabhost.addTab(tSpecApple);
 
 
-//        tabhost.setCurrentTab(defaultIndex);
+        tabhost.setCurrentTab(defaultIndex);
     }
     @Override
     public void onDestroyView(){
-
         super.onDestroyView();
         GlobalVariables.inMarketPlaceFragment = false;
     }

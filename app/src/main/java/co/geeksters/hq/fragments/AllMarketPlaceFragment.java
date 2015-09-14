@@ -86,6 +86,9 @@ public class AllMarketPlaceFragment extends Fragment {
         spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
+        GlobalVariables.replyFromMyMarket = false;
+        GlobalVariables.replyToAll = true;
+
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         if(GlobalVariables.notifiyedByPost) {
@@ -99,8 +102,7 @@ public class AllMarketPlaceFragment extends Fragment {
             GlobalVariables.onReply = true;
             GlobalVariables.notifiyedByPost = false;
             GlobalVariables.notificationPostId = -1;
-            GlobalVariables.replyFromMyMarket = false;
-            GlobalVariables.replyToAll = true;
+
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment fragment = new ReplyMarketFragment_().newInstance(notifiedPost.id, notifiedPost.comments);
             fragmentTransaction.replace(R.id.contentFrame, fragment);

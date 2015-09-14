@@ -92,6 +92,8 @@ public class TodosAdapter {
             editTodo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    GlobalVariables.MENU_POSITION = 10;
+                    GlobalVariables.isMenuOnPosition = false;
 
                     // Getting reference to the FragmentManager
                     FragmentManager fragmentManager = context.getActivity().getSupportFragmentManager();

@@ -88,6 +88,7 @@ public class MeMarketPlaceFragment extends Fragment {
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         GlobalVariables.replyFromMyMarket = false;
         GlobalVariables.replyToAll = false;
+
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
     }

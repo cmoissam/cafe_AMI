@@ -43,6 +43,7 @@ import co.geeksters.hq.events.success.RefreshRadarEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.fragments.HubsFragment;
 import co.geeksters.hq.fragments.HubsFragment_;
+import co.geeksters.hq.fragments.MarketPlaceFragment;
 import co.geeksters.hq.fragments.MarketPlaceFragment_;
 import co.geeksters.hq.fragments.MeFragment_;
 import co.geeksters.hq.fragments.MyToDosFragment_;
@@ -232,6 +233,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
                         fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
                     } else if (GlobalVariables.MENU_POSITION == 4) {
+                        MarketPlaceFragment_.defaultIndex = 0;
                         fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
                     } else if (GlobalVariables.MENU_POSITION == 5) {
                         mTitle = getResources().getString(R.string.title_me_fragment);
@@ -362,11 +364,36 @@ public class GlobalMenuActivity extends FragmentActivity {
                 } else {
                     GlobalVariables.MENU_POSITION = 4;
                     GlobalVariables.isMenuOnPosition = true;
-                    if(GlobalVariables.replyToAll)
+                    GlobalVariables.inMarketPlaceFragment = true;
+
+                    if(GlobalVariables.replyToAll) {
                         fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_().newInstance(currentMember, 0));
-                    else
+                    }
+                    else {
                         fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_().newInstance(currentMember, 1));
+                    }
+
+                    invalidateOptionsMenu();
                 }
+            } else if(GlobalVariables.MENU_POSITION == 9) {
+                GlobalVariables.MENU_POSITION = 4;
+                GlobalVariables.isMenuOnPosition = true;
+                GlobalVariables.inMarketPlaceFragment = true;
+
+                if(GlobalVariables.replyToAll)
+                    fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_().newInstance(currentMember, 0));
+                else
+                    fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_().newInstance(currentMember, 1));
+
+                invalidateOptionsMenu();
+            }  else if(GlobalVariables.MENU_POSITION == 10) {
+                GlobalVariables.MENU_POSITION = 3;
+                GlobalVariables.isMenuOnPosition = true;
+                GlobalVariables.inMyTodosFragment = true;
+
+                fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
+
+                invalidateOptionsMenu();
             }
 
             fragmentTransaction.commit();
@@ -463,6 +490,7 @@ public class GlobalMenuActivity extends FragmentActivity {
             mTitle = getResources().getString(R.string.title_todos_fragment);
             fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
         } else if(position == 4) {
+            MarketPlaceFragment_.defaultIndex = 0;
             fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
         } else if(position == 5) {
             mTitle = getResources().getString(R.string.title_me_fragment);
@@ -477,8 +505,6 @@ public class GlobalMenuActivity extends FragmentActivity {
         drawerLayout.closeDrawer(drawerList);
     }
 
-
-
     @Subscribe
     public void onSaveLocationMemberEvent(SaveMemberEvent event) {
         if (!GlobalVariables.updatePositionFromRadar) {
@@ -489,11 +515,11 @@ public class GlobalMenuActivity extends FragmentActivity {
 
                 GlobalVariables.afterViewsRadar = true;
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
-            GlobalVariables.inRadarFragement = true;
-            fragmentTransaction.commit();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+                GlobalVariables.inRadarFragement = true;
+                fragmentTransaction.commit();
             } else if (GlobalVariables.MENU_POSITION == 6) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -504,6 +530,8 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     public void onAddPostPressed(){
+        GlobalVariables.MENU_POSITION = 9;
+        GlobalVariables.isMenuOnPosition = false;
 
         // Getting reference to the FragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -518,6 +546,8 @@ public class GlobalMenuActivity extends FragmentActivity {
     }
 
     public void onAddTodoPressed(){
+        GlobalVariables.MENU_POSITION = 10;
+        GlobalVariables.isMenuOnPosition = false;
 
         // Getting reference to the FragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -547,15 +577,15 @@ public class GlobalMenuActivity extends FragmentActivity {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
+
         if (item.getItemId() == R.id.action_add)
         {
             if(GlobalVariables.inMarketPlaceFragment)
-            onAddPostPressed();
+                onAddPostPressed();
             if(GlobalVariables.inMyTodosFragment)
                 onAddTodoPressed();
             if(GlobalVariables.inRadarFragement)
                 onRefreshRadarPressed();
-
         }
 
 		return super.onOptionsItemSelected(item);
@@ -571,13 +601,14 @@ public class GlobalMenuActivity extends FragmentActivity {
             menu.findItem(R.id.action_add).setVisible(!drawerOpen);
         }
         else
-        if(GlobalVariables.inRadarFragement)
-        {
-            menu.findItem(R.id.action_add).setIcon(R.drawable.refresh);
-            menu.findItem(R.id.action_add).setVisible(!drawerOpen);
-        }
-        else menu.findItem(R.id.action_add).setVisible(false);
-		return super.onPrepareOptionsMenu(menu);
+            if(GlobalVariables.inRadarFragement)
+            {
+                menu.findItem(R.id.action_add).setIcon(R.drawable.refresh);
+                menu.findItem(R.id.action_add).setVisible(!drawerOpen);
+            }
+            else menu.findItem(R.id.action_add).setVisible(false);
+
+        return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
