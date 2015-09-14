@@ -99,6 +99,8 @@ public class AllMarketPlaceFragment extends Fragment {
             GlobalVariables.onReply = true;
             GlobalVariables.notifiyedByPost = false;
             GlobalVariables.notificationPostId = -1;
+            GlobalVariables.replyFromMyMarket = false;
+            GlobalVariables.replyToAll = true;
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment fragment = new ReplyMarketFragment_().newInstance(notifiedPost.id, notifiedPost.comments);
             fragmentTransaction.replace(R.id.contentFrame, fragment);

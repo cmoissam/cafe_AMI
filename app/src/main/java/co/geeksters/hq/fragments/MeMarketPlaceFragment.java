@@ -28,6 +28,7 @@ import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
@@ -85,6 +86,8 @@ public class MeMarketPlaceFragment extends Fragment {
         spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
+        GlobalVariables.replyFromMyMarket = false;
+        GlobalVariables.replyToAll = false;
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
     }

@@ -355,9 +355,18 @@ public class GlobalMenuActivity extends FragmentActivity {
                 GlobalVariables.isMenuOnPosition = true;
                 fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
             } else if(GlobalVariables.MENU_POSITION == 8) {
-                GlobalVariables.MENU_POSITION = 5;
-                GlobalVariables.isMenuOnPosition = true;
-                fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(currentMember, 1));
+                if(GlobalVariables.replyFromMyMarket) {
+                    GlobalVariables.MENU_POSITION = 5;
+                    GlobalVariables.isMenuOnPosition = true;
+                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(currentMember, 1));
+                } else {
+                    GlobalVariables.MENU_POSITION = 4;
+                    GlobalVariables.isMenuOnPosition = true;
+                    if(GlobalVariables.replyToAll)
+                        fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_().newInstance(currentMember, 0));
+                    else
+                        fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_().newInstance(currentMember, 1));
+                }
             }
 
             fragmentTransaction.commit();

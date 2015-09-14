@@ -65,12 +65,11 @@ public class GlobalVariables {
     public static boolean updatePositionFromRadar = false;
     public static boolean getPeopleAroundMe = false;
     public static boolean sessionExpired = false;
-
+    public static boolean replyFromMyMarket = false;
+    public static boolean replyToAll = false;
 
     // Notifications constants
-
     public static String PROJECT_NUMBER = "773290153741";
-
 
     // TODO GET IMAGE FROM MAC
 

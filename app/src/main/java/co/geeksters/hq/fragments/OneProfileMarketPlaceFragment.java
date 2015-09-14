@@ -115,6 +115,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
         spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
+        GlobalVariables.replyFromMyMarket = true;
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);

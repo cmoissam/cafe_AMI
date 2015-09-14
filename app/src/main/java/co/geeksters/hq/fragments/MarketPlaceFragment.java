@@ -29,8 +29,21 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 
 @EFragment(R.layout.fragment_market_place)
 public class MarketPlaceFragment extends Fragment {
+    private static final String NEW_INSTANCE_MEMBER_KEY = "post_key";
+    private static final String DEFAULT_INDEX_KEY = "index_key";
+
     @ViewById(R.id.tabhost)
     TabHost tabhost;
+
+    public static MarketPlaceFragment_ newInstance(Member member, int defaultIndex) {
+        MarketPlaceFragment_ fragment = new MarketPlaceFragment_();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(NEW_INSTANCE_MEMBER_KEY, member);
+        bundle.putSerializable(DEFAULT_INDEX_KEY, defaultIndex);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
