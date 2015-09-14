@@ -32,8 +32,11 @@ import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
+import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.PostService;
+
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 @EFragment(R.layout.fragment_one_profile_market_place)
 public class AllMarketPlaceFragment extends Fragment {
@@ -42,7 +45,7 @@ public class AllMarketPlaceFragment extends Fragment {
     List<Post> postsList = new ArrayList<Post>();
     ListViewMarketAdapter adapter;
     LayoutInflater inflater;
-    static int from = 0;
+    Member currentUser;
 
     @ViewById(R.id.marketProfileProgress)
     ProgressBar membersProgress;
@@ -83,7 +86,7 @@ public class AllMarketPlaceFragment extends Fragment {
         spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
+        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         if(GlobalVariables.notifiyedByPost) {
             Post notifiedPost = new Post();
@@ -112,7 +115,7 @@ public class AllMarketPlaceFragment extends Fragment {
             }
         }
 
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
+        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
     }
 
@@ -131,7 +134,7 @@ public class AllMarketPlaceFragment extends Fragment {
 
             }
         }
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
+        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
     }
 
@@ -141,6 +144,7 @@ public class AllMarketPlaceFragment extends Fragment {
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token","").replace("\"","");
+        currentUser = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
         PostsAdapter.lastClickedPosts = new ArrayList<Integer>();
 

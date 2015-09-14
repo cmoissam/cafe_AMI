@@ -41,16 +41,16 @@ public class PostsAdapter {
     String accessToken;
     LinearLayout llList;
     LayoutInflater inflater;
-    SharedPreferences preferences;
     Member currentUser;
     public static List<Integer> lastClickedPosts = new ArrayList<Integer>();
 
-    public PostsAdapter(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken) {
+    public PostsAdapter(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken, Member currentUser) {
         this.context = fragment;
         this.postList = postList;
         this.accessToken = accessToken;
         this.llList = llList;
         this.inflater = inflater;
+        this.currentUser = currentUser;
     }
 
     public void makeList() {
@@ -146,8 +146,7 @@ public class PostsAdapter {
             });
 
             ImageView deletePost = (ImageView)childView.findViewById(R.id.deletePost);
-            preferences = context.getActivity().getSharedPreferences("CurrentUser", context.getActivity().MODE_PRIVATE);
-            currentUser = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
             if(postList.get(i).member.id == currentUser.id) {
                 deletePost.setVisibility(View.VISIBLE);
             }

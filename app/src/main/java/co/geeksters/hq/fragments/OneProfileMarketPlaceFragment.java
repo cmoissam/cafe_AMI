@@ -64,6 +64,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     List<Post> postsList = new ArrayList<Post>();
     ListViewMarketAdapter adapter;
     LayoutInflater inflater;
+    Member currentUser;
     static int from = 0;
 
     @ViewById(R.id.progressBar)
@@ -114,7 +115,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
         spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
+        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
         else                  emptySearch.setVisibility(View.GONE);
@@ -130,7 +131,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
             }
         }
 
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
+        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
         else                  emptySearch.setVisibility(View.GONE);
@@ -169,7 +170,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
 
 //            PostsAdapter.lastClickedPosts = new ArrayList<Integer>();
 
-            PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken);
+            PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
             adapter.makeList();
           }
     }
@@ -179,6 +180,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
         BaseApplication.register(this);
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        currentUser = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
         accessToken = preferences.getString("access_token","").replace("\"","");
 
         PostsAdapter.lastClickedPosts = new ArrayList<Integer>();
