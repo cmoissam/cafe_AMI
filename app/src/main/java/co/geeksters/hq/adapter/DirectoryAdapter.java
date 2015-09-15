@@ -2,6 +2,7 @@ package co.geeksters.hq.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -36,13 +37,11 @@ public class DirectoryAdapter extends BaseAdapter {
 
     private FragmentActivity activity;
     private List<Member> memberList = new ArrayList<Member>();
-    private ListView listViewMembers;
     private static LayoutInflater inflater = null;
 
     public DirectoryAdapter(FragmentActivity activity, List<Member> memberList, ListView listViewMembers) {
         this.activity = activity;
         this.memberList = memberList;
-        this.listViewMembers = listViewMembers;
 
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -69,6 +68,11 @@ public class DirectoryAdapter extends BaseAdapter {
         TextView distance = (TextView) view.findViewById(R.id.distance);
         ImageView picture = (ImageView) view.findViewById(R.id.picture);
 
+        Typeface typeFace=Typeface.createFromAsset(activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        fullName.setTypeface(typeFace);
+        hubName.setTypeface(typeFace);
+        distance.setTypeface(typeFace);
+
         fullName.setText(GeneralHelpers.firstToUpper(memberList.get(position).fullName));
         if(memberList.get(position).hub != null && !memberList.get(position).hub.name.equals(""))
             hubName.setText(GeneralHelpers.firstToUpper(memberList.get(position).hub.name));
@@ -81,7 +85,6 @@ public class DirectoryAdapter extends BaseAdapter {
             distance.setText("");
 
         ViewHelpers.setImageViewBackgroundFromURL(activity, picture, memberList.get(position).image);
-
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

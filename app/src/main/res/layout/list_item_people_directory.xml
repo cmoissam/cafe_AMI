@@ -8,20 +8,29 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="4dp"
         android:id="@+id/personalInformation">
 
         <ImageView
-            android:id="@+id/picture"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/border"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:background="@drawable/border"
-            android:src="@drawable/no_image_member"
+            android:background="@drawable/left_colour_01"
             android:focusable="false"
             android:focusableInTouchMode="false"/>
 
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/pictureprofile_small_28x28"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -46,15 +55,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/hubInformation"
                 android:layout_marginTop="4dp">
-
-                <ImageView
-                    android:id="@+id/hubImage"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="left"
-                    android:src="@drawable/home"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"/>
 
                 <TextView
                     android:id="@+id/hubName"
