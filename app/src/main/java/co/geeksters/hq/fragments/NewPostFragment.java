@@ -88,7 +88,7 @@ public class NewPostFragment extends Fragment {
 
     @Subscribe
     public void onPostNotCreate(ConnectionFailureEvent event) {
-
+        GlobalVariables.MENU_POSITION = 10;
         ViewHelpers.showPopup(getActivity(), "Warning", "You cannot create your post, try later please");
     }
 
