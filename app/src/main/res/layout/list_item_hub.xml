@@ -2,61 +2,80 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/hubItem"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="4dp">
-    
-        <!-- Single ListItem -->
+        android:layout_height="match_parent"
+        android:id="@+id/personalInformation">
+
+        <ImageView
+            android:id="@+id/border"
+            android:layout_width="10dp"
+            android:layout_height="85dp"
+            android:layout_gravity="left"
+            android:background="@drawable/left_colour_01"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/picture"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/hubs_empty"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="2dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:background="#dcdddf">
+            </LinearLayout>
+
         <LinearLayout
             android:id="@+id/hubInformation"
             android:orientation="vertical"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/hubName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/full_name"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:focusable="false"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                android:textColor="#64979a"/>
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp">
-
-                <ImageView
-                    android:id="@+id/membersImage"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="left"
-                    android:src="@drawable/no_image_member"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"/>
 
                 <TextView
                     android:id="@+id/membersNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hub_name"
-                    android:ems="10"
+                    android:hint="number of members"
+                    android:textStyle="bold"
+                    android:textColor="#cbcccf"
                     android:layout_weight="1"
-                    android:textSize="16dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginTop="3dp"
+                    android:textSize="15dp"
+                    android:layout_marginTop="2dp"
                     android:focusable="false"
                     android:focusableInTouchMode="false"/>
             </LinearLayout>
@@ -66,15 +85,15 @@
         <LinearLayout
             android:id="@+id/removeItem"
             android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:visibility="gone"
-            android:layout_weight="0.3">
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:visibility="invisible">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/delete"/>
+                android:background="@drawable/marketplace_delete"/>
 
         </LinearLayout>
 

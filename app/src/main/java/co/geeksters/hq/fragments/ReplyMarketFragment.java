@@ -148,8 +148,8 @@ public class ReplyMarketFragment extends Fragment {
             TextView commentTextView = (TextView) childViewComment.findViewById(R.id.comment);
             commentTextView.setText(commentList.get(i).text);
 
-            TextView date = (TextView) childViewComment.findViewById(R.id.date);
-            date.setText(commentList.get(i).createdAt);
+            //TextView date = (TextView) childViewComment.findViewById(R.id.date);
+            //date.setText(commentList.get(i).createdAt);
 
             ImageView picture = (ImageView) childViewComment.findViewById(R.id.picture);
 

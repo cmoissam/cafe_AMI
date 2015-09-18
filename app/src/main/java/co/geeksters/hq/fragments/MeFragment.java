@@ -118,9 +118,6 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.meScrollView)
     ScrollView meScrollView;
 
-    @ViewById(R.id.logoutProgress)
-    ProgressBar logoutProgress;
-
     @ViewById(R.id.contact)
     TextView contact;
 
@@ -309,7 +306,7 @@ public class MeFragment extends Fragment {
 
     @Click(R.id.saveButton)
     public void save() {
-        showProgress(true, getActivity(), meScrollView, logoutProgress);
+        //showProgress(true, getActivity(), meScrollView, logoutProgress);
         // Test internet availability
         if(isInternetAvailable(getActivity())) {
             MemberService memberService = new MemberService(accessToken);
@@ -322,7 +319,7 @@ public class MeFragment extends Fragment {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
         }
 
-        showProgress(false, getActivity(), meScrollView, logoutProgress);
+        //showProgress(false, getActivity(), meScrollView, logoutProgress);
     }
 
     @Subscribe
@@ -349,32 +346,6 @@ public class MeFragment extends Fragment {
 
     }
 
-    @Click(R.id.deleteButton)
-    public void deleteAccount() {
-        showProgress(true, getActivity(), meScrollView, logoutProgress);
-        // Test internet availability
-        if(isInternetAvailable(getActivity())) {
-            MemberService memberService = new MemberService(accessToken);
-            memberService.deleteMember(currentMember.id);
-        } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-        }
-
-        showProgress(false, getActivity(), meScrollView, logoutProgress);
-    }
-
-    @Click(R.id.logoutButton)
-    public void logout(){
-        showProgress(true, getActivity(), meScrollView, logoutProgress);
-        // Test internet availability
-        if(isInternetAvailable(getActivity())) {
-            MemberService memberService = new MemberService(accessToken);
-            memberService.logout();
-        } else {
-            showProgress(false, getActivity(), meScrollView, logoutProgress);
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-        }
-    }
 
     @FocusChange(R.id.bioContent)
     public void scrollToTop(){
@@ -386,35 +357,6 @@ public class MeFragment extends Fragment {
         });
     }
 
-    @Click(R.id.deleteButtonLinkdin)
-    public void deleteLinkdinLink(){
-        deleteTextAndSetHint(linkdin, "linkdin");
-    }
-
-    @Click(R.id.deleteButtonTwitter)
-    public void deleteTwitterLink(){
-        deleteTextAndSetHint(twitter, "twitter");
-    }
-
-    @Click(R.id.deleteButtonFacebook)
-    public void deleteFacebookLink(){
-        deleteTextAndSetHint(facebook, "facebook");
-    }
-
-    @Click(R.id.deleteButtonSkype)
-    public void deleteSkypeLink(){
-        deleteTextAndSetHint(skype, "skype");
-    }
-
-    @Click(R.id.deleteButtonBlog)
-    public void deleteBlogLink(){
-        deleteTextAndSetHint(blog, "blog");
-    }
-
-    @Click(R.id.deleteButtonWebsite)
-    public void deleteWebsiteLink(){
-        deleteTextAndSetHint(website, "website");
-    }
 
     @TextChange(R.id.interest)
     public void setVisibilityAddInterest(){

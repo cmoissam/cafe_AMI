@@ -2,40 +2,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/deleteComment"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_gravity="right"
-        android:layout_marginRight="7dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:visibility="invisible"
-        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+        android:background="@drawable/marketplace_delete" />
     
     <!-- Single ListItem -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-7dp"
-        android:padding="4dp"
+        android:layout_marginLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:id="@+id/personalInformation">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/picture"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:background="@drawable/border"
-            android:src="@drawable/no_image_member"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/pictureprofile_small_28x28"
             android:focusable="false"
             android:focusableInTouchMode="false"/>
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="2dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical"
+            android:background="#dcdddf">
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -51,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
+                android:textColor="#FF548989"
                 android:focusable="false"
                 android:textStyle="bold"
                 android:focusableInTouchMode="false"/>
@@ -60,25 +75,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="#FFBFC0C1"
                 android:textSize="12dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="3dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false"/>
 
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="12dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="3dp"
-                android:focusable="false"
-                android:focusableInTouchMode="false"/>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center_vertical"
+        android:background="#dcdddf">
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -1,51 +1,83 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.MarketPlaceFragment"
-    android:id="@+id/frameLayout">
-
-    <ScrollView android:id="@+id/marketPlaceScrollView" android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:orientation="vertical"
+    android:id="@+id/frameLayout"
+    android:background="#FFEDEDED">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background_01_2208x1242">
+        <RelativeLayout
+            android:id="@+id/one_hub_tabs"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TabHost
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/tabhost"
+            android:layout_height="wrap_content">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+                android:layout_height="80dp"
+                android:background="#FFFFFF"
+                android:alpha="0.7"></LinearLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp">
+                <Button android:id="@+id/all_Button"
+                    android:layout_width="150dp" android:layout_height="match_parent"
+                    android:text="ALL"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:textAlignment="center"
+                    android:background="@drawable/save_task_border"
+                    android:textColor="#fd757575"
+                    />
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TabWidget
-                        android:id="@android:id/tabs"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0"/>
-
-                    <FrameLayout
-                        android:id="@android:id/tabcontent"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="0"/>
-
-                    <FrameLayout
-                        android:id="@+id/realtabcontent"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
+                    android:orientation="horizontal"
+                    android:id="@+id/all_buttonlight"
+                    android:layout_width="70dp"
+                    android:layout_height="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/buttonline_selected_407x9">
                 </LinearLayout>
-
-            </TabHost>
-
-        </LinearLayout>
-
-    </ScrollView>
-
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+                <Button android:id="@+id/me_Button"
+                    android:layout_width="150dp" android:layout_height="60dp"
+                    android:text="ME"
+                    android:textStyle="bold"
+                    android:textSize="16dp"
+                    android:textAlignment="center"
+                    android:background="@drawable/save_task_border"
+                    android:textColor="#fd757575"
+                    />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/me_buttonlight"
+                    android:layout_width="70dp"
+                    android:layout_height="3dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/buttonline_nonselected_407x9">
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+        <FrameLayout
+            android:id="@+id/realtabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </FrameLayout>

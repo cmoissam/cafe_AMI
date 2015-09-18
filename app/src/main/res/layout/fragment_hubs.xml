@@ -1,13 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="co.geeksters.hq.fragments.HubsFragment">
-
-    <!-- Get Members progress -->
-    <ProgressBar android:id="@+id/hubsProgress" style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" android:visibility="gone"
-        android:layout_gravity="center_vertical" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/hubsSearchForm"
@@ -15,50 +8,51 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border">
+            android:layout_height="110dp"
+            android:background="@drawable/directory_searchback_1242x364">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="find hub by city"
+                android:textSize="18dp"
+                android:textColor="#FFFFFF"
+                android:id="@+id/find_by_city_or_name" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="45dp"
                 android:layout_gravity="left"
-                android:background="@android:drawable/ic_search_category_default"/>
+                android:background="@drawable/directory_search_125x125"/>
 
+            <!-- Editext for Search -->
             <!-- Editext for Search -->
             <EditText android:id="@+id/inputSearch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="40dp"
                 android:inputType="textPersonName"
-                android:hint="@string/search_hubs"
-                android:ems="10"
-                android:layout_weight="1"
+                android:hint="@string/search_members"
                 android:layout_gravity="left"
+                android:layout_marginRight="10dp"
+                android:background="#FFFFFF"
                 android:padding="12dp"/>
 
-            <ImageView
-                android:id="@+id/clearContent"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="7dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/delete"/>
+        </RelativeLayout>
 
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/search_no_element_found"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search_no_element_found"
-            android:visibility="gone"
-            android:gravity="center"
-            android:textSize="18dp"
-            android:layout_marginTop="10dp" />
+            android:layout_height="match_parent">
 
-        <ScrollView android:id="@+id/hubsScrollView" android:layout_width="match_parent"
+            <ScrollView android:id="@+id/hubsScrollView" android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
@@ -70,28 +64,83 @@
                 <ListView
                     android:id="@+id/list_view_hubs"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:dividerHeight="3px"/>
-
-                <!-- Extend Search -->
-                <!--<TextView android:id="@+id/displayAll"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textPersonName"
-                    android:layout_margin="5dp"
-                    android:text="@string/display_all"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/darker_gray"
-                    android:padding="12dp"
-                    android:background="@drawable/border"
-                    android:layout_gravity="center"
-                    android:gravity="center_horizontal" />-->
+                    android:layout_height="match_parent"
+                    android:dividerHeight="10dp"
+                    android:headerDividersEnabled="true"
+                    android:footerDividersEnabled="true"/>
 
             </LinearLayout>
 
         </ScrollView>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/loading"
+                android:background="#FFFFFF"
+                android:visibility="invisible">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_01_2208x1242"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="25dp"
+                        android:orientation="vertical">
+
+                        <pl.droidsonroids.gif.GifImageView
+                            android:id="@+id/loadingGif"
+                            android:layout_width="150dp" android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/loading_menu_02_android"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:id="@+id/empty_search"
+                android:background="#FFFFFF"
+                android:visibility="invisible">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_01_2208x1242"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="25dp"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content" android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="18dp"
+                            android:text="oh! no result found"
+                            android:id="@+id/textView_no_result"
+                            android:textColor="#02115a"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
     </LinearLayout>
 
 </FrameLayout>

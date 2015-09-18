@@ -3,6 +3,7 @@ package co.geeksters.hq.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -73,8 +74,12 @@ public class CommentsAdapter {
             TextView commentTextView = (TextView)childView.findViewById(R.id.comment);
             commentTextView.setText(commentList.get(i).text);
 
-            TextView date = (TextView)childView.findViewById(R.id.date);
-            date.setText(commentList.get(i).createdAt);
+            Typeface typeFace=Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
+            fullNameTextView.setTypeface(typeFace);
+            commentTextView.setTypeface(typeFace);
+
+/*            TextView date = (TextView)childView.findViewById(R.id.date);
+            date.setText(commentList.get(i).createdAt);*/
 
             ImageView picture = (ImageView)childView.findViewById(R.id.picture);
 

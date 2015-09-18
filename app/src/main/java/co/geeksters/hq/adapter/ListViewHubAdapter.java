@@ -3,6 +3,7 @@ package co.geeksters.hq.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -69,6 +70,10 @@ public class ListViewHubAdapter extends BaseAdapter {
         TextView hubMembersNumber = (TextView) view.findViewById(R.id.membersNumber);
         LinearLayout removeItem = (LinearLayout) view.findViewById(R.id.removeItem);
         LinearLayout hubInformation = (LinearLayout) view.findViewById(R.id.hubInformation);
+
+        Typeface typeFace=Typeface.createFromAsset(activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        hubName.setTypeface(typeFace);
+        hubMembersNumber.setTypeface(typeFace);
 
         hubName.setText(GeneralHelpers.firstToUpper(hub.name));
         hubMembersNumber.setText(hub.members.size() + " Members");

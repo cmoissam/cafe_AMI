@@ -1,6 +1,7 @@
 package co.geeksters.hq.fragments;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +25,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,15 +59,21 @@ public class HubsFragment extends Fragment {
     @ViewById(R.id.list_view_hubs)
     ListView listViewHubs;
 
+    @ViewById(R.id.find_by_city_or_name)
+    TextView findByCityOrName;
+
     // Search EditText
     @ViewById(R.id.inputSearch)
     EditText inputSearch;
 
-    @ViewById(R.id.search_no_element_found)
-    TextView emptySearch;
+    @ViewById(R.id.empty_search)
+    LinearLayout emptySearch;
 
-    /*@ViewById(R.id.displayAll)
-    TextView displayAll;*/
+    @ViewById(R.id.textView_no_result)
+    TextView textViewNoResult;
+
+    @ViewById(R.id.loading)
+    LinearLayout loadingLayout;
 
     @Override
     public void onStart() {
@@ -96,6 +104,13 @@ public class HubsFragment extends Fragment {
 
     @AfterViews
     public void listAllHubs(){
+
+        Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+        findByCityOrName.setTypeface(typeFace);
+        inputSearch.setTypeface(typeFace);
+        textViewNoResult.setTypeface(typeFace);
+
+        loadingLayout.setVisibility(View.VISIBLE);
         listAllHubsService();
     }
 
@@ -115,13 +130,11 @@ public class HubsFragment extends Fragment {
 
             }
         }
+        loadingLayout.setVisibility(View.INVISIBLE);
         hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, eventHubsList);
 
         adapter = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
         listViewHubs.setAdapter(adapter);
-        //listViewHubs.setItemsCanFocus(false);
-
-        //displayAll.setVisibility(View.VISIBLE);
         ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
     }
 
@@ -186,7 +199,7 @@ public class HubsFragment extends Fragment {
             adapterToSearch.getFilter().filter(inputSearch.getText(), new Filter.FilterListener() {
                 public void onFilterComplete(int count) {
                     if (adapterToSearch.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
-                    else emptySearch.setVisibility(View.GONE);
+                    else emptySearch.setVisibility(View.INVISIBLE);
 
                     // set listView with searched element
                     listViewHubs.setAdapter(adapterToSearch);
@@ -199,7 +212,7 @@ public class HubsFragment extends Fragment {
     @Click(R.id.clearContent)
     public void clearSearchInput() {
         inputSearch.setText("");
-        emptySearch.setVisibility(View.GONE);
+        emptySearch.setVisibility(View.INVISIBLE);
     }
 
     /*@Click(R.id.displayAll)

@@ -67,14 +67,14 @@ public class GlobalVariables {
     public static boolean sessionExpired = false;
     public static boolean replyFromMyMarket = false;
     public static boolean replyToAll = false;
-
+    public static boolean inMyProfileFragment = false;
     // Notifications constants
     public static String PROJECT_NUMBER = "773290153741";
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://192.168.1.114:8000/images/";
-    public static String UrlApi = "http://192.168.1.114:8000/api/v1";
+    public static String UrlApiImage = "http://192.168.1.139:8000/images/";
+    public static String UrlApi = "http://192.168.1.139:8000/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

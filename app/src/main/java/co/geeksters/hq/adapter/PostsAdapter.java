@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -75,6 +76,11 @@ public class PostsAdapter {
             TextView datePost = (TextView) childView.findViewById(R.id.datePost);
             datePost.setText(postList.get(i).createdAt);
 
+            Typeface typeFace=Typeface.createFromAsset(context.getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+            fullName.setTypeface(typeFace);
+            datePost.setTypeface(typeFace);
+            postTextView.setTypeface(typeFace);
+
 //            if(lastClickedPosts.contains(index)) {
 //                GlobalVariables.onClickComment = true;
 //
@@ -120,10 +126,8 @@ public class PostsAdapter {
                         }
 
                         if(GlobalVariables.onClickComment) {
-                            commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
                             commentsLayout.setVisibility(View.GONE);
                         } else {
-                            commentDisplay.setBackgroundColor(Color.parseColor("#eeeeee"));
                             commentsLayout.setVisibility(View.VISIBLE);
                             lastClickedPosts.add(index);
                             CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);

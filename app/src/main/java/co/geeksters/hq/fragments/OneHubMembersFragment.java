@@ -57,18 +57,15 @@ public class OneHubMembersFragment extends Fragment {
     @ViewById(R.id.list_view_members)
     ListView listViewMembers;
 
-    // Search EditText
-    @ViewById(R.id.inputSearch)
-    EditText inputSearch;
-
-    @ViewById(R.id.membersProgress)
-    ProgressBar membersProgress;
 
     @ViewById(R.id.membersSearchForm)
     LinearLayout membersSearchForm;
 
-    @ViewById(R.id.search_no_element_found)
-    TextView emptySearch;
+    @ViewById(R.id.empty_search)
+    LinearLayout emptySearch;
+
+    @ViewById(R.id.loading)
+    LinearLayout loading;
 
     public static OneHubMembersFragment_ newInstance(Hub hub) {
         OneHubMembersFragment_ fragment = new OneHubMembersFragment_();
@@ -96,6 +93,7 @@ public class OneHubMembersFragment extends Fragment {
     @AfterViews
     public void listAllMembersByPagination(){
         listAllMembersOfHubService();
+        loading.setVisibility(View.VISIBLE);
     }
 
     @Subscribe
@@ -116,6 +114,7 @@ public class OneHubMembersFragment extends Fragment {
 //
 //        listViewMembers.setAdapter(adapter);
 //        listViewMembers.setItemsCanFocus(false);
+        loading.setVisibility(View.INVISIBLE);
         GlobalVariables.finderList = false;
         adapter = new HubMembersAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);

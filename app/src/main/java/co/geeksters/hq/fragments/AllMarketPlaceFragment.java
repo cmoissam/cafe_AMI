@@ -47,14 +47,11 @@ public class AllMarketPlaceFragment extends Fragment {
     LayoutInflater inflater;
     Member currentUser;
 
-    @ViewById(R.id.marketProfileProgress)
-    ProgressBar membersProgress;
+    @ViewById(R.id.empty_search)
+    LinearLayout emptySearch;
 
-    @ViewById(R.id.progressBar)
-    ProgressBar spinner;
-
-    @ViewById(R.id.search_no_element_found)
-    TextView emptySearch;
+    @ViewById(R.id.loading)
+    LinearLayout loading;
 
     @ViewById(R.id.postsMarket)
     LinearLayout postsMarket;
@@ -64,9 +61,11 @@ public class AllMarketPlaceFragment extends Fragment {
 
     public void listAllPostService() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            spinner.setVisibility(View.VISIBLE);
+            //spinner.setVisibility(View.VISIBLE);
             PostService postService = new PostService(accessToken);
             postService.listAllPosts();
+            loading.setVisibility(View.VISIBLE);
+
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
@@ -76,14 +75,14 @@ public class AllMarketPlaceFragment extends Fragment {
     @AfterViews
     public void listPostForCurrentMember() {
 
-        myPostsSearchForm.setBackgroundColor(Color.parseColor("#eeeeee"));
+        //myPostsSearchForm.setBackgroundColor(Color.parseColor("#eeeeee"));
 
         listAllPostService();
     }
 
     @Subscribe
     public void onGetListPostsEvent(PostsEvent event) {
-        spinner.setVisibility(View.GONE);
+       // spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         GlobalVariables.replyFromMyMarket = false;
@@ -91,6 +90,11 @@ public class AllMarketPlaceFragment extends Fragment {
 
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
+        loading.setVisibility(View.INVISIBLE);
+        if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
+        else                  emptySearch.setVisibility(View.INVISIBLE);
+
+
         if(GlobalVariables.notifiyedByPost) {
             Post notifiedPost = new Post();
             for (int i = 0; i < event.posts.size(); i++) {
@@ -121,6 +125,10 @@ public class AllMarketPlaceFragment extends Fragment {
 
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
+        loading.setVisibility(View.INVISIBLE);
+        if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
+        else                  emptySearch.setVisibility(View.INVISIBLE);
+
     }
 
 
@@ -140,6 +148,10 @@ public class AllMarketPlaceFragment extends Fragment {
         }
         PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
+        loading.setVisibility(View.INVISIBLE);
+        if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
+        else                  emptySearch.setVisibility(View.INVISIBLE);
+
     }
 
     @Override

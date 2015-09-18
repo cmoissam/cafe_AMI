@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +102,8 @@ public class ViewHelpers {
         final View interestContent = layoutInflater.inflate(R.layout.interest_layout, null);
         final TextView text = (TextView) interestContent.findViewById(R.id.interest);
         text.setText(lastValue);
-
+        Typeface typeFace=Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
+        text.setTypeface(typeFace);
         interestsContent.addView(interestContent);
     }
 

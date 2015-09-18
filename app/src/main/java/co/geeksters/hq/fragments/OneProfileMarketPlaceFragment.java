@@ -37,6 +37,7 @@ import co.geeksters.hq.R;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.adapter.ListViewMarketAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
+import co.geeksters.hq.adapter.PostsAdapterOneProfile;
 import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.MembersEvent;
@@ -67,14 +68,13 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     Member currentUser;
     static int from = 0;
 
-    @ViewById(R.id.progressBar)
-    ProgressBar spinner;
 
-    @ViewById(R.id.marketProfileProgress)
-    ProgressBar membersProgress;
+    @ViewById(R.id.empty_search)
+    LinearLayout emptySearch;
 
-    @ViewById(R.id.search_no_element_found)
-    TextView emptySearch;
+    @ViewById(R.id.loading)
+    LinearLayout loading;
+
 
     @ViewById(R.id.postsMarket)
     LinearLayout postsMarket;
@@ -85,17 +85,19 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     public void listPostForCurrentMemberService() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             if(GlobalVariables.isCurrentMember == true) {
-               spinner.setVisibility(View.VISIBLE);
+              // spinner.setVisibility(View.VISIBLE);
                 PostService postService = new PostService(accessToken);
                 postService.listPostsForMe();
+                loading.setVisibility(View.VISIBLE);
             }
             else{
 
-               spinner.setVisibility(View.VISIBLE);
+               //spinner.setVisibility(View.VISIBLE);
                 SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
                 Member member = Member.createUserFromJson(createJsonElementFromString(preferences.getString("profile_member", "")));
                 PostService postService = new PostService(accessToken);
                 postService.listPostsForMember(member.id);
+                loading.setVisibility(View.VISIBLE);
             }
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
@@ -106,20 +108,21 @@ public class OneProfileMarketPlaceFragment extends Fragment {
     @AfterViews
     public void listPostForCurrentMember() {
 
-        myPostsSearchForm.setBackgroundColor(Color.parseColor("#eeeeee"));
+        //myPostsSearchForm.setBackgroundColor(Color.parseColor("#eeeeee"));
         listPostForCurrentMemberService();
     }
 
     @Subscribe
     public void onGetListPostsEvent(PostsEvent event) {
-        spinner.setVisibility(View.GONE);
+       // spinner.setVisibility(View.GONE);
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         GlobalVariables.replyFromMyMarket = true;
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
+        loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
-        else                  emptySearch.setVisibility(View.GONE);
+        else                  emptySearch.setVisibility(View.INVISIBLE);
 
     }
 
@@ -132,10 +135,11 @@ public class OneProfileMarketPlaceFragment extends Fragment {
             }
         }
 
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
+        loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
-        else                  emptySearch.setVisibility(View.GONE);
+        else                  emptySearch.setVisibility(View.INVISIBLE);
     }
 
 

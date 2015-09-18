@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal"
+        android:weightSum="12">
 
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
         android:background="@drawable/topmenu_list"
         android:layout_marginLeft="10dp"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="10"
         android:layout_height="match_parent"
         android:orientation="vertical">
     <TextView
@@ -24,6 +34,17 @@
         android:layout_marginLeft="-20dp"
         android:textSize="18sp"
         android:textColor="#02115a" />
+    </LinearLayout>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/add_button"
+            android:layout_marginRight="5dp"
+            android:visibility="invisible"
+            android:background="@drawable/topmenu_plus"/>
+
     </LinearLayout>
 
 </LinearLayout>

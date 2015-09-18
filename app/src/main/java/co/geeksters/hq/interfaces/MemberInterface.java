@@ -43,7 +43,7 @@ public interface MemberInterface {
     @POST("/members/{id}")
     void updateMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
                       @Field("email") String email, @Field("hub") String hub, @Field("blurp") String blurp, @Field("social[twitter]") String twitter,
-                      @Field("social[facebook]") String facebook, @Field("social[linkdin]") String linkdin, @Field("social[skype]") String skype,
+                      @Field("social[facebook]") String facebook, @Field("social[linkedin]") String linkdin, @Field("social[skype]") String skype,
                       @Field("social[blog]") String blog, @Field("social[website]") String website, @Field("social[other]") String other,
                       @Field("interests") String interests, @Field("companies") String companies, @Field("latitude") float latitude,
                       @Field("longitude") float longitude, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,

@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class Social implements Serializable {
     public int id;
     public String twitter = "";
-    public String facebook = "";
     public String skype = "";
+    public String facebook = "";
     public String linkedin = "";
     public String blog = "";
     public String website = "";

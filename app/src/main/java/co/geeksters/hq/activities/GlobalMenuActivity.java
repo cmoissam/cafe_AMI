@@ -99,6 +99,8 @@ public class GlobalMenuActivity extends FragmentActivity {
     FrameLayout contentFrame;
     ImageButton menuList;
 
+    ImageButton addButton;
+
     @AfterViews
     public void setPreferences(){
         SharedPreferences preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
@@ -124,6 +126,21 @@ public class GlobalMenuActivity extends FragmentActivity {
 
                     drawerLayout.closeDrawer(drawerList);
                 }
+            }
+        });
+
+        addButton = (ImageButton) getActionBar().getCustomView().findViewById(R.id.add_button);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(GlobalVariables.inMarketPlaceFragment)
+                    onAddPostPressed();
+                else if(GlobalVariables.inMyTodosFragment)
+                    onAddTodoPressed();
+                else if(GlobalVariables.inRadarFragement)
+                    onRefreshRadarPressed();
+                else if(GlobalVariables.inMyProfileFragment)
+                    onEditProfilePressed();
             }
         });
 
@@ -159,7 +176,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         View header = (View)getLayoutInflater().inflate(R.layout.menu_header,null);
         View footer = (View)getLayoutInflater().inflate(R.layout.menu_footer, null);
-        drawerList.addHeaderView(header,null,false);
+        drawerList.addHeaderView(header, null, false);
         drawerList.addFooterView(footer,null,false);
         MenuAdapter menuAdapter = new MenuAdapter(this,getResources().getStringArray(R.array.menus), drawerList);
         // Setting the adapter on mDrawerList
@@ -561,6 +578,23 @@ public class GlobalMenuActivity extends FragmentActivity {
         fragmentTransaction.commit();
     }
 
+    public void onEditProfilePressed(){
+
+        GlobalVariables.MENU_POSITION = 10;
+        GlobalVariables.isMenuOnPosition = false;
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
+
+        // Committing the transaction
+        fragmentTransaction.commit();
+    }
+
     public void onRefreshRadarPressed(){
 
         BaseApplication.post(new RefreshRadarEvent());
@@ -572,7 +606,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 		mDrawerToggle.syncState();
 	}
 
-	@Override
+	/*@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
@@ -589,24 +623,31 @@ public class GlobalMenuActivity extends FragmentActivity {
         }
 
 		return super.onOptionsItemSelected(item);
-	}
+	}*/
 
 	/** Called whenever we call invalidateOptionsMenu() */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// If the drawer is open, hide action items related to the content view
         boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+        addButton = (ImageButton) getActionBar().getCustomView().findViewById(R.id.add_button);
 
         if(GlobalVariables.inMarketPlaceFragment || GlobalVariables.inMyTodosFragment) {
-            menu.findItem(R.id.action_add).setVisible(!drawerOpen);
+            if(!drawerOpen) addButton.setVisibility(View.VISIBLE);
         }
         else
             if(GlobalVariables.inRadarFragement)
             {
-                menu.findItem(R.id.action_add).setIcon(R.drawable.refresh);
-                menu.findItem(R.id.action_add).setVisible(!drawerOpen);
+                addButton.setBackgroundDrawable(getResources().getDrawable((R.drawable.topmenu_refresh)));
+               if(!drawerOpen) addButton.setVisibility(View.VISIBLE);
             }
-            else menu.findItem(R.id.action_add).setVisible(false);
+            else
+                if(GlobalVariables.inMyProfileFragment)
+                {
+                    addButton.setBackgroundDrawable(getResources().getDrawable((R.drawable.topmenu_pencil)));
+                    if(!drawerOpen) addButton.setVisibility(View.VISIBLE);
+                }
+                else addButton.setVisibility(View.INVISIBLE);
 
         return super.onPrepareOptionsMenu(menu);
 	}
