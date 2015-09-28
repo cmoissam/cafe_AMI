@@ -3,6 +3,7 @@ package co.geeksters.hq.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -14,11 +15,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -84,11 +87,17 @@ public class ReplyMarketFragment extends Fragment {
     @ViewById(R.id.commentsLayout)
     LinearLayout commentsLayout;
 
+    @ViewById(R.id.border)
+    ImageView border;
+
+    @ViewById(R.id.Genral_layout)
+    LinearLayout generalLayout;
+
     @ViewById(R.id.commentNumber)
     TextView commentNumber;
 
     @ViewById(R.id.send)
-    ImageView send;
+    Button send;
 
     // Beans
     LayoutInflater layoutInflater;
@@ -133,7 +142,11 @@ public class ReplyMarketFragment extends Fragment {
     @AfterViews
     public void setCommentList() {
         setCommentsList();
-      }
+        Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+        commentContent.setTypeface(typeFace);
+        commentNumber.setTypeface(typeFace);
+        send.setTypeface(typeFace);
+    }
 
     public void setCommentsList() {
         commentNumber.setText(commentList.size() + " comments");
@@ -148,6 +161,9 @@ public class ReplyMarketFragment extends Fragment {
             TextView commentTextView = (TextView) childViewComment.findViewById(R.id.comment);
             commentTextView.setText(commentList.get(i).text);
 
+            Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+            commentTextView.setTypeface(typeFace);
+            fullNameTextView.setTypeface(typeFace);
             //TextView date = (TextView) childViewComment.findViewById(R.id.date);
             //date.setText(commentList.get(i).createdAt);
 
@@ -178,7 +194,6 @@ public class ReplyMarketFragment extends Fragment {
     public void onGetCommentsEvent(CommentsEventOnReplay event) {
         commentList = new ArrayList<Comment>();
         commentList = event.comments;
-
         commentContent.setText("");
         setCommentsList();
     }

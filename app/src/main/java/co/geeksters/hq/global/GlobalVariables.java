@@ -73,8 +73,8 @@ public class GlobalVariables {
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://192.168.1.139:8000/images/";
-    public static String UrlApi = "http://192.168.1.139:8000/api/v1";
+    public static String UrlApiImage = "http://192.168.1.193:8000/images/";
+    public static String UrlApi = "http://192.168.1.193:8000/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

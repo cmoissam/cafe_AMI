@@ -3,6 +3,7 @@ package co.geeksters.hq.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +13,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
@@ -32,11 +35,13 @@ import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
+import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.MemberService;
 import co.geeksters.hq.services.PostService;
 
 import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
+import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
 import static co.geeksters.hq.models.Hub.getHubsByAlphabeticalOrder;
 
@@ -49,6 +54,14 @@ public class NewPostFragment extends Fragment {
 
     @ViewById(R.id.post_input)
     EditText postInput;
+    @ViewById(R.id.picture)
+    ImageView picture;
+    @ViewById(R.id.fullName)
+    TextView fullname;
+    @ViewById(R.id.datePost)
+    TextView daatePost;
+    @ViewById(R.id.send_button)
+    Button sendButton;
 
     @Click(R.id.send_button)
     public void createPost() {
@@ -123,6 +136,16 @@ public class NewPostFragment extends Fragment {
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", Context.MODE_PRIVATE);
 
         accessToken = preferences.getString("access_token", "").replace("\"", "");
+        Member currentUser = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
+        Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+        ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, currentUser.image);
+        fullname.setText(currentUser.fullName);
+        postInput.setTypeface(typeFace);
+        fullname.setTypeface(typeFace);
+        daatePost.setTypeface(typeFace);
+        sendButton.setTypeface(typeFace);
+
     }
 
     // POUR SUPPRIMER LE BUTTON ADD DU MENU........

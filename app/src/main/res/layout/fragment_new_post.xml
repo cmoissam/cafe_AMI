@@ -1,36 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#FFEDEDED"></LinearLayout>
 
-    <EditText android:id="@+id/post_input"
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="you post here .."
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:ems="10"
-        android:padding="12dp"
-        android:layout_weight="0.35" />
+        android:adjustViewBounds="true"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="127dp"
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="2dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="20dp"
+                        android:gravity="center_vertical"
+                        android:background="#dcdddf">
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginBottom="3dp"
+                        android:gravity="center_vertical"
+                        android:minHeight="?android:attr/listPreferredItemHeight">
+
+                                <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="4dp"
+                            android:paddingTop="3dp"
+                            android:layout_marginTop="20dp"
+                            android:id="@+id/personalInformation">
+
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/picture"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:src="@drawable/pictureprofile_small_28x28"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"/>
+
+                            <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginRight="20dp"
+                                android:gravity="center_vertical">
+
+                                <TextView
+                                    android:id="@+id/fullName"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/full_name"
+                                    android:textSize="16dp"
+                                    android:focusable="false"
+                                    android:focusableInTouchMode="false"
+                                    android:textColor="#FF128B90" />
+
+                                <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/hubInformation"
+                                    android:layout_marginTop="4dp">
+
+                                    <TextView
+                                        android:id="@+id/datePost"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Now"
+                                        android:ems="10"
+                                        android:layout_weight="1"
+                                        android:textSize="16dp"
+                                        android:textColor="#FFBFC0C1"
+                                        android:layout_marginTop="2dp"
+                                        android:focusable="false"
+                                        android:focusableInTouchMode="false"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="4dp">
+
+
+                            <EditText
+                                android:id="@+id/post_input"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:textSize="16dp"
+                                android:hint="add your post"
+                                android:background="#FFFFFF"
+                                android:textColor="#FFBFC0C1"
+                                android:gravity="top"
+                                android:padding="12dp"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="now"
-        android:id="@+id/post_date"
-        android:layout_gravity="right"
-        android:layout_weight="0.04"
-        android:translationZ="0dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        >
 
-    <Button
-        android:layout_width="146dp"
-        android:layout_height="wrap_content"
-        android:text="Send"
-        android:id="@+id/send_button"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.04" />
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="SEND"
+            android:paddingLeft="5dp"
+            android:textColor="#FF02135D"
+            android:textSize="14dp"
+            android:gravity="left|center_vertical"
+            android:background="@drawable/save_task_border"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/replay"
+            android:layout_marginLeft="55dp"
+            android:layout_centerVertical="true"/>
 
-
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/border"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="left"
+        android:background="@drawable/left_color_02"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+    </RelativeLayout>
 </LinearLayout>
+
+
