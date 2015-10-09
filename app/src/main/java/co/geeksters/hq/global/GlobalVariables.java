@@ -1,6 +1,7 @@
 package co.geeksters.hq.global;
 
 import android.graphics.Typeface;
+import android.view.Menu;
 
 import com.facebook.android.Facebook;
 
@@ -17,7 +18,7 @@ public class GlobalVariables {
     // Radar configuration
     public static int MAX_SLICE_NUMBER = 5;
     public static final int MAX_INTERVAL_DISTANCE_FINDER = 1000;
-    public static float RADIUS = (float) 8.0;
+    public static float RADIUS = (float) 6.0;
 
     // Contact configuration
     public static Facebook facebook = new Facebook(Config.FACEBOOK_API_KEY);
@@ -41,6 +42,7 @@ public class GlobalVariables {
     public static boolean hubInformation = false;
     public static boolean hubMember = false;
 
+    public static Menu menu = null;
     public static List<String> emails;
     public static int indexPreference = 0;
     public static List<Member> membersAroundMe = new ArrayList<Member>();
@@ -68,13 +70,20 @@ public class GlobalVariables {
     public static boolean replyFromMyMarket = false;
     public static boolean replyToAll = false;
     public static boolean inMyProfileFragment = false;
+
+    public static Member actualMember = null;
+
+    public static int menuPart = 0;
+    public static int menuDeep = 0;
+
+    public static float d;
     // Notifications constants
     public static String PROJECT_NUMBER = "773290153741";
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://192.168.1.193:8000/images/";
-    public static String UrlApi = "http://192.168.1.193:8000/api/v1";
+    public static String UrlApiImage = "http://192.168.1.126:8000/images/";
+    public static String UrlApi = "http://192.168.1.126:8000/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

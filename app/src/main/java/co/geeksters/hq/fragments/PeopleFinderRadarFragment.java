@@ -52,6 +52,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
+import co.geeksters.hq.events.success.ChangeToListEvent;
 import co.geeksters.hq.events.success.MembersAroundMeEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.RefreshRadarEvent;
@@ -81,10 +83,74 @@ public class PeopleFinderRadarFragment extends Fragment {
     static int radarHeight = 0;
 
     @ViewById(R.id.radarForm)
-    LinearLayout radarForm;
+    RelativeLayout radarForm;
+
+    @ViewById(R.id.radar_form_2km)
+    RelativeLayout radarForm2km;
+
+    @ViewById(R.id.radar_form_4km)
+    RelativeLayout radarForm4km;
+
+    @ViewById(R.id.radar_form_6km)
+    RelativeLayout radarForm6km;
+
+    @ViewById(R.id.loadingGif)
+    LinearLayout loading;
+
+    @ViewById(R.id.turn_location_layout)
+    RelativeLayout turnLocationLayout;
 
     @ViewById(R.id.me)
     ImageView myPosition;
+    @ViewById(R.id.me_turn_location)
+    ImageView meTurnLocation;
+
+    @ViewById(R.id.image_2_1)
+    ImageView image21;
+    @ViewById(R.id.image_2_2)
+    ImageView image22;
+    @ViewById(R.id.image_2_3)
+    ImageView image23;
+    @ViewById(R.id.image_2_4)
+    ImageView image24;
+    @ViewById(R.id.image_2_more)
+    RelativeLayout image2More;
+    @ViewById(R.id.text_2_more)
+    TextView text2More;
+
+
+    @ViewById(R.id.image_4_1)
+    ImageView image41;
+    @ViewById(R.id.image_4_2)
+    ImageView image42;
+    @ViewById(R.id.image_4_3)
+    ImageView image43;
+    @ViewById(R.id.image_4_4)
+    ImageView image44;
+    @ViewById(R.id.image_4_5)
+    ImageView image45;
+    @ViewById(R.id.image_4_more)
+    RelativeLayout image4More;
+    @ViewById(R.id.text_4_more)
+    TextView text4More;
+
+
+
+    @ViewById(R.id.image_6_1)
+    ImageView image61;
+    @ViewById(R.id.image_6_2)
+    ImageView image62;
+    @ViewById(R.id.image_6_3)
+    ImageView image63;
+    @ViewById(R.id.image_6_4)
+    ImageView image64;
+    @ViewById(R.id.image_6_5)
+    ImageView image65;
+    @ViewById(R.id.image_6_more)
+    RelativeLayout image6More;
+    @ViewById(R.id.text_6_more)
+    TextView text6More;
+
 
     @Subscribe
     public void onRefreshRadarEvent(RefreshRadarEvent event){
@@ -95,18 +161,26 @@ public class PeopleFinderRadarFragment extends Fragment {
                 MemberService memberService = new MemberService(accessToken);
                 memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
             } else {
-                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
             }
         }
 
     }
     @AfterViews
     public void checkRadarActivation(){
+
+        ViewHelpers.setImageViewBackgroundFromURL(getActivity(), meTurnLocation, currentMember.image);
+        ViewHelpers.setImageViewBackgroundFromURL(getActivity(), myPosition, currentMember.image);
+
         if(!currentMember.radarVisibility) {
-            radarForm.setVisibility(View.GONE);
+            radarForm.setVisibility(View.INVISIBLE);
+            turnLocationLayout.setVisibility(View.VISIBLE);
+
         }
         else{
             radarForm.setVisibility(View.VISIBLE);
+            turnLocationLayout.setVisibility(View.INVISIBLE);
+            loading.setVisibility(View.VISIBLE);
             listAllMembersAroundMeService();
         }
 
@@ -126,7 +200,8 @@ public class PeopleFinderRadarFragment extends Fragment {
                 MemberService memberService = new MemberService(accessToken);
                 memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
             } else {
-                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
+                loading.setVisibility(View.INVISIBLE);
             }
 
             GlobalVariables.afterViewsRadar = false;
@@ -134,221 +209,368 @@ public class PeopleFinderRadarFragment extends Fragment {
         }
     }
 
-    public void zoomOnRadar(List<Member> membersList) {
-        GeneralHelpers.setSliceNumber();
 
-        List<Integer> sliceIndexList = new ArrayList<Integer>();
-
-        for(int i=0; i<membersList.size(); i++) {
-            sliceIndexList.add(getSliceIndex(membersList.get(i)));
-        }
-
-        int max = 0;
-
-        if(sliceIndexList.size() != 0)
-            max = sliceIndexList.get(0);
-
-        for(int i=0; i<sliceIndexList.size(); i++) {
-            if(sliceIndexList.get(i) > max) {
-                max = sliceIndexList.get(i);
-            }
-        }
-
-        GlobalVariables.MAX_SLICE_NUMBER = max + 1;
-    }
 
     @Subscribe
     public void onGetListMembersAroundMeEvent(MembersAroundMeEvent event) {
+
+
         if (BaseApplication.isRegistered(this))
             BaseApplication.unregister(this);
 
-        radarForm.setVisibility(View.VISIBLE);
-        if(radarWidth==0 && radarHeight==0) {
-            radarWidth = radarForm.getWidth();
-            radarHeight = radarForm.getHeight();
-            //GlobalVariables.getPeopleAroundMe = false;
-        }
+            radarForm.setVisibility(View.VISIBLE);
+        turnLocationLayout.setVisibility(View.INVISIBLE);
 
-        zoomOnRadar(event.members);
+        ViewHelpers.setImageViewBackgroundFromURL(getActivity(), meTurnLocation, currentMember.image);
+        ViewHelpers.setImageViewBackgroundFromURL(getActivity(), myPosition, currentMember.image);
+
         GlobalVariables.membersAroundMe = new ArrayList<Member>();
         GlobalVariables.membersAroundMe.addAll(Member.addMemberAroundMe(event.members));
         membersList.clear();
         membersList = Member.addMemberAroundMe(event.members);
         membersList = Member.orderMembersByDescDistance(membersList);
 
-        final float radius = (radarHeight) / (GlobalVariables.MAX_SLICE_NUMBER + 1);
+        final ArrayList<Member> list0to2 = new ArrayList<Member>();
+        final ArrayList<Member> list2to4 = new ArrayList<Member>();
+        final ArrayList<Member> list4to6 = new ArrayList<Member>();
 
-        ViewGroup.LayoutParams params = myPosition.getLayoutParams();
-        params.width = (int) (2 * radius / 3);
-        params.height = (int) (2 * radius / 3);
-        myPosition.setLayoutParams(params);
-        myPosition.requestLayout();
+        for(int i=0;i<membersList.size();i++) {
 
-        createBitMap(radius);
+            if (membersList.get(i).distance >= 0 && membersList.get(i).distance <= 2) {
+                list0to2.add(membersList.get(i));
+            } else if (membersList.get(i).distance > 2 && membersList.get(i).distance <= 4) {
+                list2to4.add(membersList.get(i));
+            } else if (membersList.get(i).distance > 4 && membersList.get(i).distance <= 6) {
 
-        radarForm.removeAllViews();
-        radarForm.addView(myPosition);
-        for (int i = 0; i < membersList.size(); i++) {
-            int sliceIndex = getSliceIndex(membersList.get(i));
+                list4to6.add(membersList.get(i));
+            }
+        }
 
-            ImageView memberImage = new ImageView(getActivity());
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams((int) (radius / 3), (int) (radius / 3));
-            memberImage.setLayoutParams(layoutParams);
+        //.............................LIST 0 TO 2km.......................................................
 
-            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(i).image);
+           if(list0to2.size()>0)
+           {
+               ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image21, list0to2.get(0).image);
+               image21.setVisibility(View.VISIBLE);
+               image21.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       GlobalVariables.directory = true;
+                       GlobalVariables.isMenuOnPosition = false;
+                       GlobalVariables.MENU_POSITION = 5;
 
-            float angle = 0;
-            float randomX = 0;
-            float randomY = 0;
+                       FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                       Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(0), 0);
+                       fragmentTransaction.replace(R.id.contentFrame, fragment);
+                       fragmentTransaction.commit();
+                   }
+               });
 
-            int count = 0;
-            while (true) {
+           }
+            if(list0to2.size()>1)
+            {
+                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image22, list0to2.get(1).image);
+                image22.setVisibility(View.VISIBLE);
+                image22.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GlobalVariables.directory = true;
+                        GlobalVariables.isMenuOnPosition = false;
+                        GlobalVariables.MENU_POSITION = 5;
 
-                angle = (float) (Math.random() * Math.PI * 2);
-                randomX = (float) (Math.cos(angle) * sliceIndex * radius);
-                randomY = (float) (Math.sin(angle) * sliceIndex * radius);
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(1), 0);
+                        fragmentTransaction.replace(R.id.contentFrame, fragment);
+                        fragmentTransaction.commit();
+                    }
+                });
 
-//                float minExeptLeft = -sliceIndex * radius;
-//                float maxExeptLeft = (1 - sliceIndex) * radius;
-//                float minExeptRight = (sliceIndex - 1) * radius;
-//                float maxExeptRight = sliceIndex * radius;
+            }
+            if(list0to2.size()>2)
+            {
+                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image23, list0to2.get(2).image);
+                image23.setVisibility(View.VISIBLE);
+                image23.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GlobalVariables.directory = true;
+                        GlobalVariables.isMenuOnPosition = false;
+                        GlobalVariables.MENU_POSITION = 5;
 
-                /*float minExeptMyPositionX = -myPosition.getWidth() / 2;
-                float minExeptMyPositionY = -myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
-                float maxExeptMyPositionX = myPosition.getWidth() / 2;
-                float maxExeptMyPositionY = myPosition.getHeight() / 2 + myPosition.getHeight() / 2;
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(2), 0);
+                        fragmentTransaction.replace(R.id.contentFrame, fragment);
+                        fragmentTransaction.commit();
+                    }
+                });
 
-                float w = myPosition.getX();
-                float h = myPosition.getY();
+            }
+            if(list0to2.size()>3)
+            {
+                ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image24, list0to2.get(3).image);
+                image24.setVisibility(View.VISIBLE);
+                image24.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        GlobalVariables.directory = true;
+                        GlobalVariables.isMenuOnPosition = false;
+                        GlobalVariables.MENU_POSITION = 5;
 
-                float ww = radarForm.getX();
-                float hh = radarForm.getY();*/
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(3), 0);
+                        fragmentTransaction.replace(R.id.contentFrame, fragment);
+                        fragmentTransaction.commit();
+                    }
+                });
 
-                /*if (-radarForm.getWidth() / 2 < randomX && randomX < radarForm.getWidth() / 2 && 0 > randomY &&
-                        randomY > myPosition.getHeight() - radarForm.getHeight()) {
-                    if (sliceIndex == 1) {
-                        if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
-                                && randomY < maxExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2))
-                            break;
-                    } else if (!(randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2
-                            && randomY < maxExeptMyPositionY + sliceIndex * radius + myPosition.getWidth() / 2))
-                        break;
-                }*/
+            }
+            if(list0to2.size()>4)
+            {
+                text2More.setText(""+(list0to2.size()-4));
+                image2More.setVisibility(View.VISIBLE);
+                image2More.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        BaseApplication.post(new ChangeToListEvent());
+                    }
+                });
 
-                /*if(sliceIndex == 1) {
-                    if (randomX > minExeptMyPositionX && randomX < maxExeptMyPositionX && randomY > minExeptMyPositionY && randomY < maxExeptMyPositionY)
-                        break;
-                }
-                else {
-
-                }*/
-
-                if (0 < randomX && randomX < radarForm.getWidth() && myPosition.getHeight()/2 - radarForm.getHeight() < randomY && randomY < 0) {
-                    count = 0;
-                    break;
-                } else {
-                    count += 1;
-                }
-
-                if(count == 10) {
-                    count = 0;
-                    break;
-                }
             }
 
-            memberImage.setX(randomX);
-            memberImage.setY(randomY + radius);
 
-            final int index = i;
-            memberImage.setOnClickListener(new View.OnClickListener() {
+        //.............................LIST 2 TO 4km.......................................................
+
+        if(list2to4.size()>0)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image41, list2to4.get(0).image);
+            image41.setVisibility(View.VISIBLE);
+            image41.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(index), 0);
+                    Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(0), 0);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
             });
 
-            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), memberImage, membersList.get(index).image);
+        }
+        if(list2to4.size()>1)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image42, list2to4.get(1).image);
+            image42.setVisibility(View.VISIBLE);
+            image42.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
 
-            radarForm.addView(memberImage, 0);
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(1), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
 
-            if (i == membersList.size() - 1)
-                setBitmap = false;
+        }
+        if(list2to4.size()>2)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image43, list2to4.get(2).image);
+            image43.setVisibility(View.VISIBLE);
+            image43.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(2), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+        if(list2to4.size()>3)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image44, list2to4.get(3).image);
+            image44.setVisibility(View.VISIBLE);
+            image44.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(3), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+
+        if(list2to4.size()>4)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image45, list2to4.get(4).image);
+            image45.setVisibility(View.VISIBLE);
+            image45.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(4), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+        if(list2to4.size()>5)
+        {
+            text4More.setText(""+(list2to4.size()-5));
+            image4More.setVisibility(View.VISIBLE);
+            image4More.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BaseApplication.post(new ChangeToListEvent());
+                }
+            });
+
+        }
+
+
+
+        //.............................LIST 4 TO 6km.......................................................
+
+        if(list4to6.size()>0)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image61, list4to6.get(0).image);
+            image61.setVisibility(View.VISIBLE);
+            image61.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(0), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+        if(list4to6.size()>1)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image62, list4to6.get(1).image);
+            image62.setVisibility(View.VISIBLE);
+            image62.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(1), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+        if(list4to6.size()>2)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image63, list4to6.get(2).image);
+            image63.setVisibility(View.VISIBLE);
+            image63.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(2), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+        if(list4to6.size()>3)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image64, list4to6.get(3).image);
+            image64.setVisibility(View.VISIBLE);
+            image64.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(3), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+
+        if(list4to6.size()>4)
+        {
+            ViewHelpers.setImageViewBackgroundFromURL(getActivity(), image65, list4to6.get(4).image);
+            image65.setVisibility(View.VISIBLE);
+            image65.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GlobalVariables.directory = true;
+                    GlobalVariables.isMenuOnPosition = false;
+                    GlobalVariables.MENU_POSITION = 5;
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(4), 0);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
+
+        }
+        if(list4to6.size()>5)
+        {
+            text6More.setText(""+(list2to4.size()-5));
+            image6More.setVisibility(View.VISIBLE);
+            image6More.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BaseApplication.post(new ChangeToListEvent());
+                }
+            });
+
         }
 
         GlobalVariables.radarLock = true;
 
+        loading.setVisibility(View.INVISIBLE);
+
         BaseApplication.register(this);
     }
 
-    private void createBitMap(final float radius) {
-        if (GeneralHelpers.isInternetAvailable(getActivity())) {
-            if (bitMap != null) {
-                bitMap.recycle();
-                bitMap = null;
-            }
-
-            bitMap = Bitmap.createBitmap(radarWidth, radarHeight, Bitmap.Config.ARGB_8888);
-        }
-
-        // bitMap = bitMap.copy(bitMap.getConfig(), true);
-        // Construct a canvas with the specified bitmap to draw into
-        final Canvas canvas = new Canvas(bitMap);
-        // Create a new paint with default settings.
-        final Paint paint = new Paint();
-
-        // smooths out the edges of what is being drawn
-        paint.setAntiAlias(true);
-        // set color
-        paint.setColor(Color.BLACK);
-        // set style
-        paint.setStyle(Paint.Style.STROKE);
-        // set stroke
-        paint.setStrokeWidth(1.0f);
-
-        // prepare a paint
-        /*mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(5);
-        mPaint.setAntiAlias(true);
-
-        // draw a rectangle
-        mPaint.setColor(Color.BLUE);
-        mPaint.setStyle(Paint.Style.FILL); //fill the background with blue color
-        canvas.drawRect(0+10, 0+10, width-10, height-10, mPaint);*/
 
 
-        // modify Slice number depending on max index slice
-
-        final ViewTreeObserver vto = myPosition.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ViewHelpers.drawRadarSlice(myPosition, radius, canvas, paint);
-            }
-        });
-
-        BitmapDrawable ob = new BitmapDrawable(getActivity().getResources(), bitMap);
-        //radarForm.setBackgroundDrawable(null);
-        radarForm.setBackgroundDrawable(ob);
-    }
-
-    public int getSliceIndex(Member memberArroundMe) {
-        int j = GlobalVariables.MAX_SLICE_NUMBER;
-        int sliceIndex = 0;
-
-        while(j > 0 && memberArroundMe.distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * j) {
-            if(memberArroundMe.distance >= (j - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER &&
-                    memberArroundMe.distance <= j * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) {
-                sliceIndex = j;
-                break;
-            }
-            j -= 1;
-        }
-
-        return sliceIndex;
-    }
 
     @Click(R.id.me)
     public void seeMyProfile() {
@@ -366,15 +588,6 @@ public class PeopleFinderRadarFragment extends Fragment {
         accessToken = preferences.getString("access_token","").replace("\"", "");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
         return null;
-//        if(!isAdded()) {
-//            View view = inflater.inflate(R.layout.fragment_people_finder, container, false);
-//            return view;
-//        }
-//        else {
-//            return null;
-//        }
-
-
     }
 
     @Override

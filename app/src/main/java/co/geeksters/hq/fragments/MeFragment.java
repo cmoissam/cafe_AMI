@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -63,6 +64,7 @@ import java.util.List;
 import java.util.Map;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.failure.InvalidFileFailureEvent;
 import co.geeksters.hq.events.success.EmptyEvent;
@@ -183,8 +185,19 @@ public class MeFragment extends Fragment {
 
         GlobalVariables.MENU_POSITION = 6;
         layoutInflater = inflater;
+        GlobalVariables.menuPart = 6;
+        GlobalVariables.menuDeep = 1;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
 
         return null;
+    }
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_me_fragment));
     }
 
     @Override
@@ -210,7 +223,7 @@ public class MeFragment extends Fragment {
             hubService.listAllHubs();
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -246,9 +259,9 @@ public class MeFragment extends Fragment {
             interest.setText("");
         }
 
-        interest.setText(currentMember.returnNameForNullInterestsValue(0));
+        //interest.setText(currentMember.returnNameForNullInterestsValue(0));
 
-        for(int i = 1; i < currentMember.interests.size(); i++)
+        for(int i = 0; i < currentMember.interests.size(); i++)
             createViewInterestToEdit(getActivity(), layoutInflater, interestsContent, currentMember.interests.get(i).name);
 
         if(currentMember.radarVisibility)
@@ -282,7 +295,7 @@ public class MeFragment extends Fragment {
     @Subscribe
     public void onInvalidFileUploadEvent(InvalidFileFailureEvent event) {
 
-        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.alert_invalid_file));
+        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.alert_invalid_file),true);
 
     }
 
@@ -316,7 +329,7 @@ public class MeFragment extends Fragment {
             //GlobalVariables.isMenuOnPosition = true;
             //GlobalVariables.MENU_POSITION = 5;
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
 
         //showProgress(false, getActivity(), meScrollView, logoutProgress);
@@ -411,7 +424,6 @@ public class MeFragment extends Fragment {
 
         member.interests = new ArrayList<Interest>();
 
-        if(!((EditText) (interestsContent.getChildAt(0)).findViewById(R.id.interest)).getText().toString().equals("")) {
             for (int i = 0; i < interestsContent.getChildCount(); i++) {
                 Interest interest = new Interest();
 
@@ -422,7 +434,6 @@ public class MeFragment extends Fragment {
 
                 member.interests.add(interest);
             }
-        }
         member.radarVisibility = checkBoxRadarVisibility.isChecked();
         member.notifyByEmailOnComment = checkBoxEmailComment.isChecked();
         member.notifyByEmailOnTodo = checkBoxEmailTodo.isChecked();

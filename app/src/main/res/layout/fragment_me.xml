@@ -45,7 +45,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
                     android:visibility="visible"
-                    android:src="@drawable/me_camera"
+                    android:src="@drawable/me_camera_nonselected_android"
                     android:focusable="false"
                     app:border_width="3dp"
                     app:border_color="#FFFFFF"
@@ -168,7 +168,7 @@
                     android:layout_width="match_parent"
                     android:textColor="#FFFFFF"
                     android:layout_height="wrap_content"
-                    android:text="short bio"
+                    android:text="bio"
                     android:textSize="20dp"
                     android:layout_marginTop="10dp"/>
 
@@ -188,7 +188,7 @@
                     android:id="@+id/contact"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="contact"
+                    android:text="contact me"
                     android:textSize="20dp"
                     android:textColor="#FFFFFF"
                     android:layout_marginTop="10dp"/>
@@ -381,7 +381,7 @@
                     android:id="@+id/interests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/interests_title"
+                    android:text="interests"
                     android:textColor="#FFFFFF"
                     android:textSize="20dp"
                     android:layout_marginTop="10dp"/>
@@ -391,49 +391,35 @@
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <LinearLayout
                         android:id="@+id/interestContent"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp">
+                        android:layout_marginBottom="10dp"
+                        android:background="#FFFFFF">
 
-                        <!--<EditText
-                            android:id="@+id/interest"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textPersonName"
-                            android:hint="@string/interest_name"
-                            android:ems="10"
-                            android:layout_weight="1"
-                            android:layout_gravity="left"/>-->
 
                         <EditText
                             android:id="@+id/interest"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textPersonName"
+                            android:background="#FFFFFF"
                             android:hint="@string/interest_name"
                             android:ems="10"
                             android:padding="7dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/border"/>
+                            android:layout_weight="1"/>
 
                         <ImageButton
                             android:id="@+id/addButtonInterest"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="5dp"
                             android:layout_gravity="center_vertical"
                             android:focusable="false"
-                            android:background="@drawable/add"/>
-
-                        <!--<ImageButton
-                            android:id="@+id/deleteButtonInterest"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/delete"/>-->
+                            android:background="@drawable/meedit_plus_android"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -453,14 +439,14 @@
                     android:button="@drawable/checkbox_radar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="   Radar visibility"/>
+                    android:text="   Appear on radar"/>
                 <CheckBox
                     android:id="@+id/checkBoxEmailComment"
                     android:layout_marginTop="10dp"
                     android:textColor="#02115a"
                     android:layout_marginLeft="15dp"
                     android:layout_width="match_parent"
-                    android:button="@drawable/checkbox_radar"
+                    android:button="@drawable/checkboxs"
                     android:layout_height="wrap_content"
                     android:text="   Receive email on comment"/>
                 <CheckBox
@@ -470,8 +456,8 @@
                     android:textColor="#02115a"
                     android:layout_marginLeft="15dp"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox_radar"
-                    android:text="   Receive email on todo"/>
+                    android:button="@drawable/checkboxs"
+                    android:text="   Receive email on to-do reminder"/>
                 <CheckBox
                     android:id="@+id/checkBoxPushComment"
                     android:layout_marginLeft="15dp"
@@ -479,7 +465,7 @@
                     android:textColor="#02115a"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox_radar"
+                    android:button="@drawable/checkboxs"
                     android:text="   Receive push notification on comment"/>
                 <CheckBox
                     android:id="@+id/checkBoxPushTodo"
@@ -488,8 +474,8 @@
                     android:textColor="#02115a"
                     android:layout_marginLeft="15dp"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/checkbox_radar"
-                    android:text="   Receive push notification on todo"/>
+                    android:button="@drawable/checkboxs"
+                    android:text="   Receive push notification on to-do reminder"/>
 
             </LinearLayout>
 

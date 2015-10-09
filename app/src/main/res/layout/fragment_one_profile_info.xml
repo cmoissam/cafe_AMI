@@ -17,6 +17,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="80dp"
             android:layout_marginTop="15dp"
             android:background="#FFFFFF">
 
@@ -66,6 +67,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="80dp"
             android:background="#FFFFFF">
 
             <ImageView
@@ -113,6 +115,7 @@
             android:background="#FFFFFF"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
+            android:minHeight="80dp"
             android:layout_height="wrap_content">
 
             <ImageView
@@ -128,7 +131,7 @@
             android:id="@+id/shortBioTitle"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="shortBio"
+            android:text="bio"
             android:textSize="16dp"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"/>
@@ -160,6 +163,7 @@
             android:orientation="horizontal"
             android:background="#FFFFFF"
             android:layout_marginTop="10dp"
+            android:minHeight="80dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -174,7 +178,7 @@
             android:id="@+id/interestsTitle"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/interests_title"
+            android:text="interests"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
             android:textSize="16dp"/>
@@ -189,7 +193,7 @@
                 android:background="#FFE7E7E7"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                android:visibility="invisible"/>
+                android:visibility="visible"/>
 
         <co.geeksters.hq.global.PredicateLayout
             android:id="@+id/interestsContent"

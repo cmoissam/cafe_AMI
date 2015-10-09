@@ -19,6 +19,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +27,7 @@ import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.activities.GlobalMenuActivity_;
 import co.geeksters.hq.activities.RegisterActivity_;
+import co.geeksters.hq.activities.StartActivity_;
 import co.geeksters.hq.fragments.MarketPlaceFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 
@@ -40,6 +42,7 @@ public class GcmIntentService extends IntentService {
     NotificationCompat.Builder builder;
     public String notificationMessage;
     public int notificationPostId;
+    public String notificationMemberName;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -65,6 +68,8 @@ public class GcmIntentService extends IntentService {
             try {
                 JSONObject jsonObj = new JSONObject(jsonData).getJSONObject("data");
                 notificationPostId = jsonObj.getInt("post_id");
+                notificationMemberName = jsonObj.getString("member_name");
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -86,13 +91,14 @@ public class GcmIntentService extends IntentService {
 
         Intent resultIntent = null;
         if(notificationMessage!=null && notificationMessage.equals("You have a new comment on your post")){
-            resultIntent = new Intent(this, GlobalMenuActivity_.class);
+            resultIntent = new Intent(this, StartActivity_.class);
+            notificationMessage = notificationMemberName +" commented your post";
             GlobalVariables.notificationPostId = notificationPostId;
             GlobalVariables.notifiyedByPost = true;
         }
         else{
 
-            resultIntent = new Intent(this, GlobalMenuActivity_.class);
+            resultIntent = new Intent(this, StartActivity_.class);
             GlobalVariables.notifiyedByTodo = true;
 
         }

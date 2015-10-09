@@ -82,7 +82,7 @@ public class MenuAdapter extends BaseAdapter {
         else if(titleList[position].equals("hubs")){titlePicture.setBackgroundResource(R.drawable.menu_hubs_125x125);}
         else if(titleList[position].equals("action items")){titlePicture.setBackgroundResource(R.drawable.menu_action_125x125);}
         else if(titleList[position].equals("opportunities")){titlePicture.setBackgroundResource(R.drawable.menu_opportunities_125x125);}
-        else if(titleList[position].equals("me")){titlePicture.setBackgroundResource(R.drawable.menu_me_125x125);}
+        else if(titleList[position].equals("my profile")){titlePicture.setBackgroundResource(R.drawable.menu_me_125x125);}
 
         /*view.setOnTouchListener(
         new View.OnTouchListener() {

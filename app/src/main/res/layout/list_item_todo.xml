@@ -1,8 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:paddingTop="10dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
+    <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:id="@+id/swipe_layout">
+
+        <!-- Bottom View Start-->
+        <LinearLayout
+            android:background="@drawable/todos_editbackground"
+            android:orientation="horizontal"
+            android:id="@+id/bottom_wrapper"
+            android:layout_width="150dp"
+            android:layout_height="50dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/editTodoLayout"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:background="#FFFFFF"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/editTodo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/todos_pencil" />
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/deleteTodoLayout"
+                android:orientation="vertical"
+                android:background="#FFFFFF"
+                android:layout_gravity="center_vertical"
+                android:padding="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/deleteTodo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/todos_trash" />
+            </LinearLayout>
+
+            </LinearLayout>
+            <!--What you want to show-->
+        </LinearLayout>
+        <!-- Bottom View End-->
+
+        <!-- Surface View Start -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FFFFFF">
+
+        <ImageView
+            android:id="@+id/border"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:background="@drawable/left_color_02"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="2dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:background="#dcdddf">
+        </LinearLayout>
 
     <LinearLayout
         android:orientation="vertical"
@@ -10,90 +99,88 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="3dp"
         android:gravity="center_vertical"
-        android:minHeight="?android:attr/listPreferredItemHeight"
-        android:background="@drawable/border"
-        android:weightSum="1">
+        android:minHeight="?android:attr/listPreferredItemHeight">
 
         <ImageView
-            android:id="@+id/deleteTodo"
+            android:id="@+id/deleteTodo1"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="right"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/editTodo"
+            android:id="@+id/editTodo1"
             android:src="@drawable/edit"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:layout_gravity="center_vertical|right"
             android:layout_weight="0.90" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
         <TextView
             android:id="@+id/todo"
-            android:layout_width="288dp"
+            android:layout_weight="7"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="16dp"
+            android:textColor="#cacbcd"
             android:focusable="false"
             android:focusableInTouchMode="false" />
 
-        <RelativeLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp">
+            android:layout_weight="3"
+            android:text="Date"
+            android:textColor="#FF548989"
+            android:textSize="15dp"
+            android:id="@+id/date_text"/>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/horiz_scroll_view_parent"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+            <HorizontalScrollView
+                android:id="@+id/horiz_scroll_view"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/commentDisplay">
-
-                <ImageView
-                    android:id="@+id/commentImage"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom|left"
-                    android:src="@drawable/member"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:layout_marginTop="3dp" />
-
-                <TextView
-                    android:id="@+id/member_text"
+                android:layout_alignParentTop="true"
+                android:fillViewport="true"
+                android:measureAllChildren="false"
+                android:scrollbars="none" >
+                <LinearLayout
+                    android:id="@+id/memberslist"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="14dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="3dp"
-                    android:text="3 members"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false" />
+                    android:orientation="horizontal" >
 
+                </LinearLayout>
+            </HorizontalScrollView>
 
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Date"
-                android:id="@+id/date_text"
-                android:layout_centerVertical="true"
+            <ImageView
+                android:id="@+id/rows_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
+                android:src="@drawable/todost_arrow_102x107" />
 
         </RelativeLayout>
     </LinearLayout>
+    </LinearLayout>
+
+
+        <!-- Surface View End -->
+    </com.daimajia.swipe.SwipeLayout>
 </LinearLayout>

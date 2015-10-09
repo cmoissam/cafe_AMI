@@ -138,6 +138,7 @@
                                 android:layout_height="match_parent"
                                 android:textSize="16dp"
                                 android:hint="add your post"
+                                android:inputType="textMultiLine"
                                 android:background="#FFFFFF"
                                 android:textColor="#FFBFC0C1"
                                 android:gravity="top"

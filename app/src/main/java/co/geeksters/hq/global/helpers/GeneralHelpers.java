@@ -149,21 +149,39 @@ public class GeneralHelpers {
     }
 
     public static String distanceByInterval(float distance) {
+
         String interval = "";
-        int i = GlobalVariables.MAX_SLICE_NUMBER;
-//        setSliceNumber();
 
-        while(i > 0 && distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * i) {
-            if (distance >= (i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER && distance <= i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) {
-                interval = distanceBetweenValues((i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER, i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER);
+        if(distance>=0 && distance<=2)
+        {
+            interval = "0-2km";
+        }
+        else if(distance>2 && distance<=4)
+        {
+            interval = "2-4km";
+        }
+        else if(distance>4 && distance<=6)
+        {
 
-                break;
-            }
-
-            i -= 1;
+            interval = "4-6km";
         }
 
-        return intervalToKilometer(interval);
+//
+//        String interval = "";
+//        int i = GlobalVariables.MAX_SLICE_NUMBER;
+////        setSliceNumber();
+//
+//        while(i > 0 && distance <= GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER * i) {
+//            if (distance >= (i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER && distance <= i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER) {
+//                interval = distanceBetweenValues((i - 1) * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER, i * GlobalVariables.MAX_INTERVAL_DISTANCE_FINDER);
+//
+//                break;
+//            }
+//
+//            i -= 1;
+//        }
+
+        return interval;
     }
 
     public static int setSliceNumber() {

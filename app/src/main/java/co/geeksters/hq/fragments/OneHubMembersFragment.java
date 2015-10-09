@@ -86,7 +86,7 @@ public class OneHubMembersFragment extends Fragment {
             hubService.getHubMembers(currentHub.id);
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 

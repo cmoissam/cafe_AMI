@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,9 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.ListViewMarketAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
 import co.geeksters.hq.adapter.TodosAdapter;
+import co.geeksters.hq.events.failure.NoTodosFailureEvent;
 import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.DeleteTodosEvent;
@@ -52,17 +55,16 @@ public class MyToDosFragment extends Fragment {
     LayoutInflater inflater;
     Member currentMember;
 
-    @ViewById(R.id.todoProgress)
-    ProgressBar todosProgress;
-
-    @ViewById(R.id.search_no_element_found)
-    TextView emptySearch;
 
     @ViewById(R.id.todoList)
     LinearLayout todoList;
 
-    @ViewById(R.id.progressBar)
-    ProgressBar spinner;
+    @ViewById(R.id.loading)
+    LinearLayout loading;
+
+    @ViewById(R.id.empty_search)
+    LinearLayout emptySearch;
+
 
     @ViewById(R.id.myTodoForm)
     LinearLayout myTodoForm;
@@ -74,13 +76,25 @@ public class MyToDosFragment extends Fragment {
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            spinner.setVisibility(View.VISIBLE);
+            //spinner.setVisibility(View.VISIBLE);
             TodoService todoService = new TodoService(accessToken);
+            loading.setVisibility(View.VISIBLE);
             todoService.listTodosForMember();
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+        GlobalVariables.inMyTodosFragment = true;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_todos_fragment));
+    }
+
 
     @AfterViews
     public void listTodoForCurrentMember() {
@@ -93,20 +107,39 @@ public class MyToDosFragment extends Fragment {
     @Subscribe
     public void onGetListTodosEvent(TodosEvent event) {
 
+        emptySearch.setVisibility(View.INVISIBLE);
         GlobalVariables.notifiyedByTodo = false;
-        spinner.setVisibility(View.GONE);
+        loading.setVisibility(View.INVISIBLE);
+        //spinner.setVisibility(View.GONE);
         todosList = event.todos;
         TodosAdapter adapter = new TodosAdapter(inflater,currentMember, todoList, todosList, accessToken,this);
         adapter.makeList();
+        if (event.todos.isEmpty())
+        {
+            emptySearch.setVisibility(View.VISIBLE);
+        }
     }
 
     @Subscribe
     public void onGetDeletedTodoEvent(DeleteTodosEvent event) {
 
+
+            loading.setVisibility(View.INVISIBLE);
+
             TodoService todoService = new TodoService(accessToken);
             todoService.listTodosForMember();
 
     }
+    @Subscribe
+    public void onGetDeletedTodoEvent(NoTodosFailureEvent event) {
+
+        loading.setVisibility(View.INVISIBLE);
+        emptySearch.setVisibility(View.VISIBLE);
+
+
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,6 +147,9 @@ public class MyToDosFragment extends Fragment {
 
         this.inflater = inflater;
         GlobalVariables.inMyTodosFragment = true;
+        GlobalVariables.menuPart = 4;
+        GlobalVariables.menuDeep = 0;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
 
         return null;
     }
@@ -128,5 +164,7 @@ public class MyToDosFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroyView();
+        GlobalVariables.inMyTodosFragment = false;
+
     }
 }

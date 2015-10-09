@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.adapter.DirectoryAdapter;
+import co.geeksters.hq.adapter.FinderListAdapter;
 import co.geeksters.hq.events.success.MembersAroundMeEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.RefreshRadarEvent;
@@ -47,7 +49,7 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 @EFragment(R.layout.fragment_people_finder_list)
 public class PeopleFinderListFragment extends Fragment {
     // Listview Adapter
-    DirectoryAdapter adapter;
+    FinderListAdapter adapter;
     // ArrayList for Listview
     ArrayList<HashMap<String, String>> members;
     String accessToken;
@@ -60,20 +62,23 @@ public class PeopleFinderListFragment extends Fragment {
     @ViewById(R.id.list_view_members)
     ListView listViewMembers;
 
-    @ViewById(R.id.peopleListProgress)
-    ProgressBar peopleListProgress;
 
     @ViewById(R.id.peopleListForm)
     LinearLayout peopleListForm;
 
-    @ViewById(R.id.search_no_element_found)
-    TextView emptySearch;
+    @ViewById(R.id.empty_search)
+    LinearLayout emptySearch;
+
+    @ViewById(R.id.turn_location_layout)
+    RelativeLayout turnLocationLayout;
 
     @Subscribe
     public void onRefreshRadarEvent(RefreshRadarEvent event){
 
         if (currentMember.radarVisibility) {
             listViewMembers.setVisibility(View.VISIBLE);
+            turnLocationLayout.setVisibility(View.INVISIBLE);
+            emptySearch.setVisibility(View.INVISIBLE);
 
         if(GlobalVariables.listRadarLock) {
           GlobalVariables.listRadarLock = false;
@@ -81,20 +86,24 @@ public class PeopleFinderListFragment extends Fragment {
                 MemberService memberService = new MemberService(accessToken);
                 memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
             } else {
-                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
             }
         }
         } else {
-            listViewMembers.setVisibility(View.GONE);
+            listViewMembers.setVisibility(View.INVISIBLE);
+            turnLocationLayout.setVisibility(View.VISIBLE);
+            emptySearch.setVisibility(View.INVISIBLE);
         }
     }
 
     @AfterViews
     public void checkRadarActivation() {
         if (!currentMember.radarVisibility) {
-            listViewMembers.setVisibility(View.GONE);
+            listViewMembers.setVisibility(View.INVISIBLE);
+            turnLocationLayout.setVisibility(View.VISIBLE);
         } else {
             listViewMembers.setVisibility(View.VISIBLE);
+            turnLocationLayout.setVisibility(View.INVISIBLE);
             displayMembersAroundMeOnList();
         }
     }
@@ -119,14 +128,20 @@ public class PeopleFinderListFragment extends Fragment {
 //                new int[]{R.id.picture, R.id.fullName, R.id.hubName, R.id.distance});
 //        listViewMembers.setAdapter(adapter);
 
-        adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
+        adapter = new FinderListAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
 //        ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
-        if(adapter.isEmpty())
+        if(adapter.isEmpty()) {
             emptySearch.setVisibility(View.VISIBLE);
-        else
-            emptySearch.setVisibility(View.GONE);
+            turnLocationLayout.setVisibility(View.INVISIBLE);
+            listViewMembers.setVisibility(View.INVISIBLE);
+        }
+        else{
+            emptySearch.setVisibility(View.INVISIBLE);
+        turnLocationLayout.setVisibility(View.INVISIBLE);
+        listViewMembers.setVisibility(View.VISIBLE);
+        }
 
         GlobalVariables.listRadarLock = true;
     }

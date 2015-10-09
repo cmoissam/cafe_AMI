@@ -74,6 +74,10 @@ public class CommentsAdapter {
             TextView commentTextView = (TextView)childView.findViewById(R.id.comment);
             commentTextView.setText(commentList.get(i).text);
 
+            LinearLayout bottomLayout = (LinearLayout)childView.findViewById(R.id.bottom_layout);
+            if(i == (commentList.size()-1))
+                bottomLayout.setVisibility(View.GONE);
+
             Typeface typeFace=Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
             fullNameTextView.setTypeface(typeFace);
             commentTextView.setTypeface(typeFace);

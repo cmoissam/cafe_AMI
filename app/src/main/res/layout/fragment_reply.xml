@@ -65,7 +65,7 @@
                         android:id="@+id/commentImage"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_gravity="bottom|left"
                         android:src="@drawable/marketplace_comment_"
                         android:focusable="false"

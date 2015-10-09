@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
+import co.geeksters.hq.activities.GlobalMenuActivity_;
 import co.geeksters.hq.adapter.DirectoryAdapter;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
@@ -84,9 +87,26 @@ public class PeopleDirectoryFragment extends Fragment {
         super.onStart();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
+        GlobalVariables.menuPart=1;
+        GlobalVariables.menuDeep = 0;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
+
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        BaseApplication.register(this);
 
+        return null;
+    }
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_directory_fragment));
+    }
 
     @AfterViews
     public void listViewSetting(){
@@ -170,7 +190,7 @@ public class PeopleDirectoryFragment extends Fragment {
             MemberService memberService = new MemberService(accessToken);
             memberService.listAllMembersByPaginationOrSearch(this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -180,7 +200,7 @@ public class PeopleDirectoryFragment extends Fragment {
             MemberService memberService = new MemberService(accessToken);
             memberService.searchForMembersFromKey(search,this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -211,6 +231,8 @@ public class PeopleDirectoryFragment extends Fragment {
         if(members.size() < GlobalVariables.SEARCH_SIZE){
             noMoreMembers = true;
         }
+        if(event.members.size() == 0)
+            noMoreMembers = true;
 
 
 
@@ -268,9 +290,5 @@ public class PeopleDirectoryFragment extends Fragment {
     }
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        BaseApplication.register(this);
-        return null;
-    }
+
 }

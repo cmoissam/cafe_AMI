@@ -74,10 +74,8 @@
                 android:id="@+id/comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:textColor="#FFBFC0C1"
                 android:textSize="12dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="3dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false"/>
@@ -92,8 +90,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
+        android:id="@+id/bottom_layout"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_height="1dp"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="120dp"

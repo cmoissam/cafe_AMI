@@ -48,7 +48,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
 
         <!-- Google Maps Fragment API Key Data -->
         <meta-data
@@ -72,26 +72,45 @@
         </activity>
 
         <activity
+            android:name="co.geeksters.hq.activities.StartActivity_"
+            android:label="@string/title_activity_login"
+            android:noHistory="true"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowActionBar="false" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
+        <activity
             android:name="co.geeksters.hq.activities.LoginActivity_"
             android:label="@string/title_activity_login"
             android:noHistory="true"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-            <!--<intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="skype" />
-            </intent-filter>-->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+        </activity>
+
+        <activity
+            android:name="co.geeksters.hq.activities.EmailLinkActivity_"
+            android:label="THOUSAND NETWORK"
+            android:noHistory="true"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW"></action>
+            <category android:name="android.intent.category.DEFAULT"></category>
+            <category android:name="android.intent.category.BROWSABLE"></category>
+            <data android:scheme="http" android:host="thousand.network" />
             </intent-filter>
+
         </activity>
 
         <activity
             android:name="co.geeksters.hq.activities.GlobalMenuActivity_"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
+
         </activity>
 
         <activity

@@ -39,13 +39,6 @@
                             android:text="Sorry! coming soon"
                             android:id="@+id/textView_no_result"
                             android:textColor="#02115a"/>
-
-                        <pl.droidsonroids.gif.GifImageView
-                            android:id="@+id/loadingGif"
-                            android:layout_width="100dp" android:layout_height="30dp"
-                            android:layout_gravity="center_horizontal"
-                            android:background="@drawable/loading_menu_02_android"
-                            />
                     </LinearLayout>
 
                 </LinearLayout>

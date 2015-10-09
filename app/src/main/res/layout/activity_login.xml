@@ -115,7 +115,7 @@
 
                         <Button android:id="@+id/forgotPasswordButton" style="?android:textAppearanceSmall"
                             android:layout_width="150dp" android:layout_height="50dp"
-                            android:text="@string/action_forgot_password"
+                            android:text="Doh! Password"
                             android:textStyle="bold"
                             android:textSize="16dp"
                             android:textAlignment="center"

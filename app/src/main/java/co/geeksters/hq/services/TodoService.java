@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
+import co.geeksters.hq.events.failure.NoTodosFailureEvent;
 import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.CreateTodoEvent;
 import co.geeksters.hq.events.success.DeleteTodosEvent;
@@ -51,6 +52,9 @@ public class TodoService {
                     if (error.getResponse().getStatus() == 401) {
                         BaseApplication.post(new UnauthorizedFailureEvent());
                     }
+                    if (error.getResponse().getStatus() == 404) {
+                        BaseApplication.post(new NoTodosFailureEvent());
+                    }
                 }
                 else
                     BaseApplication.post(new ConnectionFailureEvent());
@@ -87,9 +91,9 @@ public class TodoService {
         });
     }
 
-    public void updateTodo(int todo_id, String text, List<Member> associated_members, Integer remind_me_at) {
+    public void updateTodo(Todo todo) {
 
-        this.api.updateTodo(todo_id, text, associated_members, remind_me_at, new Callback<JsonElement>() {
+        this.api.updateTodo(todo.id,todo.text , Todo.arrayToString(todo.members),todo.remindMeAt,token,"put", new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

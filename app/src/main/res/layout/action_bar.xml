@@ -47,7 +47,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginRight="10dp"
             android:visibility="invisible"
-            android:background="@drawable/topmenu_plus"/>
+            android:background="@drawable/topmenu_refresh"/>
 
     </LinearLayout>
 

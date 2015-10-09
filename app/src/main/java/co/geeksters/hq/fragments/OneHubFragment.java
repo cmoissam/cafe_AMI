@@ -34,6 +34,8 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.DummyTabContent;
+import co.geeksters.hq.activities.GlobalMenuActivity;
+import co.geeksters.hq.activities.GlobalMenuActivity_;
 import co.geeksters.hq.adapter.AmbassadorsAdapter;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
@@ -53,8 +55,7 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 @EFragment(R.layout.fragment_one_hub)
 public class OneHubFragment extends Fragment {
 
-    @ViewById(R.id.tabhost)
-    TabHost tabhost;
+
 
     @ViewById(R.id.pager)
     ViewPager viewPager;
@@ -131,11 +132,21 @@ public class OneHubFragment extends Fragment {
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-        accessToken = preferences.getString("access_token","").replace("\"","");
-
+        accessToken = preferences.getString("access_token","").replace("\"", "");
+        GlobalVariables.menuDeep = 1;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
         BaseApplication.register(this);
-
         return null;
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+        ((GlobalMenuActivity)getActivity()).setActionBarTitle("HUB");
     }
 
     public void listAllAmbassadorsOfHubService() {
@@ -144,7 +155,7 @@ public class OneHubFragment extends Fragment {
             hubService.getHubAmbassadors(hubToDisplay.id);
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 

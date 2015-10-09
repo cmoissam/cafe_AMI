@@ -7,10 +7,12 @@
         android:id="@+id/myPostsSearchForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#FFEDEDED">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="#FFEDEDED">
 
             <ScrollView android:id="@+id/marketProfileScrollView" android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -24,22 +26,10 @@
                         android:id="@+id/postsMarket"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginBottom="20dp">
+                        android:orientation="vertical">
 
                     </LinearLayout>
 
-                    <!--                <View
-                                        android:layout_width="fill_parent"
-                                        android:layout_height="1dp"
-                                        android:background="@android:color/darker_gray"/>-->
-
-                    <!--<LinearLayout-->
-                    <!--android:id="@+id/commentsMarket"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical" >-->
-                    <!--</LinearLayout>-->
 
                 </LinearLayout>
 

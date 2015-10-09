@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/infoImage"
+                android:background="@drawable/popup_info"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:textAlignment="center"
+                android:id="@+id/infoTitle"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:textColor="#FFBFC0C1"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="New Text"
+            android:textAlignment="center"
+            android:textColor="#FFBFC0C1"
+            android:padding="10dp"
+            android:textSize="18dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:id="@+id/infoText"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="vertical"
+                android:background="@drawable/popup_buttonback">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/cancelImage"
+                    android:background="@drawable/me_chek_active_android"
+                    android:layout_gravity="center_vertical"/>
+
+                </LinearLayout>
+
+                </LinearLayout>
+
+        </LinearLayout>
+
+
+
+</LinearLayout>

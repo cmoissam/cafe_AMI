@@ -139,7 +139,7 @@ public class OneProfileInfoFragment extends Fragment {
             memberService.logout();
         } else {
             //showProgress(false, getActivity(), meScrollView, logoutProgress);
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 }

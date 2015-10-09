@@ -25,8 +25,9 @@ public interface TodoInterface {
     //void createTodo(@Path("id") int user_id, String text, List<User> associated_members, Integer remind_me_at, Callback<JsonElement> callback);
     void createTodo(@Field("text") String text, @Field("members_id") String associated_members, @Field("remind_me_at") String remind_me_at, @Field("access_token") String token, Callback<JsonElement> callback);
 
-    @POST("/todos/{id}")
-    void updateTodo(@Path("id") int todo_id, String text, List<Member> associated_members, Integer remind_me_at, Callback<JsonElement> callback);
+    @FormUrlEncoded
+    @POST("/members/todos/{id}")
+    void updateTodo(@Path("id") int todo_id,@Field("text") String text, @Field("members_id") String associated_members, @Field("remind_me_at") String remind_me_at, @Field("access_token") String token, @Field("_method") String method, Callback<JsonElement> callback);
 
     @FormUrlEncoded
     @POST("/members/todos/{id}")

@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.CommentsAdapter;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.success.CommentEvent;
@@ -132,12 +134,36 @@ public class ReplyMarketFragment extends Fragment {
         layoutInflater = inflater;
         BaseApplication.register(this);
 
+        if(GlobalVariables.menuPart == 1)
+            GlobalVariables.menuDeep = 2;
+        if(GlobalVariables.menuPart == 2)
+            GlobalVariables.menuDeep = 2;
+        if(GlobalVariables.menuPart == 3)
+            GlobalVariables.menuDeep = 3;
+        if(GlobalVariables.menuPart == 5)
+            GlobalVariables.menuDeep = 1;
+        if(GlobalVariables.menuPart == 6)
+            GlobalVariables.menuDeep = 1;
+        if(GlobalVariables.menuPart == 4)
+            GlobalVariables.menuDeep = 2;
+
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token","").replace("\"","");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
 
         return null;
     }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_market_place));
+    }
+
 
     @AfterViews
     public void setCommentList() {
@@ -187,6 +213,7 @@ public class ReplyMarketFragment extends Fragment {
 
             CommentService commentService = new CommentService(accessToken);
             commentService.commentPost(postId, comment, currentMember);
+            commentContent.setText("");
         }
     }
 
@@ -194,7 +221,6 @@ public class ReplyMarketFragment extends Fragment {
     public void onGetCommentsEvent(CommentsEventOnReplay event) {
         commentList = new ArrayList<Comment>();
         commentList = event.comments;
-        commentContent.setText("");
         setCommentsList();
     }
 }

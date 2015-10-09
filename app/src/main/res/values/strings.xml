@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HQ</string>
+    <string name="app_name">Tousand Network</string>
     <string name="action_settings">Settings</string>
 
     <string-array name="menus">
@@ -10,12 +10,14 @@
         <item>hubs</item>
         <item>action items</item>
         <item>opportunities</item>
-        <item>me</item>
+        <item>my profile</item>
     </string-array>
-    <string name="title_directory_fragment">Directory</string>
-    <string name="title_me_fragment">Profile</string>
-    <string name="title_todos_fragment">To Do\'s</string>
-    <string name="title_find_fragment">Find People</string>
+    <string name="title_directory_fragment">MEET THE FAMILY</string>
+    <string name="title_me_fragment">MY PROFILE</string>
+    <string name="title_todos_fragment">ACTION ITEMS</string>
+    <string name="title_find_fragment">WHO\'S AROUND ?</string>
+    <string name="title_market_place">OPPORTUNITIES</string>
+    <string name="title_hubs">HUBS</string>
 
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
@@ -55,7 +57,7 @@
     <string name="action_delete_account">Delete Account</string>
     <string name="action_send_mail_title">Send email</string>
     <string name="action_send_mail_object">HQ Contact</string>
-    <string name="search_members">Search...</string>
+    <string name="search_members">Search member by name or hub ...</string>
     <string name="search_hubs">Search hubs ...</string>
     <string name="display_more">Display more results</string>
     <string name="display_all">Display all results</string>

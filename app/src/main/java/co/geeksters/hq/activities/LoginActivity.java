@@ -108,17 +108,11 @@ public class LoginActivity extends Activity {
 
         if(GlobalVariables.sessionExpired)
         {
-            ViewHelpers.showPopup(this, "Info", "Your session is expired !!");
+            ViewHelpers.showPopup(this, "oh! sorry", "session expired",true);
             GlobalVariables.sessionExpired = false;
 
         }
-        else {
-            if (!accessToken.equals("")) {
-                Member currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-                MemberService memberService = new MemberService(accessToken);
-                memberService.updateMember(currentMember.id, currentMember);
-            }
-        }
+
     }
 
     @AfterViews
@@ -136,7 +130,6 @@ public class LoginActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        getActionBar().hide();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
     }
@@ -202,65 +195,13 @@ public class LoginActivity extends Activity {
                 ConnectService connectService = new ConnectService();
                 connectService.login("password", 1, "pioner911", emailContent, passwordContent, "basic");
             } else {
-                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
             }
         }
     }
     }
 
-    /*@Click(R.id.emailSignInButton)
-    public void attemptLogin() {
-        // Reset errors.
-        emailSignInButton.setBackgroundColor(Color.parseColor("#89c4c7"));
 
-        email.setError(null);
-        password.setError(null);
-
-        // Store values at the time of the login attempt.
-        String emailContent = email.getText().toString();
-        String passwordContent = password.getText().toString();
-
-        boolean login = false;
-        View focusView = null;
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(emailContent)) {
-            email.setError(getString(R.string.error_field_required));
-            focusView = email;
-        } else if (!GeneralHelpers.isEmailValid(emailContent)) {
-            email.setError(getString(R.string.error_invalid_email));
-            focusView = email;
-        }
-
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(passwordContent)) {
-            password.setError(getString(R.string.error_field_required));
-            focusView = password;
-        } else if (!GeneralHelpers.isPasswordValid(passwordContent)) {
-            password.setError(getString(R.string.error_invalid_password));
-            focusView = password;
-        }
-
-        if(GeneralHelpers.isEmailValid(emailContent) && GeneralHelpers.isPasswordValid(passwordContent))
-            login = true;
-
-        if (!login) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            // Test internet availability
-            if(GeneralHelpers.isInternetAvailable(this)) {
-                loadingGif.setVisibility(View.VISIBLE);
-                ConnectService connectService = new ConnectService();
-                connectService.login("password", 1, "pioner911", emailContent, passwordContent, "basic");
-            } else {
-                ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-            }
-        }
-    }*/
 
     @Subscribe
     public void onLoginEvent(LoginEvent event) {
@@ -271,19 +212,12 @@ public class LoginActivity extends Activity {
 
         registerInBackground(event.member, event.accessToken.replace("\"", ""));
 
-        //        if(GeneralHelpers.isInternetAvailable(this)) {
-//            MemberService memberService = new MemberService(event.accessToken.replace("\"",""));
-//            memberService.getMemberInfo(780);
-//        } else {
-//            ViewHelpers.showProgress(false, this, loginForm, loginProgress);
-//            ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
-//        }
     }
 
     public void sendRegistrationIdToBackend(Member member, String accessToken){
 
         MemberService memberService = new MemberService(accessToken);
-        memberService.updateMember(member.id,member);
+        memberService.updateMember(member.id, member);
 
     }
 
@@ -325,30 +259,7 @@ public class LoginActivity extends Activity {
         }.execute(null, null, null);
     }
 
-    @Subscribe
-    public void onUpdateEvent(SaveMemberEvent event){
-        loadingGif.setVisibility(View.INVISIBLE);
-        Intent intent = new Intent(this, GlobalMenuActivity_.class);
-        finish();
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
 
-//    @Subscribe
-//    public void onGetCurrentMemberEvent(SaveMemberEvent event) {
-//        // save the current Member
-//        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(event.member));
-//        editor.commit();
-//
-//        Intent intent = new Intent(this, GlobalMenuActivity_.class);
-//        finish();
-//        overridePendingTransition(0, 0);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-//
-//        ViewHelpers.showProgress(false, this, loginForm, loginProgress);
-//    }
 
     @Subscribe
     public void onLoginFailureEvent(LoginFailureEvent event) {
@@ -364,7 +275,6 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(this, RegisterActivity_.class);
             startActivity(intent);
             finish();
-            overridePendingTransition(0, 0);
         }
     }
 
@@ -377,8 +287,16 @@ public class LoginActivity extends Activity {
             Intent intent = new Intent(this, ForgotPasswordActivity_.class);
             startActivity(intent);
             finish();
-            overridePendingTransition(0, 0);
         }
+    }
+
+    @Subscribe
+    public void onUpdateEvent(SaveMemberEvent event){
+        loadingGif.setVisibility(View.INVISIBLE);
+        Intent intent = new Intent(this, GlobalMenuActivity_.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     @Override

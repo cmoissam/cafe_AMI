@@ -3,6 +3,7 @@ package co.geeksters.hq.global.helpers;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,21 +84,80 @@ public class ViewHelpers {
         fiels.setHint(hint);
     }
 
-    public static void showPopup(Context context, String title, String message) {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-        builder1.setTitle(title);
-        builder1.setMessage(message);
-        builder1.setCancelable(false);
-        builder1.setNeutralButton(android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
 
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+    public static void showPopup(Activity context, String title, String message,Boolean Error) {
+
+        LayoutInflater inflater = context.getLayoutInflater();
+        final View dialoglayout = inflater.inflate(R.layout.pop_up, null);
+        TextView infoTitle = (TextView) dialoglayout.findViewById(R.id.infoTitle);
+        TextView infotext = (TextView) dialoglayout.findViewById(R.id.infoText);
+        ImageView infoimage = (ImageView) dialoglayout.findViewById(R.id.infoImage);
+        ImageView  cacelImage = (ImageView)dialoglayout.findViewById(R.id.cancelImage);
+
+        Typeface typeFace=Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
+        infoTitle.setTypeface(null,typeFace.BOLD);
+        infotext.setTypeface(typeFace);
+
+        if(Error){
+            infoimage.setBackgroundResource(R.drawable.popup_alert);
+        }
+
+        infoTitle.setText(title);
+        infotext.setText(message);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(dialoglayout);
+        builder.setCancelable(true);
+        final AlertDialog ald =builder.show();
+        ald.setCancelable(true);
+
+        cacelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ald.dismiss();
+            }
+        });
     }
+
+    public static void showExitPopup(final Activity context) {
+
+        LayoutInflater inflater = context.getLayoutInflater();
+        final View dialoglayout = inflater.inflate(R.layout.exit_pop_up, null);
+        TextView infoTitle = (TextView) dialoglayout.findViewById(R.id.infoTitle);
+        TextView infotext = (TextView) dialoglayout.findViewById(R.id.infoText);
+        ImageView infoimage = (ImageView) dialoglayout.findViewById(R.id.infoImage);
+        Button cacelImage = (Button)dialoglayout.findViewById(R.id.cancel_image);
+        Button quitImage = (Button)dialoglayout.findViewById(R.id.quite_image);
+
+        Typeface typeFace=Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
+        infoTitle.setTypeface(null,typeFace.BOLD);
+        infotext.setTypeface(null, typeFace.BOLD);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(dialoglayout);
+        builder.setCancelable(true);
+        final AlertDialog ald =builder.show();
+        ald.setCancelable(true);
+
+        cacelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ald.dismiss();
+            }
+        });
+        quitImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ald.dismiss();
+                context.finish();
+                System.exit(0);
+            }
+        });
+
+
+    }
+
+
 
     public static void createViewInterest(final Context context, LayoutInflater layoutInflater, final PredicateLayout interestsContent, String lastValue) {
         final View interestContent = layoutInflater.inflate(R.layout.interest_layout, null);

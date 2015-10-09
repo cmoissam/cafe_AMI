@@ -1,38 +1,119 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.geeksters.hq.fragments.PeopleFinderListFragment">
+    tools:context="co.geeksters.hq.fragments.PeopleFinderListFragment"
+    android:background="#FFEDEDED">
 
-    <!-- Get Members progress -->
-    <ProgressBar android:id="@+id/peopleListProgress" style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp" android:visibility="gone"
-        android:layout_gravity="center_vertical" />
-
-    <LinearLayout
-        android:id="@+id/peopleListForm"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/search_no_element_found"
+        <LinearLayout
+            android:id="@+id/peopleListForm"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search_no_element_found"
-            android:visibility="gone"
-            android:gravity="center"
-            android:textSize="18dp"
-            android:layout_marginTop="10dp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-        <!-- List View -->
-        <ListView
-            android:id="@+id/list_view_members"
+            <!-- List View -->
+            <ListView
+                android:id="@+id/list_view_members"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:dividerHeight="3px"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:dividerHeight="3px"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/turn_location_layout"
+            android:background="#FFEDEDED"
+            android:visibility="invisible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_horizontal">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="30dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/radar_location_blue_android"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content" android:layout_height="50dp"
+                            android:layout_gravity="center_horizontal"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="18dp"
+                            android:text="turn location on for search"
+                            android:id="@+id/text_view_turn_location"
+                            android:textColor="#02115a"/>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/empty_search"
+            android:background="#FFFFFF"
+            android:visibility="invisible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_01_2208x1242"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="25dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content" android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:textSize="18dp"
+                        android:text="oh! no result found"
+                        android:id="@+id/textView_no_result"
+                        android:textColor="#02115a"/>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
 
 </FrameLayout>

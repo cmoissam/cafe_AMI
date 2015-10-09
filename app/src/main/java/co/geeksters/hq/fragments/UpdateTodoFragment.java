@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,17 +34,23 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.TodoAdapter;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.CreateTodoEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
+import co.geeksters.hq.events.success.UpdateTodoEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -66,10 +74,16 @@ public class UpdateTodoFragment extends DialogFragment{
     public int month;
     public int year;
 
-
+    public int currentTodoId;
     public Calendar c;
     public int hour;
     public int minute;
+
+    public boolean onRefresh = false;
+    public boolean noMoreMembers = false;
+
+    public View footer;
+
 
     @ViewById(R.id.interest)
     EditText interest;
@@ -90,12 +104,25 @@ public class UpdateTodoFragment extends DialogFragment{
     @ViewById(R.id.todo_input)
     EditText todoInput;
 
+    @ViewById(R.id.empty_search)
+    LinearLayout emptySearch;
+
+    @ViewById(R.id.loading)
+    LinearLayout loading;
+
+    @ViewById(R.id.find_by_city_or_name)
+    TextView findByCityOrName;
+
+    @ViewById(R.id.textView_no_result)
+    TextView textViewNoResult;
+
     SharedPreferences preferences;
     Member currentMember;
     private static final String NEW_INSTANCE_TODO_KEY = "todo_key";
 
     public static UpdateTodoFragment_ newInstance(Todo todo) {
         UpdateTodoFragment_ fragment= new UpdateTodoFragment_();
+
         Bundle bundle = new Bundle();
         bundle.putSerializable(NEW_INSTANCE_TODO_KEY, todo);
         fragment.setArguments(bundle);
@@ -112,8 +139,23 @@ public class UpdateTodoFragment extends DialogFragment{
         if(getArguments() != null) {
             Todo todo = (Todo) getArguments().getSerializable(NEW_INSTANCE_TODO_KEY);
             concernedMembers.addAll(todo.members);
+            currentTodoId = todo.id;
             todoInput.setText(todo.text);
-            String[] splitDate = todo.remindMeAt.split(" ");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = new Date();
+            try {
+                date = format.parse(todo.remindMeAt);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+            SimpleDateFormat formatToShow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            formatToShow.setTimeZone(tz);
+
+            String[] splitDate = formatToShow.format(date).split(" ");
             dateText.setText(splitDate[0]);
             timeText.setText(splitDate[1]);
 
@@ -138,27 +180,39 @@ public class UpdateTodoFragment extends DialogFragment{
     @ViewById(R.id.inputSearch)
     EditText inputSearch;
 
-    @ViewById(R.id.membersProgress)
-    ProgressBar membersProgress;
-
-    @ViewById(R.id.membersSearchForm)
-    LinearLayout membersSearchForm;
-
-    @ViewById(R.id.search_no_element_found)
-    TextView emptySearch;
-
-    @ViewById(R.id.displayAll)
-    TextView displayAll;
+//    @ViewById(R.id.membersProgress)
+//    ProgressBar membersProgress;
+//
+//    @ViewById(R.id.membersSearchForm)
+//    LinearLayout membersSearchForm;
+//
+//    @ViewById(R.id.search_no_element_found)
+//    TextView emptySearch;
+//
+//    @ViewById(R.id.displayAll)
+//    TextView displayAll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         getActivity().invalidateOptionsMenu();
+        getActivity().getActionBar().setTitle("To do");
         BaseApplication.register(this);
         layoutInflater = inflater;
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+        GlobalVariables.menuDeep = 1;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
         return null;
+    }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_todos_fragment));
     }
 
     @Click(R.id.save_button)
@@ -167,19 +221,32 @@ public class UpdateTodoFragment extends DialogFragment{
         hide_keyboard(getActivity());
 
         if (todoInput.getText().toString().length() < 3) {
-            ViewHelpers.showPopup(getActivity(), "Info", "The todo should contain more then 3 caracters");
+            ViewHelpers.showPopup(getActivity(), "info", getResources().getString(R.string.todo_error), false);
 
         } else {
 
             Todo todoToSave = new Todo();
 
             todoToSave.memberId = currentMember.id;
-            todoToSave.remindMeAt = dateText.getText().toString()+" "+timeText.getText().toString();
+            String dateWithTimeZone = dateText.getText().toString()+" "+timeText.getText().toString();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            try {
+                date = format.parse(dateWithTimeZone);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+            todoToSave.remindMeAt = sdf.format(date);
             todoToSave.members.addAll(adapter.concernedMembers);
             todoToSave.text = todoInput.getText().toString();
+            todoToSave.id = currentTodoId;
 
             TodoService todoService = new TodoService(accessToken);
-            todoService.createTodo(todoToSave);
+            todoService.updateTodo(todoToSave);
         }
 
     }
@@ -252,7 +319,7 @@ public class UpdateTodoFragment extends DialogFragment{
     }
 
     @Subscribe
-    public void onTodoCreate(CreateTodoEvent event) {
+    public void onTodoUpdate(UpdateTodoEvent event) {
 
 
         // Getting reference to the FragmentManager
@@ -268,9 +335,9 @@ public class UpdateTodoFragment extends DialogFragment{
     }
 
     @Subscribe
-    public void onTodoNotCreate(ConnectionFailureEvent event) {
+    public void onTodoNotUpdate(ConnectionFailureEvent event) {
 
-        ViewHelpers.showPopup(getActivity(), "Warning", "You cannot create your todo, try later please");
+        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
     }
 
 
@@ -303,7 +370,7 @@ public class UpdateTodoFragment extends DialogFragment{
                 memberService.listAllMembersByPaginationOrSearch(this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
             } else {
                 //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
             }
         }
 
@@ -311,22 +378,26 @@ public class UpdateTodoFragment extends DialogFragment{
             if(GeneralHelpers.isInternetAvailable(getActivity())) {
 
                 MemberService memberService = new MemberService(accessToken);
-                memberService.searchForMembersFromKey(search,this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
+                memberService.searchForMembersFromKey(search, this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
             } else {
                 //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
             }
         }
 
         @AfterViews
         public void listAllMembersByPagination(){
             listAllMembersByPaginationService();
+            listViewMembers.setVisibility(View.INVISIBLE);
+            loading.setVisibility(View.VISIBLE);
         }
 
         @Subscribe
         public void onGetListMembersByPaginationEvent(MembersEvent event) {
             this.from += GlobalVariables.SEARCH_SIZE;
 
+            loading.setVisibility(View.INVISIBLE);
+            listViewMembers.setVisibility(View.VISIBLE);
 
             membersList.addAll(event.members);
 
@@ -338,15 +409,19 @@ public class UpdateTodoFragment extends DialogFragment{
 
             ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
-            if(members.size() < GlobalVariables.SEARCH_SIZE)
-                displayAll.setVisibility(View.GONE);
-            else
-                displayAll.setVisibility(View.VISIBLE);
-
-            if(adapter.isEmpty())
+            if(adapter.isEmpty()) {
                 emptySearch.setVisibility(View.VISIBLE);
+            }
             else
-                emptySearch.setVisibility(View.GONE);
+                emptySearch.setVisibility(View.INVISIBLE);
+
+            onRefresh = false;
+
+            if(members.size() < GlobalVariables.SEARCH_SIZE){
+                noMoreMembers = true;
+            }
+            if(event.members.size() == 0)
+                noMoreMembers = true;
         }
 
         @AfterViews
@@ -360,10 +435,16 @@ public class UpdateTodoFragment extends DialogFragment{
             from = 0;
             membersList = new ArrayList<Member>();
             members = new ArrayList<HashMap<String, String>>();
-            if(!inputSearch.getText().toString().isEmpty())
+            if(!inputSearch.getText().toString().isEmpty()){
+
                 searchForMembersByPaginationService(inputSearch.getText().toString());
+                loading.setVisibility(View.VISIBLE);
+                listViewMembers.setVisibility(View.INVISIBLE);
+            }
             else {
                 listAllMembersByPaginationService();
+                loading.setVisibility(View.VISIBLE);
+                listViewMembers.setVisibility(View.INVISIBLE);
             }
 
         }
@@ -373,39 +454,84 @@ public class UpdateTodoFragment extends DialogFragment{
 
             this.from += GlobalVariables.SEARCH_SIZE;
 
+            loading.setVisibility(View.INVISIBLE);
+            listViewMembers.setVisibility(View.VISIBLE);
             membersList.addAll(event.members);
 
             adapter = new TodoAdapter(getActivity(), membersList, listViewMembers,concernedMembers);
             listViewMembers.setAdapter(adapter);
             ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
+
             if(adapter.isEmpty()) {
                 emptySearch.setVisibility(View.VISIBLE);
             }
             else
-                emptySearch.setVisibility(View.GONE);
+                emptySearch.setVisibility(View.INVISIBLE);
+            onRefresh = false;
 
-            if(event.members.size() < GlobalVariables.SEARCH_SIZE)
-                displayAll.setVisibility(View.GONE);
-            else
-                displayAll.setVisibility(View.VISIBLE);
-
-            if(event.members.size() == 0)
-                displayAll.setVisibility(View.GONE);
-        }
-
-        @Click(R.id.clearContent)
-        public void clearSearchInput() {
-            inputSearch.setText("");
-        }
-
-        @Click(R.id.displayAll)
-        public void displayAllMembers() {
-            if(!inputSearch.getText().toString().isEmpty())
-                searchForMembersByPaginationService(inputSearch.getText().toString());
-            else {
-                listAllMembersByPaginationService();
+            if(members.size() < GlobalVariables.SEARCH_SIZE){
+                noMoreMembers = true;
             }
+            if(event.members.size() == 0)
+                noMoreMembers = true;
+
         }
+    @AfterViews
+    public void listViewSetting(){
+
+        Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+        findByCityOrName.setTypeface(typeFace);
+        inputSearch.setTypeface(typeFace);
+        textViewNoResult.setTypeface(typeFace);
+
+        footer = getActivity().getLayoutInflater().inflate(R.layout.refresh_list_view, null);
+
+        listViewMembers.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int currentVisibleItemCount;
+            private int currentScrollState;
+            private int currentFirstVisibleItem;
+            private int totalItem;
+
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                this.currentScrollState = scrollState;
+                this.isScrollCompleted();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+                this.currentFirstVisibleItem = firstVisibleItem;
+                this.currentVisibleItemCount = visibleItemCount;
+                this.totalItem = totalItemCount;
+
+
+            }
+
+            private void isScrollCompleted() {
+                if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                        && this.currentScrollState == SCROLL_STATE_IDLE) {
+
+                    if (!onRefresh) {
+                        if (!noMoreMembers) {
+                            onRefresh = true;
+                            if (!inputSearch.getText().toString().isEmpty())
+                                searchForMembersByPaginationService(inputSearch.getText().toString());
+
+                            else {
+                                listAllMembersByPaginationService();
+                            }
+                            listViewMembers.addFooterView(footer, null, false);
+                        }
+                    }
+                }
+            }
+        });
+
+
+    }
 
 }

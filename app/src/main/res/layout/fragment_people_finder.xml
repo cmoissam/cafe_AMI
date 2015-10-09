@@ -4,50 +4,120 @@
     android:id="@+id/frameLayout">
 
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TabHost
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/tabhost"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:background="#FFEDEDED">
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="5">
-                    <TabWidget
-                        android:id="@android:id/tabs"
-                        android:layout_width="0dp"
-                        android:layout_weight="3.5"
-                        android:layout_height="wrap_content" />
+                    android:weightSum="5"
+                    android:background="#FFDDE6E9">
 
-                    <Switch
-                        android:id="@+id/switchRadarActivation"
+                    <RelativeLayout
+                        android:id="@+id/one_hub_tabs"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_weight="3.7"
                         android:layout_width="0dp"
-                        android:layout_weight="1.5"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="10">
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="10dp">
+
+                            <Button android:id="@+id/radar_Button"
+                                android:layout_width="120dp" android:layout_height="45dp"
+                                android:text="RADAR"
+                                android:textStyle="bold"
+                                android:textSize="16dp"
+                                android:textAlignment="center"
+                                android:background="@drawable/save_task_border"
+                                android:textColor="#fd757575"
+                                />
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:id="@+id/radar_buttonlight"
+                                android:layout_width="70dp"
+                                android:layout_height="3dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="5dp"
+                                android:background="@drawable/buttonline_selected_407x9">
+                            </LinearLayout>
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="45dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_alignParentRight="true">
+
+                            <Button android:id="@+id/list_Button"
+                                android:layout_width="120dp" android:layout_height="45dp"
+                                android:text="LIST"
+                                android:textStyle="bold"
+                                android:textSize="16dp"
+                                android:textAlignment="center"
+                                android:background="@drawable/save_task_border"
+                                android:textColor="#fd757575"
+                                />
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:id="@+id/list_buttonlight"
+                                android:layout_width="70dp"
+                                android:layout_height="3dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginBottom="5dp"
+                                android:background="@drawable/buttonline_nonselected_407x9">
+                            </LinearLayout>
+                        </RelativeLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_switch"
+                        android:layout_width="0dp"
+                        android:layout_weight="1.3"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_gravity="center_vertical"
-                        android:textOff="OFF"
-                        android:textOn="ON"
-                        android:textSize="11dp" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/radar_no_activate"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/radar_lcation_nonactivated_android"
+                            />
+                        <ImageView
+                            android:id="@+id/radar_activate"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/button_4_pattern"
+                            />
+                    </LinearLayout>
+
                 </LinearLayout>
+                    </LinearLayout>
 
-
-
-                    <FrameLayout
-                        android:id="@android:id/tabcontent"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="0"/>
 
                     <FrameLayout
                         android:id="@+id/realtabcontent"
@@ -59,9 +129,6 @@
 
                 </LinearLayout>
 
-            </TabHost>
-
-        </LinearLayout>
 
 
 </FrameLayout>

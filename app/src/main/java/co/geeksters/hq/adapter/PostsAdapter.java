@@ -17,10 +17,15 @@ import android.widget.TextView;
 
 import org.androidannotations.annotations.Click;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
@@ -74,36 +79,25 @@ public class PostsAdapter {
             TextView fullName = (TextView) childView.findViewById(R.id.fullName);
             fullName.setText(postList.get(i).member.fullName);
             TextView datePost = (TextView) childView.findViewById(R.id.datePost);
-            datePost.setText(postList.get(i).createdAt);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date date = new Date();
+            try {
+                date = format.parse(postList.get(i).createdAt);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+            SimpleDateFormat formatToShow = new SimpleDateFormat("EEEE d MMMM HH:mm");
+            formatToShow.setTimeZone(tz);
+            datePost.setText(formatToShow.format(date));
 
             Typeface typeFace=Typeface.createFromAsset(context.getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
             fullName.setTypeface(typeFace);
             datePost.setTypeface(typeFace);
             postTextView.setTypeface(typeFace);
-
-//            if(lastClickedPosts.contains(index)) {
-//                GlobalVariables.onClickComment = true;
-//
-//                for(int j=0; j<lastClickedPosts.size(); j++) {
-//                    if(lastClickedPosts.get(j) == index) {
-//                        lastClickedPosts.remove(j);
-//                        break;
-//                    }
-//                }
-//            } else {
-//                GlobalVariables.onClickComment = false;
-//            }
-//
-//            if(GlobalVariables.onClickComment) {
-//                commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
-//                commentsLayout.setVisibility(View.GONE);
-//            } else {
-//                commentDisplay.setBackgroundColor(Color.parseColor("#eeeeee"));
-//                commentsLayout.setVisibility(View.VISIBLE);
-//                lastClickedPosts.add(index);
-//                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
-//                adapter.makeList();
-//            }
 
             if(postList.get(i).comments.size() != 0) {
                 TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.fragments.OneHubFragment_;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.global.GlobalVariables;

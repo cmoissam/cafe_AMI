@@ -76,7 +76,6 @@ public class ForgotPasswordActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        getActionBar().hide();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
     }
@@ -130,7 +129,7 @@ public class ForgotPasswordActivity extends Activity {
                     GlobalVariables.emails = generateEmailsListFromString(emails.getText().toString());
                     service.passwordReminder(GlobalVariables.emails);
                 } else {
-                    ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                    ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
                 }
             }
         }
@@ -163,7 +162,7 @@ public class ForgotPasswordActivity extends Activity {
         }
 
         if(reset) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.alert_reset), Toast.LENGTH_LONG).show();
+            ViewHelpers.showPopup(this, "reset success", event.emailsResponse.get(0).email, false);
 
             Intent intent = new Intent(this, LoginActivity_.class);
             startActivity(intent);

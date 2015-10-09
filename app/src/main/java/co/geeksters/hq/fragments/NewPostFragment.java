@@ -26,6 +26,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.HubsEvent;
@@ -69,7 +70,7 @@ public class NewPostFragment extends Fragment {
         hide_keyboard(getActivity());
 
         if (postInput.getText().toString().length() < 3) {
-            ViewHelpers.showPopup(getActivity(), "Info", "The post should contain more then 3 caracters");
+            ViewHelpers.showPopup(getActivity(), "info",getResources().getString(R.string.post_error),false);
 
         } else {
 
@@ -82,6 +83,15 @@ public class NewPostFragment extends Fragment {
             postService.createPost(accessToken, post);
         }
 
+    }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_market_place));
     }
     @Subscribe
     public void onPostCreate(PostEvent event) {
@@ -102,7 +112,7 @@ public class NewPostFragment extends Fragment {
     @Subscribe
     public void onPostNotCreate(ConnectionFailureEvent event) {
         GlobalVariables.MENU_POSITION = 10;
-        ViewHelpers.showPopup(getActivity(), "Warning", "You cannot create your post, try later please");
+        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network),getResources().getString(R.string.no_connection),true);
     }
 
     @Override
@@ -110,8 +120,8 @@ public class NewPostFragment extends Fragment {
         super.onStart();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
-
-        getActivity().invalidateOptionsMenu();
+        GlobalVariables.menuDeep = 1;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
     }
 
     public static void hide_keyboard(Activity activity) {

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class ListViewHubAdapter extends BaseAdapter {
         TextView hubName = (TextView) view.findViewById(R.id.hubName);
         TextView hubMembersNumber = (TextView) view.findViewById(R.id.membersNumber);
         LinearLayout removeItem = (LinearLayout) view.findViewById(R.id.removeItem);
-        LinearLayout hubInformation = (LinearLayout) view.findViewById(R.id.hubInformation);
+        RelativeLayout hubInformation = (RelativeLayout) view.findViewById(R.id.hubInformation);
 
         Typeface typeFace=Typeface.createFromAsset(activity.getAssets(), "fonts/OpenSans-Regular.ttf");
         hubName.setTypeface(typeFace);

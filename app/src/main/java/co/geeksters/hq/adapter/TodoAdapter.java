@@ -71,9 +71,11 @@ public class TodoAdapter extends BaseAdapter {
             if (memberList.get(position).id == concernedMembers.get(i).id)
             {
                 added = true;
-                deleteOrAdd.setBackgroundResource(R.drawable.delete);
+                deleteOrAdd.setBackgroundResource(R.drawable.marketplace_delete);
             }
         }
+        if(!added) deleteOrAdd.setBackgroundResource(R.drawable.meedit_plus_android);
+
 
         fullName.setText(GeneralHelpers.firstToUpper(memberList.get(position).fullName));
         if(memberList.get(position).hub != null && !memberList.get(position).hub.name.equals(""))
@@ -89,11 +91,16 @@ public class TodoAdapter extends BaseAdapter {
             @Override
            public void onClick(View v) {
                if (added) {
-                   deleteOrAdd.setBackgroundResource(R.drawable.add1);
-                   concernedMembers.remove(memberList.get(position));
+                   deleteOrAdd.setBackgroundResource(R.drawable.meedit_plus_android);
+                   for(int i=0;i<concernedMembers.size();i++) {
+                       if (memberList.get(position).id == concernedMembers.get(i).id) {
+                           concernedMembers.remove(i);
+                           break;
+                       }
+                   }
                    added = false;
                } else {
-                   deleteOrAdd.setBackgroundResource(R.drawable.delete);
+                   deleteOrAdd.setBackgroundResource(R.drawable.marketplace_delete);
                    concernedMembers.add(memberList.get(position));
                    added = true;
                }

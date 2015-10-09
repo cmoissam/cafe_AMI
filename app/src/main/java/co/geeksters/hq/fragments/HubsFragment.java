@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -32,9 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.global.BaseApplication;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
@@ -52,6 +55,7 @@ public class HubsFragment extends Fragment {
     String accessToken;
     List<Hub> hubsList = new ArrayList<Hub>();
     List<Hub> lastHubs = new ArrayList<Hub>();
+    ArrayList<Hub> allHubs = new ArrayList<Hub>();
     List<Hub> eventHubsList = new ArrayList<Hub>();
     SharedPreferences.Editor editor;
 
@@ -80,12 +84,25 @@ public class HubsFragment extends Fragment {
         super.onStart();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
+        GlobalVariables.menuPart = 3;
+        GlobalVariables.menuDeep = 0;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         BaseApplication.unregister(this);
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+                ((GlobalMenuActivity) getActivity()).setActionBarTitle("HUBS");
     }
 
     public void listAllHubsService(){
@@ -98,7 +115,7 @@ public class HubsFragment extends Fragment {
             hubService.listAllHubs();
         } else {
             //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -116,6 +133,8 @@ public class HubsFragment extends Fragment {
 
     @Subscribe
     public void onGetListHubsEvent(HubsEvent event) {
+
+        allHubs.addAll(event.hubs);
         lastHubs = Hub.getLastSavedHubs(getActivity(), event.hubs);
         eventHubsList.clear();
         eventHubsList.addAll(getHubsByAlphabeticalOrder(event.hubs));
@@ -183,37 +202,48 @@ public class HubsFragment extends Fragment {
     public void searchForHub() {
         //displayAll.setVisibility(View.GONE);
 
-        hubs = new ArrayList<HashMap<String, String>>();
-        hubs = Hub.hubsInfoForItem(hubs, eventHubsList, 0, eventHubsList.size());
 
-        final SimpleAdapter adapterToSearch = new SimpleAdapter(getActivity().getBaseContext(), hubs, R.layout.list_item_hub,
-                new String[]{"hubName", "membersNumber"},
-                new int[]{R.id.hubName, R.id.membersNumber});
+        ArrayList<Hub> searchingHubs = new ArrayList<Hub>();
+        ArrayList<Hub> orderedSearchinHubs = new ArrayList<Hub>();
+                for (int i = 0; i < allHubs.size(); i++) {
+            String hubname = allHubs.get(i).name;
+            if (hubname != null && hubname.toLowerCase().contains(inputSearch.getText().toString().toLowerCase())) {
+                searchingHubs.add(allHubs.get(i));
+            }
+        }
+
+        orderedSearchinHubs.addAll(getHubsByAlphabeticalOrder(searchingHubs));
+
 
         if(inputSearch.getText().toString().isEmpty()) {
+            lastHubs = Hub.getLastSavedHubs(getActivity(), allHubs);
+            eventHubsList.clear();
+            eventHubsList.addAll(getHubsByAlphabeticalOrder(allHubs));
+            for (int i = 0; i < lastHubs.size(); i++) {
+                for(int j =0;j<eventHubsList.size();j++)
+                {
+                    if(eventHubsList.get(j).id == lastHubs.get(i).id)
+                    {
+                        eventHubsList.remove(j);
+                        break;
+                    }
+
+                }
+            }
+            loadingLayout.setVisibility(View.INVISIBLE);
+            hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, eventHubsList);
+
+            adapter = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
             listViewHubs.setAdapter(adapter);
             ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
 
             //displayAll.setVisibility(View.VISIBLE);
         } else {
-            adapterToSearch.getFilter().filter(inputSearch.getText(), new Filter.FilterListener() {
-                public void onFilterComplete(int count) {
-                    if (adapterToSearch.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
-                    else emptySearch.setVisibility(View.INVISIBLE);
-
-                    // set listView with searched element
-                    listViewHubs.setAdapter(adapterToSearch);
-                    ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
-                }
-            });
+            adapter = new ListViewHubAdapter(getActivity(), orderedSearchinHubs, new ArrayList<Hub>(), listViewHubs);
+            listViewHubs.setAdapter(adapter);
         }
     }
 
-    @Click(R.id.clearContent)
-    public void clearSearchInput() {
-        inputSearch.setText("");
-        emptySearch.setVisibility(View.INVISIBLE);
-    }
 
     /*@Click(R.id.displayAll)
     public void displayAllMembers() {

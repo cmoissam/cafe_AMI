@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.DummyTabContent;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
@@ -133,20 +135,43 @@ public class OneProfileFragment extends Fragment {
             defaultIndex = (Integer) getArguments().getSerializable(DEFAULT_INDEX_KEY);
         }
 
-        if(profileMember == null)
+        if(profileMember == null) {
+            GlobalVariables.inRadarFragement = false;
+            GlobalVariables.inMyProfileFragment = false;
+            GlobalVariables.inMyTodosFragment = false;
+            GlobalVariables.inMarketPlaceFragment = false;
             GlobalVariables.inMyProfileFragment = true;
-
+            ((GlobalMenuActivity) getActivity()).setActionBarTitle("MY PROFILE");
+            GlobalVariables.menuPart = 6;
+            GlobalVariables.menuDeep = 0;
+        }
+        else{
+            GlobalVariables.inRadarFragement = false;
+            GlobalVariables.inMyProfileFragment = false;
+            GlobalVariables.inMyTodosFragment = false;
+            GlobalVariables.inMarketPlaceFragment = false;
+            ((GlobalMenuActivity) getActivity()).setActionBarTitle("PROFILE");
+            GlobalVariables.actualMember = profileMember;
+            if(GlobalVariables.menuPart == 1)
+                GlobalVariables.menuDeep = 1;
+            if(GlobalVariables.menuPart == 2)
+                GlobalVariables.menuDeep = 1;
+            if(GlobalVariables.menuPart == 3)
+                GlobalVariables.menuDeep = 2;
+            if(GlobalVariables.menuPart == 4)
+                GlobalVariables.menuDeep = 1;
+        }
         GlobalVariables.MENU_POSITION = 5;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
         return null;
     }
     @Override
     public void onDestroy(){
 
         super.onDestroy();
-        GlobalVariables.inMyProfileFragment = false;
+
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
     }
-
-
 
     @AfterViews
     public void setNameAndHub(){
@@ -155,9 +180,13 @@ public class OneProfileFragment extends Fragment {
         if(profileMember == null) {
             memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
             GlobalVariables.isCurrentMember = true;
+
+            getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
         } else {
             memberToDisplay = profileMember;
             GlobalVariables.isCurrentMember = false;
+
+            getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
 
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("profile_member", ParseHelpers.createJsonStringFromModel(profileMember));
@@ -359,7 +388,7 @@ public class OneProfileFragment extends Fragment {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.linkedin));
             startActivity(browserIntent);
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -374,7 +403,7 @@ public class OneProfileFragment extends Fragment {
                 startActivity(browserIntent);
 
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -398,7 +427,7 @@ public class OneProfileFragment extends Fragment {
                 startActivity(intent);
 
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -409,7 +438,7 @@ public class OneProfileFragment extends Fragment {
                 startActivity(browserIntent);
 
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -438,7 +467,7 @@ public class OneProfileFragment extends Fragment {
 
                 startActivity(skypeIntent);
             } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -449,7 +478,7 @@ public class OneProfileFragment extends Fragment {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.blog));
                 startActivity(browserIntent);
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 
@@ -461,7 +490,7 @@ public class OneProfileFragment extends Fragment {
                 startActivity(Intent.createChooser(phoneIntent, getResources().getString(R.string.action_send_mail_title)));
 
         } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
 

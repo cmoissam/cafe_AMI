@@ -81,7 +81,6 @@ public class RegisterActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-        getActionBar().hide();
         if(!BaseApplication.isRegistered(this))
             BaseApplication.register(this);
     }
@@ -160,7 +159,7 @@ public class RegisterActivity extends Activity {
                     Member member = new Member(fullNameContent, emailContent, passwordContent, passwordConfirmationContent);
                     connectService.register(member);
                 } else {
-                    ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title), getResources().getString(R.string.no_connection));
+                    ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
                 }
             }
         }
@@ -170,6 +169,7 @@ public class RegisterActivity extends Activity {
     public void onRegisterEvent(SaveMemberEvent event) {
         Intent intent = new Intent(this, LoginActivity_.class);
         intent.putExtra("username", event.member.email);
+        ViewHelpers.showPopup(this,"register success", event.member.email, false);
         loadingGif.setVisibility(View.INVISIBLE);
         finish();
         startActivity(intent);

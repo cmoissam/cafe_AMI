@@ -13,7 +13,9 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="110dp"
-            android:background="@drawable/directory_searchback_1242x364">
+            android:background="@drawable/directory_searchback_1242x364"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,6 +43,7 @@
                 android:layout_marginTop="40dp"
                 android:inputType="textPersonName"
                 android:hint="@string/search_members"
+                android:textSize="18dp"
                 android:layout_gravity="left"
                 android:layout_marginRight="10dp"
                 android:background="#FFFFFF"

@@ -62,12 +62,12 @@ public class PostsAdapterOneProfile {
 
             //TextView fullName = (TextView) childView.findViewById(R.id.fullName);
             //fullName.setText(postList.get(i).member.fullName);
-            TextView datePost = (TextView) childView.findViewById(R.id.datePost);
-            datePost.setText(postList.get(i).createdAt);
+          //  TextView datePost = (TextView) childView.findViewById(R.id.datePost);
+//            datePost.setText(postList.get(i).createdAt);
 
             Typeface typeFace=Typeface.createFromAsset(context.getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
             //fullName.setTypeface(typeFace);
-            datePost.setTypeface(typeFace);
+          //  datePost.setTypeface(typeFace);
             postTextView.setTypeface(typeFace);
 
 //            if(lastClickedPosts.contains(index)) {

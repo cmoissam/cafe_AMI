@@ -1,4 +1,5 @@
 package co.geeksters.hq.fragments;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,9 +53,22 @@ public class MarketPlaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         GlobalVariables.MENU_POSITION = 4;
         GlobalVariables.inMarketPlaceFragment = true;
+        GlobalVariables.menuPart = 5;
+        GlobalVariables.menuDeep = 0;
+        getActivity().onPrepareOptionsMenu(GlobalVariables.menu);
 
         return null;
     }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        GlobalVariables.inRadarFragement = false;
+        GlobalVariables.inMyProfileFragment = false;
+        GlobalVariables.inMyTodosFragment = false;
+        GlobalVariables.inMarketPlaceFragment = false;
+             GlobalVariables.inMarketPlaceFragment = true;
+            ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_market_place));
+        }
 
     @AfterViews
     public void tabSetting(){
@@ -127,5 +141,11 @@ public class MarketPlaceFragment extends Fragment {
     public void onDestroyView(){
         super.onDestroyView();
         GlobalVariables.inMarketPlaceFragment = false;
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        GlobalVariables.inMarketPlaceFragment = false;
+
     }
 }

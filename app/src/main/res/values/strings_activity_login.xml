@@ -13,12 +13,14 @@
     <string name="action_forgot_password">Forgot password</string>
     <string name="action_register">Register</string>
     <string name="action_reset_password">Send reset link</string>
-    <string name="no_connection">No network connection found</string>
-    <string name="alert_title">Alert</string>
+    <string name="no_connection">connection problem</string>
+    <string name="alert_title">oh! sorry</string>
+    <string name="alert_title_network">oh! network</string>
     <string name="alert_invalid_file">You try to upload an invalid file</string>
     <string name="alert_save">Your account was successfully updated</string>
     <string name="alert_reset">A link to reset your password was sent to you by email</string>
-
+    <string name="todo_error">todo should contain more then 3 caracters</string>
+    <string name="post_error">post should contain more then 3 caracters</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register_short">Sign up</string>
     <string name="error_invalid_email">This email address is invalid</string>
