@@ -161,7 +161,8 @@ public class ReplyMarketFragment extends Fragment {
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
-        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_market_place));
+        GlobalVariables.needReturnButton = true;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle("OPPORTUNITY");
     }
 
 

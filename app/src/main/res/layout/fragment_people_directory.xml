@@ -1,7 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="co.geeksters.hq.fragments.PeopleDirectoryFragment">
+    tools:context="co.geeksters.hq.fragments.PeopleDirectoryFragment"
+    android:background="@drawable/background_02_2208x1242">
 
     <LinearLayout
         android:id="@+id/membersSearchForm"
@@ -43,7 +44,7 @@
                 android:layout_marginTop="40dp"
                 android:inputType="textPersonName"
                 android:hint="@string/search_members"
-                android:textSize="18dp"
+                android:textSize="14dp"
                 android:layout_gravity="left"
                 android:layout_marginRight="10dp"
                 android:background="#FFFFFF"
@@ -52,20 +53,23 @@
         </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/background_02_2208x1242">
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:background="@drawable/background_01_2208x1242">
 
                 <!-- List View -->
                 <ListView
                     android:id="@+id/list_view_members"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:dividerHeight="10dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
                     android:headerDividersEnabled="true"
                     android:footerDividersEnabled="true"/>
 
@@ -77,7 +81,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:id="@+id/loading"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/background_02_2208x1242"
                     android:visibility="invisible">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -108,7 +112,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:id="@+id/empty_search"
-                    android:background="#FFFFFF"
+                    android:background="@drawable/background_02_2208x1242"
                     android:visibility="invisible">
                     <LinearLayout
                         android:layout_width="match_parent"

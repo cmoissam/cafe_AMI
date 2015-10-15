@@ -102,6 +102,7 @@ public class HubsFragment extends Fragment {
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
+        GlobalVariables.needReturnButton = false;
                 ((GlobalMenuActivity) getActivity()).setActionBarTitle("HUBS");
     }
 
@@ -192,6 +193,7 @@ public class HubsFragment extends Fragment {
 
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 Fragment fragment = new OneHubFragment_().newInstance(hubsList.get(position));
+                fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                 fragmentTransaction.replace(R.id.contentFrame, fragment);
                 fragmentTransaction.commit();
             }

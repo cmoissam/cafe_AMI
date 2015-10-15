@@ -435,44 +435,49 @@
                     android:id="@+id/checkBoxRadarVisibility"
                     android:layout_marginTop="10dp"
                     android:textColor="#02115a"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:button="@drawable/checkbox_radar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="13dp"
                     android:text="   Appear on radar"/>
                 <CheckBox
                     android:id="@+id/checkBoxEmailComment"
                     android:layout_marginTop="10dp"
                     android:textColor="#02115a"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:button="@drawable/checkboxs"
                     android:layout_height="wrap_content"
+                    android:textSize="13dp"
                     android:text="   Receive email on comment"/>
                 <CheckBox
                     android:id="@+id/checkBoxEmailTodo"
                     android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
                     android:textColor="#02115a"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkboxs"
+                    android:textSize="13dp"
                     android:text="   Receive email on to-do reminder"/>
                 <CheckBox
                     android:id="@+id/checkBoxPushComment"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:textColor="#02115a"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkboxs"
+                    android:textSize="13dp"
                     android:text="   Receive push notification on comment"/>
                 <CheckBox
                     android:id="@+id/checkBoxPushTodo"
                     android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
                     android:textColor="#02115a"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="13dp"
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkboxs"
                     android:text="   Receive push notification on to-do reminder"/>
@@ -497,7 +502,7 @@
 
                     <Button android:id="@+id/saveButton" style="?android:textAppearanceSmall"
                         android:layout_width="200dp" android:layout_height="40dp"
-                        android:text="SAVE TASK"
+                        android:text="SAVE"
                         android:textStyle="bold"
                         android:textSize="16dp"
                         android:background="@drawable/save_task_border"

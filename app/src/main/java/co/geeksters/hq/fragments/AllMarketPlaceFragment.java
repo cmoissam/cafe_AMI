@@ -109,6 +109,7 @@ public class AllMarketPlaceFragment extends Fragment {
 
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             Fragment fragment = new ReplyMarketFragment_().newInstance(notifiedPost.id, notifiedPost.comments);
+            fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
             fragmentTransaction.replace(R.id.contentFrame, fragment);
             fragmentTransaction.commit();
         }

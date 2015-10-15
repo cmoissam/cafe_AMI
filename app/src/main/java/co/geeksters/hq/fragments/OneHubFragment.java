@@ -6,22 +6,14 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
-import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -33,18 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.activities.DummyTabContent;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.activities.GlobalMenuActivity_;
-import co.geeksters.hq.adapter.AmbassadorsAdapter;
-import co.geeksters.hq.adapter.ListViewHubAdapter;
-import co.geeksters.hq.adapter.PostsAdapter;
 import co.geeksters.hq.events.success.AmbassadorsEvent;
-import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
@@ -57,8 +42,6 @@ public class OneHubFragment extends Fragment {
 
 
 
-    @ViewById(R.id.pager)
-    ViewPager viewPager;
 
     @ViewById(R.id.hubName)
     TextView hubName;
@@ -146,6 +129,7 @@ public class OneHubFragment extends Fragment {
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
+        GlobalVariables.needReturnButton = true;
         ((GlobalMenuActivity)getActivity()).setActionBarTitle("HUB");
     }
 

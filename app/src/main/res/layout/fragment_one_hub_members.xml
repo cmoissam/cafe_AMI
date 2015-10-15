@@ -16,7 +16,8 @@
         android:id="@+id/membersSearchForm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:background="@drawable/background_02_2208x1242">
 
         <TextView
             android:id="@+id/search_no_element_found"
@@ -29,7 +30,8 @@
             android:layout_marginTop="10dp" />
 
         <ScrollView android:id="@+id/directoryScrollView" android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_01_2208x1242">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,7 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:dividerHeight="3px"/>
+                    android:divider="@null"
+                    android:dividerHeight="0dp"/>
 
             </LinearLayout>
 
@@ -54,7 +57,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/loading"
-        android:background="#FFFFFF"
+        android:background="@drawable/background_02_2208x1242"
         android:visibility="invisible">
         <LinearLayout
             android:layout_width="match_parent"
@@ -85,7 +88,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/empty_search"
-        android:background="#FFFFFF"
+        android:background="@drawable/background_02_2208x1242"
         android:visibility="invisible">
         <LinearLayout
             android:layout_width="match_parent"

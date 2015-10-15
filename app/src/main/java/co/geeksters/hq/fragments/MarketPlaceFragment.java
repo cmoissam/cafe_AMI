@@ -1,30 +1,23 @@
 package co.geeksters.hq.fragments;
+
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TabHost;
-import android.widget.TextView;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
 import co.geeksters.hq.R;
-import co.geeksters.hq.activities.DummyTabContent;
 import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.global.helpers.ParseHelpers;
-import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
-import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 @EFragment(R.layout.fragment_market_place)
 public class MarketPlaceFragment extends Fragment {
     private static final String NEW_INSTANCE_MEMBER_KEY = "post_key";
@@ -67,6 +60,7 @@ public class MarketPlaceFragment extends Fragment {
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
              GlobalVariables.inMarketPlaceFragment = true;
+        GlobalVariables.needReturnButton = false;
             ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_market_place));
         }
 

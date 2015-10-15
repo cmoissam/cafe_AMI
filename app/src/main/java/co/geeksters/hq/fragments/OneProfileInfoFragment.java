@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -117,7 +118,7 @@ public class OneProfileInfoFragment extends Fragment {
         shortBioContent.setTypeface(typeFace);
         shortBioTitle.setTypeface(typeFace);
         interestsTitle.setTypeface(typeFace);
-        logoutButton.setTypeface(typeFace);
+        logoutButton.setTypeface(null, typeFace.BOLD);
 
         organisationContent.setText(memberToDisplay.returnNameForNullCompaniesValue());
         missionContent.setText(memberToDisplay.goal);

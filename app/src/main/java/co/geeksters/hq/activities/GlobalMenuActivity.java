@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,8 +62,7 @@ import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.fragments.OneProfileMarketPlaceFragment;
 import co.geeksters.hq.fragments.MyToDosFragment;
 import co.geeksters.hq.fragments.PeopleDirectoryFragment_;
-import co.geeksters.hq.fragments.PeopleFinderFragment_;
-import co.geeksters.hq.fragments.WebViewFragment;
+import co.geeksters.hq.fragments.PeopleFinderFragment_;;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GPSTrackerHelpers;
@@ -99,6 +100,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
     @ViewById(R.id.contentFrame)
     FrameLayout contentFrame;
+
     ImageButton menuList;
 
     ImageButton addButton;
@@ -110,6 +112,12 @@ public class GlobalMenuActivity extends FragmentActivity {
         accessToken = preferences.getString("access_token","").replace("\"","");
 
         GlobalVariables.d = getResources().getDisplayMetrics().density;
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        GlobalVariables.width = size.x;
+        GlobalVariables.height = size.y;
     }
 
 
@@ -119,6 +127,9 @@ public class GlobalMenuActivity extends FragmentActivity {
         getActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getActionBar().setCustomView(R.layout.action_bar);
         menuList = (ImageButton) getActionBar().getCustomView().findViewById(R.id.imageButton);
+
+
+
         menuList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,10 +168,7 @@ public class GlobalMenuActivity extends FragmentActivity {
                 invalidateOptionsMenu();
                setActionBarTitle(mTitle);
 
-
             }
-
-
 
             /** Called when a drawer is opened */
             public void onDrawerOpened(View drawerView) {
@@ -181,6 +189,37 @@ public class GlobalMenuActivity extends FragmentActivity {
         Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Regular.ttf");
         titleView.setTypeface(typeFace);
 
+        if(GlobalVariables.needReturnButton)
+        {
+            menuList.setBackgroundDrawable(getResources().getDrawable((R.drawable.topmenu_arrow_left)));
+            menuList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    onBackPressed();
+
+                }
+            });
+
+
+        }
+        else {
+            menuList.setBackgroundDrawable(getResources().getDrawable(R.drawable.topmenu_list));
+            menuList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+                    if (!drawerOpen) {
+                        menuList.setBackgroundDrawable(getResources().getDrawable(R.drawable.topmenu_list));
+                        drawerLayout.openDrawer(drawerList);
+                    } else {
+
+                        drawerLayout.closeDrawer(drawerList);
+                    }
+                }
+            });
+        }
+
         if (GlobalVariables.inMarketPlaceFragment || GlobalVariables.inMyTodosFragment || GlobalVariables.inRadarFragement || GlobalVariables.inMyProfileFragment) {
 
             if (GlobalVariables.inMarketPlaceFragment || GlobalVariables.inMyTodosFragment) {
@@ -198,6 +237,14 @@ public class GlobalMenuActivity extends FragmentActivity {
         } else {
             addButton.setVisibility(View.INVISIBLE);
         }
+    }
+    public void setActionBarIconVisibility(Boolean visibility){
+
+        if(visibility)
+            addButton.setVisibility(View.VISIBLE);
+        else
+            addButton.setVisibility(View.INVISIBLE);
+
     }
 
     @AfterViews
@@ -217,7 +264,7 @@ public class GlobalMenuActivity extends FragmentActivity {
     @AfterViews
     public void setActionBarColorAndTitle() {
 
-        getActionBar().setIcon(R.drawable.transparent);
+        getActionBar().setIcon(R.drawable.topmenu_list);
 
         getActionBar().setTitle(mTitle);
         // Enabling Home button
@@ -392,7 +439,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_exit_right);
         if(GlobalVariables.menuDeep == 0){
 
             ViewHelpers.showExitPopup(this);
@@ -561,14 +608,6 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         GlobalVariables.isMenuOnPosition = true;
 
-        // Creating a fragment object
-        WebViewFragment rFragment = new WebViewFragment();
-
-        // Passing selected item information to fragment
-        Bundle data = new Bundle();
-        data.putInt("position", position);
-        rFragment.setArguments(data);
-
         // Getting reference to the FragmentManager
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -628,12 +667,14 @@ public class GlobalMenuActivity extends FragmentActivity {
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                 fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
                 GlobalVariables.inRadarFragement = true;
                 fragmentTransaction.commit();
             } else if (GlobalVariables.MENU_POSITION == 6) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                 fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
                 fragmentTransaction.commit();
             }
@@ -650,6 +691,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
         fragmentTransaction.replace(R.id.contentFrame, new NewPostFragment_());
 
         // Committing the transaction
@@ -666,6 +708,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
         fragmentTransaction.replace(R.id.contentFrame, new NewTodoFragment_());
 
         // Committing the transaction
@@ -683,6 +726,7 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
         fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
 
         // Committing the transaction
@@ -779,5 +823,14 @@ public class GlobalMenuActivity extends FragmentActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(GlobalVariables.inRadarFragement) {
+            updateLocation();
+        }
+        BaseApplication.register(this);
     }
 }

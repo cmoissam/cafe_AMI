@@ -197,6 +197,7 @@ public class MeFragment extends Fragment {
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
+        GlobalVariables.needReturnButton = true;
         ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_me_fragment));
     }
 
@@ -352,6 +353,7 @@ public class MeFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left,R.anim.anim_exit_right);
         fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
         // Committing the transaction
         fragmentTransaction.commit();

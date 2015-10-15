@@ -5,21 +5,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Switch;
-import android.widget.TabHost;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -28,16 +23,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import co.geeksters.hq.R;
-import co.geeksters.hq.activities.DummyTabContent;
 import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.events.success.ChangeToListEvent;
-import co.geeksters.hq.events.success.MembersEvent;
-import co.geeksters.hq.events.success.RefreshRadarEvent;
-import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.UpdateMemberLocationEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -105,6 +93,7 @@ public class PeopleFinderFragment extends Fragment {
             GlobalVariables.inMyTodosFragment = false;
             GlobalVariables.inMarketPlaceFragment = false;
         GlobalVariables.inRadarFragement = true;
+        GlobalVariables.needReturnButton = false;
         ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_find_fragment));
     }
 
@@ -127,22 +116,43 @@ public class PeopleFinderFragment extends Fragment {
 
     public void updateLocationAndVisibility(){
         if (!GeneralHelpers.isGPSEnabled(getActivity())) {
-            final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                            verifyGpsActivation();
-                            dialog.cancel();
-                        }
-                    });
-            final AlertDialog alert = builder.create();
-            alert.show();
+            LayoutInflater inflater = getActivity().getLayoutInflater();
+            final View dialoglayout = inflater.inflate(R.layout.exit_pop_up, null);
+            TextView infoTitle = (TextView) dialoglayout.findViewById(R.id.infoTitle);
+            TextView infotext = (TextView) dialoglayout.findViewById(R.id.infoText);
+            ImageView infoimage = (ImageView) dialoglayout.findViewById(R.id.infoImage);
+            Button no = (Button)dialoglayout.findViewById(R.id.cancel_image);
+            Button yes = (Button)dialoglayout.findViewById(R.id.quite_image);
+
+            Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+            infoTitle.setTypeface(null,typeFace.BOLD);
+            infotext.setTypeface(null, typeFace.BOLD);
+            no.setText("NO");
+            yes.setText("Yes");
+            infoTitle.setText("");
+            infoTitle.setVisibility(View.GONE);
+            infotext.setText("Your GPS seems to be disabled, do you want to enable it?");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(dialoglayout);
+            builder.setCancelable(true);
+            final AlertDialog ald =builder.show();
+            ald.setCancelable(true);
+
+            no.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    verifyGpsActivation();
+                    ald.dismiss();
+                }
+            });
+            yes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    ald.dismiss();
+                }
+            });
         } else {
             verifyGpsActivation();
         }
@@ -213,11 +223,12 @@ public class PeopleFinderFragment extends Fragment {
         if (currentMember.radarVisibility)
         {
             radarChecked = true;
+            ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
             radarActivate.setBackgroundResource(R.drawable.radar_lcation_activated_android);
             radarNoActivate.setBackgroundResource(R.drawable.button_4_pattern);}
         else
         {
-
+            ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
             radarChecked = false;
             radarActivate.setBackgroundResource(R.drawable.button_4_pattern);
             radarNoActivate.setBackgroundResource(R.drawable.radar_lcation_nonactivated_android);
@@ -228,6 +239,7 @@ public class PeopleFinderFragment extends Fragment {
             public void onClick(View view) {
                 if (radarChecked) {
                     radarChecked = false;
+                    ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
                     radarActivate.setBackgroundResource(R.drawable.button_4_pattern);
                     radarNoActivate.setBackgroundResource(R.drawable.radar_lcation_nonactivated_android);
                     updateVisibility();
@@ -235,6 +247,7 @@ public class PeopleFinderFragment extends Fragment {
 
                 } else {
                     radarChecked = true;
+                    ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
                     radarActivate.setBackgroundResource(R.drawable.radar_lcation_activated_android);
                     radarNoActivate.setBackgroundResource(R.drawable.button_4_pattern);
                     updateLocationAndVisibility();
@@ -339,4 +352,10 @@ public class PeopleFinderFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateLocationAndVisibility();
+        BaseApplication.register(this);
+    }
 }

@@ -94,6 +94,8 @@ public class NewTodoFragment extends DialogFragment{
     public boolean onRefresh = false;
     public boolean noMoreMembers = false;
 
+    public int lastPosition = 0;
+
     public View footer;
 
     @ViewById(R.id.interest)
@@ -187,7 +189,8 @@ public class NewTodoFragment extends DialogFragment{
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
-        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_todos_fragment));
+        GlobalVariables.needReturnButton = true;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle("TO DO");
     }
     @Click(R.id.save_button)
     public void createPost() {
@@ -211,16 +214,25 @@ public class NewTodoFragment extends DialogFragment{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+            Date actualDate = new Date();
+            if (date.before(actualDate))
+            {
+                ViewHelpers.showPopup(getActivity(),"Date error","Reminder date can't be before actual date",true);
+            }
+            else {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-            todoToSave.remindMeAt = sdf.format(date);
+                todoToSave.remindMeAt = sdf.format(date);
 
-            todoToSave.members.addAll(adapter.concernedMembers);
-            todoToSave.text = todoInput.getText().toString();
+                todoToSave.members.addAll(adapter.concernedMembers);
+                todoToSave.text = todoInput.getText().toString();
 
-            TodoService todoService = new TodoService(accessToken);
-            todoService.createTodo(todoToSave);
+                TodoService todoService = new TodoService(accessToken);
+                todoService.createTodo(todoToSave);
+
+            }
+
         }
 
     }
@@ -303,6 +315,7 @@ public class NewTodoFragment extends DialogFragment{
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left,R.anim.anim_exit_right);
         fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
 
         // Committing the transaction
@@ -391,8 +404,8 @@ public class NewTodoFragment extends DialogFragment{
 
             ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
+            listViewMembers.removeFooterView(footer);
 
-            onRefresh = false;
 
             if(members.size() < GlobalVariables.SEARCH_SIZE){
                 noMoreMembers = true;
@@ -405,13 +418,15 @@ public class NewTodoFragment extends DialogFragment{
                 emptySearch.setVisibility(View.VISIBLE);
             else
                 emptySearch.setVisibility(View.INVISIBLE);
-        }
 
-        @AfterViews
-        public void addFooterToListview() {
-            listViewMembers.addFooterView(new View(getActivity()), null, true);
-        }
 
+            if(onRefresh)
+            {
+                //TODO scroll to end of list
+                listViewMembers.setSelection(lastPosition);
+            }
+            onRefresh = false;
+        }
 
         @TextChange(R.id.inputSearch)
         public void searchForMemberByPagination() {
@@ -478,7 +493,8 @@ public class NewTodoFragment extends DialogFragment{
                             else {
                                 listAllMembersByPaginationService();
                             }
-                            listViewMembers.addFooterView(footer, null, false);
+                            lastPosition = listViewMembers.getLastVisiblePosition();
+                            listViewMembers.addFooterView(footer);
                         }
                     }
                 }
@@ -501,11 +517,18 @@ public class NewTodoFragment extends DialogFragment{
             listViewMembers.setAdapter(adapter);
             ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
+            listViewMembers.removeFooterView(footer);
+
             if(adapter.isEmpty()) {
                 emptySearch.setVisibility(View.VISIBLE);
             }
             else
                 emptySearch.setVisibility(View.INVISIBLE);
+            if(onRefresh)
+            {
+                //TODO scroll to end of list
+                listViewMembers.setSelection(lastPosition);
+            }
 
             onRefresh = false;
 

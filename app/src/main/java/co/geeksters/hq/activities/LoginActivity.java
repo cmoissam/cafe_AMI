@@ -31,6 +31,7 @@ import org.androidannotations.annotations.ViewById;
 import java.io.IOException;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.MembersEvent;
@@ -164,18 +165,26 @@ public class LoginActivity extends Activity {
         // Check for a valid email address.
         if (TextUtils.isEmpty(emailContent)) {
             email.setError(getString(R.string.error_field_required));
+            email.setEnabled(true);
+            password.setEnabled(true);
             focusView = email;
         } else if (!GeneralHelpers.isEmailValid(emailContent)) {
             email.setError(getString(R.string.error_invalid_email));
+            email.setEnabled(true);
+            password.setEnabled(true);
             focusView = email;
         }
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(passwordContent)) {
             password.setError(getString(R.string.error_field_required));
+            email.setEnabled(true);
+            password.setEnabled(true);
             focusView = password;
         } else if (!GeneralHelpers.isPasswordValid(passwordContent)) {
             password.setError(getString(R.string.error_invalid_password));
+            email.setEnabled(true);
+            password.setEnabled(true);
             focusView = password;
         }
 
@@ -195,11 +204,14 @@ public class LoginActivity extends Activity {
                 ConnectService connectService = new ConnectService();
                 connectService.login("password", 1, "pioner911", emailContent, passwordContent, "basic");
             } else {
+                email.setEnabled(true);
+                password.setEnabled(true);
                 ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
             }
         }
     }
     }
+
 
 
 
@@ -263,7 +275,22 @@ public class LoginActivity extends Activity {
 
     @Subscribe
     public void onLoginFailureEvent(LoginFailureEvent event) {
-        email.setError(getString(R.string.error_field_incorrect_identifiers));
+
+        loadingGif.setVisibility(View.INVISIBLE);
+        email.setEnabled(true);
+        password.setEnabled(true);
+        if(event.errorMessage.equals("need email confirmation"))
+            email.setError("need email confirmation");
+        else if(event.errorMessage.equals("wrong password"))
+            password.setError("wrong password");
+            else if(event.errorMessage.equals("not existant email"))
+            email.setError("not existant email");
+    }
+
+    @Subscribe
+    public void onConnectionFailureEvent(ConnectionFailureEvent event){
+
+        ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
     }
 
     @Touch(R.id.registerButton)
@@ -293,6 +320,8 @@ public class LoginActivity extends Activity {
     @Subscribe
     public void onUpdateEvent(SaveMemberEvent event){
         loadingGif.setVisibility(View.INVISIBLE);
+        GlobalVariables.notifiyedByPost = false;
+        GlobalVariables.notifiyedByTodo = false;
         Intent intent = new Intent(this, GlobalMenuActivity_.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

@@ -85,6 +85,7 @@ public class HubMembersAdapter extends BaseAdapter {
 
                 FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
                 Fragment fragment = new OneProfileFragment_().newInstance(memberList.get(position), 0);
+                fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                 fragmentTransaction.replace(R.id.contentFrame, fragment);
                 fragmentTransaction.commit();
             }

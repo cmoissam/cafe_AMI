@@ -56,15 +56,7 @@ public class CommentsAdapter {
 
         for(int i = 0 ; i < commentList.size() ; i++) {
 
-//            order by date created at .....
-//
-//            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//            try {
-//
-//                Date date = formatter.parse(commentList.get(i).createdAt);
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
+
 
             View childView = inflater.inflate(R.layout.list_item_comment, null); //same layout you gave to the adapter
 
@@ -82,8 +74,6 @@ public class CommentsAdapter {
             fullNameTextView.setTypeface(typeFace);
             commentTextView.setTypeface(typeFace);
 
-/*            TextView date = (TextView)childView.findViewById(R.id.date);
-            date.setText(commentList.get(i).createdAt);*/
 
             ImageView picture = (ImageView)childView.findViewById(R.id.picture);
 

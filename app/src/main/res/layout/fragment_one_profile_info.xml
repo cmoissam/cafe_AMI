@@ -2,23 +2,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.OneProfileInfoFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background_02_2208x1242">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFE7E7E7">
+        android:background="@drawable/background_01_2208x1242">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/backgroud_cell_shadow"></LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="80dp"
-            android:layout_marginTop="15dp"
             android:background="#FFFFFF">
 
             <ImageView
@@ -63,12 +68,17 @@
             </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/backgroud_cell_shadow"></LinearLayout>
+
+        <LinearLayout
             android:orientation="horizontal"
-            android:layout_marginTop="10dp"
+            android:background="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="80dp"
-            android:background="#FFFFFF">
+            android:minHeight="80dp">
 
             <ImageView
                 android:layout_width="10dp"
@@ -111,9 +121,14 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/backgroud_cell_shadow"></LinearLayout>
+
+        <LinearLayout
             android:orientation="horizontal"
             android:background="#FFFFFF"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:minHeight="80dp"
             android:layout_height="wrap_content">
@@ -158,11 +173,14 @@
             android:textSize="15dp"
             android:textColor="#b3b3b3" />
             </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/backgroud_cell_shadow"></LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:background="#FFFFFF"
-            android:layout_marginTop="10dp"
             android:minHeight="80dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -202,11 +220,16 @@
 
             </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:alpha="0.7"
+            android:background="@drawable/backgroud_cell_shadow"></LinearLayout>
+
         <RelativeLayout
             android:id="@+id/logout_layout"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
             android:layout_height="60dp">
 
 
@@ -225,7 +248,9 @@
         <Button android:id="@+id/logoutButton"
             android:layout_width="150dp" android:layout_height="50dp"
             android:text="@string/action_logout"
-            android:background="#FFFFFF"
+            android:background="@drawable/save_task_border"
+            android:textColor="#02115a"
+            android:textStyle="bold"
             android:textSize="16dp" />
             </LinearLayout>
 

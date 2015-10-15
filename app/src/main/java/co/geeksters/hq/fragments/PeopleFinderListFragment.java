@@ -154,6 +154,7 @@ public class PeopleFinderListFragment extends Fragment {
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(membersList.get(position), 0);
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
         fragmentTransaction.replace(R.id.contentFrame, fragment);
         fragmentTransaction.commit();
     }

@@ -2,17 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.MarketPlaceFragment"
     android:id="@+id/frameLayout"
-    android:background="#FFEDEDED">
+    android:background="@drawable/background_02_2208x1242">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@drawable/background_01_2208x1242">
+        android:orientation="vertical">
         <RelativeLayout
             android:id="@+id/one_hub_tabs"
             android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.ExistingAccountEvent;
 import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
@@ -85,10 +86,24 @@ public class ConnectService {
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
                 if(error != null) {
-                    if (error.getResponse().getStatus() == 400) {
-                        BaseApplication.post(new LoginFailureEvent());
+                    if(error.getResponse() != null) {
+                        if (error.getResponse().getStatus() == 400) {
+                            BaseApplication.post(new LoginFailureEvent("wrong password"));
+                        }
+                        else if(error.getResponse().getStatus() == 403)
+                        {
+                            if(error.getResponse().getReason().equals("need email confirmation"))
+                                BaseApplication.post(new LoginFailureEvent("need email confirmation"));
+                            else
+                            BaseApplication.post(new LoginFailureEvent("not existant email"));
+                        }
+                        else
+                            BaseApplication.post(new ConnectionFailureEvent());
                     }
+                    else
+                        BaseApplication.post(new ConnectionFailureEvent());
                 }
+                else BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

@@ -74,6 +74,8 @@ public class UpdateTodoFragment extends DialogFragment{
     public int month;
     public int year;
 
+    public int lastPosition = 0;
+
     public int currentTodoId;
     public Calendar c;
     public int hour;
@@ -212,7 +214,8 @@ public class UpdateTodoFragment extends DialogFragment{
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
-        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_todos_fragment));
+        GlobalVariables.needReturnButton = true;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle("TO DO");
     }
 
     @Click(R.id.save_button)
@@ -237,6 +240,13 @@ public class UpdateTodoFragment extends DialogFragment{
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+            Date actualDate = new Date();
+            if (date.before(actualDate))
+            {
+                ViewHelpers.showPopup(getActivity(),"Date error","Reminder date can't be before actual date",true);
+            }
+            else{
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 
@@ -247,6 +257,7 @@ public class UpdateTodoFragment extends DialogFragment{
 
             TodoService todoService = new TodoService(accessToken);
             todoService.updateTodo(todoToSave);
+            }
         }
 
     }
@@ -327,6 +338,8 @@ public class UpdateTodoFragment extends DialogFragment{
 
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left,R.anim.anim_exit_right);
 
         fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
 
@@ -409,12 +422,20 @@ public class UpdateTodoFragment extends DialogFragment{
 
             ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
+            listViewMembers.removeFooterView(footer);
+
             if(adapter.isEmpty()) {
                 emptySearch.setVisibility(View.VISIBLE);
             }
             else
                 emptySearch.setVisibility(View.INVISIBLE);
 
+
+            if(onRefresh)
+            {
+                //TODO scroll to end of list
+                listViewMembers.setSelection(lastPosition);
+            }
             onRefresh = false;
 
             if(members.size() < GlobalVariables.SEARCH_SIZE){
@@ -423,12 +444,6 @@ public class UpdateTodoFragment extends DialogFragment{
             if(event.members.size() == 0)
                 noMoreMembers = true;
         }
-
-        @AfterViews
-        public void addFooterToListview() {
-            listViewMembers.addFooterView(new View(getActivity()), null, true);
-        }
-
 
         @TextChange(R.id.inputSearch)
         public void searchForMemberByPagination() {
@@ -462,12 +477,20 @@ public class UpdateTodoFragment extends DialogFragment{
             listViewMembers.setAdapter(adapter);
             ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
+            listViewMembers.removeFooterView(footer);
+
 
             if(adapter.isEmpty()) {
                 emptySearch.setVisibility(View.VISIBLE);
             }
             else
                 emptySearch.setVisibility(View.INVISIBLE);
+
+            if(onRefresh)
+            {
+                //TODO scroll to end of list
+                listViewMembers.setSelection(lastPosition);
+            }
             onRefresh = false;
 
             if(members.size() < GlobalVariables.SEARCH_SIZE){
@@ -524,7 +547,8 @@ public class UpdateTodoFragment extends DialogFragment{
                             else {
                                 listAllMembersByPaginationService();
                             }
-                            listViewMembers.addFooterView(footer, null, false);
+                            lastPosition = listViewMembers.getLastVisiblePosition();
+                            listViewMembers.addFooterView(footer);
                         }
                     }
                 }

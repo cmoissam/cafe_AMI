@@ -1,19 +1,14 @@
 package co.geeksters.hq.fragments;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,25 +18,20 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TabHost;
 import android.widget.TextView;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.List;
-
 import co.geeksters.hq.R;
-import co.geeksters.hq.activities.DummyTabContent;
 import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Social;
 
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
@@ -141,7 +131,8 @@ public class OneProfileFragment extends Fragment {
             GlobalVariables.inMyTodosFragment = false;
             GlobalVariables.inMarketPlaceFragment = false;
             GlobalVariables.inMyProfileFragment = true;
-            ((GlobalMenuActivity) getActivity()).setActionBarTitle("MY PROFILE");
+            GlobalVariables.needReturnButton = false;
+                    ((GlobalMenuActivity) getActivity()).setActionBarTitle("MY PROFILE");
             GlobalVariables.menuPart = 6;
             GlobalVariables.menuDeep = 0;
         }
@@ -150,6 +141,7 @@ public class OneProfileFragment extends Fragment {
             GlobalVariables.inMyProfileFragment = false;
             GlobalVariables.inMyTodosFragment = false;
             GlobalVariables.inMarketPlaceFragment = false;
+            GlobalVariables.needReturnButton = true;
             ((GlobalMenuActivity) getActivity()).setActionBarTitle("PROFILE");
             GlobalVariables.actualMember = profileMember;
             if(GlobalVariables.menuPart == 1)
@@ -452,17 +444,18 @@ public class OneProfileFragment extends Fragment {
                     skypeIntent = new Intent(Intent.ACTION_VIEW, skypeUri);
                     skypeIntent.setComponent(new ComponentName("com.skype.raider", "com.skype.raider.Main"));
                     skypeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(skypeIntent);
                 } catch (ActivityNotFoundException e){
                     // no Twitter app, revert to browser
                     memberToDisplay.social.skype = "http://www.skype.com/fr/";
 
-                    skypeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.twitter));
+                    skypeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.skype));
                 }
                 catch (Exception e){
                     // no Twitter app, revert to browser
                     memberToDisplay.social.skype = "http://www.skype.com/fr/";
 
-                    skypeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.twitter));
+                    skypeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.skype));
                 }
 
                 startActivity(skypeIntent);

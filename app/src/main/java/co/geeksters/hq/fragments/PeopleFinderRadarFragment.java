@@ -1,5 +1,6 @@
 package co.geeksters.hq.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -261,6 +262,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                        Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(0), 0);
+                       fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                        fragmentTransaction.replace(R.id.contentFrame, fragment);
                        fragmentTransaction.commit();
                    }
@@ -280,6 +282,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                         Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(1), 0);
+                        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                         fragmentTransaction.replace(R.id.contentFrame, fragment);
                         fragmentTransaction.commit();
                     }
@@ -299,6 +302,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                         Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(2), 0);
+                        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                         fragmentTransaction.replace(R.id.contentFrame, fragment);
                         fragmentTransaction.commit();
                     }
@@ -318,6 +322,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                         Fragment fragment = new OneProfileFragment_().newInstance(list0to2.get(3), 0);
+                        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                         fragmentTransaction.replace(R.id.contentFrame, fragment);
                         fragmentTransaction.commit();
                     }
@@ -353,6 +358,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(0), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -372,6 +378,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(1), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -391,6 +398,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(2), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -410,6 +418,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(3), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -430,6 +439,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list2to4.get(4), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -466,6 +476,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(0), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -485,6 +496,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(1), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -504,6 +516,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(2), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -523,6 +536,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(3), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -543,6 +557,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(list4to6.get(4), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -576,6 +591,7 @@ public class PeopleFinderRadarFragment extends Fragment {
     public void seeMyProfile() {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment fragment = new OneProfileFragment_().newInstance(currentMember, 0);
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
         fragmentTransaction.replace(R.id.contentFrame, fragment);
         fragmentTransaction.commit();
     }
@@ -583,13 +599,29 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+        View subview = null;
 
         SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         accessToken = preferences.getString("access_token","").replace("\"", "");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
-        return null;
+
+        if(GlobalVariables.height < 1100) {
+            container.removeAllViewsInLayout();
+             subview = inflater.inflate(R.layout.fragment_people_finder_radar_small_screen, container,false);
+        }
+        else{
+            container.removeAllViewsInLayout();
+            subview = inflater.inflate(R.layout.fragment_people_finder_radar, container,false);
+
+        }
+        return subview;
     }
 
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

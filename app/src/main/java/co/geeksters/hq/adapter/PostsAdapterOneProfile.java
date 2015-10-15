@@ -55,44 +55,10 @@ public class PostsAdapterOneProfile {
             final LinearLayout commentDisplay = (LinearLayout) childView.findViewById(R.id.commentDisplay);
             Button reply = (Button) childView.findViewById(R.id.reply);
             final LinearLayout commentsLayout = (LinearLayout) childView.findViewById(R.id.commentsLayout);
-            //ImageView picture = (ImageView) childView.findViewById(R.id.picture);
-
-
-            //ViewHelpers.setImageViewBackgroundFromURL(context.getActivity(), picture, postList.get(i).member.image);
-
-            //TextView fullName = (TextView) childView.findViewById(R.id.fullName);
-            //fullName.setText(postList.get(i).member.fullName);
-          //  TextView datePost = (TextView) childView.findViewById(R.id.datePost);
-//            datePost.setText(postList.get(i).createdAt);
 
             Typeface typeFace=Typeface.createFromAsset(context.getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
-            //fullName.setTypeface(typeFace);
-          //  datePost.setTypeface(typeFace);
-            postTextView.setTypeface(typeFace);
 
-//            if(lastClickedPosts.contains(index)) {
-//                GlobalVariables.onClickComment = true;
-//
-//                for(int j=0; j<lastClickedPosts.size(); j++) {
-//                    if(lastClickedPosts.get(j) == index) {
-//                        lastClickedPosts.remove(j);
-//                        break;
-//                    }
-//                }
-//            } else {
-//                GlobalVariables.onClickComment = false;
-//            }
-//
-//            if(GlobalVariables.onClickComment) {
-//                commentDisplay.setBackgroundColor(Color.parseColor("#ffffff"));
-//                commentsLayout.setVisibility(View.GONE);
-//            } else {
-//                commentDisplay.setBackgroundColor(Color.parseColor("#eeeeee"));
-//                commentsLayout.setVisibility(View.VISIBLE);
-//                lastClickedPosts.add(index);
-//                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
-//                adapter.makeList();
-//            }
+            postTextView.setTypeface(typeFace);
 
             if(postList.get(i).comments.size() != 0) {
                 TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);
@@ -101,31 +67,38 @@ public class PostsAdapterOneProfile {
                 commentDisplay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(lastClickedPosts.contains(index)) {
-                            GlobalVariables.onClickComment = true;
 
-                            for(int i=0; i<lastClickedPosts.size(); i++) {
-                                if(lastClickedPosts.get(i) == index) {
-                                    lastClickedPosts.remove(i);
-                                    break;
+                            if (lastClickedPosts.contains(index)) {
+                                GlobalVariables.onClickComment = true;
+
+                                for (int i = 0; i < lastClickedPosts.size(); i++) {
+                                    if (lastClickedPosts.get(i) == index) {
+                                        lastClickedPosts.remove(i);
+                                        break;
+                                    }
                                 }
+                            } else {
+                                GlobalVariables.onClickComment = false;
                             }
-                        } else {
-                            GlobalVariables.onClickComment = false;
+
+                            if (GlobalVariables.onClickComment) {
+                                commentsLayout.setVisibility(View.GONE);
+                            } else {
+                                commentsLayout.setVisibility(View.VISIBLE);
+                                lastClickedPosts.add(index);
+                                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
+                                adapter.makeList();
+                            }
+
+                            GlobalVariables.commentClicked = false;
                         }
 
-                        if(GlobalVariables.onClickComment) {
-                            commentsLayout.setVisibility(View.GONE);
-                        } else {
-                            commentsLayout.setVisibility(View.VISIBLE);
-                            lastClickedPosts.add(index);
-                            CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
-                            adapter.makeList();
-                        }
-                    }
                 });
-            } else
+            }
+            else
                 commentDisplay.setVisibility(View.GONE);
+
+
 
             reply.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -133,6 +106,7 @@ public class PostsAdapterOneProfile {
                     GlobalVariables.onReply = true;
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new ReplyMarketFragment_().newInstance(postList.get(index).id, postList.get(index).comments);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }

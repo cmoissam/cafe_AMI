@@ -106,28 +106,32 @@ public class PostsAdapter {
                 commentDisplay.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(lastClickedPosts.contains(index)) {
-                            GlobalVariables.onClickComment = true;
 
-                            for(int i=0; i<lastClickedPosts.size(); i++) {
-                                if(lastClickedPosts.get(i) == index) {
-                                    lastClickedPosts.remove(i);
-                                    break;
+                            if (lastClickedPosts.contains(index)) {
+                                GlobalVariables.onClickComment = true;
+
+                                for (int i = 0; i < lastClickedPosts.size(); i++) {
+                                    if (lastClickedPosts.get(i) == index) {
+                                        lastClickedPosts.remove(i);
+                                        break;
+                                    }
                                 }
+                            } else {
+                                GlobalVariables.onClickComment = false;
                             }
-                        } else {
-                            GlobalVariables.onClickComment = false;
+
+                            if (GlobalVariables.onClickComment) {
+                                commentsLayout.setVisibility(View.GONE);
+                            } else {
+                                commentsLayout.setVisibility(View.VISIBLE);
+                                lastClickedPosts.add(index);
+                                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
+                                adapter.makeList();
+                            }
+
+                            GlobalVariables.commentClicked = false;
                         }
 
-                        if(GlobalVariables.onClickComment) {
-                            commentsLayout.setVisibility(View.GONE);
-                        } else {
-                            commentsLayout.setVisibility(View.VISIBLE);
-                            lastClickedPosts.add(index);
-                            CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
-                            adapter.makeList();
-                        }
-                    }
                 });
             } else
                 commentDisplay.setVisibility(View.GONE);
@@ -138,6 +142,7 @@ public class PostsAdapter {
                     GlobalVariables.onReply = true;
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new ReplyMarketFragment_().newInstance(postList.get(index).id, postList.get(index).comments);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }

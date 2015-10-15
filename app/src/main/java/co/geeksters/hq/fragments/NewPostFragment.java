@@ -91,7 +91,8 @@ public class NewPostFragment extends Fragment {
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
-        ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_market_place));
+        GlobalVariables.needReturnButton = true;
+        ((GlobalMenuActivity) getActivity()).setActionBarTitle("OPPORTUNITY");
     }
     @Subscribe
     public void onPostCreate(PostEvent event) {
@@ -102,6 +103,7 @@ public class NewPostFragment extends Fragment {
 
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left,R.anim.anim_exit_right);
 
         fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
 

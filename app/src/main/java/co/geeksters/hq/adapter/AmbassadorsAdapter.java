@@ -59,6 +59,7 @@ public class AmbassadorsAdapter {
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     ambassadors.get(0).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(0), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -75,6 +76,7 @@ public class AmbassadorsAdapter {
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     ambassadors.get(1).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(1), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -91,6 +93,7 @@ public class AmbassadorsAdapter {
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     ambassadors.get(3).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(3), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -107,6 +110,7 @@ public class AmbassadorsAdapter {
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     ambassadors.get(4).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(4), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }
@@ -123,6 +127,7 @@ public class AmbassadorsAdapter {
                     FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
                     ambassadors.get(5).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(5), 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
                     fragmentTransaction.commit();
                 }

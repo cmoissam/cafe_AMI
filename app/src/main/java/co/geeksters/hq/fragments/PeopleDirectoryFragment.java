@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.HeaderViewListAdapter;
@@ -16,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.squareup.otto.Subscribe;
@@ -55,6 +58,7 @@ public class PeopleDirectoryFragment extends Fragment {
 
     public boolean onRefresh = false;
     public boolean noMoreMembers = false;
+    public int lastPosition = 0;
 
     public View footer;
 
@@ -105,6 +109,7 @@ public class PeopleDirectoryFragment extends Fragment {
         GlobalVariables.inMyProfileFragment = false;
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
+        GlobalVariables.needReturnButton = false;
         ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_directory_fragment));
     }
 
@@ -155,7 +160,8 @@ public class PeopleDirectoryFragment extends Fragment {
                             else {
                                 listAllMembersByPaginationService();
                             }
-                            listViewMembers.addFooterView(footer, null, false);
+                            lastPosition = listViewMembers.getLastVisiblePosition();
+                            listViewMembers.addFooterView(footer);
                         }
                     }
                 }
@@ -219,16 +225,17 @@ public class PeopleDirectoryFragment extends Fragment {
 
         membersList.addAll(event.members);
 
-        members = Member.membersInfoForItem(getActivity(), members, membersList);
 
         loadingLayout.setVisibility(View.INVISIBLE);
-        listViewMembers.removeFooterView(footer);
+
         GlobalVariables.finderList = false;
         adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
-        onRefresh = false;
+        listViewMembers.removeFooterView(footer);
 
-        if(members.size() < GlobalVariables.SEARCH_SIZE){
+
+
+        if(event.members.size() < GlobalVariables.SEARCH_SIZE){
             noMoreMembers = true;
         }
         if(event.members.size() == 0)
@@ -237,9 +244,19 @@ public class PeopleDirectoryFragment extends Fragment {
 
 
         if(adapter.isEmpty())
+
             emptySearch.setVisibility(View.VISIBLE);
         else
             emptySearch.setVisibility(View.INVISIBLE);
+
+        if(onRefresh)
+        {
+            listViewMembers.setSelection(lastPosition);
+
+        }
+
+
+        onRefresh = false;
     }
 
 
@@ -270,9 +287,21 @@ public class PeopleDirectoryFragment extends Fragment {
         loadingLayout.setVisibility(View.INVISIBLE);
 
 
-        listViewMembers.removeFooterView(footer);
         adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
+
+
+        listViewMembers.removeFooterView(footer);
+
+        if(onRefresh)
+        {
+            //TODO scroll to end of list
+            listViewMembers.setSelection(lastPosition);
+
+        }
+
+
+
         onRefresh = false;
 
         if(adapter.isEmpty()) {

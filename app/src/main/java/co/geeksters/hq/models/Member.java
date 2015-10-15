@@ -316,7 +316,7 @@ public class Member implements Serializable{
             /*if(!membersList.get(i).image.equals(""))
                 map.put("picture", membersList.get(i).image);
             else*/
-            map.put("picture", String.valueOf(R.drawable.no_image_member));
+            map.put("picture", String.valueOf(R.drawable.pictureprofile_big_98x98));
             map.put("fullName", GeneralHelpers.firstToUpper(membersList.get(i).fullName));
 
             if(membersList.get(i).hub != null && !membersList.get(i).hub.name.equals(""))

@@ -70,11 +70,17 @@ public class GlobalVariables {
     public static boolean replyFromMyMarket = false;
     public static boolean replyToAll = false;
     public static boolean inMyProfileFragment = false;
+    public static boolean commentClicked = false;
+
+    public static int width = 0;
+    public static  int height = 0;
 
     public static Member actualMember = null;
 
     public static int menuPart = 0;
     public static int menuDeep = 0;
+
+    public static boolean needReturnButton = false;
 
     public static float d;
     // Notifications constants
@@ -82,8 +88,8 @@ public class GlobalVariables {
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://192.168.1.126:8000/images/";
-    public static String UrlApi = "http://192.168.1.126:8000/api/v1";
+    public static String UrlApiImage = "http://192.168.1.128:8000/images/";
+    public static String UrlApi = "http://192.168.1.128:8000/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

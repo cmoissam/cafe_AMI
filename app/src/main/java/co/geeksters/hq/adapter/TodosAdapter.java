@@ -64,6 +64,8 @@ public class TodosAdapter {
     Member currentUser;
     Fragment context;
 
+
+
     public TodosAdapter(LayoutInflater inflater, Member currentUser, LinearLayout llList, List<Todo> todoList, String accessToken,Fragment fragment) {
 
         this.context = fragment;
@@ -128,6 +130,8 @@ public class TodosAdapter {
 
                     // Creating a fragment transaction
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
 
                     fragmentTransaction.replace(R.id.contentFrame, new UpdateTodoFragment_().newInstance(todoList.get(index)));
 

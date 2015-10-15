@@ -54,8 +54,22 @@ public class GcmIntentService extends IntentService {
         notificationMessage = intent.getStringExtra("message");
         String jsonData = "";
         if(notificationMessage!=null){
-                if( notificationMessage.equals("You have a new comment on your post")){
+                if( notificationMessage.equals("To-do reminder")) {
 
+                }
+            else{
+                    Bundle extras = intent.getExtras();
+                    jsonData = extras.getString("custom");
+                    try {
+                        JSONObject jsonObj = new JSONObject(jsonData).getJSONObject("data");
+                        notificationPostId = jsonObj.getInt("post_id");
+                        notificationMemberName = jsonObj.getString("member_name");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
 
       /*      try {
                 JSONObject jsonObj = new JSONObject(intent.getStringExtra("data"));
@@ -63,23 +77,13 @@ public class GcmIntentService extends IntentService {
             } catch (JSONException e) {
                 e.printStackTrace();
             }*/
-            Bundle extras = intent.getExtras();
-            jsonData = extras.getString("custom");
-            try {
-                JSONObject jsonObj = new JSONObject(jsonData).getJSONObject("data");
-                notificationPostId = jsonObj.getInt("post_id");
-                notificationMemberName = jsonObj.getString("member_name");
 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
-        }
+
         GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(this);
         sendNotification(notificationMessage);
         GcmBroadcastReceiver.completeWakefulIntent(intent);
-    }
-
+        }
     }
 
     // Put the message into a notification and post it.
@@ -90,16 +94,14 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = null;
-        if(notificationMessage!=null && notificationMessage.equals("You have a new comment on your post")){
-            resultIntent = new Intent(this, StartActivity_.class);
-            notificationMessage = notificationMemberName +" commented your post";
-            GlobalVariables.notificationPostId = notificationPostId;
-            GlobalVariables.notifiyedByPost = true;
-        }
-        else{
-
+        if(notificationMessage!=null && notificationMessage.equals("To-do reminder")){
             resultIntent = new Intent(this, StartActivity_.class);
             GlobalVariables.notifiyedByTodo = true;
+        }
+        else{
+            resultIntent = new Intent(this, StartActivity_.class);
+            GlobalVariables.notificationPostId = notificationPostId;
+            GlobalVariables.notifiyedByPost = true;
 
         }
 

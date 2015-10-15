@@ -40,7 +40,7 @@
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="40dp"
                 android:inputType="textPersonName"
-                android:hint="Search hubs ..."
+                android:hint="search hubs ..."
                 android:textSize="25px"
                 android:layout_gravity="left"
                 android:layout_marginRight="10dp"
@@ -51,10 +51,12 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@drawable/background_02_2208x1242">
 
             <ScrollView android:id="@+id/hubsScrollView" android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+                android:background="@drawable/background_01_2208x1242">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +68,8 @@
                     android:id="@+id/list_view_hubs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:dividerHeight="10dp"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
                     android:headerDividersEnabled="true"
                     android:footerDividersEnabled="true"/>
 
@@ -84,7 +87,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/background_01_2208x1242"
+                    android:background="@drawable/background_02_2208x1242"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -110,7 +113,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:id="@+id/empty_search"
-                android:background="#FFFFFF"
+                android:background="@drawable/background_02_2208x1242"
                 android:visibility="invisible">
                 <LinearLayout
                     android:layout_width="match_parent"

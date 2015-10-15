@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="co.geeksters.hq.activities.GlobalMenuActivity">
     <item android:id="@+id/action_add"
-        android:icon="@drawable/add"
         android:title="search"
         android:showAsAction="always" />
 </menu>

@@ -92,6 +92,7 @@ public class MyToDosFragment extends Fragment {
         GlobalVariables.inMyTodosFragment = false;
         GlobalVariables.inMarketPlaceFragment = false;
         GlobalVariables.inMyTodosFragment = true;
+        GlobalVariables.needReturnButton = false;
         ((GlobalMenuActivity) getActivity()).setActionBarTitle(getResources().getString(R.string.title_todos_fragment));
     }
 
