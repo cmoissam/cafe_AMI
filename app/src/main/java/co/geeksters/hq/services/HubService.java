@@ -3,7 +3,6 @@ package co.geeksters.hq.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +47,10 @@ public class HubService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -122,6 +125,10 @@ public class HubService {
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
                 // BaseApplication.post(new ConnectionFailureEvent());
+
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -150,6 +157,10 @@ public class HubService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }

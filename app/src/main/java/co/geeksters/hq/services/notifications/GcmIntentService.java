@@ -6,32 +6,17 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.activities.GlobalMenuActivity_;
-import co.geeksters.hq.activities.RegisterActivity_;
 import co.geeksters.hq.activities.StartActivity_;
-import co.geeksters.hq.fragments.MarketPlaceFragment_;
 import co.geeksters.hq.global.GlobalVariables;
-
-import static android.content.Intent.*;
 
 /**
  * Created by geeksters6 on 02/04/15.

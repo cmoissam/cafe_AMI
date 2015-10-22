@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import org.androidannotations.annotations.EFragment;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.models.Member;
 
 @EFragment(R.layout.fragment_coming_soon)
 public class OneHubNewsFragment extends Fragment {

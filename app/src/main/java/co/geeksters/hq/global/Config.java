@@ -1,7 +1,5 @@
 package co.geeksters.hq.global;
 
-import com.cloudinary.Cloudinary;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,9 +20,4 @@ public class Config {
         return config;
     }
 
-    public static Cloudinary getCloudinaryObject() {
-        Cloudinary cloudinary = new Cloudinary(config);
-
-        return cloudinary;
-    }
 }

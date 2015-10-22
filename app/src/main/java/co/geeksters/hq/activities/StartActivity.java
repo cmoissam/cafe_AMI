@@ -4,16 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -21,24 +14,14 @@ import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
-
-import java.io.IOException;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
-import co.geeksters.hq.events.success.LoginEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelpers;
-import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.services.ConnectService;
 import co.geeksters.hq.services.MemberService;
 
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;

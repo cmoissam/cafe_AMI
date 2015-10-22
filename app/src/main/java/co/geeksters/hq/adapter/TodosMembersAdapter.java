@@ -1,37 +1,21 @@
 package co.geeksters.hq.adapter;
 
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MotionEventCompat;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.fragments.OneProfileFragment_;
-import co.geeksters.hq.fragments.UpdateTodoFragment_;
-import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Todo;
-import co.geeksters.hq.services.TodoService;
 
 /**
  * Created by soukaina on 04/02/15.

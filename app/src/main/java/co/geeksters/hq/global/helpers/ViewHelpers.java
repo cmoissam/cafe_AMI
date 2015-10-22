@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -24,19 +23,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.global.CircleView;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.PredicateLayout;
-import co.geeksters.hq.models.Hub;
 
 /**
  * Created by soukaina on 26/11/14.
@@ -129,7 +121,7 @@ public class ViewHelpers {
         Button quitImage = (Button)dialoglayout.findViewById(R.id.quite_image);
 
         Typeface typeFace=Typeface.createFromAsset(context.getAssets(), "fonts/OpenSans-Regular.ttf");
-        infoTitle.setTypeface(null,typeFace.BOLD);
+        infoTitle.setTypeface(null, typeFace.BOLD);
         infotext.setTypeface(null, typeFace.BOLD);
 
 
@@ -250,22 +242,18 @@ public class ViewHelpers {
     }
 
     public static void setImageViewBackgroundFromURL(Context context, ImageView picture, String image) {
-//        if(ImageLoader.getInstance().isInited()) {
-//            ImageLoader.getInstance().destroy();
-//        }
-
-//        DisplayImageOptions options = new DisplayImageOptions.Builder()
-//                .cacheInMemory(true)
-//                .cacheOnDisk(true)
-//                .build();
-//
-//        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
-//        ImageLoader.getInstance().init(config);
-//        ImageLoader.getInstance().displayImage(url, picture, options);
-
 
         String imageurl = GlobalVariables.UrlApiImage + image;
         ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.displayImage(imageurl, picture);
+    }
+
+    public static void setImageViewBackgroundFromURLWhenUpdated(Context context, ImageView picture, String image) {
+
+        String imageurl = GlobalVariables.UrlApiImage + image;
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        imageLoader.clearDiskCache();
+        imageLoader.clearMemoryCache();
         imageLoader.displayImage(imageurl, picture);
     }
 }

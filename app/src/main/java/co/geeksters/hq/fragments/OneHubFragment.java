@@ -352,7 +352,7 @@ public class OneHubFragment extends Fragment {
                 fragmentTransaction.add(R.id.realtabcontent,new OneHubMembersFragment_().newInstance(hubToDisplay), "members");
                 eventsButtonLight.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonline_nonselected_407x9));
                 membersButtonLight.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonline_selected_407x9));
-                newsButtonLight.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_2_no_selected_562x188));
+                newsButtonLight.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonline_nonselected_407x9));
                 membersSelected = true;
                 eventsSelected = false;
                 newsSelected = false;

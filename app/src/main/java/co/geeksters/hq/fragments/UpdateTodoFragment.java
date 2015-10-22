@@ -1,7 +1,6 @@
 package co.geeksters.hq.fragments;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -22,7 +21,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -47,7 +45,6 @@ import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.TodoAdapter;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.CreateTodoEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.events.success.UpdateTodoEvent;

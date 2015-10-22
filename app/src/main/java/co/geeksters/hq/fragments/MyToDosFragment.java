@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -23,25 +21,16 @@ import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.adapter.ListViewMarketAdapter;
-import co.geeksters.hq.adapter.PostsAdapter;
 import co.geeksters.hq.adapter.TodosAdapter;
 import co.geeksters.hq.events.failure.NoTodosFailureEvent;
-import co.geeksters.hq.events.success.CommentEvent;
-import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.DeleteTodosEvent;
-import co.geeksters.hq.events.success.PostEvent;
-import co.geeksters.hq.events.success.PostsEvent;
-import co.geeksters.hq.events.success.TodoEvent;
 import co.geeksters.hq.events.success.TodosEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Post;
 import co.geeksters.hq.models.Todo;
-import co.geeksters.hq.services.PostService;
 import co.geeksters.hq.services.TodoService;
 
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;

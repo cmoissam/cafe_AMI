@@ -125,16 +125,35 @@ public class OneProfileFragment extends Fragment {
             defaultIndex = (Integer) getArguments().getSerializable(DEFAULT_INDEX_KEY);
         }
 
-        if(profileMember == null) {
+        preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+
+            Member member = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
+        if(profileMember == null || profileMember.id == member.id) {
+            if(profileMember != null)
+            {
+                GlobalVariables.needReturnButton = true;
+                if(GlobalVariables.menuPart == 1)
+                    GlobalVariables.menuDeep = 1;
+                if(GlobalVariables.menuPart == 2)
+                    GlobalVariables.menuDeep = 1;
+                if(GlobalVariables.menuPart == 3)
+                    GlobalVariables.menuDeep = 2;
+                if(GlobalVariables.menuPart == 4)
+                    GlobalVariables.menuDeep = 1;
+
+            }
+            else {
+                GlobalVariables.needReturnButton = false;
+                GlobalVariables.menuPart = 6;
+                GlobalVariables.menuDeep = 0;
+            }
             GlobalVariables.inRadarFragement = false;
-            GlobalVariables.inMyProfileFragment = false;
             GlobalVariables.inMyTodosFragment = false;
             GlobalVariables.inMarketPlaceFragment = false;
             GlobalVariables.inMyProfileFragment = true;
-            GlobalVariables.needReturnButton = false;
                     ((GlobalMenuActivity) getActivity()).setActionBarTitle("MY PROFILE");
-            GlobalVariables.menuPart = 6;
-            GlobalVariables.menuDeep = 0;
+
         }
         else{
             GlobalVariables.inRadarFragement = false;
@@ -303,8 +322,6 @@ public class OneProfileFragment extends Fragment {
     }
 
 
-
-
     public void treatments(String tabId) {
 
 
@@ -341,38 +358,12 @@ public class OneProfileFragment extends Fragment {
                 /** Bring to the front, if already exists in the fragmenttransaction */
             }
             fragmentTransaction.commit();
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
 
     @Click(R.id.linkedin_Button)
     public void openLinkdinLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-                /*// get the LinkedIn app if possible
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("linkedin://you"));
-                final PackageManager packageManager = getActivity().getPackageManager();
-                final List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
-                if (list.isEmpty()) {
-                    if (!memberToDisplay.social.linkedin.startsWith("https://") && !memberToDisplay.social.linkedin.startsWith("http://"))
-                        memberToDisplay.social.linkedin = "https://" + memberToDisplay.social.linkedin;
-
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.linkedin));
-                }*/
 
             if (!memberToDisplay.social.linkedin.startsWith("https://") && !memberToDisplay.social.linkedin.startsWith("http://"))
                 memberToDisplay.social.linkedin = "https://" + memberToDisplay.social.linkedin;
@@ -388,9 +379,12 @@ public class OneProfileFragment extends Fragment {
     public void openFacebookLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
 
-                if (!memberToDisplay.social.facebook.startsWith("https://") && !memberToDisplay.social.facebook.startsWith("http://"))
+                if (!memberToDisplay.social.facebook.startsWith("https://") && !memberToDisplay.social.facebook.startsWith("http://")) {
+                    if(memberToDisplay.social.facebook.contains("facebook"))
                     memberToDisplay.social.facebook = "https://" + memberToDisplay.social.facebook;
-
+                    else
+                        memberToDisplay.social.facebook = "https://www.facebook.com/" + memberToDisplay.social.facebook;
+                }
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.facebook));
                 startActivity(browserIntent);
 
@@ -407,12 +401,18 @@ public class OneProfileFragment extends Fragment {
                 try {
                     // get the Twitter app if possible
                     getActivity().getPackageManager().getPackageInfo("com.twitter.android", 0);
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name="+memberToDisplay.social.twitter.split("@")[0]));
+                    if(memberToDisplay.social.twitter.contains("@"))
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name="+memberToDisplay.social.twitter.split("@")[1]));
+                    else
+                        intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name="+memberToDisplay.social.twitter));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 } catch (Exception e) {
                     // no Twitter app, revert to browser
                     if (!memberToDisplay.social.twitter.startsWith("https://") && !memberToDisplay.social.twitter.startsWith("http://"))
-                        memberToDisplay.social.twitter = "https://twitter.com/" + memberToDisplay.social.twitter.split("@")[0];
+                        if(memberToDisplay.social.twitter.contains("twitter"))
+                            memberToDisplay.social.twitter = "https://"+memberToDisplay;
+                        else
+                        memberToDisplay.social.twitter = "https://twitter.com/" + memberToDisplay.social.twitter;
 
                     intent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.twitter));
                 }

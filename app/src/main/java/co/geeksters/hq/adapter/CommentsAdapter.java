@@ -1,6 +1,5 @@
 package co.geeksters.hq.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -10,12 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
@@ -24,7 +17,6 @@ import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Comment;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.CommentService;
-import co.geeksters.hq.services.PostService;
 
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 

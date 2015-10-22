@@ -1,19 +1,13 @@
 package co.geeksters.hq.adapter;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,33 +16,19 @@ import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 
-import org.androidannotations.annotations.Click;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.fragments.MyToDosFragment_;
-import co.geeksters.hq.fragments.ReplyMarketFragment;
-import co.geeksters.hq.fragments.ReplyMarketFragment_;
-import co.geeksters.hq.fragments.UpdateTodoFragment;
 import co.geeksters.hq.fragments.UpdateTodoFragment_;
 import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Post;
 import co.geeksters.hq.models.Todo;
-import co.geeksters.hq.services.PostService;
 import co.geeksters.hq.services.TodoService;
-
-import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 /**
  * Created by soukaina on 04/02/15.
@@ -164,6 +144,8 @@ public class TodosAdapter {
             if(todoList.get(i).memberId != currentUser.id) {
 
                 swipeLayout.removeAllSwipeDeniers();
+                swipeLayout.setLeftSwipeEnabled(Boolean.FALSE);
+                swipeLayout.setRightSwipeEnabled(Boolean.FALSE);
             }
             else {
 

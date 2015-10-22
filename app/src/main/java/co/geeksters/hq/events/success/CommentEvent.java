@@ -1,9 +1,5 @@
 package co.geeksters.hq.events.success;
 
-import com.google.android.gms.internal.co;
-
-import java.util.List;
-
 import co.geeksters.hq.models.Comment;
 
 /**

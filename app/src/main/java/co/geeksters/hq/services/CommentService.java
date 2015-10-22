@@ -1,7 +1,5 @@
 package co.geeksters.hq.services;
 
-import android.util.Log;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -13,18 +11,13 @@ import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.CommentEvent;
 import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.CommentsEventOnReplay;
-import co.geeksters.hq.events.success.DeleteCommentEvent;
-import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.CommentInterface;
 import co.geeksters.hq.models.Comment;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Post;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-import retrofit.http.Field;
-import retrofit.http.Path;
 
 public class CommentService {
 
@@ -56,6 +49,9 @@ public class CommentService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -93,6 +89,9 @@ public class CommentService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -123,6 +122,9 @@ public class CommentService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }

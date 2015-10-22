@@ -9,37 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
-import org.junit.After;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.adapter.DirectoryAdapter;
 import co.geeksters.hq.adapter.FinderListAdapter;
 import co.geeksters.hq.events.success.MembersAroundMeEvent;
-import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.RefreshRadarEvent;
-import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;

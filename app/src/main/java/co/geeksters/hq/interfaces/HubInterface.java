@@ -1,15 +1,7 @@
 package co.geeksters.hq.interfaces;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import org.json.JSONArray;
-
-import java.io.File;
-import java.util.List;
-
-import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;

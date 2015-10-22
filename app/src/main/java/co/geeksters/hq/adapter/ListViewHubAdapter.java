@@ -1,6 +1,5 @@
 package co.geeksters.hq.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -16,8 +15,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import co.geeksters.hq.R;
 import co.geeksters.hq.fragments.OneHubFragment_;
 import co.geeksters.hq.global.GlobalVariables;
@@ -79,10 +80,18 @@ public class ListViewHubAdapter extends BaseAdapter {
         hubName.setText(GeneralHelpers.firstToUpper(hub.name));
         hubMembersNumber.setText(hub.members.size() + " Members");
 
-        if (lastHubs.contains(hub) && (position >= 0 && position < lastHubs.size())) {
+        for(int i=0;i<lastHubs.size();i++)
+        {
+            if (lastHubs.get(i).id == hub.id){
+                removeItem.setVisibility(View.VISIBLE);
+                break;
+            }
+        }
+
+/*        if (lastHubs.contains(hub) && (position >= 0 && position < lastHubs.size())) {
             // set removeItem button to visible
             removeItem.setVisibility(View.VISIBLE);
-        }
+        }*/
 
         removeItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,11 +101,24 @@ public class ListViewHubAdapter extends BaseAdapter {
                 int id = hubsList.get(position).id;
                 preferences.edit().remove("last_hub" + hubsList.get(position).id).commit();
 
+                lastHubs.remove(position);
                 //hubsList.add(lastHubs.get(position));
                 List<Hub> orderedHubList = new ArrayList<Hub>();
                 orderedHubList.addAll(getHubsByAlphabeticalOrder(hubsList));
-                lastHubs.remove(position);
-                ListViewHubAdapter adapterForHubList = new ListViewHubAdapter(activity, orderedHubList, lastHubs, listViewHubs);
+                for (int i = 0; i < lastHubs.size(); i++) {
+                    for(int j =0;j<orderedHubList.size();j++)
+                    {
+                        if(orderedHubList.get(j).id == lastHubs.get(i).id)
+                        {
+                            orderedHubList.remove(j);
+                            break;
+                        }
+                    }
+                }
+                hubsList.clear();
+                hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, orderedHubList);
+
+                ListViewHubAdapter adapterForHubList = new ListViewHubAdapter(activity, hubsList, lastHubs, listViewHubs);
                 listViewHubs.setAdapter(adapterForHubList);
                 ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
                 Toast.makeText(activity, "Remove Item", Toast.LENGTH_LONG).show();

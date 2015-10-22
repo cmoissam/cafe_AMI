@@ -1,39 +1,19 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.WindowManager;
-import android.widget.ActionMenuView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.internal.my;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -41,31 +21,17 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.ChangeToListEvent;
 import co.geeksters.hq.events.success.MembersAroundMeEvent;
-import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.RefreshRadarEvent;
-import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.global.helpers.GPSTrackerHelpers;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
-import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;
 
@@ -156,15 +122,19 @@ public class PeopleFinderRadarFragment extends Fragment {
     @Subscribe
     public void onRefreshRadarEvent(RefreshRadarEvent event){
 
-        if(GlobalVariables.radarLock) {
+
             GlobalVariables.radarLock = false;
             if (GeneralHelpers.isInternetAvailable(getActivity())) {
                 MemberService memberService = new MemberService(accessToken);
+                //radarForm.setVisibility(View.INVISIBLE);
+                //radarForm.setVisibility(View.INVISIBLE);
+                turnLocationLayout.setVisibility(View.INVISIBLE);
+                loading.setVisibility(View.VISIBLE);
                 memberService.getMembersArroundMe(currentMember.id, GlobalVariables.RADIUS);
             } else {
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
             }
-        }
+
 
     }
     @AfterViews
@@ -605,14 +575,26 @@ public class PeopleFinderRadarFragment extends Fragment {
         accessToken = preferences.getString("access_token","").replace("\"", "");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
-        if(GlobalVariables.height < 1100) {
+
+        float heightDp = GlobalVariables.height/GlobalVariables.d;
+
+        if(heightDp < 580) {
             container.removeAllViewsInLayout();
              subview = inflater.inflate(R.layout.fragment_people_finder_radar_small_screen, container,false);
         }
-        else{
+        else if(heightDp < 800) {
             container.removeAllViewsInLayout();
-            subview = inflater.inflate(R.layout.fragment_people_finder_radar, container,false);
+            subview = inflater.inflate(R.layout.fragment_people_finder_radar, container, false);
+        }
+        else if(heightDp < 1000){
 
+            container.removeAllViewsInLayout();
+            subview = inflater.inflate(R.layout.fragment_people_finder_radar_tablet_7, container, false);
+
+        }
+        else {
+            container.removeAllViewsInLayout();
+            subview = inflater.inflate(R.layout.fragment_people_finder_radar_tablet_10, container, false);
         }
         return subview;
     }

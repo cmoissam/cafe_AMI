@@ -10,14 +10,10 @@ import co.geeksters.hq.events.failure.NoTodosFailureEvent;
 import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.CreateTodoEvent;
 import co.geeksters.hq.events.success.DeleteTodosEvent;
-import co.geeksters.hq.events.success.PostsEvent;
-import co.geeksters.hq.events.success.TodoEvent;
 import co.geeksters.hq.events.success.TodosEvent;
 import co.geeksters.hq.events.success.UpdateTodoEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.TodoInterface;
-import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Post;
 import co.geeksters.hq.models.Todo;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -44,6 +40,9 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -76,6 +75,9 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -104,6 +106,9 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -132,6 +137,9 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }

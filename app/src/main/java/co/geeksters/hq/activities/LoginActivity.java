@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -21,11 +19,8 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Touch;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.IOException;
@@ -34,7 +29,6 @@ import co.geeksters.hq.R;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
-import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -44,8 +38,6 @@ import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.ConnectService;
 import co.geeksters.hq.services.MemberService;
-
-import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends Activity {
@@ -122,10 +114,7 @@ public class LoginActivity extends Activity {
         String emailOnRegister = intent.getStringExtra("username");
         if(emailOnRegister != null){
             email.setText(emailOnRegister);
-        } else {
-            email.setText("issam@geeksters.co");
         }
-        password.setText("passfortest");
     }
 
     @Override
@@ -290,6 +279,9 @@ public class LoginActivity extends Activity {
     @Subscribe
     public void onConnectionFailureEvent(ConnectionFailureEvent event){
 
+        loadingGif.setVisibility(View.INVISIBLE);
+        email.setEnabled(true);
+        password.setEnabled(true);
         ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
     }
 

@@ -16,7 +16,6 @@ import java.util.List;
 import co.geeksters.hq.R;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
 import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.PostService;

@@ -3,34 +3,28 @@ package co.geeksters.hq.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.TimePicker;
 
 import com.squareup.otto.Subscribe;
-import android.widget.TimePicker;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -49,29 +43,21 @@ import java.util.TimeZone;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.adapter.DirectoryAdapter;
 import co.geeksters.hq.adapter.TodoAdapter;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.CreateTodoEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
-import co.geeksters.hq.events.success.PostEvent;
-import co.geeksters.hq.events.success.TodoEvent;
-import co.geeksters.hq.events.success.TodosEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
-import co.geeksters.hq.models.Comment;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Post;
 import co.geeksters.hq.models.Todo;
 import co.geeksters.hq.services.MemberService;
-import co.geeksters.hq.services.PostService;
 import co.geeksters.hq.services.TodoService;
 
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
-import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterestToEdit;
 
 /**
  * Created by geeksters on 11/08/15.

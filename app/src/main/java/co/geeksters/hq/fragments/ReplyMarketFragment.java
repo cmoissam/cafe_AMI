@@ -1,81 +1,41 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.cloudinary.Cloudinary;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FocusChange;
-import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.adapter.CommentsAdapter;
-import co.geeksters.hq.adapter.ListViewHubAdapter;
-import co.geeksters.hq.events.success.CommentEvent;
-import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.CommentsEventOnReplay;
-import co.geeksters.hq.events.success.HubsEvent;
-import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.Config;
-import co.geeksters.hq.global.CustomOnItemSelectedListener;
 import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Comment;
-import co.geeksters.hq.models.Company;
-import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Social;
 import co.geeksters.hq.services.CommentService;
-import co.geeksters.hq.services.HubService;
-import co.geeksters.hq.services.MemberService;
 
-import static co.geeksters.hq.global.helpers.GeneralHelpers.formatActualDate;
-import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
-import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterestToEdit;
-import static co.geeksters.hq.global.helpers.ViewHelpers.deleteTextAndSetHint;
-import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
 
 @EFragment(R.layout.fragment_reply)
 public class ReplyMarketFragment extends Fragment {

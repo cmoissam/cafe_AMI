@@ -1,17 +1,13 @@
 package co.geeksters.hq.global;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.utils.StorageUtils;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

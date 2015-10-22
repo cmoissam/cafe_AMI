@@ -15,7 +15,7 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="270dp"
                 android:background="@drawable/profile_imbackground_1242x1102"
                 android:id="@+id/personalInformation">
 
@@ -162,16 +162,23 @@
                     android:background="#FFFFFF"
                     android:alpha="0.7"></LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:weightSum="11">
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="5.4"
                     android:layout_height="60dp"
-                    android:layout_alignParentLeft="true"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginBottom="10dp">
 
                     <Button android:id="@+id/list_Button"
-                        android:layout_width="140dp" android:layout_height="match_parent"
+                        android:layout_width="match_parent" android:layout_height="match_parent"
                         android:text="INFO"
                         android:textStyle="bold"
                         android:textSize="16dp"
@@ -183,27 +190,27 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:id="@+id/list_buttonlight"
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="3dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="6dp"
                         android:background="@drawable/buttonline_selected_407x9">
 
                     </LinearLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="5.4"
                     android:layout_height="60dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp">
 
 
                     <Button android:id="@+id/marketplace_Button"
-                        android:layout_width="140dp" android:layout_height="60dp"
+                        android:layout_width="match_parent" android:layout_height="60dp"
                         android:text="OPPORTUNITIES"
                         android:textStyle="bold"
                         android:textSize="16dp"
@@ -215,16 +222,18 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:id="@+id/marketplace_buttonlight"
-                        android:layout_width="70dp"
+                        android:layout_width="match_parent"
                         android:layout_height="3dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="6dp"
                         android:background="@drawable/buttonline_nonselected_407x9">
 
                     </LinearLayout>
 
                 </RelativeLayout>
+                    </LinearLayout>
 
             </RelativeLayout>
 

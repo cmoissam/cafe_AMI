@@ -1,14 +1,10 @@
 package co.geeksters.hq.global;
 
-import android.graphics.Typeface;
 import android.view.Menu;
-
-import com.facebook.android.Facebook;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
 
 /**
@@ -19,9 +15,6 @@ public class GlobalVariables {
     public static int MAX_SLICE_NUMBER = 5;
     public static final int MAX_INTERVAL_DISTANCE_FINDER = 1000;
     public static float RADIUS = (float) 6.0;
-
-    // Contact configuration
-    public static Facebook facebook = new Facebook(Config.FACEBOOK_API_KEY);
 
     // Search configuration
     public static int SEARCH_SIZE = 10;
@@ -88,11 +81,11 @@ public class GlobalVariables {
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://192.168.1.128:8000/images/";
-    public static String UrlApi = "http://192.168.1.128:8000/api/v1";
+    public static String UrlApiImage = "http://hq-api.com/images/";
+    public static String UrlApi = "http://hq-api.com/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console
-    // NOM DU PROJET : HQ project
+    // NOM DU PROJET : Thousand Network project
     // IDENTIFIANT DU PROJET : weighty-wonder-819
 }

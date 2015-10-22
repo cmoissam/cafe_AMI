@@ -1,22 +1,15 @@
 package co.geeksters.hq.global.helpers;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.location.LocationManager;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.DisplayMetrics;
-import android.util.Log;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,9 +21,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import co.geeksters.hq.global.GlobalVariables;
-import co.geeksters.hq.models.Hub;
 
 /**
  * Created by soukaina on 11/12/14.
@@ -94,7 +88,14 @@ public class GeneralHelpers {
     }
 
     public static boolean isEmailValid(String email) {
-        return email.contains("@") && email.contains(".");
+
+        Pattern pattern = Pattern.compile("[A-Z0-9a-z._%+-]{3,}+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}");
+
+        Matcher matcher = pattern.matcher(email);
+
+        boolean matchFound = matcher.matches();
+
+        return matchFound;
     }
 
     public static boolean isPasswordValid(String password) {
@@ -193,48 +194,58 @@ public class GeneralHelpers {
 
         // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(context.getContentResolver().openInputStream(selectedImage), null, o);
+        Bitmap bitmap = BitmapFactory.decodeStream(context.getContentResolver().openInputStream(selectedImage), null, o);
 
-        // The new size we want to scale to
-        final int REQUIRED_SIZE = 140;
+        Bitmap resized = Bitmap.createScaledBitmap(bitmap, 500 ,500, true);
+        Bitmap resizedWithoutOritation = fixImageOrientation(selectedImage.getPath(),resized);
 
-        // Find the correct scale value. It should be the power of 2.
-        int width_tmp = o.outWidth, height_tmp = o.outHeight;
-        int scale = 1;
-        while (true) {
-            if (width_tmp / 2 < REQUIRED_SIZE
-                    || height_tmp / 2 < REQUIRED_SIZE) {
-                break;
-            }
-            width_tmp /= 2;
-            height_tmp /= 2;
-            scale *= 2;
-        }
-
-        // Decode with inSampleSize
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = scale;
-        return BitmapFactory.decodeStream(context.getContentResolver().openInputStream(selectedImage), null, o2);
+        return resizedWithoutOritation;
     }
 
-    // Creates Bitmap from InputStream and returns it
-    public static Bitmap getBitmapFromUrl(String url) {
-        Bitmap bitmap = null;
-        InputStream stream = null;
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inSampleSize = 1;
-
+    public static Bitmap fixImageOrientation(String path,Bitmap bitmap){
+        ExifInterface exif = null;
         try {
-            stream = getHttpConnection(url);
-            bitmap = BitmapFactory.
-                    decodeStream(stream, null, bmOptions);
-//            stream.close();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            exif = new ExifInterface(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        int exifOrientation = exif.getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL);
+
+        int rotate = 0;
+
+        switch (exifOrientation) {
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                rotate = 90;
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                rotate = 180;
+                break;
+
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                rotate = 270;
+                break;
+        }
+
+        if (rotate != 0) {
+            int w = bitmap.getWidth();
+            int h = bitmap.getHeight();
+
+            // Setting pre rotate
+            Matrix mtx = new Matrix();
+            mtx.preRotate(rotate);
+
+            // Rotating Bitmap & convert to ARGB_8888, required by tess
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, false);
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+            //fixOrientation(bitmap);
+
         }
         return bitmap;
     }
+
 
     // Makes HttpURLConnection and returns InputStream
     public static InputStream getHttpConnection(String urlString)

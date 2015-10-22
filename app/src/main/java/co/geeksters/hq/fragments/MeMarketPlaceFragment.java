@@ -1,15 +1,12 @@
 package co.geeksters.hq.fragments;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -25,7 +22,6 @@ import co.geeksters.hq.adapter.ListViewMarketAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
 import co.geeksters.hq.adapter.PostsAdapterOneProfile;
 import co.geeksters.hq.events.success.CommentEvent;
-import co.geeksters.hq.events.success.CommentsEvent;
 import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;

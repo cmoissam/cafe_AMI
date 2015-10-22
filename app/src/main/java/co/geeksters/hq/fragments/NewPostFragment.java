@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -27,24 +23,16 @@ import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
-import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.events.success.PostEvent;
-import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
-import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
-import co.geeksters.hq.services.MemberService;
 import co.geeksters.hq.services.PostService;
 
-import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
-import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
-import static co.geeksters.hq.models.Hub.getHubsByAlphabeticalOrder;
 
 /**
  * Created by geeksters on 10/08/15.

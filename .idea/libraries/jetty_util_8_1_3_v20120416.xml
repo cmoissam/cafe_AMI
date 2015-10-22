@@ -4,6 +4,8 @@
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-util/8.1.3.v20120416/7e2a8b85601df24b4780ed2b7207e0d8f39b83d2/jetty-util-8.1.3.v20120416.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.eclipse.jetty/jetty-util/8.1.3.v20120416/c55615fdb299c538b611d10c49903df6c07d76d7/jetty-util-8.1.3.v20120416-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>

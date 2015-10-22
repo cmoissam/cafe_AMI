@@ -4,38 +4,33 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.EditText;
-import android.widget.HeaderViewListAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.NumberPicker;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
 import com.squareup.otto.Subscribe;
+
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.activities.GlobalMenuActivity_;
 import co.geeksters.hq.adapter.DirectoryAdapter;
-import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -59,6 +54,13 @@ public class PeopleDirectoryFragment extends Fragment {
     public boolean onRefresh = false;
     public boolean noMoreMembers = false;
     public int lastPosition = 0;
+
+    public boolean waitForSearch = false;
+    public boolean firstTime = true;
+    public boolean firstTimeSearch = false;
+
+    private static final ScheduledExecutorService worker =
+            Executors.newSingleThreadScheduledExecutor();
 
     public View footer;
 
@@ -202,7 +204,6 @@ public class PeopleDirectoryFragment extends Fragment {
 
     public void searchForMembersByPaginationService(String search){
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-
             MemberService memberService = new MemberService(accessToken);
             memberService.searchForMembersFromKey(search,this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
         } else {
@@ -220,89 +221,102 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @Subscribe
     public void onGetListMembersByPaginationEvent(MembersEvent event) {
-        this.from += GlobalVariables.SEARCH_SIZE;
 
-
-        membersList.addAll(event.members);
-
-
-        loadingLayout.setVisibility(View.INVISIBLE);
-
-        GlobalVariables.finderList = false;
-        adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
-        listViewMembers.setAdapter(adapter);
-        listViewMembers.removeFooterView(footer);
-
-
-
-        if(event.members.size() < GlobalVariables.SEARCH_SIZE){
-            noMoreMembers = true;
-        }
-        if(event.members.size() == 0)
-            noMoreMembers = true;
-
-
-
-        if(adapter.isEmpty())
-
-            emptySearch.setVisibility(View.VISIBLE);
-        else
-            emptySearch.setVisibility(View.INVISIBLE);
-
-        if(onRefresh)
-        {
-            listViewMembers.setSelection(lastPosition);
+        if(firstTime && firstTimeSearch) {
 
         }
+        else {
+            this.from += GlobalVariables.SEARCH_SIZE;
+            waitForSearch = false;
+
+            membersList.clear();
+            membersList.addAll(event.members);
 
 
-        onRefresh = false;
+            loadingLayout.setVisibility(View.INVISIBLE);
+
+            GlobalVariables.finderList = false;
+            adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
+            listViewMembers.setAdapter(adapter);
+            listViewMembers.removeFooterView(footer);
+
+
+            if (event.members.size() < GlobalVariables.SEARCH_SIZE) {
+                noMoreMembers = true;
+            }
+            if (event.members.size() == 0)
+                noMoreMembers = true;
+
+
+            if (adapter.isEmpty())
+
+                emptySearch.setVisibility(View.VISIBLE);
+            else
+                emptySearch.setVisibility(View.INVISIBLE);
+
+            if (onRefresh) {
+                listViewMembers.setSelection(lastPosition);
+
+            }
+
+
+            onRefresh = false;
+        }
+
+        firstTime = false;
+
     }
 
 
 
     @TextChange(R.id.inputSearch)
     public void searchForMemberByPagination() {
-        from = 0;
-        membersList = new ArrayList<Member>();
-        members = new ArrayList<HashMap<String, String>>();
+        firstTimeSearch = true;
 
+        emptySearch.setVisibility(View.INVISIBLE);
         loadingLayout.setVisibility(View.VISIBLE);
-        if(!inputSearch.getText().toString().isEmpty())
-            searchForMembersByPaginationService(inputSearch.getText().toString());
-        else {
-            listAllMembersByPaginationService();
-        }
+
+            Runnable task = new Runnable() {
+                public void run() {
+                    if(!waitForSearch) {
+                        waitForSearch = true;
+                        from = 0;
+                        membersList = new ArrayList<Member>();
+                        members = new ArrayList<HashMap<String, String>>();
+
+                        noMoreMembers = false;
+                        if (!inputSearch.getText().toString().isEmpty())
+                            searchForMembersByPaginationService(inputSearch.getText().toString());
+                        else {
+                            listAllMembersByPaginationService();
+                        }
+                    }
+                }
+            };
+
+        worker.schedule(task, 2, TimeUnit.SECONDS);
 
     }
 
     @Subscribe
     public void onSearchForMemberByPaginationEvent(MembersSearchEvent event) {
 
+
+        waitForSearch = false;
+
         this.from += GlobalVariables.SEARCH_SIZE;
 
 
+        membersList.clear();
         membersList.addAll(event.members);
 
         loadingLayout.setVisibility(View.INVISIBLE);
-
 
         adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
 
 
         listViewMembers.removeFooterView(footer);
-
-        if(onRefresh)
-        {
-            //TODO scroll to end of list
-            listViewMembers.setSelection(lastPosition);
-
-        }
-
-
-
-        onRefresh = false;
 
         if(adapter.isEmpty()) {
             emptySearch.setVisibility(View.VISIBLE);
@@ -316,6 +330,17 @@ public class PeopleDirectoryFragment extends Fragment {
 
         if(event.members.size() == 0)
            noMoreMembers = true;
+
+        if(onRefresh)
+        {
+            listViewMembers.setSelection(lastPosition);
+
+        }
+
+        onRefresh = false;
+
+
+
     }
 
 

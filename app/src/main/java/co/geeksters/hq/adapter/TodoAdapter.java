@@ -1,9 +1,7 @@
 package co.geeksters.hq.adapter;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.fragments.OneProfileFragment_;
-import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;

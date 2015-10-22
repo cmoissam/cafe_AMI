@@ -1,31 +1,14 @@
 package co.geeksters.hq.interfaces;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
-
 import com.google.gson.JsonElement;
 
-import org.json.JSONArray;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-
-import co.geeksters.hq.models.Company;
-import co.geeksters.hq.models.Hub;
-import co.geeksters.hq.models.Interest;
-import co.geeksters.hq.models.Member;
-import co.geeksters.hq.models.Social;
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
-import retrofit.http.Headers;
 import retrofit.http.Multipart;
 import retrofit.http.POST;
-import retrofit.http.PUT;
 import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
@@ -42,7 +25,7 @@ public interface MemberInterface {
     @FormUrlEncoded
     @POST("/members/{id}")
     void updateMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
-                      @Field("email") String email, @Field("hub") String hub, @Field("blurp") String blurp, @Field("social[twitter]") String twitter,
+                      @Field("email") String email, @Field("hub") String hub, @Field("blurp") String blurp,@Field("goal") String goal,@Field("phone") String phone, @Field("social[twitter]") String twitter,
                       @Field("social[facebook]") String facebook, @Field("social[linkedin]") String linkdin, @Field("social[skype]") String skype,
                       @Field("social[blog]") String blog, @Field("social[website]") String website, @Field("social[other]") String other,
                       @Field("interests") String interests, @Field("companies") String companies, @Field("latitude") float latitude,

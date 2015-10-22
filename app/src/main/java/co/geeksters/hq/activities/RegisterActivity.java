@@ -1,25 +1,29 @@
 package co.geeksters.hq.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.ExistingAccountEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -69,12 +73,13 @@ public class RegisterActivity extends Activity {
 
     @AfterViews
     public void initFiledsForTest(){
-        // Random rand = new Random();
-        // int randomNum = rand.nextInt((1000 - 0) + 1);
-        fullName.setText("Soukaina");
-        email.setText("soukaina@geeksters.co");
-        password.setText("soukaina");
-        passwordConfirmation.setText("soukaina");
+
+        Typeface typeFace=Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Regular.ttf");
+        email.setTypeface(typeFace);
+        password.setTypeface(typeFace);
+        noConnectionText.setTypeface(typeFace);
+        registerButton.setTypeface(typeFace);
+        emailSignInButton.setTypeface(typeFace);
         loadingGif.setVisibility(View.INVISIBLE);
     }
 
@@ -167,10 +172,47 @@ public class RegisterActivity extends Activity {
 
     @Subscribe
     public void onRegisterEvent(SaveMemberEvent event) {
+
+        loadingGif.setVisibility(View.INVISIBLE);
+
+        final SaveMemberEvent event1 = event;
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialoglayout = inflater.inflate(R.layout.pop_up, null);
+        TextView infoTitle = (TextView) dialoglayout.findViewById(R.id.infoTitle);
+        TextView infotext = (TextView) dialoglayout.findViewById(R.id.infoText);
+        ImageView infoimage = (ImageView) dialoglayout.findViewById(R.id.infoImage);
+        ImageView  cacelImage = (ImageView)dialoglayout.findViewById(R.id.cancelImage);
+
+        Typeface typeFace=Typeface.createFromAsset(this.getAssets(), "fonts/OpenSans-Regular.ttf");
+        infoTitle.setTypeface(null, typeFace.BOLD);
+        infotext.setTypeface(typeFace);
+
+        infoTitle.setText("register success");
+        infotext.setText(event.member.email);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialoglayout);
+        builder.setCancelable(true);
+        final AlertDialog ald =builder.show();
+        ald.setCancelable(true);
+
+        cacelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ald.dismiss();
+                passToLogin(event1);
+
+            }
+        });
+
+
+    }
+
+    public final void passToLogin(SaveMemberEvent event)
+    {
+
         Intent intent = new Intent(this, LoginActivity_.class);
         intent.putExtra("username", event.member.email);
-        ViewHelpers.showPopup(this,"register success", event.member.email, false);
-        loadingGif.setVisibility(View.INVISIBLE);
         finish();
         startActivity(intent);
         overridePendingTransition(0, 0);
@@ -182,7 +224,14 @@ public class RegisterActivity extends Activity {
         email.setError(getString(R.string.error_field_exists));
         email.requestFocus();
     }
+    @Subscribe
+    public void onConnectionFailureEvent(ConnectionFailureEvent event){
 
+        loadingGif.setVisibility(View.INVISIBLE);
+        email.setEnabled(true);
+        password.setEnabled(true);
+        ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection), true);
+    }
     @Touch(R.id.emailSignInButton)
     public void loginRedirection(View v, MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {

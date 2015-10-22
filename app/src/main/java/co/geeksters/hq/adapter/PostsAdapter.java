@@ -1,10 +1,5 @@
 package co.geeksters.hq.adapter;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,15 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.androidannotations.annotations.Click;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -34,8 +25,6 @@ import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
 import co.geeksters.hq.services.PostService;
-
-import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 /**
  * Created by soukaina on 04/02/15.

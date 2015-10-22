@@ -12,8 +12,8 @@ import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.ExistingAccountEvent;
 import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.LoginEvent;
-import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.PasswordResetEvent;
+import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -49,9 +49,17 @@ public class ConnectService {
 
             @Override
             public void failure(RetrofitError error) {
-                if(error.getResponse().getStatus() == 422){
-                    BaseApplication.post(new ExistingAccountEvent());
+
+                if(error != null) {
+                    if(error.getResponse() != null) {
+                        if (error.getResponse().getStatus() == 422) {
+                            BaseApplication.post(new ExistingAccountEvent());
+                        }
+                        else BaseApplication.post(new ConnectionFailureEvent());
+                    }
+                    else BaseApplication.post(new ConnectionFailureEvent());
                 }
+                else BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }
@@ -92,11 +100,11 @@ public class ConnectService {
                         }
                         else if(error.getResponse().getStatus() == 403)
                         {
-                            if(error.getResponse().getReason().equals("need email confirmation"))
                                 BaseApplication.post(new LoginFailureEvent("need email confirmation"));
-                            else
-                            BaseApplication.post(new LoginFailureEvent("not existant email"));
+
                         }
+                        else if(error.getResponse().getStatus() == 404)
+                        BaseApplication.post(new LoginFailureEvent("not existant email"));
                         else
                             BaseApplication.post(new ConnectionFailureEvent());
                     }
@@ -120,6 +128,10 @@ public class ConnectService {
                     EmailResonse emailResonse = new EmailResonse();
                     emailResonse.email = GlobalVariables.emails.get(i);
                     emailResonse.status = response.getAsJsonObject().get(GlobalVariables.emails.get(i).trim()).getAsJsonObject().get("status").toString();
+                    if(emailResonse.status.equals("error"))
+                    {
+                        BaseApplication.post(new ConnectionFailureEvent());
+                    }
                     emailResonse.message = response.getAsJsonObject().get(GlobalVariables.emails.get(i).trim()).getAsJsonObject().get("message").toString();
 
                     emailsResponse.add(emailResonse);
@@ -130,6 +142,8 @@ public class ConnectService {
 
             @Override
             public void failure(RetrofitError error) {
+
+                BaseApplication.post(new ConnectionFailureEvent());
             }
         });
     }

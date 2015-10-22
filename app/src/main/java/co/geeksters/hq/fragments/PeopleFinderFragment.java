@@ -2,7 +2,6 @@ package co.geeksters.hq.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -26,6 +25,7 @@ import org.androidannotations.annotations.ViewById;
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.events.success.ChangeToListEvent;
+import co.geeksters.hq.events.success.ResumeRadarEvent;
 import co.geeksters.hq.events.success.UpdateMemberLocationEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -48,6 +48,11 @@ public class PeopleFinderFragment extends Fragment {
             ImageView radarActivate;
     @ViewById(R.id.radar_no_activate)
             ImageView radarNoActivate;
+
+    @ViewById(R.id.radar_activate1)
+    ImageView radarActivate1;
+    @ViewById(R.id.radar_no_activate1)
+    ImageView radarNoActivate1;
     @ViewById(R.id.radar_Button)
     Button radarButton;
     @ViewById(R.id.list_Button)
@@ -59,6 +64,8 @@ public class PeopleFinderFragment extends Fragment {
 
     public Boolean radarSelected = false;
     public  Boolean listSelected = false;
+
+    public Boolean firstTime = true;
 
     boolean radarChecked = false;
 
@@ -142,8 +149,8 @@ public class PeopleFinderFragment extends Fragment {
             no.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    verifyGpsActivation();
                     ald.dismiss();
+                    verifyGpsActivation();
                 }
             });
             yes.setOnClickListener(new View.OnClickListener() {
@@ -167,28 +174,41 @@ public class PeopleFinderFragment extends Fragment {
 
         Member updatedMember = currentMember;
 
-        // check if GPS enabled
         if (gps.canGetLocation()) {
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
+            ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
+            radarChecked = true;
+            radarActivate.setVisibility(View.VISIBLE);
+            radarActivate1.setVisibility(View.INVISIBLE);
+            radarNoActivate.setVisibility(View.INVISIBLE);
+            radarNoActivate1.setVisibility(View.VISIBLE);
 
             // update longitude latitude
             updatedMember.longitude = (float) longitude;
             updatedMember.latitude  = (float) latitude;
+            if (GeneralHelpers.isInternetAvailable(getActivity())) {
+                GlobalVariables.updatePositionFromRadar = true;
+                MemberService memberService = new MemberService(accessToken);
+                updatedMember.radarVisibility = true;
+                memberService.updateMember(currentMember.id, updatedMember);
+                GlobalVariables.updatePosition = true;
+                GlobalVariables.isMenuOnPosition = true;
+                GlobalVariables.MENU_POSITION = 1;
+            } else {
+                ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection), true);
+            }
         } else {
-            ViewHelpers.buildAlertMessageNoGps(getActivity());
-        }
 
-        if (GeneralHelpers.isInternetAvailable(getActivity())) {
-            GlobalVariables.updatePositionFromRadar = true;
-            MemberService memberService = new MemberService(accessToken);
-            updatedMember.radarVisibility = true;
-            memberService.updateMember(currentMember.id, updatedMember);
-            GlobalVariables.updatePosition = true;
-            GlobalVariables.isMenuOnPosition = true;
-            GlobalVariables.MENU_POSITION = 1;
-        } else {
-            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection), true);
+            ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
+            radarChecked = false;
+            radarActivate.setVisibility(View.INVISIBLE);
+            radarActivate1.setVisibility(View.VISIBLE);
+            radarNoActivate.setVisibility(View.VISIBLE);
+            radarNoActivate1.setVisibility(View.INVISIBLE);
+
+            //  verifyGpsActivation();
+
         }
     }
 
@@ -218,20 +238,36 @@ public class PeopleFinderFragment extends Fragment {
         GlobalVariables.inRadarFragement = false;
     }
 
+    public void onResume() {
+        super.onResume();
+        if(!firstTime) {
+            if (currentMember.radarVisibility) {
+                updateLocationAndVisibility();
+                ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
+            } else
+                ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
+        }
+        firstTime = false;
+    }
     @AfterViews
     public void switchTreatments() {
         if (currentMember.radarVisibility)
         {
             radarChecked = true;
             ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
-            radarActivate.setBackgroundResource(R.drawable.radar_lcation_activated_android);
-            radarNoActivate.setBackgroundResource(R.drawable.button_4_pattern);}
+            radarActivate.setVisibility(View.VISIBLE);
+            radarActivate1.setVisibility(View.INVISIBLE);
+            radarNoActivate.setVisibility(View.INVISIBLE);
+            radarNoActivate1.setVisibility(View.VISIBLE);
+        }
         else
         {
             ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
             radarChecked = false;
-            radarActivate.setBackgroundResource(R.drawable.button_4_pattern);
-            radarNoActivate.setBackgroundResource(R.drawable.radar_lcation_nonactivated_android);
+            radarActivate.setVisibility(View.INVISIBLE);
+            radarActivate1.setVisibility(View.VISIBLE);
+            radarNoActivate.setVisibility(View.VISIBLE);
+            radarNoActivate1.setVisibility(View.INVISIBLE);
         }
 
         switchRadarActivation.setOnClickListener(new View.OnClickListener() {
@@ -240,16 +276,20 @@ public class PeopleFinderFragment extends Fragment {
                 if (radarChecked) {
                     radarChecked = false;
                     ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
-                    radarActivate.setBackgroundResource(R.drawable.button_4_pattern);
-                    radarNoActivate.setBackgroundResource(R.drawable.radar_lcation_nonactivated_android);
+                    radarActivate.setVisibility(View.INVISIBLE);
+                    radarActivate1.setVisibility(View.VISIBLE);
+                    radarNoActivate.setVisibility(View.VISIBLE);
+                    radarNoActivate1.setVisibility(View.INVISIBLE);
                     updateVisibility();
 
 
                 } else {
                     radarChecked = true;
                     ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
-                    radarActivate.setBackgroundResource(R.drawable.radar_lcation_activated_android);
-                    radarNoActivate.setBackgroundResource(R.drawable.button_4_pattern);
+                    radarActivate.setVisibility(View.VISIBLE);
+                    radarActivate1.setVisibility(View.INVISIBLE);
+                    radarNoActivate.setVisibility(View.INVISIBLE);
+                    radarNoActivate1.setVisibility(View.VISIBLE);
                     updateLocationAndVisibility();
 
                 }
@@ -352,10 +392,10 @@ public class PeopleFinderFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateLocationAndVisibility();
-        BaseApplication.register(this);
+    @Subscribe
+    public void onResumeRadarEvent(ResumeRadarEvent event){
+
+        verifyGpsActivation();
+
     }
 }

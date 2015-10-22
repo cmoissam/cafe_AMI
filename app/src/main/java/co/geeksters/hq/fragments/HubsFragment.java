@@ -10,23 +10,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +53,9 @@ public class HubsFragment extends Fragment {
     List<Hub> lastHubs = new ArrayList<Hub>();
     ArrayList<Hub> allHubs = new ArrayList<Hub>();
     List<Hub> eventHubsList = new ArrayList<Hub>();
+
+    ArrayList<Hub> searchingHubs = new ArrayList<Hub>();
+    ArrayList<Hub> orderedSearchinHubs = new ArrayList<Hub>();
     SharedPreferences.Editor editor;
 
     // List view
@@ -115,7 +114,6 @@ public class HubsFragment extends Fragment {
             HubService hubService = new HubService(accessToken);
             hubService.listAllHubs();
         } else {
-            //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
@@ -184,7 +182,7 @@ public class HubsFragment extends Fragment {
             }
         });
 
-        LinearLayout hubInformation = (LinearLayout) listViewHubs.getChildAt(position).findViewById(R.id.hubInformation);
+        RelativeLayout hubInformation = (RelativeLayout) listViewHubs.getChildAt(position).findViewById(R.id.hubInformation);
         hubInformation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,22 +200,18 @@ public class HubsFragment extends Fragment {
 
     @TextChange(R.id.inputSearch)
     public void searchForHub() {
-        //displayAll.setVisibility(View.GONE);
 
-
-        ArrayList<Hub> searchingHubs = new ArrayList<Hub>();
-        ArrayList<Hub> orderedSearchinHubs = new ArrayList<Hub>();
-                for (int i = 0; i < allHubs.size(); i++) {
+        orderedSearchinHubs.clear();
+        searchingHubs.clear();
+        for (int i = 0; i < allHubs.size(); i++) {
             String hubname = allHubs.get(i).name;
             if (hubname != null && hubname.toLowerCase().contains(inputSearch.getText().toString().toLowerCase())) {
                 searchingHubs.add(allHubs.get(i));
             }
         }
-
         orderedSearchinHubs.addAll(getHubsByAlphabeticalOrder(searchingHubs));
-
-
         if(inputSearch.getText().toString().isEmpty()) {
+            emptySearch.setVisibility(View.INVISIBLE);
             lastHubs = Hub.getLastSavedHubs(getActivity(), allHubs);
             eventHubsList.clear();
             eventHubsList.addAll(getHubsByAlphabeticalOrder(allHubs));
@@ -233,42 +227,28 @@ public class HubsFragment extends Fragment {
                 }
             }
             loadingLayout.setVisibility(View.INVISIBLE);
+            hubsList.clear();
             hubsList = Hub.concatenateTwoListsOfHubs(lastHubs, eventHubsList);
-
             adapter = new ListViewHubAdapter(getActivity(), hubsList, lastHubs, listViewHubs);
             listViewHubs.setAdapter(adapter);
-            ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
 
-            //displayAll.setVisibility(View.VISIBLE);
         } else {
-            adapter = new ListViewHubAdapter(getActivity(), orderedSearchinHubs, new ArrayList<Hub>(), listViewHubs);
-            listViewHubs.setAdapter(adapter);
+            if(orderedSearchinHubs.isEmpty())
+            {
+                emptySearch.setVisibility(View.VISIBLE);
+
+            }
+            else {
+                emptySearch.setVisibility(View.INVISIBLE);
+                ArrayList<Hub> emptylist = new ArrayList<Hub>();
+                emptylist.clear();
+                adapter = new ListViewHubAdapter(getActivity(), orderedSearchinHubs, emptylist, listViewHubs);
+                listViewHubs.setAdapter(adapter);
+            }
         }
-    }
-
-
-    /*@Click(R.id.displayAll)
-    public void displayAllMembers() {
-        this.from = 10;
-        this.to = hubsList.size();
-
-        hubs = Hub.hubsInfoForItem(hubs, hubsList, this.from, this.to);
-
-        // Adding items to listview
-        adapter = new SimpleAdapter(getActivity().getBaseContext(), hubs, R.layout.list_item_hub,
-                new String[]{"hubName", "membersNumber"},
-                new int[]{R.id.hubName, R.id.membersNumber});
-
-        listViewHubs.setAdapter(adapter);
-        listViewHubs.setItemsCanFocus(false);
-
-        //displayAll.setVisibility(View.GONE);
 
         ViewHelpers.setListViewHeightBasedOnChildren(listViewHubs);
-
-        this.from = 0;
-        this.to = 10;
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

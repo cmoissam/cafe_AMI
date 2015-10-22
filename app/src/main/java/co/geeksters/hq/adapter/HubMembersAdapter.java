@@ -1,6 +1,7 @@
 package co.geeksters.hq.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -61,6 +62,11 @@ public class HubMembersAdapter extends BaseAdapter {
         TextView hubName = (TextView) view.findViewById(R.id.hubName);
         TextView distance = (TextView) view.findViewById(R.id.distance);
         ImageView picture = (ImageView) view.findViewById(R.id.picture);
+
+        Typeface typeFace=Typeface.createFromAsset(activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        fullName.setTypeface(typeFace);
+        hubName.setTypeface(typeFace);
+        distance.setTypeface(typeFace);
 
         fullName.setText(GeneralHelpers.firstToUpper(memberList.get(position).fullName));
         if(memberList.get(position).hub != null && !memberList.get(position).hub.name.equals(""))

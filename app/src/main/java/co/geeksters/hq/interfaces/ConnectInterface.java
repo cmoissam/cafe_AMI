@@ -2,12 +2,8 @@ package co.geeksters.hq.interfaces;
 
 import com.google.gson.JsonElement;
 
-import org.json.JSONObject;
-
-import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.http.Body;
-import retrofit.http.Headers;
 import retrofit.http.POST;
 import retrofit.mime.TypedInput;
 

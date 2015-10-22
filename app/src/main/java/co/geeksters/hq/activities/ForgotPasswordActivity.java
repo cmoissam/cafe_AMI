@@ -1,23 +1,23 @@
 package co.geeksters.hq.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
@@ -25,6 +25,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.ArrayList;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.success.PasswordResetEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
@@ -106,16 +107,12 @@ public class ForgotPasswordActivity extends Activity {
             if (TextUtils.isEmpty(emailsContent)) {
                 emails.setError(getString(R.string.error_field_required));
             } else {
-                String[] emailsList = emailsContent.trim().split(",");
 
-                for (int i = 0; i < emailsList.length; i++) {
-                    if (GeneralHelpers.isEmailValid(emailsList[i])) {
+                    if (GeneralHelpers.isEmailValid(emailsContent)) {
                         forgotPassword = true;
                     } else {
                         emails.setError(getString(R.string.error_field_incorrect_emails));
                         forgotPassword = false;
-                        break;
-                    }
                 }
             }
 
@@ -162,13 +159,56 @@ public class ForgotPasswordActivity extends Activity {
         }
 
         if(reset) {
-            ViewHelpers.showPopup(this, "reset success", event.emailsResponse.get(0).email, false);
 
-            Intent intent = new Intent(this, LoginActivity_.class);
-            startActivity(intent);
-            finish();
-            overridePendingTransition(0, 0);
+
+            LayoutInflater inflater = this.getLayoutInflater();
+            final View dialoglayout = inflater.inflate(R.layout.pop_up, null);
+            TextView infoTitle = (TextView) dialoglayout.findViewById(R.id.infoTitle);
+            TextView infotext = (TextView) dialoglayout.findViewById(R.id.infoText);
+            ImageView infoimage = (ImageView) dialoglayout.findViewById(R.id.infoImage);
+            ImageView  cacelImage = (ImageView)dialoglayout.findViewById(R.id.cancelImage);
+
+            Typeface typeFace=Typeface.createFromAsset(this.getAssets(), "fonts/OpenSans-Regular.ttf");
+            infoTitle.setTypeface(null, typeFace.BOLD);
+            infotext.setTypeface(typeFace);
+
+            infoTitle.setText("reset success");
+            infotext.setText(event.emailsResponse.get(0).email);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(dialoglayout);
+            builder.setCancelable(true);
+            final AlertDialog ald =builder.show();
+            ald.setCancelable(true);
+
+            cacelImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ald.dismiss();
+                    passToLogin();
+
+                }
+            });
+
+
         }
+    }
+
+    public final void passToLogin()
+    {
+
+        Intent intent = new Intent(this, LoginActivity_.class);
+        startActivity(intent);
+        finish();
+        overridePendingTransition(0, 0);
+
+    }
+
+    @Subscribe
+    public void onConnectionFailureEvent(ConnectionFailureEvent event){
+
+        loadingGif.setVisibility(View.INVISIBLE);
+        emails.setEnabled(true);
+        ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
     }
 }
 

@@ -1,7 +1,6 @@
 package co.geeksters.hq.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -11,24 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.fragments.OneHubFragment_;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
-import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
-import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
 
 /**

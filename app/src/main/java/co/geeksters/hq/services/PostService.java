@@ -1,9 +1,5 @@
 package co.geeksters.hq.services;
 
-import android.app.Activity;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
@@ -12,8 +8,6 @@ import java.util.List;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.UnauthorizedFailureEvent;
 import co.geeksters.hq.events.success.PostEvent;
-import co.geeksters.hq.events.success.DeletePostEvent;
-import co.geeksters.hq.events.success.ListAllPostsEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.PostInterface;
@@ -46,6 +40,10 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -75,6 +73,10 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -103,6 +105,10 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -131,6 +137,10 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }
@@ -160,6 +170,9 @@ public class PostService extends BaseService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
+                if(error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else
                 if(error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
                 }

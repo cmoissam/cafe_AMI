@@ -1,43 +1,30 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cloudinary.Cloudinary;
-import com.github.kevinsawicki.http.HttpRequest;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.soundcloud.android.crop.Crop;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -47,51 +34,36 @@ import org.androidannotations.annotations.FocusChange;
 import org.androidannotations.annotations.TextChange;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.adapter.ListViewHubAdapter;
 import co.geeksters.hq.events.failure.InvalidFileFailureEvent;
-import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.HubsEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
+import co.geeksters.hq.events.success.UploadImageEvent;
 import co.geeksters.hq.global.BaseApplication;
-import co.geeksters.hq.global.Config;
 import co.geeksters.hq.global.CustomOnItemSelectedListener;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Company;
-import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Interest;
 import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Social;
 import co.geeksters.hq.services.HubService;
 import co.geeksters.hq.services.MemberService;
-import retrofit.mime.TypedFile;
 
 import static co.geeksters.hq.global.helpers.GeneralHelpers.formatActualDate;
 import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 import static co.geeksters.hq.global.helpers.ViewHelpers.createViewInterestToEdit;
-import static co.geeksters.hq.global.helpers.ViewHelpers.deleteTextAndSetHint;
-import static co.geeksters.hq.global.helpers.ViewHelpers.showProgress;
 import static co.geeksters.hq.models.Hub.getHubsByAlphabeticalOrder;
 
 @EFragment(R.layout.fragment_me)
@@ -138,11 +110,16 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.blog)
     EditText blog;
 
+    @ViewById(R.id.phone)
+    EditText phone;
+
     @ViewById(R.id.website)
     EditText website;
 
     @ViewById(R.id.interest)
     EditText interest;
+
+
 
     @ViewById(R.id.addButtonInterest)
     ImageView addButtonInterest;
@@ -177,7 +154,6 @@ public class MeFragment extends Fragment {
     List<String> listItemHubSpinner = new ArrayList<String>();
     private static final int SELECT_PHOTO = 100;
     String urlPicture;
-    Cloudinary cloudinary = new Cloudinary(Config.setCloudinaryConfiguration());
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -255,6 +231,7 @@ public class MeFragment extends Fragment {
         skype.setText(currentMember.social.skype);
         blog.setText(currentMember.social.blog);
         website.setText(currentMember.social.website);
+        phone.setText(currentMember.phone);
 
         if(currentMember.interests == null) {
             interest.setText("");
@@ -288,15 +265,23 @@ public class MeFragment extends Fragment {
     }
 
     @Subscribe
-    public void onValidFileUploadEvent(EmptyEvent event) {
+    public void onValidFileUploadEvent(UploadImageEvent event) {
 
-        picture.setImageBitmap(yourSelectedImage);
+
+        ViewHelpers.setImageViewBackgroundFromURLWhenUpdated(getActivity(), picture, event.image);
+        currentMember.image = event.image;
+        preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putString("current_member", ParseHelpers.createJsonStringFromModel(currentMember));
+        editor.commit();
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "profile_picture_temp.jpg");
+        boolean deleted = file.delete();
     }
 
     @Subscribe
     public void onInvalidFileUploadEvent(InvalidFileFailureEvent event) {
 
-        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.alert_invalid_file),true);
+        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title), getResources().getString(R.string.alert_invalid_file), true);
 
     }
 
@@ -395,6 +380,7 @@ public class MeFragment extends Fragment {
         member.fullName = fullName.getText().toString();
         member.hub.name = String.valueOf(hubName.getSelectedItem());
         member.image = urlPicture;
+        member.goal = goalContent.getText().toString();
 
         member.companies = new ArrayList<Company>();
 
@@ -423,6 +409,7 @@ public class MeFragment extends Fragment {
         member.social.blog = blog.getText().toString();
         member.social.skype = skype.getText().toString();
         member.social.website = website.getText().toString();
+        member.phone = phone.getText().toString();
 
         member.interests = new ArrayList<Interest>();
 
@@ -444,57 +431,43 @@ public class MeFragment extends Fragment {
 
         return member;
     }
-    private static Bitmap codec(Bitmap src, Bitmap.CompressFormat format,
-                                int quality) {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        src.compress(format, quality, os);
-
-        byte[] array = os.toByteArray();
-        return BitmapFactory.decodeByteArray(array, 0, array.length);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
-        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        switch(requestCode) {
-            case SELECT_PHOTO:
-                if(resultCode == getActivity().RESULT_OK){
+
+                if (resultCode == getActivity().RESULT_OK) {
                     Uri selectedImage = imageReturnedIntent.getData();
                     InputStream imageStream = null;
                     try {
-                        imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
+
+                        //imageStream = getActivity().getContentResolver().openInputStream(selectedImage);
                         yourSelectedImage = GeneralHelpers.decodeUri(getActivity(), imageReturnedIntent.getData());
 
-                        String selectedImagePath = null;
+                        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Thousand-network.jpg");
+                        if (!photo.canRead())
+                        photo.createNewFile();
 
-                        Cursor cursor = getActivity().getContentResolver().query(
-                                selectedImage, null, null, null, null);
-                        if (cursor == null) {
-                            selectedImagePath = selectedImage.getPath();
-                        } else {
-                            cursor.moveToFirst();
-                            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-                            selectedImagePath = cursor.getString(idx);
-                        }
-                        File photo = new File(selectedImagePath);
-                        TypedFile typedImage = new TypedFile("application/octet-stream", photo);
+                        Crop.of(imageReturnedIntent.getData(), Uri.fromFile(photo)).asSquare().start(getActivity());
 
-
-
-
-                        MemberService memberService = new MemberService(accessToken);
-                        memberService.updateImage(currentMember.id,typedImage);
+                        //ByteArrayOutputStream bmpStream = new ByteArrayOutputStream();
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
+
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-        }
+                if (resultCode == getActivity().RESULT_CANCELED) {
+
+                }
+
+
     }
+
+
 
 
 }

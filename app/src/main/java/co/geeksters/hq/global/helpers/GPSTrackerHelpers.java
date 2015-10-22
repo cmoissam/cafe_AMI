@@ -3,6 +3,7 @@ package co.geeksters.hq.global.helpers;
 /**
  * Created by soukaina on 08/01/15.
  */
+
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -15,9 +16,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
-
-import co.geeksters.hq.R;
 
 public class GPSTrackerHelpers extends Service implements LocationListener {
 
@@ -102,6 +100,8 @@ public class GPSTrackerHelpers extends Service implements LocationListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        stopUsingGPS();
 
         return location;
     }
