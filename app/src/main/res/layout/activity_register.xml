@@ -9,7 +9,7 @@
         android:fillViewport="true"
         android:background="@drawable/login_background">
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
             android:orientation="vertical">
 
             <!-- No connection network -->
@@ -33,7 +33,9 @@
                 android:background="@drawable/login_logo_150x333" />
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:minHeight="450dp">
+
             <LinearLayout android:id="@+id/memberRegisterForm" android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -102,8 +104,9 @@
                     android:background="@drawable/loading_auth_01_android"
                     />
             </LinearLayout>
+
                 <LinearLayout android:id="@+id/loginButtonlayout1" android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="50dp"
                     android:orientation="vertical"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
@@ -115,6 +118,16 @@
                 android:orientation="vertical"
                 android:layout_gravity="center_horizontal"
                 android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:text="Designed and Powered by GEEKSTERS"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="italic"
+                    android:textSize="16dp"/>
                 <LinearLayout android:id="@+id/loginButton2" android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -124,12 +137,16 @@
                         android:text="@string/action_sign_in"
                         android:textStyle="bold"
                         android:textSize="16dp"
+                        android:layout_marginBottom="5dp"
                         android:background="#ffffff"
                         android:alpha="0.8"
                         android:textColor="#fd757575"/>
                 </LinearLayout>
             </LinearLayout>
+
             </RelativeLayout>
+
+
         </LinearLayout>
     </ScrollView>
 

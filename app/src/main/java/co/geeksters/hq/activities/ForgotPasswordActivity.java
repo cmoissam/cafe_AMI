@@ -101,6 +101,8 @@ public class ForgotPasswordActivity extends Activity {
             // Store values at the time of the reset attempt.
             String emailsContent = emails.getText().toString();
 
+            emailsContent = GeneralHelpers.toLowerCase(emailsContent);
+
             boolean forgotPassword = false;
 
             // Check for a valid email address.

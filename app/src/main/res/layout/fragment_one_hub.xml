@@ -31,7 +31,7 @@
                         android:textSize="30dp"
                         android:textStyle="bold"
                         android:layout_marginRight="25dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         android:gravity="right"
                         android:textColor="#FF021051" />
 
@@ -39,8 +39,9 @@
                         android:id="@+id/hubName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/hub_name"
-                        android:textSize="25dp"
+                        android:text="Hub name"
+                        android:lineSpacingExtra="0dp"
+                        android:textSize="18dp"
                         android:layout_marginRight="25dp"
                         android:gravity="right"
                         android:textColor="#FF980905" />

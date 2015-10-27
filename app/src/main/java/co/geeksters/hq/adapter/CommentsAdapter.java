@@ -1,10 +1,13 @@
 package co.geeksters.hq.adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,14 +28,14 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
  */
 public class CommentsAdapter {
 
-    Context context;
+    Activity context;
     List<Comment> commentList;
     LinearLayout childView;
     String accessToken;
     SharedPreferences preferences;
     Member currentUser;
 
-    public CommentsAdapter(Context context, List<Comment> commentList, LinearLayout childView, String accessToken) {
+    public CommentsAdapter(Activity context, List<Comment> commentList, LinearLayout childView, String accessToken) {
         this.context = context;
         this.commentList = commentList;
         this.childView = childView;
@@ -79,13 +82,21 @@ public class CommentsAdapter {
             }
             final int index = i;
             deleteComment.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
-                    GlobalVariables.onDeleteComment = true;
-                    CommentService commentService = new CommentService(accessToken);
-                    commentService.deleteComment(commentList.get(index).postId, commentList.get(index).id);
-                    GlobalVariables.commentClickedIndex = index;
+
+             GlobalVariables.onDeleteComment = true;
+             CommentService commentService = new CommentService(accessToken);
+             commentService.deleteComment(commentList.get(index).postId, commentList.get(index).id);
+             GlobalVariables.commentClickedIndex = index;
+             // ald.dismiss();
+             }
+  /*                  });
+
                 }
+            });*/
+
             });
 
             llList.addView(childView,0);

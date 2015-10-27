@@ -203,6 +203,9 @@ public class PeopleDirectoryFragment extends Fragment {
     }
 
     public void searchForMembersByPaginationService(String search){
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        accessToken = preferences.getString("access_token","").replace("\"","");
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
             MemberService memberService = new MemberService(accessToken);
             memberService.searchForMembersFromKey(search,this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
@@ -213,10 +216,22 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @AfterViews
     public void listAllMembersByPagination(){
-
-        loadingLayout.setVisibility(View.VISIBLE);
-        listAllMembersByPaginationService();
-
+        if(GlobalVariables.backtosearch)
+        {
+            firstTimeSearch = false;
+            firstTime = false;
+            inputSearch.setText(GlobalVariables.lastSearchPeopleDirectory);
+            loadingLayout.setVisibility(View.INVISIBLE);
+            from = GlobalVariables.lastMemberSearchPeopleDirectory.size();
+            membersList.addAll(GlobalVariables.lastMemberSearchPeopleDirectory);
+            adapter = new DirectoryAdapter(getActivity(), membersList, listViewMembers);
+            listViewMembers.setAdapter(adapter);
+        }
+        else {
+            GlobalVariables.lastSearchPeopleDirectory = "";
+            loadingLayout.setVisibility(View.VISIBLE);
+            listAllMembersByPaginationService();
+        }
     }
 
     @Subscribe
@@ -229,7 +244,6 @@ public class PeopleDirectoryFragment extends Fragment {
             this.from += GlobalVariables.SEARCH_SIZE;
             waitForSearch = false;
 
-            membersList.clear();
             membersList.addAll(event.members);
 
 
@@ -271,14 +285,21 @@ public class PeopleDirectoryFragment extends Fragment {
 
     @TextChange(R.id.inputSearch)
     public void searchForMemberByPagination() {
-        firstTimeSearch = true;
 
-        emptySearch.setVisibility(View.INVISIBLE);
-        loadingLayout.setVisibility(View.VISIBLE);
+        if(GlobalVariables.backtosearch)
+        {
+            GlobalVariables.backtosearch = false;
+        }
+        else {
+            firstTimeSearch = true;
+            GlobalVariables.lastSearchPeopleDirectory = inputSearch.getText().toString();
+
+            emptySearch.setVisibility(View.INVISIBLE);
+            loadingLayout.setVisibility(View.VISIBLE);
 
             Runnable task = new Runnable() {
                 public void run() {
-                    if(!waitForSearch) {
+                    if (!waitForSearch) {
                         waitForSearch = true;
                         from = 0;
                         membersList = new ArrayList<Member>();
@@ -294,7 +315,9 @@ public class PeopleDirectoryFragment extends Fragment {
                 }
             };
 
-        worker.schedule(task, 2, TimeUnit.SECONDS);
+            worker.schedule(task, 2, TimeUnit.SECONDS);
+
+        }
 
     }
 
@@ -306,8 +329,6 @@ public class PeopleDirectoryFragment extends Fragment {
 
         this.from += GlobalVariables.SEARCH_SIZE;
 
-
-        membersList.clear();
         membersList.addAll(event.members);
 
         loadingLayout.setVisibility(View.INVISIBLE);

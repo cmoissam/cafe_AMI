@@ -18,6 +18,7 @@ import co.geeksters.hq.events.success.MembersAroundMeEvent;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
+import co.geeksters.hq.events.success.SaveMemberForLogoutEvent;
 import co.geeksters.hq.events.success.UpdateMemberLocationEvent;
 import co.geeksters.hq.events.success.UploadImageEvent;
 import co.geeksters.hq.global.BaseApplication;
@@ -69,15 +70,9 @@ public class MemberService {
         });
     }
 
+
+
     public void updateMember(int userId, Member member) {
-//        @Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
-//        @Field("email") String email, @Field("hub") Hub hub, @Field("blurp") String blurp, @Field("social[twitter]") String twitter,
-//        @Field("social[facebook]") String facebook, @Field("social[linkdin]") String linkdin, @Field("social[skype]") String skype,
-//        @Field("social[blog]") String blog, @Field("social[website]") String website, @Field("social[other]") String other,
-//        @Field("interests") List<Interest> interests, @Field("companies") List<Company> companies, @Field("latitude") float latitude,
-//        @Field("longitude") float longitude, @Field("notify_by_email_on_comment") Boolean notifyByEmailOnComment,
-//        @Field("notify_by_push_on_comment") Boolean notifyByPushOnComment, @Field("notify_by_email_on_todo") Boolean notifyByEmailOnTodo,
-//        @Field("notify_by_push_on_todo") Boolean notifyByPushOnTodo, Callback<JsonElement> callback
 
         // TODO : Hub update
         if (member.hub == null) {
@@ -93,7 +88,10 @@ public class MemberService {
                         public void success(JsonElement response, Response rawResponse) {
                             Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                             if (!GlobalVariables.updatePositionFromRadar)
-                                BaseApplication.post(new SaveMemberEvent(updatedMember));
+                                if(GlobalVariables.inMyProfileFragment)
+                                    BaseApplication.post(new SaveMemberForLogoutEvent());
+                            else
+                                    BaseApplication.post(new SaveMemberEvent(updatedMember));
                             else
                                 BaseApplication.post(new UpdateMemberLocationEvent(updatedMember));
                         }
@@ -124,7 +122,10 @@ public class MemberService {
                             public void success(JsonElement response, Response rawResponse) {
                                 Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                                 if (!GlobalVariables.updatePositionFromRadar)
-                                    BaseApplication.post(new SaveMemberEvent(updatedMember));
+                                    if(GlobalVariables.inMyProfileFragment)
+                                        BaseApplication.post(new SaveMemberForLogoutEvent());
+                                    else
+                                        BaseApplication.post(new SaveMemberEvent(updatedMember));
                                 else
                                     BaseApplication.post(new UpdateMemberLocationEvent(updatedMember));
                             }
@@ -159,7 +160,10 @@ public class MemberService {
                         public void success(JsonElement response, Response rawResponse) {
                             Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                             if (!GlobalVariables.updatePositionFromRadar)
-                                BaseApplication.post(new SaveMemberEvent(updatedMember));
+                                if(GlobalVariables.inMyProfileFragment)
+                                    BaseApplication.post(new SaveMemberForLogoutEvent());
+                                else
+                                    BaseApplication.post(new SaveMemberEvent(updatedMember));
                             else
                                 BaseApplication.post(new UpdateMemberLocationEvent(updatedMember));
                         }
@@ -189,7 +193,10 @@ public class MemberService {
                             public void success(JsonElement response, Response rawResponse) {
                                 Member updatedMember = Member.createUserFromJson(response.getAsJsonObject().get("data"));
                                 if (!GlobalVariables.updatePositionFromRadar)
-                                    BaseApplication.post(new SaveMemberEvent(updatedMember));
+                                    if(GlobalVariables.inMyProfileFragment)
+                                        BaseApplication.post(new SaveMemberForLogoutEvent());
+                                    else
+                                        BaseApplication.post(new SaveMemberEvent(updatedMember));
                                 else
                                     BaseApplication.post(new UpdateMemberLocationEvent(updatedMember));
                             }

@@ -65,6 +65,11 @@ public class GlobalVariables {
     public static boolean inMyProfileFragment = false;
     public static boolean commentClicked = false;
 
+
+    public static List<Member> lastMemberSearchPeopleDirectory = new ArrayList<Member>();
+    public static  String lastSearchPeopleDirectory;
+    public static Boolean backtosearch = false;
+
     public static int width = 0;
     public static  int height = 0;
 

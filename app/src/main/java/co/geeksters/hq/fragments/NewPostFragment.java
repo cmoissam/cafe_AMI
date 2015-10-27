@@ -145,6 +145,9 @@ public class NewPostFragment extends Fragment {
         fullname.setTypeface(typeFace);
         daatePost.setTypeface(typeFace);
         sendButton.setTypeface(typeFace);
+        postInput.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(postInput, InputMethodManager.SHOW_FORCED);
 
     }
 

@@ -40,6 +40,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
@@ -82,6 +85,11 @@ public class UpdateTodoFragment extends DialogFragment{
     public boolean noMoreMembers = false;
 
     public View footer;
+
+    public boolean waitForSearch = false;
+
+    private static final ScheduledExecutorService worker =
+            Executors.newSingleThreadScheduledExecutor();
 
 
     @ViewById(R.id.interest)
@@ -179,17 +187,6 @@ public class UpdateTodoFragment extends DialogFragment{
     @ViewById(R.id.inputSearch)
     EditText inputSearch;
 
-//    @ViewById(R.id.membersProgress)
-//    ProgressBar membersProgress;
-//
-//    @ViewById(R.id.membersSearchForm)
-//    LinearLayout membersSearchForm;
-//
-//    @ViewById(R.id.search_no_element_found)
-//    TextView emptySearch;
-//
-//    @ViewById(R.id.displayAll)
-//    TextView displayAll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -275,7 +272,7 @@ public class UpdateTodoFragment extends DialogFragment{
 
     }
 
-    @Click(R.id.date_button)
+    @Click(R.id.date_text)
     public void showDatePicker() {
 
         // Launch Date Picker Dialog
@@ -300,7 +297,7 @@ public class UpdateTodoFragment extends DialogFragment{
         dpd.show();
 
     }
-    @Click(R.id.time_button)
+    @Click(R.id.time_text)
     public void showTimePicker() {
 
 
@@ -444,20 +441,33 @@ public class UpdateTodoFragment extends DialogFragment{
 
         @TextChange(R.id.inputSearch)
         public void searchForMemberByPagination() {
-            from = 0;
-            membersList = new ArrayList<Member>();
-            members = new ArrayList<HashMap<String, String>>();
-            if(!inputSearch.getText().toString().isEmpty()){
+            emptySearch.setVisibility(View.INVISIBLE);
+            loading.setVisibility(View.VISIBLE);
 
-                searchForMembersByPaginationService(inputSearch.getText().toString());
-                loading.setVisibility(View.VISIBLE);
-                listViewMembers.setVisibility(View.INVISIBLE);
-            }
-            else {
-                listAllMembersByPaginationService();
-                loading.setVisibility(View.VISIBLE);
-                listViewMembers.setVisibility(View.INVISIBLE);
-            }
+            Runnable task = new Runnable() {
+                public void run() {
+                    if (!waitForSearch) {
+                        waitForSearch = true;
+                        from = 0;
+                        membersList = new ArrayList<Member>();
+                        members = new ArrayList<HashMap<String, String>>();
+
+                        noMoreMembers = false;
+                        if (!inputSearch.getText().toString().isEmpty()) {
+                            searchForMembersByPaginationService(inputSearch.getText().toString());
+                            listViewMembers.setVisibility(View.INVISIBLE);
+                            loading.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            listAllMembersByPaginationService();
+                            loading.setVisibility(View.VISIBLE);
+                            listViewMembers.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+            };
+
+            worker.schedule(task, 2, TimeUnit.SECONDS);
 
         }
 

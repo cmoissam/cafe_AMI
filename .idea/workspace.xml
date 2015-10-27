@@ -89,6 +89,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml">
+        <config>
+          <theme>@android:style/Theme.Holo.Light.NoActionBar</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml">
         <config>
           <theme>@style/AppTheme</theme>
@@ -166,407 +171,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28de5d15-00dc-494c-93b4-0f96bf262efd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/ResumeRadarEvent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/UploadImageEvent.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder_radar_tablet_10.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder_radar_tablet_7.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/ant_1_8_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/ant_launcher_1_8_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/asm_5_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/asm_analysis_5_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/asm_commons_5_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/asm_tree_5_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/asm_util_5_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/bolts.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/bolts_android_1_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/cloudinary_android_1_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/cloudinary_core_1_1_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/commons_codec_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/fest_reflect_1_4_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/fest_util_1_2_5.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/maven_ant_tasks_2_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/objenesis_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/robolectric_2_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/sqlite4java_0_282.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_19_0_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_19_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/vtd_xml_2_11.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/ApplicationTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/MyAndroidClassTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/RobolectricGradleTestRunner.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/bus/BaseApplicationTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/bus/BusRegistrationToMemberEventsTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/bus/BusTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/services/CompanyServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/services/ConnectServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/services/HubServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/services/InterestServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/services/MemberServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/services/PostServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/androidTest/java/co/geeksters/hq/services/ServiceTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TabsAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TabsPagerAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/radar_lcation_activated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-hdpi/radar_lcation_nonactivated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/radar_lcation_activated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-mdpi/radar_lcation_nonactivated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/radar_lcation_activated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/radar_lcation_nonactivated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/radar_lcation_activated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi/radar_lcation_nonactivated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/radar_lcation_activated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi/radar_lcation_nonactivated_android.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_init.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/build.gradle" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/facebook.iml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_blue_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_blue_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_blue_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_grey_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_grey_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_grey_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_like_background.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_like_background_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_like_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_like_icon_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_button_like_pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_close.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_inverse_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_picker_magnifier.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_black_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_black_bottomnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_black_topnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_black_xout.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_bottomnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_topnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-hdpi/com_facebook_tooltip_blue_xout.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-ldpi/com_facebook_close.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_button_blue_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_button_blue_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_button_blue_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_inverse_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_picker_magnifier.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_black_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_black_bottomnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_black_topnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_black_xout.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_bottomnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_topnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-mdpi/com_facebook_tooltip_blue_xout.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_blue_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_blue_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_blue_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_grey_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_grey_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_grey_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_like_background.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_like_background_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_like_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_like_icon_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_button_like_pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_close.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_inverse_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_picker_magnifier.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_bottomnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_topnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_black_xout.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_bottomnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_topnub.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xhdpi/com_facebook_tooltip_blue_xout.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xxhdpi/com_facebook_button_like_background.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xxhdpi/com_facebook_button_like_background_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xxhdpi/com_facebook_button_like_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xxhdpi/com_facebook_button_like_icon_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable-xxhdpi/com_facebook_button_like_pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_blue.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_blue_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_blue_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_blue_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_check.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_check_off.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_check_on.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_grey_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_grey_normal.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_grey_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_like.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_like_background.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_like_background_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_like_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_like_icon_selected.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_like_pressed.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_button_like_selected.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_close.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_inverse_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_list_divider.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_list_section_header_background.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_loginbutton_silver.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_item_background.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_list_focused.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_list_longpressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_list_pressed.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_list_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_list_selector_background_transition.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_list_selector_disabled.9.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_picker_top_button.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_place_default_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_profile_default_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_profile_picture_blank_portrait.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_profile_picture_blank_square.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_top_background.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_top_button.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/drawable/com_facebook_usersettingsfragment_background_gradient.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_friendpickerfragment.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_login_activity_layout.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_activity_circle_row.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_checkbox.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_image.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_list_row.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_list_section_header.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_search_box.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_title_bar.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_picker_title_bar_stub.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_placepickerfragment.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_placepickerfragment_list_row.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_search_bar_layout.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_tooltip_bubble.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/layout/com_facebook_usersettingsfragment.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values-es/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values-hdpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values-he/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values-iw/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values-ldpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values-mdpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values-xhdpi/dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values/attrs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values/colors.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values/drawables.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values/strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/res/values/styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/AccessToken.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/AccessTokenSource.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/AppEventsConstants.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/AppEventsLogger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/AppLinkData.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/AuthorizationClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/BoltsMeasurementEventListener.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookAppLinkResolver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookAuthorizationException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookBroadcastReceiver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookDialogException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookGraphObjectException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookOperationCanceledException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookRequestError.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookSdkVersion.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookServiceException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/FacebookTimeSpentData.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/GetTokenClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/HttpMethod.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/InsightsLogger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/LegacyHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/LoggingBehavior.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/LoginActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/NativeAppCallAttachmentStore.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/NativeAppCallContentProvider.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/NonCachingTokenCachingStrategy.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/ProgressNoopOutputStream.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/ProgressOutputStream.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/Request.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/RequestAsyncTask.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/RequestBatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/RequestOutputStream.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/RequestProgress.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/Response.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/Session.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/SessionDefaultAudience.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/SessionLoginBehavior.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/SessionState.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/Settings.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/SharedPreferencesTokenCachingStrategy.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/TestSession.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/TokenCachingStrategy.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/UiLifecycleHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/android/AsyncFacebookRunner.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/android/DialogError.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/android/Facebook.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/android/FacebookError.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/android/FbDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/android/Util.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/AnalyticsEvents.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/AttributionIdentifiers.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/BundleJSONConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/CacheableRequestBatch.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/FacebookWebFallbackDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/FileLruCache.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/ImageDownloader.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/ImageRequest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/ImageResponse.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/ImageResponseCache.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/LikeActionController.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/LikeBoxCountView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/LikeButton.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/LikeStatusClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/Logger.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/NativeProtocol.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/PendingCallStore.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/PlatformServiceClient.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/ServerProtocol.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/SessionAuthorizationType.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/SessionTracker.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/UrlRedirectCache.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/Utility.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/Validate.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/WorkQueue.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/internal/package-info.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/CreateGraphObject.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/GraphLocation.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/GraphMultiResult.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/GraphObject.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/GraphObjectList.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/GraphPlace.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/GraphUser.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/JsonUtil.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/OpenGraphAction.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/OpenGraphObject.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/model/PropertyName.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/FacebookDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/FacebookFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/FriendPickerFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/GraphObjectAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/GraphObjectCursor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/GraphObjectPagingLoader.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/LikeView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/LoginButton.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/PickerFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/PlacePickerFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/ProfilePictureView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/SimpleGraphObjectCursor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/ToolTipPopup.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/UserSettingsFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/facebook/src/com/facebook/widget/WebDialog.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/android_gif_drawable_1_1_9.xml" afterPath="$PROJECT_DIR$/.idea/libraries/android_gif_drawable_1_1_10.xml" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/libraries/facebook_3_17_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/android_crop_1_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app-release.apk" afterPath="$PROJECT_DIR$/app/app-release.apk" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/SaveMemberForLogoutEvent.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/creditFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/credit_fragment.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/facebook/build/intermediates/bundles/debug/classes.jar" afterPath="$PROJECT_DIR$/facebook/build/intermediates/bundles/debug/classes.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/facebook/build/outputs/aar/facebook-debug.aar" afterPath="$PROJECT_DIR$/facebook/build/outputs/aar/facebook-debug.aar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/facebook/build/intermediates/resources/resources-debug-androidTest.ap_" afterPath="$PROJECT_DIR$/facebook/build/intermediates/resources/resources-debug-androidTest.ap_" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/AllMarketPlaceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/AllMarketPlaceFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/AmbassadorsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/AmbassadorsAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/BaseApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/BaseApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/ChangeToListEvent.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/ChangeToListEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Comment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Comment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/CommentEvent.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/CommentEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/CommentInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/CommentInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/CommentService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/CommentService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Company.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Company.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/CompanyInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/CompanyInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/Config.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/Config.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/ConnectInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/ConnectInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/ConnectService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/ConnectService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/ForgotPasswordActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/ForgotPasswordActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GPSTrackerHelpers.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GPSTrackerHelpers.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmBroadcastReceiver.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmBroadcastReceiver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GeneralHelpers.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GeneralHelpers.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Hub.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Hub.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/HubInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/HubInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/HubMembersAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/HubMembersAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/HubService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/HubService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Interest.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Interest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/InterestInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/InterestInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewHubAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewHubAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewMarketAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewMarketAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeMarketPlaceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeMarketPlaceFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Member.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Member.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/MemberInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/MemberInterface.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/MyMapFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/MyMapFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MyToDosFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MyToDosFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubEventsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubEventsFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubMembersFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubMembersFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubNewsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubNewsFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileMarketPlaceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileMarketPlaceFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/ParseHelpers.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/ParseHelpers.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Post.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Post.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/PostInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/PostInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/PostService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/PostService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/RegisterActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/RegisterActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/ReplyMarketFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/ReplyMarketFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/StartActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/StartActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Todo.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Todo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodoAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodoAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/TodoInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/TodoInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/TodoService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/TodoService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/ViewHelpers.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/ViewHelpers.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/androidannotations_api_3_0_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/androidannotations_api_3_0_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/checkbox_radar.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/checkbox_radar.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/com_eclipsesource_restfuse_1_2_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/com_eclipsesource_restfuse_1_2_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_market_place.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_market_place.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_forgot_password.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_forgot_password.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_start.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_start.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_hubs.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_hubs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_hub.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_hub.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_reply.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_reply.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/gson_2_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hq.iml" afterPath="$PROJECT_DIR$/hq.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/javax_servlet_3_0_0_v201112011016.xml" afterPath="$PROJECT_DIR$/.idea/libraries/javax_servlet_3_0_0_v201112011016.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jetty_continuation_8_1_3_v20120416.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_continuation_8_1_3_v20120416.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jetty_http_8_1_3_v20120416.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_http_8_1_3_v20120416.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jetty_io_8_1_3_v20120416.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_io_8_1_3_v20120416.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jetty_security_8_1_3_v20120416.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_security_8_1_3_v20120416.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jetty_server_8_1_3_v20120416.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_server_8_1_3_v20120416.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jetty_servlet_8_1_3_v20120416.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_servlet_8_1_3_v20120416.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/jetty_util_8_1_3_v20120416.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jetty_util_8_1_3_v20120416.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/junit_4_8_2.xml" afterPath="$PROJECT_DIR$/.idea/libraries/junit_4_8_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/mirror_1_6_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/mirror_1_6_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/otto_1_3_8.xml" afterPath="$PROJECT_DIR$/.idea/libraries/otto_1_3_8.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_21_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_21_0_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/retrofit_1_7_1.xml" afterPath="$PROJECT_DIR$/.idea/libraries/retrofit_1_7_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/settings.gradle" afterPath="$PROJECT_DIR$/settings.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_21_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_annotations_21_0_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_21_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_21_0_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/universal_image_loader_1_9_3.xml" afterPath="$PROJECT_DIR$/.idea/libraries/universal_image_loader_1_9_3.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/interest_layout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/interest_layout.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/interests_borders.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/interests_borders.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_comment.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_comment.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_hub.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_hub.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_todo.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_todo.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hq.iws" />
@@ -606,14 +253,22 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GlobalMenuActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GlobalMenuActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="6.1161733">
-              <caret line="185" column="25" selection-start-line="185" selection-start-column="25" selection-end-line="185" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="434" column="50" selection-start-line="434" selection-start-column="50" selection-end-line="434" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GlobalVariables.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7227357">
+              <caret line="89" column="52" selection-start-line="89" selection-start-column="52" selection-end-line="89" selection-end-column="52" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -2245,57 +1900,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_hub.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_market_place.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/action_bar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder_radar_tablet_10.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/checkbox_radar.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/PostService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/TodoService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/HubService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/CommentService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/ConnectService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/MemberInterface.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder_radar_tablet_7.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/ReloadDataEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewHubAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/UploadImageEvent.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GeneralHelpers.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/Config.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/ReplyMarketFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/StartActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/ForgotPasswordActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewMarketAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TabsPagerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodoAdapter.java" />
         <option value="$PROJECT_DIR$/settings.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/RegisterActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GPSTrackerHelpers.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/HubMembersAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/ViewHelpers.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_reply.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_hub.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_hub.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/ForgotPasswordActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/RegisterActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GeneralHelpers.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_hubs.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/anim/anim_enter_right.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/credit_Fragment.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_todo.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/creditFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_reply.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_comment.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_start.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_forgot_password.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/interest_layout.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/interests_borders.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" />
       </list>
     </option>
   </component>
@@ -2314,9 +1969,9 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="65" />
-    <option name="y" value="24" />
+    <option name="y" value="-4" />
     <option name="width" value="1855" />
-    <option name="height" value="1056" />
+    <option name="height" value="1084" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -2341,10 +1996,9 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
       <pane id="Scratches" />
-      <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2391,24 +2045,6 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
@@ -2437,50 +2073,11 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="global" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="global" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="helpers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="manifests" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2504,11 +2101,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="co.geeksters.hq.fragments" />
       <recent name="co.geeksters.hq.events.success" />
       <recent name="co.geeksters.hq.events.failure" />
       <recent name="co.geeksters.hq.activities" />
       <recent name="co.geeksters.hq.adapter" />
-      <recent name="co.geeksters.hq.fragments" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
@@ -2822,12 +2419,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
+    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30569375" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31232727" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.48258707" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38906753" sideWeight="0.5743505" order="3" side_tool="false" content_ui="tabs" />
@@ -2837,12 +2434,12 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19789939" sideWeight="0.16" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.60878885" sideWeight="0.42288557" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21757771" sideWeight="0.44941956" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.49732047" sideWeight="0.5754561" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38799572" sideWeight="0.5754561" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.49806523" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29242676" sideWeight="0.84" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2305141" sideWeight="0.84" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27545553" sideWeight="0.44278607" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="166" y="252" width="1655" height="856" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2883,18 +2480,6 @@
           <option name="timeStamp" value="608" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java</url>
-          <line>856</line>
-          <properties />
-          <option name="timeStamp" value="731" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java</url>
-          <line>688</line>
-          <properties />
-          <option name="timeStamp" value="733" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java</url>
           <line>188</line>
           <properties />
@@ -2906,106 +2491,251 @@
           <properties />
           <option name="timeStamp" value="746" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java</url>
+          <line>36</line>
+          <properties />
+          <option name="timeStamp" value="812" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java</url>
+          <line>38</line>
+          <properties />
+          <option name="timeStamp" value="813" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java</url>
+          <line>88</line>
+          <properties />
+          <option name="timeStamp" value="814" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java</url>
+          <line>89</line>
+          <properties />
+          <option name="timeStamp" value="815" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="763" />
+      <option name="time" value="816" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-        </state>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_one_hub.xml">
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15">
-          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        <state vertical-scroll-proportion="-10.645162">
+          <caret line="31" column="48" selection-start-line="31" selection-start-column="48" selection-end-line="31" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/loading_auth_01_android.gif">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/loading_menu_02_android.gif">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/SaveMemberEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58">
-          <caret line="65" column="116" selection-start-line="65" selection-start-column="116" selection-end-line="65" selection-end-column="116" />
+        <state vertical-scroll-proportion="0.19924098">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/SaveMemberForLogoutEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.1388889">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/RegisterActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.7703985">
+          <caret line="118" column="68" selection-start-line="118" selection-start-column="68" selection-end-line="118" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/ForgotPasswordActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.0208728">
+          <caret line="105" column="43" selection-start-line="105" selection-start-column="43" selection-end-line="105" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GeneralHelpers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.1385199">
+          <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MembersMarketPlaceAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state vertical-scroll-proportion="13.669354">
+          <caret line="495" column="5" selection-start-line="495" selection-start-column="5" selection-end-line="495" selection-end-column="5" />
+          <folding>
+            <element signature="e#8823#10269#0" expanded="false" />
+            <element signature="e#8884#8916#0" expanded="false" />
+            <element signature="e#10268#10269#0" expanded="false" />
+            <element signature="e#10529#10578#0" expanded="false" />
+            <element signature="e#11804#11805#0" expanded="false" />
+            <element signature="e#11836#11837#0" expanded="false" />
+            <element signature="e#14991#15045#0" expanded="false" />
+            <element signature="e#15047#15095#0" expanded="false" />
+            <element signature="e#15961#16015#0" expanded="false" />
+            <element signature="e#16017#16065#0" expanded="false" />
+            <element signature="e#17656#17710#0" expanded="false" />
+            <element signature="e#17712#17760#0" expanded="false" />
+            <element signature="e#18140#18194#0" expanded="false" />
+            <element signature="e#18196#18244#0" expanded="false" />
+            <element signature="e#19606#19660#0" expanded="false" />
+            <element signature="e#19662#19710#0" expanded="false" />
+            <element signature="e#20085#20139#0" expanded="false" />
+            <element signature="e#20141#20189#0" expanded="false" />
+            <element signature="e#20519#20576#0" expanded="false" />
+            <element signature="e#20647#20701#0" expanded="false" />
+            <element signature="e#20703#20751#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewMarketAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15">
-          <caret line="21" column="13" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="2.5616698">
+          <caret line="119" column="0" selection-start-line="119" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/ConnectService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.042857144">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodoAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19285715">
-          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="14" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/border.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/proguard-rules.pro">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hubs.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.43137255">
+          <caret line="43" column="36" selection-start-line="43" selection-start-column="36" selection-end-line="43" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.1090572">
+          <caret line="102" column="9" selection-start-line="102" selection-start-column="9" selection-end-line="102" selection-end-column="9" />
+          <folding>
+            <element signature="e#3113#3629#0" expanded="false" />
+            <element signature="e#3628#3629#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/anim/anim_enter_left.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/anim/anim_enter_right.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.73571426">
+          <caret line="219" column="17" selection-start-line="219" selection-start-column="17" selection-end-line="219" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_todo.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4678625">
+          <caret line="130" column="38" selection-start-line="130" selection-start-column="38" selection-end-line="130" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5799701">
+          <caret line="85" column="38" selection-start-line="85" selection-start-column="38" selection-end-line="85" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5799701">
+          <caret line="145" column="38" selection-start-line="145" selection-start-column="38" selection-end-line="145" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/creditFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11090573">
+          <caret line="43" column="35" selection-start-line="43" selection-start-column="35" selection-end-line="43" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_reply.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.50980395">
+          <caret line="115" column="42" selection-start-line="115" selection-start-column="42" selection-end-line="115" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/credit_fragment.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3529412">
+          <caret line="12" column="49" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_comment.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65686274">
+          <caret line="76" column="42" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="42" />
           <folding />
         </state>
       </provider>
@@ -3015,38 +2745,83 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.258064">
-          <caret line="76" column="16" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
+        <state vertical-scroll-proportion="-11.774194">
+          <caret line="117" column="46" selection-start-line="117" selection-start-column="46" selection-end-line="117" selection-end-column="46" />
+          <folding>
+            <element signature="e#991#1014#0" expanded="true" />
+            <element signature="e#1506#1531#0" expanded="true" />
+            <element signature="e#2671#2693#0" expanded="true" />
+            <element signature="e#3271#3296#0" expanded="true" />
+            <element signature="e#3393#3423#0" expanded="true" />
+            <element signature="e#3936#3960#0" expanded="true" />
+            <element signature="e#7081#7106#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/interest_layout_edit.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/source/apt/debug/co/geeksters/hq/fragments/PeopleFinderListFragment_.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/interests_borders.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.137931">
-          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.2777778">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/RefreshRadarEvent.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/interest_layout.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14044943">
-          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.6777996">
+          <caret line="23" column="38" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/source/apt/debug/co/geeksters/hq/fragments/PeopleFinderRadarFragment_.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_start.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.137931">
-          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="56" column="34" selection-start-line="56" selection-start-column="34" selection-end-line="56" selection-end-column="34" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/MyMapFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_forgot_password.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19662921">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.32416502">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding>
+            <element signature="e#991#1014#0" expanded="true" />
+            <element signature="e#2173#2195#0" expanded="true" />
+            <element signature="e#2670#2701#0" expanded="true" />
+            <element signature="e#5231#5255#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38235295">
+          <caret line="227" column="35" selection-start-line="227" selection-start-column="35" selection-end-line="227" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -3057,309 +2832,195 @@
       </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="129" column="45" selection-start-line="129" selection-start-column="45" selection-end-line="129" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/RegisterActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53370786">
-          <caret line="82" column="8" selection-start-line="82" selection-start-column="8" selection-end-line="82" selection-end-column="8" />
-        </state>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml">
+      <provider editor-type-id="android-designer">
+        <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5580524">
-          <caret line="97" column="51" selection-start-line="90" selection-start-column="6" selection-end-line="97" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GeneralHelpers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14044943">
-          <caret line="29" column="35" selection-start-line="29" selection-start-column="35" selection-end-line="29" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/GPSTrackerHelpers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7222222">
-          <caret line="62" column="20" selection-start-line="62" selection-start-column="20" selection-end-line="62" selection-end-column="20" />
-          <folding>
-            <element signature="e#4641#4642#0" expanded="false" />
-            <element signature="e#4683#4684#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/ResumeRadarEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1388889">
-          <caret line="5" column="29" selection-start-line="5" selection-start-column="29" selection-end-line="5" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/source/apt/debug/co/geeksters/hq/activities/GlobalMenuActivity_.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.137931">
-          <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="66" column="39" selection-start-line="63" selection-start-column="7" selection-end-line="66" selection-end-column="39" />
+          <caret line="74" column="20" selection-start-line="74" selection-start-column="20" selection-end-line="74" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/HubMembersAdapter.java">
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-21/android.jar!/android/content/ContextWrapper.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56179774">
-          <caret line="68" column="39" selection-start-line="68" selection-start-column="39" selection-end-line="68" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.34724292">
+          <caret line="107" column="29" selection-start-line="107" selection-start-column="29" selection-end-line="107" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-21/android.jar!/android/content/SharedPreferences.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.22950819">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.9112754">
+          <caret line="105" column="61" selection-start-line="105" selection-start-column="61" selection-end-line="105" selection-end-column="61" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.52996254">
-          <caret line="270" column="61" selection-start-line="270" selection-start-column="61" selection-end-line="270" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="349" column="0" selection-start-line="349" selection-start-column="0" selection-end-line="349" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder_list.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <caret line="141" column="62" selection-start-line="141" selection-start-column="62" selection-end-line="141" selection-end-column="62" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50695825">
-          <caret line="108" column="52" selection-start-line="108" selection-start-column="52" selection-end-line="108" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.361829">
-          <caret line="250" column="26" selection-start-line="250" selection-start-column="26" selection-end-line="250" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#2529#2530#0" expanded="false" />
-            <element signature="e#2575#2576#0" expanded="false" />
-            <element signature="e#3404#3458#0" expanded="false" />
-            <element signature="e#5647#5857#0" expanded="false" />
-            <element signature="e#5856#5857#0" expanded="false" />
-            <element signature="e#5895#6168#0" expanded="false" />
-            <element signature="e#6167#6168#0" expanded="false" />
-            <element signature="e#7896#7950#0" expanded="false" />
-            <element signature="e#7952#8000#0" expanded="false" />
-            <element signature="e#9353#9407#0" expanded="false" />
-            <element signature="e#9409#9457#0" expanded="false" />
-            <element signature="e#10918#12000#0" expanded="false" />
-            <element signature="e#11999#12000#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61048687">
-          <caret line="125" column="5" selection-start-line="116" selection-start-column="4" selection-end-line="125" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.3345656">
+          <caret line="152" column="0" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.8243995">
+          <caret line="217" column="78" selection-start-line="217" selection-start-column="78" selection-end-line="217" selection-end-column="78" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderListFragment.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.7.1/2e3ea6a70b08eaaff34cb023ed20d604d186d42a/retrofit-1.7.1-sources.jar!/retrofit/RequestBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3595506">
-          <caret line="90" column="58" selection-start-line="90" selection-start-column="58" selection-end-line="90" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-21/android.jar!/android/widget/ListView.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34954956">
-          <caret line="87" column="16" selection-start-line="87" selection-start-column="16" selection-end-line="87" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.548388">
-          <caret line="553" column="39" selection-start-line="553" selection-start-column="39" selection-end-line="553" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/ListViewHubAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="92" selection-start-line="42" selection-start-column="92" selection-end-line="42" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_hub.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.935484">
-          <caret line="51" column="24" selection-start-line="51" selection-start-column="24" selection-end-line="51" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_hubs.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.064516">
-          <caret line="138" column="63" selection-start-line="138" selection-start-column="45" selection-end-line="138" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94863015">
-          <caret line="241" column="16" selection-start-line="241" selection-start-column="16" selection-end-line="241" selection-end-column="58" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1688#1713#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-21/android.jar!/android/app/Activity.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.34954956">
-          <caret line="408" column="16" selection-start-line="408" selection-start-column="16" selection-end-line="408" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/BaseService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
+        <state vertical-scroll-proportion="0.36044362">
+          <caret line="187" column="5" selection-start-line="187" selection-start-column="5" selection-end-line="187" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/MemberInterface.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33257404">
+        <state vertical-scroll-proportion="0.33271718">
           <caret line="49" column="9" selection-start-line="49" selection-start-column="9" selection-end-line="49" selection-end-column="9" />
-          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-21/java/util/concurrent/ThreadPoolExecutor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.808656">
-          <caret line="455" column="25" selection-start-line="455" selection-start-column="25" selection-end-line="455" selection-end-column="25" />
+        <state vertical-scroll-proportion="0.027726432">
+          <caret line="462" column="34" selection-start-line="462" selection-start-column="34" selection-end-line="462" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.6">
-          <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
-          <folding />
+        <state vertical-scroll-proportion="1.7190388">
+          <caret line="89" column="82" selection-start-line="89" selection-start-column="82" selection-end-line="89" selection-end-column="82" />
+          <folding>
+            <element signature="e#975#983#0" expanded="true" />
+            <element signature="e#3013#3889#0" expanded="true" />
+            <element signature="e#3888#3889#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6857143">
-          <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-          <folding />
+        <state vertical-scroll-proportion="0.6857143">
+          <caret line="91" column="57" selection-start-line="91" selection-start-column="57" selection-end-line="91" selection-end-column="57" />
+          <folding>
+            <element signature="e#7137#7182#0" expanded="false" />
+            <element signature="e#11462#11516#0" expanded="false" />
+            <element signature="e#11518#11566#0" expanded="false" />
+            <element signature="e#13032#13086#0" expanded="false" />
+            <element signature="e#13088#13136#0" expanded="false" />
+            <element signature="e#13717#13771#0" expanded="false" />
+            <element signature="e#13773#13821#0" expanded="false" />
+            <element signature="e#15620#16637#0" expanded="false" />
+            <element signature="e#16636#16637#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54142857">
+          <caret line="85" column="3" selection-start-line="85" selection-start-column="3" selection-end-line="88" selection-end-column="57" />
+          <folding>
+            <element signature="e#5886#5931#0" expanded="true" />
+            <element signature="e#10198#10252#0" expanded="true" />
+            <element signature="e#10254#10302#0" expanded="true" />
+            <element signature="e#12141#12195#0" expanded="true" />
+            <element signature="e#12197#12245#0" expanded="true" />
+            <element signature="e#12826#12880#0" expanded="true" />
+            <element signature="e#12882#12930#0" expanded="true" />
+            <element signature="e#15111#16128#0" expanded="true" />
+            <element signature="e#16127#16128#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21428572">
-          <caret line="224" column="24" selection-start-line="224" selection-start-column="24" selection-end-line="224" selection-end-column="24" />
-          <folding>
-            <element signature="e#6976#7030#0" expanded="true" />
-            <element signature="e#7032#7080#0" expanded="true" />
-            <element signature="e#7533#7587#0" expanded="true" />
-            <element signature="e#7589#7637#0" expanded="true" />
-            <element signature="e#9264#9972#0" expanded="true" />
-            <element signature="e#9971#9972#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.73571426">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.33285713">
+          <caret line="57" column="0" selection-start-line="57" selection-start-column="0" selection-end-line="62" selection-end-column="57" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_reply.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.548388">
-          <caret line="119" column="49" selection-start-line="119" selection-start-column="49" selection-end-line="119" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.58928573">
+          <caret line="66" column="59" selection-start-line="66" selection-start-column="59" selection-end-line="66" selection-end-column="59" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/ViewHelpers.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.093394">
-          <caret line="143" column="33" selection-start-line="143" selection-start-column="33" selection-end-line="143" selection-end-column="33" />
-          <folding>
-            <element signature="e#5427#5574#0" expanded="true" />
-            <element signature="e#5573#5574#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6241458">
-          <caret line="444" column="109" selection-start-line="444" selection-start-column="109" selection-end-line="444" selection-end-column="109" />
+        <state vertical-scroll-proportion="1.0243902">
+          <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="6.1161733">
-          <caret line="185" column="25" selection-start-line="185" selection-start-column="25" selection-end-line="185" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0">
+          <caret line="434" column="50" selection-start-line="434" selection-start-column="50" selection-end-line="434" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7227357">
+          <caret line="89" column="52" selection-start-line="89" selection-start-column="52" selection-end-line="89" selection-end-column="52" />
+          <folding />
         </state>
       </provider>
     </entry>

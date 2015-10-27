@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,8 @@ import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
@@ -98,7 +102,6 @@ public class LoginActivity extends Activity {
         forgotPasswordButton.setTypeface(typeFace);
         loadingGif.setVisibility(View.INVISIBLE);
 
-
         if(GlobalVariables.sessionExpired)
         {
             ViewHelpers.showPopup(this, "oh! sorry", "session expired",true);
@@ -112,6 +115,8 @@ public class LoginActivity extends Activity {
     public void initUsernameOnRegister(){
         Intent intent = getIntent();
         String emailOnRegister = intent.getStringExtra("username");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        email.setText(preferences.getString("last_email",""));
         if(emailOnRegister != null){
             email.setText(emailOnRegister);
         }
@@ -147,6 +152,8 @@ public class LoginActivity extends Activity {
         // Store values at the time of the login attempt.
         String emailContent = email.getText().toString();
         String passwordContent = password.getText().toString();
+
+            emailContent = GeneralHelpers.toLowerCase(emailContent);
 
         boolean login = false;
         View focusView = null;
@@ -211,6 +218,7 @@ public class LoginActivity extends Activity {
         editor.putString("access_token", event.accessToken.replace("\"", ""));
         editor.commit();
 
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putString("last_email",email.getText().toString()).commit();
         registerInBackground(event.member, event.accessToken.replace("\"", ""));
 
     }

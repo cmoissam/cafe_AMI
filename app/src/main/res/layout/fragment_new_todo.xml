@@ -3,10 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1">
-
-
-
-        <LinearLayout
+       <LinearLayout
             android:id="@+id/NewTodoForm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -14,7 +11,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="270dp"
+                android:layout_height="280dp"
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:background="#02115a">
@@ -99,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
-                        android:text="find by city or by name"
+                        android:text="find by name or by hub"
                         android:textSize="18dp"
                         android:textColor="#FFFFFF"
                         android:id="@+id/find_by_city_or_name" />
@@ -108,7 +105,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="35dp"
                         android:layout_gravity="left"
                         android:background="@drawable/directory_search_125x125"/>
 
@@ -117,7 +114,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginLeft="60dp"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="30dp"
                         android:inputType="textPersonName"
                         android:hint="@string/search_members"
                         android:layout_gravity="left"

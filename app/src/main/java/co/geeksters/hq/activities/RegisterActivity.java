@@ -116,6 +116,8 @@ public class RegisterActivity extends Activity {
             String passwordContent = password.getText().toString();
             String passwordConfirmationContent = passwordConfirmation.getText().toString();
 
+            emailContent = GeneralHelpers.toLowerCase(emailContent);
+
             boolean register = false;
             View focusView = null;
 

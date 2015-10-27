@@ -47,6 +47,7 @@ import co.geeksters.hq.events.success.EmptyEvent;
 import co.geeksters.hq.events.success.RefreshRadarEvent;
 import co.geeksters.hq.events.success.ResumeRadarEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
+import co.geeksters.hq.events.success.SaveMemberForLogoutEvent;
 import co.geeksters.hq.fragments.HubsFragment_;
 import co.geeksters.hq.fragments.MarketPlaceFragment_;
 import co.geeksters.hq.fragments.MeFragment_;
@@ -67,6 +68,7 @@ import co.geeksters.hq.models.Member;
 import co.geeksters.hq.services.MemberService;
 import retrofit.mime.TypedFile;
 
+import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 ;
@@ -386,6 +388,7 @@ public class GlobalMenuActivity extends FragmentActivity {
                 {
                     // IN ONE PROFILE FROM PEOPLE DIRECTORY...
                     GlobalVariables.menuDeep = 0;
+                    GlobalVariables.backtosearch = true;
                     fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
 
 
@@ -531,6 +534,19 @@ public class GlobalMenuActivity extends FragmentActivity {
         overridePendingTransition(0, 0);
     }
 
+    @Subscribe
+    public void onSaveforLogout(SaveMemberForLogoutEvent event){
+
+        if(isInternetAvailable(this)) {
+            MemberService memberService = new MemberService(accessToken);
+            memberService.logout();
+        } else {
+            //showProgress(false, getActivity(), meScrollView, logoutProgress);
+            ViewHelpers.showPopup(this, getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
+        }
+
+    }
+
     public static void hide_keyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
@@ -621,12 +637,6 @@ public class GlobalMenuActivity extends FragmentActivity {
                 fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                 fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
                 GlobalVariables.inRadarFragement = true;
-                fragmentTransaction.commit();
-            } else if (GlobalVariables.MENU_POSITION == 6) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
-                fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
                 fragmentTransaction.commit();
             }
         }

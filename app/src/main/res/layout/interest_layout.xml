@@ -21,7 +21,7 @@
             android:hint="@string/interest_name"
             android:padding="5dp"
             android:textAlignment="center"
-            android:textColor="#FFC0F4EC"
+            android:textColor="#7af4ea"
             android:textSize="16dp"/>
 
     </LinearLayout>

@@ -143,7 +143,7 @@
             android:padding="6dp"
             android:focusableInTouchMode="false"
             android:layout_gravity="center_horizontal"
-            android:textColor="#FFBFC0C1"/>
+            android:textColor="#000000"/>
 
         <RelativeLayout
             android:orientation="vertical"

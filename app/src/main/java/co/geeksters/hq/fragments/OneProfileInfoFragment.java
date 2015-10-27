@@ -12,12 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.events.success.SaveMemberForLogoutEvent;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.PredicateLayout;
 import co.geeksters.hq.global.helpers.ViewHelpers;
@@ -115,11 +118,15 @@ public class OneProfileInfoFragment extends Fragment {
         //showProgress(true, getActivity(), meScrollView, logoutProgress);
         // Test internet availability
         if(isInternetAvailable(getActivity())) {
+            memberToDisplay.deviceToken = " ";
+            memberToDisplay.deviceType = " ";
             MemberService memberService = new MemberService(accessToken);
-            memberService.logout();
+            memberService.updateMember(memberToDisplay.id, memberToDisplay);
         } else {
             //showProgress(false, getActivity(), meScrollView, logoutProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
+
+
 }

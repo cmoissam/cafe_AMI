@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -77,6 +78,9 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.spinnerHubName)
     Spinner hubName;
 
+    @ViewById(R.id.loadingGif)
+    pl.droidsonroids.gif.GifImageView loading;
+
     @ViewById(R.id.companyName)
     EditText companyName;
 
@@ -119,7 +123,8 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.interest)
     EditText interest;
 
-
+    @ViewById(R.id.saveButton)
+    Button saveButton;
 
     @ViewById(R.id.addButtonInterest)
     ImageView addButtonInterest;
@@ -266,14 +271,13 @@ public class MeFragment extends Fragment {
 
     @Subscribe
     public void onValidFileUploadEvent(UploadImageEvent event) {
-
-
-        ViewHelpers.setImageViewBackgroundFromURLWhenUpdated(getActivity(), picture, event.image);
+        loading.setVisibility(View.INVISIBLE);
         currentMember.image = event.image;
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
         editor = preferences.edit();
         editor.putString("current_member", ParseHelpers.createJsonStringFromModel(currentMember));
         editor.commit();
+        ViewHelpers.setImageViewBackgroundFromURLWhenUpdated(getActivity(), picture, event.image);
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "profile_picture_temp.jpg");
         boolean deleted = file.delete();
     }
@@ -307,6 +311,10 @@ public class MeFragment extends Fragment {
     public void save() {
         //showProgress(true, getActivity(), meScrollView, logoutProgress);
         // Test internet availability
+
+        saveButton.setEnabled(false);
+
+
         if(isInternetAvailable(getActivity())) {
             MemberService memberService = new MemberService(accessToken);
             Member updatedMember = createMemberFromFields();
@@ -316,6 +324,7 @@ public class MeFragment extends Fragment {
             //GlobalVariables.MENU_POSITION = 5;
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
+            saveButton.setEnabled(true);
         }
 
         //showProgress(false, getActivity(), meScrollView, logoutProgress);
@@ -338,7 +347,7 @@ public class MeFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left,R.anim.anim_exit_right);
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_exit_right);
         fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
         // Committing the transaction
         fragmentTransaction.commit();
@@ -452,6 +461,8 @@ public class MeFragment extends Fragment {
                         //ByteArrayOutputStream bmpStream = new ByteArrayOutputStream();
                         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                         StrictMode.setThreadPolicy(policy);
+
+                        loading.setVisibility(View.VISIBLE);
 
 
                     } catch (FileNotFoundException e) {

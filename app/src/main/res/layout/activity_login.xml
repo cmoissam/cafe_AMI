@@ -46,7 +46,8 @@
                 android:background="@drawable/login_logo_150x333" />
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:minHeight="350dp">
 
             <LinearLayout android:id="@+id/emailLoginForm" android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -93,7 +94,7 @@
 
             </LinearLayout>
                 <LinearLayout android:id="@+id/forgotPasswordAndRegisterButtonslayout1" android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="60dp"
                     android:orientation="vertical"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom"
@@ -106,6 +107,16 @@
                     android:orientation="vertical"
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="bottom">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:text="Designed and Powered by GEEKSTERS"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="italic"
+                    android:textSize="16dp"/>
 
                     <LinearLayout android:id="@+id/forgotPasswordAndRegisterButtons" android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -120,6 +131,7 @@
                             android:textSize="16dp"
                             android:textAlignment="center"
                             android:background="#ffffff"
+                            android:layout_marginBottom="5dp"
                             android:alpha="0.8"
                             android:textColor="#fd757575"/>
 
@@ -128,6 +140,7 @@
                             android:text="@string/action_register"
                             android:textStyle="bold"
                             android:textSize="16dp"
+                            android:layout_marginBottom="5dp"
                             android:textAlignment="center"
                             android:background="#ffffff"
                             android:layout_marginLeft="10dp"

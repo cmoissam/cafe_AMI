@@ -24,6 +24,8 @@
                 android:padding="10dp"
                 android:id="@+id/personalInformation">
 
+
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/picture"
                     android:layout_width="100dp"
@@ -50,6 +52,16 @@
                     app:border_width="3dp"
                     app:border_color="#FFFFFF"
                     android:focusableInTouchMode="false"/>
+
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/loadingGif"
+                    android:visibility="invisible"
+                    android:layout_width="90dp" android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/loading_auth_01_android"
+                    />
 
             </RelativeLayout>
 
@@ -82,8 +94,8 @@
 
                         <ImageView
                             android:id="@+id/hubImage"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_gravity="left|center_vertical"
                             android:src="@drawable/profile_house_38x42" />
 
@@ -133,7 +145,7 @@
                     android:layout_marginTop="5dp"
                     android:hint="Add organisation"
                     android:padding="7dp"
-                    android:background="@drawable/border"/>
+                    android:background="#FFFFFF"/>
 
                 <TextView
                     android:id="@+id/goal"
@@ -152,7 +164,7 @@
                     android:hint="Add mission"
                     android:layout_marginTop="5dp"
                     android:padding="7dp"
-                    android:background="@drawable/border"/>
+                    android:background="#FFFFFF"/>
 
                 <TextView
                     android:id="@+id/bio"
@@ -173,7 +185,7 @@
                     android:textColor="#000000"
                     android:hint="Add short bio"
                     android:padding="10dp"
-                    android:background="@drawable/border"/>
+                    android:background="#FFFFFF"/>
 
                 <TextView
                     android:id="@+id/contact"

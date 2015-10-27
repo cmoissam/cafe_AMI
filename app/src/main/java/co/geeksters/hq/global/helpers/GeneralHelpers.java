@@ -57,6 +57,14 @@ public class GeneralHelpers {
         return idsString;
     }
 
+    public static String toLowerCase (String inputVal) {
+        // Empty strings should be returned as-is.
+
+        if (inputVal.length() == 0) return "";
+
+       return inputVal.toLowerCase();
+    }
+
     public static boolean isInternetAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);

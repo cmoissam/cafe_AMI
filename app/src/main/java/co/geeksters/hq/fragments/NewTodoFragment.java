@@ -40,6 +40,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
@@ -79,6 +82,11 @@ public class NewTodoFragment extends DialogFragment{
 
     public boolean onRefresh = false;
     public boolean noMoreMembers = false;
+
+    public boolean waitForSearch = false;
+
+    private static final ScheduledExecutorService worker =
+            Executors.newSingleThreadScheduledExecutor();
 
     public int lastPosition = 0;
 
@@ -152,8 +160,6 @@ public class NewTodoFragment extends DialogFragment{
     TextView textViewNoResult;
 
 
-    //@ViewById(R.id.displayAll)
-    //TextView displayAll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -239,7 +245,7 @@ public class NewTodoFragment extends DialogFragment{
 
     }
 
-    @Click(R.id.date_button)
+    @Click(R.id.date_text)
     public void showDatePicker() {
 
         // Launch Date Picker Dialog
@@ -265,7 +271,7 @@ public class NewTodoFragment extends DialogFragment{
 
     }
 
-    @Click(R.id.time_button)
+    @Click(R.id.time_text)
     public void showTimePicker() {
 
 
@@ -368,6 +374,15 @@ public class NewTodoFragment extends DialogFragment{
 
         @AfterViews
         public void listAllMembersByPagination(){
+            Calendar cal = Calendar.getInstance();
+            TimeZone tz = cal.getTimeZone();
+            SimpleDateFormat formatToShow = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            formatToShow.setTimeZone(tz);
+            String[] splitDate = formatToShow.format(new Date()).split(" ");
+            dateText.setText(splitDate[0]);
+            timeText.setText(splitDate[1]);
+
+
             listAllMembersByPaginationService();
             loading.setVisibility(View.VISIBLE);
             listViewMembers.setVisibility(View.INVISIBLE);
@@ -416,19 +431,35 @@ public class NewTodoFragment extends DialogFragment{
 
         @TextChange(R.id.inputSearch)
         public void searchForMemberByPagination() {
-            from = 0;
-            membersList = new ArrayList<Member>();
-            members = new ArrayList<HashMap<String, String>>();
-            if(!inputSearch.getText().toString().isEmpty()){
-                searchForMembersByPaginationService(inputSearch.getText().toString());
-                listViewMembers.setVisibility(View.INVISIBLE);
+
+
+            emptySearch.setVisibility(View.INVISIBLE);
             loading.setVisibility(View.VISIBLE);
-            }
-            else {
-                listAllMembersByPaginationService();
-                loading.setVisibility(View.VISIBLE);
-                listViewMembers.setVisibility(View.INVISIBLE);
-            }
+
+            Runnable task = new Runnable() {
+                public void run() {
+                    if (!waitForSearch) {
+                        waitForSearch = true;
+                        from = 0;
+                        membersList = new ArrayList<Member>();
+                        members = new ArrayList<HashMap<String, String>>();
+
+                        noMoreMembers = false;
+                        if (!inputSearch.getText().toString().isEmpty()) {
+                            searchForMembersByPaginationService(inputSearch.getText().toString());
+                            listViewMembers.setVisibility(View.INVISIBLE);
+                            loading.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            listAllMembersByPaginationService();
+                            loading.setVisibility(View.VISIBLE);
+                            listViewMembers.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }
+            };
+
+            worker.schedule(task, 2, TimeUnit.SECONDS);
 
         }
 

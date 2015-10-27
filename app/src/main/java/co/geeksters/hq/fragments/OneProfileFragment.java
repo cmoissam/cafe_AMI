@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.otto.Subscribe;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -27,12 +29,15 @@ import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
+import co.geeksters.hq.events.success.SaveMemberForLogoutEvent;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
+import co.geeksters.hq.services.MemberService;
 
+import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 @EFragment(R.layout.fragment_one_profile)
@@ -83,6 +88,8 @@ public class OneProfileFragment extends Fragment {
 
     public boolean  listSelected = false;
 
+    public String accessToken;
+
     @ViewById(R.id.marketplace_Button)
     Button marketplaceButton;
 
@@ -126,6 +133,7 @@ public class OneProfileFragment extends Fragment {
         }
 
         preferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+        accessToken = preferences.getString("access_token", "").toString().replace("\"", "");
 
             Member member = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
@@ -486,6 +494,4 @@ public class OneProfileFragment extends Fragment {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
-
-
 }

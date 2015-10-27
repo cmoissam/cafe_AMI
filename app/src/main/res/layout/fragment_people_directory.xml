@@ -23,7 +23,7 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="find by city or by name"
+                android:text="find by name or by hub"
                 android:textSize="18dp"
                 android:textColor="#FFFFFF"
                 android:id="@+id/find_by_city_or_name" />
