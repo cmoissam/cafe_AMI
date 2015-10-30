@@ -57,7 +57,7 @@
     <string name="action_delete_account">Delete Account</string>
     <string name="action_send_mail_title">Send email</string>
     <string name="action_send_mail_object">HQ Contact</string>
-    <string name="search_members">search member by name or hub ...</string>
+    <string name="search_members">search member by name, hub or interests ...</string>
     <string name="search_hubs">Search hubs ...</string>
     <string name="display_more">Display more results</string>
     <string name="display_all">Display all results</string>

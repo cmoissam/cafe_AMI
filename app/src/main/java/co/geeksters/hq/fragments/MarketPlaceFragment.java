@@ -67,6 +67,7 @@ public class MarketPlaceFragment extends Fragment {
     @AfterViews
     public void tabSetting(){
 
+        GlobalVariables.notifiyedByInterestsOnPost = false;
         android.support.v4.app.FragmentManager fragmentManager =  getActivity().getSupportFragmentManager();
         AllMarketPlaceFragment_ allFragment = (AllMarketPlaceFragment_) fragmentManager.findFragmentByTag("all");
         MeMarketPlaceFragment_ meFragment = (MeMarketPlaceFragment_) fragmentManager.findFragmentByTag("me");

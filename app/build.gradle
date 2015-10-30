@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+//apply plugin: 'com.google.gms.google-services'
 
 apt {
     arguments {
@@ -23,8 +24,8 @@ android {
         applicationId "co.geeksters.hq"
         minSdkVersion 14
         targetSdkVersion 18
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
     }
     buildTypes {
         release {
@@ -37,6 +38,10 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE.txt'
         exclude 'LICENSE.txt'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
     }
 }
 
@@ -56,5 +61,5 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.android.support:recyclerview-v7:21.0.0'
     compile 'com.android.support:support-v4:20.+'
-    compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
 }

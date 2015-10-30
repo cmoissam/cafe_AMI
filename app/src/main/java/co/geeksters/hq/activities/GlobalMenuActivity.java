@@ -301,6 +301,11 @@ public class GlobalMenuActivity extends FragmentActivity {
         // Creating a fragment transaction
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        if(GlobalVariables.notifiyedByInterestsOnPost) {
+            mTitle = getResources().getString(R.string.title_market_place);
+            fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
+        }
+        else
         if(GlobalVariables.notifiyedByPost) {
             mTitle = getResources().getString(R.string.title_market_place);
             fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
@@ -828,9 +833,6 @@ public class GlobalMenuActivity extends FragmentActivity {
         GlobalVariables.onClickComment = false;
         GlobalVariables.inMarketPlaceFragment = false;
         GlobalVariables.inMyTodosFragment = false;
-        GlobalVariables.notifiyedByPost = false;
-        GlobalVariables.notificationPostId = -1;
-        GlobalVariables.notifiyedByTodo = false;
         GlobalVariables.inRadarFragement = false;
         GlobalVariables.radarLock = true;
         GlobalVariables.listRadarLock = true;

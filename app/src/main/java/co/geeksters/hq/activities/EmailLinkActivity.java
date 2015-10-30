@@ -145,6 +145,8 @@ public class EmailLinkActivity extends Activity {
         }
         if(type.equals("todo"))
             GlobalVariables.notifiyedByTodo = true;
+        if(type.equals("interest_tag"))
+            GlobalVariables.notifiyedByInterestsOnPost = true;
 
         loadingGif.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(this, GlobalMenuActivity_.class);

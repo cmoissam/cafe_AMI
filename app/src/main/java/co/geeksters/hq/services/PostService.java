@@ -126,7 +126,7 @@ public class PostService extends BaseService {
 
     public void createPost(String token, Post post) {
 
-        this.api.createPost(token, post.title, post.content, new Callback<JsonElement>() {
+        this.api.createPost(token, post.title, post.content,post.interests, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

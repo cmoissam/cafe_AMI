@@ -1,10 +1,12 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
@@ -33,6 +37,7 @@ import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.DirectoryAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
+import co.geeksters.hq.global.AnalyticsApplication;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -63,6 +68,8 @@ public class PeopleDirectoryFragment extends Fragment {
             Executors.newSingleThreadScheduledExecutor();
 
     public View footer;
+
+    private Tracker mTracker;
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -102,6 +109,8 @@ public class PeopleDirectoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+
+
 
         return null;
     }
@@ -311,7 +320,12 @@ public class PeopleDirectoryFragment extends Fragment {
                         else {
                             listAllMembersByPaginationService();
                         }
-                    }
+                       /* mTracker.send(new HitBuilders.EventBuilder()
+                                .setCategory("Meet the family")
+                                .setAction("Search")
+                                .setLabel(inputSearch.getText().toString())
+                                .build());*/
+                        }
                 }
             };
 
@@ -364,6 +378,16 @@ public class PeopleDirectoryFragment extends Fragment {
 
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+
+        BaseApplication application = (BaseApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+        Log.i("analytics", "Setting screen name: " + "MEET THE FAMILY");
+        mTracker.setScreenName("MEET THE FAMILY");
+                mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
 
 }

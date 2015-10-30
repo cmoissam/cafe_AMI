@@ -51,13 +51,20 @@ public class PostsAdapterOneProfile {
             final LinearLayout childView = (LinearLayout)inflater.inflate(R.layout.list_item_post_one_profile, null, false);
             TextView postTextView = (TextView)childView.findViewById(R.id.post);
             postTextView.setText(postList.get(i).content);
+            TextView interests = (TextView)childView.findViewById(R.id.interests);
+            if(postList.get(i).interests != null && !postList.get(i).interests.equals("")){
+
+                interests.setVisibility(View.VISIBLE);
+                interests.setText(postList.get(i).interests);
+            }
             final LinearLayout commentDisplay = (LinearLayout) childView.findViewById(R.id.commentDisplay);
             Button reply = (Button) childView.findViewById(R.id.reply);
             final LinearLayout commentsLayout = (LinearLayout) childView.findViewById(R.id.commentsLayout);
 
             Typeface typeFace=Typeface.createFromAsset(context.getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
-
             postTextView.setTypeface(typeFace);
+            interests.setTypeface(typeFace);
+
 
             if(postList.get(i).comments.size() != 0) {
                 TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);

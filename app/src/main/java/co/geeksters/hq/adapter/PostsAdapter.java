@@ -62,6 +62,13 @@ public class PostsAdapter {
             final LinearLayout commentsLayout = (LinearLayout) childView.findViewById(R.id.commentsLayout);
             ImageView picture = (ImageView) childView.findViewById(R.id.picture);
 
+            TextView interests = (TextView)childView.findViewById(R.id.interests);
+            if(postList.get(i).interests != null && !postList.get(i).interests.equals("")){
+
+                interests.setVisibility(View.VISIBLE);
+                interests.setText(postList.get(i).interests);
+            }
+
 
             ViewHelpers.setImageViewBackgroundFromURL(context.getActivity(), picture, postList.get(i).member.image);
 
@@ -87,6 +94,7 @@ public class PostsAdapter {
             fullName.setTypeface(typeFace);
             datePost.setTypeface(typeFace);
             postTextView.setTypeface(typeFace);
+            interests.setTypeface(typeFace);
 
             if(postList.get(i).comments.size() != 0) {
                 TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);

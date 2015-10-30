@@ -2,6 +2,8 @@ package co.geeksters.hq.global;
 
 import android.app.Application;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -13,11 +15,29 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import co.geeksters.hq.R;
+
 /**
  * Created by soukaina on 27/11/14.
  */
 public class BaseApplication extends Application {
 //    private static Context context;
+
+
+    private Tracker mTracker;
+
+    /**
+     * Gets the default {@link Tracker} for this {@link BaseApplication}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.analytics);
+        }
+        return mTracker;
+    }
 
     @Override
     public void onCreate() {

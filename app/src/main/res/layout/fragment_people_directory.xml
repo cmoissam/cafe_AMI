@@ -23,8 +23,8 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="find by name or by hub"
-                android:textSize="18dp"
+                android:text="find by name, hub or interests"
+                android:textSize="17dp"
                 android:textColor="#FFFFFF"
                 android:id="@+id/find_by_city_or_name" />
 
@@ -44,7 +44,7 @@
                 android:layout_marginTop="40dp"
                 android:inputType="textPersonName"
                 android:hint="@string/search_members"
-                android:textSize="14dp"
+                android:textSize="12.5dp"
                 android:layout_gravity="left"
                 android:layout_marginRight="10dp"
                 android:background="#FFFFFF"

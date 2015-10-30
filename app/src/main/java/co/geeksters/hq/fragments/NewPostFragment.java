@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,6 +52,13 @@ public class NewPostFragment extends Fragment {
     TextView daatePost;
     @ViewById(R.id.send_button)
     Button sendButton;
+    @ViewById(R.id.addButtonInterest)
+    ImageButton addButtonInterest;
+    @ViewById(R.id.added_interests)
+    EditText addedInterests;
+    @ViewById(R.id.interest)
+    EditText interest;
+
 
     @Click(R.id.send_button)
     public void createPost() {
@@ -62,9 +70,12 @@ public class NewPostFragment extends Fragment {
 
         } else {
 
+            sendButton.setEnabled(false);
+
             Post post = new Post();
             post.content = postInput.getText().toString();
             post.title = "from android";
+            post.interests = addedInterests.getText().toString();
 
             PostService postService = new PostService(accessToken);
 
@@ -72,6 +83,14 @@ public class NewPostFragment extends Fragment {
         }
 
     }
+    @Click(R.id.addButtonInterest)
+    public void addIterests() {
+
+        addedInterests.setText(addedInterests.getText().toString()+" #"+interest.getText().toString());
+        interest.setText("");
+    }
+
+
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -85,7 +104,7 @@ public class NewPostFragment extends Fragment {
     @Subscribe
     public void onPostCreate(PostEvent event) {
 
-
+        sendButton.setEnabled(true);
         // Getting reference to the FragmentManager
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
@@ -102,7 +121,8 @@ public class NewPostFragment extends Fragment {
     @Subscribe
     public void onPostNotCreate(ConnectionFailureEvent event) {
         GlobalVariables.MENU_POSITION = 10;
-        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network),getResources().getString(R.string.no_connection),true);
+        sendButton.setEnabled(true);
+        ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection), true);
     }
 
     @Override
@@ -145,10 +165,6 @@ public class NewPostFragment extends Fragment {
         fullname.setTypeface(typeFace);
         daatePost.setTypeface(typeFace);
         sendButton.setTypeface(typeFace);
-        postInput.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(postInput, InputMethodManager.SHOW_FORCED);
-
     }
 
     // POUR SUPPRIMER LE BUTTON ADD DU MENU........

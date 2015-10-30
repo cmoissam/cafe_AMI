@@ -84,6 +84,8 @@ public class NewTodoFragment extends DialogFragment{
     public boolean noMoreMembers = false;
 
     public boolean waitForSearch = false;
+    public boolean firstTime = true;
+    public boolean firstTimeSearch = false;
 
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
@@ -390,43 +392,50 @@ public class NewTodoFragment extends DialogFragment{
 
         @Subscribe
         public void onGetListMembersByPaginationEvent(MembersEvent event) {
-            this.from += GlobalVariables.SEARCH_SIZE;
-
-            loading.setVisibility(View.INVISIBLE);
-            listViewMembers.setVisibility(View.VISIBLE);
-
-            membersList.addAll(event.members);
-
-            members = Member.membersInfoForItem(getActivity(), members, membersList);
-
-            GlobalVariables.finderList = false;
-            adapter = new TodoAdapter(getActivity(), membersList, listViewMembers,concernedMembers);
-            listViewMembers.setAdapter(adapter);
-
-            ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
-
-            listViewMembers.removeFooterView(footer);
 
 
-            if(members.size() < GlobalVariables.SEARCH_SIZE){
-                noMoreMembers = true;
+            if(firstTime && firstTimeSearch) {
+
             }
-            if(event.members.size() == 0)
-                noMoreMembers = true;
+            else {
+                this.from += GlobalVariables.SEARCH_SIZE;
+                waitForSearch = false;
+                loading.setVisibility(View.INVISIBLE);
+                listViewMembers.setVisibility(View.VISIBLE);
+
+                membersList.addAll(event.members);
+
+                members = Member.membersInfoForItem(getActivity(), members, membersList);
+
+                GlobalVariables.finderList = false;
+                adapter = new TodoAdapter(getActivity(), membersList, listViewMembers, concernedMembers);
+                listViewMembers.setAdapter(adapter);
+
+                ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
+
+                listViewMembers.removeFooterView(footer);
 
 
-            if(adapter.isEmpty())
-                emptySearch.setVisibility(View.VISIBLE);
-            else
-                emptySearch.setVisibility(View.INVISIBLE);
+                if (members.size() < GlobalVariables.SEARCH_SIZE) {
+                    noMoreMembers = true;
+                }
+                if (event.members.size() == 0)
+                    noMoreMembers = true;
 
 
-            if(onRefresh)
-            {
-                //TODO scroll to end of list
-                listViewMembers.setSelection(lastPosition);
+                if (adapter.isEmpty())
+                    emptySearch.setVisibility(View.VISIBLE);
+                else
+                    emptySearch.setVisibility(View.INVISIBLE);
+
+
+                if (onRefresh) {
+                    //TODO scroll to end of list
+                    listViewMembers.setSelection(lastPosition);
+                }
+                onRefresh = false;
             }
-            onRefresh = false;
+            firstTime = false;
         }
 
         @TextChange(R.id.inputSearch)
@@ -435,6 +444,8 @@ public class NewTodoFragment extends DialogFragment{
 
             emptySearch.setVisibility(View.INVISIBLE);
             loading.setVisibility(View.VISIBLE);
+            listViewMembers.setVisibility(View.INVISIBLE);
+            firstTimeSearch = true;
 
             Runnable task = new Runnable() {
                 public void run() {
@@ -526,6 +537,7 @@ public class NewTodoFragment extends DialogFragment{
 
             this.from += GlobalVariables.SEARCH_SIZE;
 
+
             loading.setVisibility(View.INVISIBLE);
             listViewMembers.setVisibility(View.VISIBLE);
             membersList.addAll(event.members);
@@ -554,6 +566,8 @@ public class NewTodoFragment extends DialogFragment{
             }
             if(event.members.size() == 0)
                 noMoreMembers = true;
+
+            waitForSearch = false;
 
         }
 }

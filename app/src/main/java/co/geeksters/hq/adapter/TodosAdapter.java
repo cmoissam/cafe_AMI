@@ -124,8 +124,24 @@ public class TodosAdapter {
             deleteTodo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    TodoService todoService = new TodoService(accessToken);
-                    todoService.deleteTodo(todoList.get(index).id);
+                    if (todoList.get(index).memberId != currentUser.id) {
+
+                        for(int j= 0 ;j<todoList.get(index).members.size();j++)
+                        {
+                         if(todoList.get(index).members.get(j).id == currentUser.id)
+                         {
+                             todoList.get(index).members.remove(j);
+                             break;
+                         }
+                        }
+
+                        TodoService todoService = new TodoService(accessToken);
+                        todoService.updateTodoforDetach(todoList.get(index));
+
+                    } else {
+                        TodoService todoService = new TodoService(accessToken);
+                        todoService.deleteTodo(todoList.get(index).id);
+                    }
                 }
             });
 
@@ -143,26 +159,28 @@ public class TodosAdapter {
 
             if(todoList.get(i).memberId != currentUser.id) {
 
-                swipeLayout.removeAllSwipeDeniers();
-                swipeLayout.setLeftSwipeEnabled(Boolean.FALSE);
-                swipeLayout.setRightSwipeEnabled(Boolean.FALSE);
+                editTodo.setVisibility(View.GONE);
+                editTodoLayout.setVisibility(View.INVISIBLE);
             }
             else {
 
-
-                swipeLayout.removeAllSwipeDeniers();
-
-                //add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
-                swipeLayout.addDrag(SwipeLayout.DragEdge.Left, childView.findViewById(R.id.bottom_wrapper));
+                editTodo.setVisibility(View.VISIBLE);
+                editTodoLayout.setVisibility(View.VISIBLE);
 
 
-                swipeLayout.open(true, SwipeLayout.DragEdge.Left);
-
-                swipeLayout.close();
-
-                swipeLayout.addDrag(SwipeLayout.DragEdge.Right, childView.findViewById(R.id.bottom_wrapper));
-                swipeLayout.setLeftSwipeEnabled(Boolean.FALSE);
             }
+            swipeLayout.removeAllSwipeDeniers();
+
+            //add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
+            swipeLayout.addDrag(SwipeLayout.DragEdge.Left, childView.findViewById(R.id.bottom_wrapper));
+
+
+            swipeLayout.open(true, SwipeLayout.DragEdge.Left);
+
+            swipeLayout.close();
+
+            swipeLayout.addDrag(SwipeLayout.DragEdge.Right, childView.findViewById(R.id.bottom_wrapper));
+            swipeLayout.setLeftSwipeEnabled(Boolean.FALSE);
 
 
 

@@ -3,6 +3,7 @@ package co.geeksters.hq.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
@@ -64,7 +65,7 @@ public class TodoService {
     public void createTodo(Todo todo) {
     //public void createTodo(int user_id, String text, List<User> associated_members, Integer remind_me_at) {
 
-        this.api.createTodo(todo.text,Todo.arrayToString(todo.members),todo.remindMeAt,token, new Callback<JsonElement>() {
+        this.api.createTodo(todo.text, Todo.arrayToString(todo.members), todo.remindMeAt, token, new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
@@ -75,19 +76,15 @@ public class TodoService {
             @Override
             public void failure(RetrofitError error) {
                 // popup to inform the current user of the failure
-                if(error == null)
+                if (error == null)
                     BaseApplication.post(new UnauthorizedFailureEvent());
-                else
-                if(error.getResponse() == null) {
+                else if (error.getResponse() == null) {
                     BaseApplication.post(new UnauthorizedFailureEvent());
-                }
-                else
-                if(error.getResponse() != null) {
+                } else if (error.getResponse() != null) {
                     if (error.getResponse().getStatus() == 401) {
                         BaseApplication.post(new UnauthorizedFailureEvent());
                     }
-                }
-                else
+                } else
                     BaseApplication.post(new ConnectionFailureEvent());
             }
         });
@@ -95,12 +92,38 @@ public class TodoService {
 
     public void updateTodo(Todo todo) {
 
-        this.api.updateTodo(todo.id,todo.text , Todo.arrayToString(todo.members),todo.remindMeAt,token,"put", new Callback<JsonElement>() {
+        this.api.updateTodo(todo.id, todo.text, Todo.arrayToString(todo.members), todo.remindMeAt, token, "put", new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {
                 Todo updated_todo = Todo.createTodoFromJson(response);
                 BaseApplication.post(new UpdateTodoEvent(updated_todo));
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // popup to inform the current user of the failure
+                if (error == null)
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                else if (error.getResponse() == null) {
+                    BaseApplication.post(new UnauthorizedFailureEvent());
+                } else if (error.getResponse() != null) {
+                    if (error.getResponse().getStatus() == 401) {
+                        BaseApplication.post(new UnauthorizedFailureEvent());
+                    }
+                } else
+                    BaseApplication.post(new ConnectionFailureEvent());
+            }
+        });
+    }
+    public void updateTodoforDetach(Todo todo) {
+
+        this.api.updateTodo(todo.id,todo.text , Todo.arrayToString(todo.members),todo.remindMeAt,token,"put", new Callback<JsonElement>() {
+
+            @Override
+            public void success(JsonElement response, Response rawResponse) {
+                Todo updated_todo = Todo.createTodoFromJson(response);
+                BaseApplication.post(new DeleteTodosEvent(new ArrayList<Todo>()));
             }
 
             @Override

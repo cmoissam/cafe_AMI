@@ -39,21 +39,29 @@ public class GcmIntentService extends IntentService {
         notificationMessage = intent.getStringExtra("message");
         String jsonData = "";
         if(notificationMessage!=null){
-                if( notificationMessage.equals("To-do reminder")) {
+                if( notificationMessage.equals("To-do reminder") || notificationMessage.contains("rejected your todo") || notificationMessage.contains("added you to his todo")||
+                        notificationMessage.contains("updated his todo") ||notificationMessage.contains("canceled his todo") || notificationMessage.contains("revoked you from a todo")){
 
                 }
-            else{
-                    Bundle extras = intent.getExtras();
-                    jsonData = extras.getString("custom");
-                    try {
-                        JSONObject jsonObj = new JSONObject(jsonData).getJSONObject("data");
-                        notificationPostId = jsonObj.getInt("post_id");
-                        notificationMemberName = jsonObj.getString("member_name");
+            else {
+                    if (notificationMessage.contains("interest")) {
 
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+
+                    } else {
+
+
+                        Bundle extras = intent.getExtras();
+                        jsonData = extras.getString("custom");
+                        try {
+                            JSONObject jsonObj = new JSONObject(jsonData).getJSONObject("data");
+                            notificationPostId = jsonObj.getInt("post_id");
+                            notificationMemberName = jsonObj.getString("member_name");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
-
                 }
 
       /*      try {
@@ -79,16 +87,24 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent resultIntent = null;
-        if(notificationMessage!=null && notificationMessage.equals("To-do reminder")){
-            resultIntent = new Intent(this, StartActivity_.class);
-            GlobalVariables.notifiyedByTodo = true;
-        }
-        else{
-            resultIntent = new Intent(this, StartActivity_.class);
-            GlobalVariables.notificationPostId = notificationPostId;
-            GlobalVariables.notifiyedByPost = true;
+        if(notificationMessage != null) {
+            if (notificationMessage.equals("To-do reminder") || notificationMessage.contains("rejected your todo") || notificationMessage.contains("added you to his todo")||
+                    notificationMessage.contains("updated his todo") ||notificationMessage.contains("canceled his todo") || notificationMessage.contains("revoked you from a todo")) {
 
-        }
+                resultIntent = new Intent(this, StartActivity_.class);
+                GlobalVariables.notifiyedByTodo = true;
+            } else {
+                if (notificationMessage.contains("interest")) {
+                    resultIntent = new Intent(this, StartActivity_.class);
+                    GlobalVariables.notifiyedByInterestsOnPost = true;
+
+                } else {
+                    resultIntent = new Intent(this, StartActivity_.class);
+                    GlobalVariables.notificationPostId = notificationPostId;
+                    GlobalVariables.notifiyedByPost = true;
+                }
+            }
+
 
         // Because clicking the notification opens a new ("special") activity, there's
         // no need to create an artificial back stack.
@@ -115,5 +131,6 @@ public class GcmIntentService extends IntentService {
         mBuilder.setContentIntent(resultPendingIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
         //Toast.makeText(BaseApplication.getAppContext(),"sendNotification notification success",Toast.LENGTH_SHORT).show();
+        }
     }
 }

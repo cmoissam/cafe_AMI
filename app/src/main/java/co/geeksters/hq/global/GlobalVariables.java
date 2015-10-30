@@ -53,6 +53,8 @@ public class GlobalVariables {
     public static boolean notifiyedByPost = false;
     public static int notificationPostId = -1;
     public static boolean notifiyedByTodo = false;
+    public static boolean notifiyedByInterestsOnPost = false;
+
     public static boolean inRadarFragement = false;
     public static boolean radarLock = true;
     public static boolean listRadarLock = true;
@@ -86,8 +88,8 @@ public class GlobalVariables {
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://hq-api.com/images/";
-    public static String UrlApi = "http://hq-api.com/api/v1";
+    public static String UrlApiImage = "http://192.168.1.156:8000/images/";
+    public static String UrlApi = "http://192.168.1.156:8000/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

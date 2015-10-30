@@ -453,7 +453,7 @@
                     android:button="@drawable/checkboxs"
                     android:layout_height="wrap_content"
                     android:textSize="13dp"
-                    android:text="   Receive email on comment"/>
+                    android:text="   Receive email on opportunity"/>
                 <CheckBox
                     android:id="@+id/checkBoxEmailTodo"
                     android:layout_width="match_parent"
@@ -463,7 +463,7 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkboxs"
                     android:textSize="13dp"
-                    android:text="   Receive email on to-do reminder"/>
+                    android:text="   Receive email on to-do"/>
                 <CheckBox
                     android:id="@+id/checkBoxPushComment"
                     android:layout_marginLeft="10dp"
@@ -473,7 +473,7 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkboxs"
                     android:textSize="13dp"
-                    android:text="   Receive push notification on comment"/>
+                    android:text="   Receive push notification on opportunity"/>
                 <CheckBox
                     android:id="@+id/checkBoxPushTodo"
                     android:layout_width="match_parent"
@@ -483,7 +483,7 @@
                     android:textSize="13dp"
                     android:layout_height="wrap_content"
                     android:button="@drawable/checkboxs"
-                    android:text="   Receive push notification on to-do reminder"/>
+                    android:text="   Receive push notification on to-do"/>
 
             </LinearLayout>
 

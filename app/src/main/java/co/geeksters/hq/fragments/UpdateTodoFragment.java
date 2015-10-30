@@ -68,30 +68,6 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 @EFragment(R.layout.fragment_new_todo)
 public class UpdateTodoFragment extends DialogFragment{
 
-
-    public Calendar cal;
-    public int day;
-    public int month;
-    public int year;
-
-    public int lastPosition = 0;
-
-    public int currentTodoId;
-    public Calendar c;
-    public int hour;
-    public int minute;
-
-    public boolean onRefresh = false;
-    public boolean noMoreMembers = false;
-
-    public View footer;
-
-    public boolean waitForSearch = false;
-
-    private static final ScheduledExecutorService worker =
-            Executors.newSingleThreadScheduledExecutor();
-
-
     @ViewById(R.id.interest)
     EditText interest;
 
@@ -122,6 +98,49 @@ public class UpdateTodoFragment extends DialogFragment{
 
     @ViewById(R.id.textView_no_result)
     TextView textViewNoResult;
+
+    // List view
+    @ViewById(R.id.list_view_members)
+    ListView listViewMembers;
+
+    // Search EditText
+    @ViewById(R.id.inputSearch)
+    EditText inputSearch;
+
+    public Calendar cal;
+    public int day;
+    public int month;
+    public int year;
+
+    public int lastPosition = 0;
+
+    public int currentTodoId;
+    public Calendar c;
+    public int hour;
+    public int minute;
+
+    public boolean onRefresh = false;
+    public boolean noMoreMembers = false;
+
+    public View footer;
+
+    public boolean waitForSearch = false;
+    public boolean firstTime = true;
+    public boolean firstTimeSearch = false;
+
+    private static final ScheduledExecutorService worker =
+            Executors.newSingleThreadScheduledExecutor();
+
+    // Listview Adapter
+    TodoAdapter adapter;
+    // ArrayList for Listview
+    ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
+    List<Member> concernedMembers = new ArrayList<Member>();
+
+    String accessToken;
+    List<Member> membersList = new ArrayList<Member>();
+    int from = 0;
+    boolean onSearch = false;
 
     SharedPreferences preferences;
     Member currentMember;
@@ -168,24 +187,6 @@ public class UpdateTodoFragment extends DialogFragment{
 
         }
     }
-    // Listview Adapter
-    TodoAdapter adapter;
-    // ArrayList for Listview
-    ArrayList<HashMap<String, String>> members = new ArrayList<HashMap<String, String>>();
-    List<Member> concernedMembers = new ArrayList<Member>();
-
-    String accessToken;
-    List<Member> membersList = new ArrayList<Member>();
-    int from = 0;
-    boolean onSearch = false;
-
-    // List view
-    @ViewById(R.id.list_view_members)
-    ListView listViewMembers;
-
-    // Search EditText
-    @ViewById(R.id.inputSearch)
-    EditText inputSearch;
 
 
     @Override
@@ -211,6 +212,8 @@ public class UpdateTodoFragment extends DialogFragment{
         GlobalVariables.needReturnButton = true;
         ((GlobalMenuActivity) getActivity()).setActionBarTitle("TO DO");
     }
+
+
 
     @Click(R.id.save_button)
     public void createPost() {
@@ -397,52 +400,63 @@ public class UpdateTodoFragment extends DialogFragment{
             listAllMembersByPaginationService();
             listViewMembers.setVisibility(View.INVISIBLE);
             loading.setVisibility(View.VISIBLE);
+            emptySearch.setVisibility(View.INVISIBLE);
         }
 
         @Subscribe
         public void onGetListMembersByPaginationEvent(MembersEvent event) {
-            this.from += GlobalVariables.SEARCH_SIZE;
 
-            loading.setVisibility(View.INVISIBLE);
-            listViewMembers.setVisibility(View.VISIBLE);
+            if(firstTime && firstTimeSearch) {
 
-            membersList.addAll(event.members);
-
-            members = Member.membersInfoForItem(getActivity(), members, membersList);
-
-            GlobalVariables.finderList = false;
-            adapter = new TodoAdapter(getActivity(), membersList, listViewMembers,concernedMembers);
-            listViewMembers.setAdapter(adapter);
-
-            ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
-
-            listViewMembers.removeFooterView(footer);
-
-            if(adapter.isEmpty()) {
-                emptySearch.setVisibility(View.VISIBLE);
             }
-            else
+            else {
+                this.from += GlobalVariables.SEARCH_SIZE;
+                waitForSearch = false;
+
+                loading.setVisibility(View.INVISIBLE);
+                listViewMembers.setVisibility(View.VISIBLE);
                 emptySearch.setVisibility(View.INVISIBLE);
 
+                membersList.addAll(event.members);
 
-            if(onRefresh)
-            {
-                //TODO scroll to end of list
-                listViewMembers.setSelection(lastPosition);
-            }
-            onRefresh = false;
+                members = Member.membersInfoForItem(getActivity(), members, membersList);
 
-            if(members.size() < GlobalVariables.SEARCH_SIZE){
-                noMoreMembers = true;
+                GlobalVariables.finderList = false;
+                adapter = new TodoAdapter(getActivity(), membersList, listViewMembers, concernedMembers);
+                listViewMembers.setAdapter(adapter);
+
+                ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
+
+                listViewMembers.removeFooterView(footer);
+
+                if (adapter.isEmpty()) {
+                    emptySearch.setVisibility(View.VISIBLE);
+                } else
+                    emptySearch.setVisibility(View.INVISIBLE);
+
+
+                if (onRefresh) {
+                    //TODO scroll to end of list
+                    listViewMembers.setSelection(lastPosition);
+                }
+                onRefresh = false;
+
+                if (members.size() < GlobalVariables.SEARCH_SIZE) {
+                    noMoreMembers = true;
+                }
+                if (event.members.size() == 0)
+                    noMoreMembers = true;
+
             }
-            if(event.members.size() == 0)
-                noMoreMembers = true;
+            firstTime = false;
         }
 
         @TextChange(R.id.inputSearch)
         public void searchForMemberByPagination() {
             emptySearch.setVisibility(View.INVISIBLE);
             loading.setVisibility(View.VISIBLE);
+            listViewMembers.setVisibility(View.INVISIBLE);
+            firstTimeSearch = true;
 
             Runnable task = new Runnable() {
                 public void run() {
@@ -457,11 +471,13 @@ public class UpdateTodoFragment extends DialogFragment{
                             searchForMembersByPaginationService(inputSearch.getText().toString());
                             listViewMembers.setVisibility(View.INVISIBLE);
                             loading.setVisibility(View.VISIBLE);
+                            emptySearch.setVisibility(View.INVISIBLE);
                         }
                         else {
                             listAllMembersByPaginationService();
                             loading.setVisibility(View.VISIBLE);
                             listViewMembers.setVisibility(View.INVISIBLE);
+                            emptySearch.setVisibility(View.INVISIBLE);
                         }
                     }
                 }
@@ -478,6 +494,7 @@ public class UpdateTodoFragment extends DialogFragment{
 
             loading.setVisibility(View.INVISIBLE);
             listViewMembers.setVisibility(View.VISIBLE);
+            emptySearch.setVisibility(View.INVISIBLE);
             membersList.addAll(event.members);
 
             adapter = new TodoAdapter(getActivity(), membersList, listViewMembers,concernedMembers);
@@ -505,6 +522,8 @@ public class UpdateTodoFragment extends DialogFragment{
             }
             if(event.members.size() == 0)
                 noMoreMembers = true;
+
+            waitForSearch = false;
 
         }
     @AfterViews

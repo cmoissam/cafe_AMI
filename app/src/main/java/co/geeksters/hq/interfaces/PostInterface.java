@@ -21,7 +21,7 @@ public interface PostInterface {
 
     @FormUrlEncoded
     @POST("/posts")
-    void createPost(@Field("access_token") String accessToken, @Field("title") String title, @Field("content") String content, Callback<JsonElement> callback);
+    void createPost(@Field("access_token") String accessToken, @Field("title") String title, @Field("content") String content,@Field("interests") String interests, Callback<JsonElement> callback);
 
     @FormUrlEncoded
     @POST("/members/posts/{id}")
