@@ -377,7 +377,7 @@ public class UpdateTodoFragment extends DialogFragment{
 
             if(GeneralHelpers.isInternetAvailable(getActivity())) {
                 MemberService memberService = new MemberService(accessToken);
-                memberService.listAllMembersByPaginationOrSearch(this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
+                memberService.listAllMembersByPaginationForTodo(this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
             } else {
                 //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
@@ -388,7 +388,7 @@ public class UpdateTodoFragment extends DialogFragment{
             if(GeneralHelpers.isInternetAvailable(getActivity())) {
 
                 MemberService memberService = new MemberService(accessToken);
-                memberService.searchForMembersFromKey(search, this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
+                memberService.searchForMembersForTodo(search, this.from, GlobalVariables.SEARCH_SIZE, GlobalVariables.ORDER_TYPE, GlobalVariables.ORDER_COLUMN);
             } else {
                 //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);

@@ -1,7 +1,6 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.DirectoryAdapter;
 import co.geeksters.hq.events.success.MembersEvent;
 import co.geeksters.hq.events.success.MembersSearchEvent;
-import co.geeksters.hq.global.AnalyticsApplication;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;

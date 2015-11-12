@@ -1,20 +1,22 @@
 package co.geeksters.hq.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
+import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Comment;
@@ -38,6 +40,7 @@ public class CommentsAdapter {
     public CommentsAdapter(Activity context, List<Comment> commentList, LinearLayout childView, String accessToken) {
         this.context = context;
         this.commentList = commentList;
+        Collections.reverse(this.commentList);
         this.childView = childView;
         this.accessToken = accessToken;
     }
@@ -70,7 +73,20 @@ public class CommentsAdapter {
             commentTextView.setTypeface(typeFace);
 
 
+            final int index = i;
+
             ImageView picture = (ImageView)childView.findViewById(R.id.picture);
+            picture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GlobalVariables.isInMyProfileFragmentFromOpportunities = true;
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(commentList.get(index).member, 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
 
             ViewHelpers.setImageViewBackgroundFromURL(context, picture, commentList.get(i).member.image);
 
@@ -80,7 +96,7 @@ public class CommentsAdapter {
             if(commentList.get(i).member.id == currentUser.id) {
                 deleteComment.setVisibility(View.VISIBLE);
             }
-            final int index = i;
+
             deleteComment.setOnClickListener(new View.OnClickListener() {
 
                 @Override

@@ -20,6 +20,7 @@
           <device id="Nexus 7" />
           <device id="10.1in WXGA (Tablet)" />
         </devices>
+        <pickBest>false</pickBest>
         <target>android-21</target>
       </config>
     </shared>
@@ -139,6 +140,11 @@
           <theme>@style/AppTheme</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_todo.xml">
+        <config>
+          <theme>@android:style/Theme.Holo.Light.NoActionBar</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/menu/global.xml">
         <config>
           <theme>@android:style/Theme.Holo.Light.DarkActionBar</theme>
@@ -171,45 +177,56 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28de5d15-00dc-494c-93b4-0f96bf262efd" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/AnalyticsApplication.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/xml/analytics.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/interests_borders_post.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app-release.apk" afterPath="$PROJECT_DIR$/app/app-release.apk" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/CreditFragment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/OnStopPopupActionInfo.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_opportunity.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_todo.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/creditFragment.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/BaseApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/BaseApplication.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/EmailLinkActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/EmailLinkActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/AllMarketPlaceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/AllMarketPlaceFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/AmbassadorsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/AmbassadorsAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/AnalyticsApplication.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/AnalyticsApplication.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/HubMembersAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/HubMembersAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MarketPlaceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MarketPlaceFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeMarketPlaceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeMarketPlaceFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Member.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Member.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/MemberInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/MemberInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MyToDosFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MyToDosFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubMembersFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubMembersFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileMarketPlaceFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileMarketPlaceFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Post.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Post.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/PostInterface.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/PostInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/PostService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/PostService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/TodoService.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/TodoService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/ReplyMarketFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/ReplyMarketFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/xml/analytics.xml" afterPath="$PROJECT_DIR$/app/src/main/res/xml/analytics.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/credit_fragment.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/credit_fragment.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/hq.iml" afterPath="$PROJECT_DIR$/hq.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile_info.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile_info.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_21_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/support_v4_21_0_0.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hq.iws" />
@@ -249,36 +266,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="GlobalMenuActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="305" column="76" selection-start-line="305" selection-start-column="76" selection-end-line="305" selection-end-column="76" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_new_post.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml">
+      <file leaf-file-name="credit_fragment.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/credit_fragment.xml">
           <provider editor-type-id="android-designer">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="200" column="46" selection-start-line="200" selection-start-column="46" selection-end-line="200" selection-end-column="46" />
+            <state vertical-scroll-proportion="-13.741936">
+              <caret line="147" column="50" selection-start-line="147" selection-start-column="50" selection-end-line="147" selection-end-column="50" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NewPostFragment.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java">
+      <file leaf-file-name="pop_up_info_opportunity.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_opportunity.xml">
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="123" column="34" selection-start-line="123" selection-start-column="34" selection-end-line="123" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.35019454">
+              <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
               <folding />
             </state>
           </provider>
@@ -291,8 +299,8 @@
       <list>
         <option value="layoutResourceFile_vertical" />
         <option value="resourceFile" />
-        <option value="Class" />
         <option value="valueResourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -303,6 +311,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleBuildTreeViewConfiguration">
+    <option name="SHOW_GENERIC_MESSAGES" value="false" />
   </component>
   <component name="GradleLocalSettings">
     <option name="availableProjects">
@@ -1487,7 +1498,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4337495539781" />
+        <entry key="$PROJECT_DIR$" value="4337951705522" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1906,57 +1917,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_hubs.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/anim/anim_enter_right.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/credit_Fragment.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_todo.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/creditFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_reply.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_comment.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_start.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_forgot_password.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/interest_layout.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/interests_borders.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/AnalyticsApplication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/Traking_xml.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/analytics.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/BaseApplication.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/xml/analytics.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/TodoService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Post.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/PostInterface.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/PostService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/interests_borders_post.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MarketPlaceFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_post.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/EmailLinkActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileMarketPlaceFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeMarketPlaceFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneHubMembersFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/HubMembersAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/AmbassadorsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_people_directory.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/events/success/OnStopPopupActionInfo.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile_market_place.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/global_menu.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/AllMarketPlaceFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings_activity_login.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileInfoFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Member.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/MemberInterface.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/MemberService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile_info.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/ReplyMarketFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/drawer_list_item.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/xml/analytics.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_my_to_dos.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_todo.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MyToDosFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/CreditFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_description.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/credit_fragment.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_opportunity.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MarketPlaceFragment.java" />
       </list>
     </option>
   </component>
@@ -2002,86 +2013,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches">
-        <subPane />
-      </pane>
-      <pane id="PackagesPane">
-        <subPane />
-      </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="fragments" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -2090,169 +2021,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="generated" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="generated" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="r" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="generated" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="source" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="r" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="debug" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android.support.v7" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hq" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="build" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="generated" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
+      </pane>
+      <pane id="PackagesPane">
+        <subPane />
       </pane>
       <pane id="Scope">
         <subPane subId="Default">
@@ -2316,6 +2088,105 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches">
+        <subPane />
+      </pane>
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hq" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fragments" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2346,8 +2217,8 @@
       <recent name="co.geeksters.hq.adapter" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
       <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
+      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
       <recent name="$PROJECT_DIR$/app/src/main/res/anim" />
       <recent name="$PROJECT_DIR$/app/src/main/res/drawable-xxxhdpi" />
       <recent name="$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications" />
@@ -2662,10 +2533,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31232727" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.48258707" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38906753" sideWeight="0.5743505" order="3" side_tool="false" content_ui="tabs" />
@@ -2674,26 +2546,56 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.49585405" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19789939" sideWeight="0.16" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.60878885" sideWeight="0.42288557" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21757771" sideWeight="0.51188505" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3590568" sideWeight="0.5754561" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21757771" sideWeight="0.51188505" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38370848" sideWeight="0.5754561" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.49806523" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23880596" sideWeight="0.84" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20950802" sideWeight="0.84" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27545553" sideWeight="0.44278607" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="166" y="252" width="1655" height="856" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31232727" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27652735" sideWeight="0.49806523" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="166" y="252" width="1655" height="856" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21757771" sideWeight="0.48811498" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.60878885" sideWeight="0.42288557" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19789939" sideWeight="0.16" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.49585405" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.49806523" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25262576" sideWeight="0.84" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27545553" sideWeight="0.44278607" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290461" sideWeight="0.48258707" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31232727" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.27652735" sideWeight="0.49806523" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38906753" sideWeight="0.5743505" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21757771" sideWeight="0.51188505" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3590568" sideWeight="0.5754561" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32946378" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -2711,408 +2613,63 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/HubsFragment.java</url>
-          <line>168</line>
+          <line>164</line>
           <properties />
           <option name="timeStamp" value="394" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java</url>
-          <line>188</line>
-          <properties />
-          <option name="timeStamp" value="737" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java</url>
-          <line>551</line>
-          <properties />
-          <option name="timeStamp" value="746" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>540</line>
-          <properties />
-          <option name="timeStamp" value="819" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>542</line>
-          <properties />
-          <option name="timeStamp" value="820" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>545</line>
-          <properties />
-          <option name="timeStamp" value="821" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>548</line>
-          <properties />
-          <option name="timeStamp" value="822" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>550</line>
-          <properties />
-          <option name="timeStamp" value="823" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>553</line>
-          <properties />
-          <option name="timeStamp" value="824" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>555</line>
-          <properties />
-          <option name="timeStamp" value="825" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>558</line>
-          <properties />
-          <option name="timeStamp" value="826" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>561</line>
-          <properties />
-          <option name="timeStamp" value="827" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>563</line>
-          <properties />
-          <option name="timeStamp" value="828" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>566</line>
-          <properties />
-          <option name="timeStamp" value="829" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>564</line>
-          <properties />
-          <option name="timeStamp" value="831" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>567</line>
-          <properties />
-          <option name="timeStamp" value="832" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>541</line>
-          <properties />
-          <option name="timeStamp" value="833" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>544</line>
-          <properties />
-          <option name="timeStamp" value="834" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>551</line>
-          <properties />
-          <option name="timeStamp" value="835" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java</url>
-          <line>554</line>
-          <properties />
-          <option name="timeStamp" value="836" />
-        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="837" />
+      <option name="time" value="858" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/r/debug/co/geeksters/hq/R.java">
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-21/android.jar!/java/lang/RuntimeException.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.1268656">
-          <caret line="9" column="19" selection-start-line="9" selection-start-column="19" selection-end-line="9" selection-end-column="19" />
-          <folding />
+        <state vertical-scroll-proportion="0.19480519">
+          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/r/debug/co/geeksters/hq/Manifest.java">
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-21/android.jar!/android/content/Intent.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.35992578">
+          <caret line="297" column="28" selection-start-line="297" selection-start-column="28" selection-end-line="297" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/hq.iml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HQ.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="71" selection-start-line="11" selection-start-column="71" selection-end-line="11" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/AnalyticsApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="5" selection-start-line="34" selection-start-column="3" selection-end-line="47" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/source/apt/debug/co/geeksters/hq/fragments/PeopleDirectoryFragment_.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33203125">
-          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4731978">
-          <caret line="51" column="65" selection-start-line="51" selection-start-column="65" selection-end-line="51" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/BaseApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.41404805">
-          <caret line="36" column="61" selection-start-line="36" selection-start-column="61" selection-end-line="36" selection-end-column="61" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.71/jars/classes.jar!/com/google/android/gms/analytics/HitBuilders.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3816047">
-          <caret line="30" column="41" selection-start-line="30" selection-start-column="41" selection-end-line="30" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.1.71/jars/classes.jar!/com/google/android/gms/analytics/Tracker.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3522505">
-          <caret line="200" column="16" selection-start-line="200" selection-start-column="16" selection-end-line="200" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/analytics.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33271718">
-          <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="143" column="0" selection-start-line="143" selection-start-column="0" selection-end-line="143" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.60387325">
+          <caret line="498" column="34" selection-start-line="498" selection-start-column="34" selection-end-line="498" selection-end-column="34" />
           <folding>
-            <element signature="e#2616#2634#0" expanded="true" />
-            <element signature="e#3013#3052#0" expanded="true" />
-            <element signature="e#3170#3200#0" expanded="true" />
-            <element signature="e#3721#3751#0" expanded="true" />
-            <element signature="e#4873#4891#0" expanded="true" />
-            <element signature="e#5124#5157#0" expanded="true" />
-            <element signature="e#5419#5459#0" expanded="true" />
-            <element signature="e#6247#6286#0" expanded="true" />
+            <element signature="e#21722#21776#0" expanded="false" />
+            <element signature="e#21778#21826#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_todo.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/ReplyMarketFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="25" column="8" selection-start-line="25" selection-start-column="8" selection-end-line="25" selection-end-column="8" />
-          <folding />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="163" column="0" selection-start-line="163" selection-start-column="0" selection-end-line="173" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodoAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/CommentsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0536045">
-          <caret line="69" column="81" selection-start-line="69" selection-start-column="81" selection-end-line="69" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/TodoService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4705882">
-          <caret line="141" column="21" selection-start-line="141" selection-start-column="21" selection-end-line="141" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/OneProfileMarketPlaceFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10714286">
-          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.10714286">
-          <caret line="142" column="71" selection-start-line="142" selection-start-column="71" selection-end-line="142" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6944444">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.580646">
-          <caret line="569" column="34" selection-start-line="569" selection-start-column="34" selection-end-line="569" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="78" column="0" selection-start-line="78" selection-start-column="0" selection-end-line="89" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#2731#3456#0" expanded="false" />
+            <element signature="e#3455#3456#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/UpdateTodoFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.225806">
-          <caret line="511" column="0" selection-start-line="511" selection-start-column="0" selection-end-line="511" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.6666665">
-          <caret line="59" column="57" selection-start-line="59" selection-start-column="57" selection-end-line="59" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_people_directory.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.89215684">
-          <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
-          <folding>
-            <element signature="e#1986#2010#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_new_todo.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15686275">
-          <caret line="112" column="20" selection-start-line="112" selection-start-column="20" selection-end-line="112" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5809859">
-          <caret line="307" column="0" selection-start-line="307" selection-start-column="0" selection-end-line="307" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/PostService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="3.0105634">
-          <caret line="128" column="74" selection-start-line="128" selection-start-column="74" selection-end-line="128" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/interfaces/PostInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4225352">
-          <caret line="23" column="162" selection-start-line="23" selection-start-column="162" selection-end-line="23" selection-end-column="162" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/models/Post.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6302817">
-          <caret line="91" column="60" selection-start-line="91" selection-start-column="60" selection-end-line="91" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/source/apt/debug/co/geeksters/hq/fragments/NewPostFragment_.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35064936">
-          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/interests_borders_post.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.26408452">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41713223">
-          <caret line="55" column="52" selection-start-line="55" selection-start-column="52" selection-end-line="55" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30726257">
-          <caret line="407" column="34" selection-start-line="407" selection-start-column="34" selection-end-line="407" selection-end-column="34" />
-          <folding />
+        <state vertical-scroll-proportion="0.57746476">
+          <caret line="62" column="107" selection-start-line="62" selection-start-column="107" selection-end-line="62" selection-end-column="107" />
         </state>
       </provider>
     </entry>
@@ -3121,30 +2678,107 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38547486">
-          <caret line="37" column="34" selection-start-line="37" selection-start-column="28" selection-end-line="37" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.08071749">
+          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/source/apt/debug/co/geeksters/hq/fragments/MyToDosFragment_.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/global.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.137931">
-          <caret line="22" column="23" selection-start-line="22" selection-start-column="23" selection-end-line="22" selection-end-column="23" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MyToDosFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/global_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33333334">
-          <caret line="100" column="48" selection-start-line="100" selection-start-column="8" selection-end-line="100" selection-end-column="48" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/source/apt/debug/co/geeksters/hq/fragments/MarketPlaceFragment_.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/main.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.137931">
-          <caret line="20" column="26" selection-start-line="20" selection-start-column="26" selection-end-line="20" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_init.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/main.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/global_menu.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5156951">
+          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-ldpi/menu_action_125x125.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-ldpi/menu_opportunities_125x125.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/drawer_list_item.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.2793296">
+          <caret line="10" column="40" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/MenuAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="65" column="55" selection-start-line="65" selection-start-column="55" selection-end-line="65" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44237918">
+          <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3153,100 +2787,285 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.74860334">
-          <caret line="153" column="52" selection-start-line="153" selection-start-column="52" selection-end-line="153" selection-end-column="52" />
-          <folding>
-            <element signature="e#3889#3908#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MarketPlaceFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7394366">
-          <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderRadarFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33274648">
-          <caret line="586" column="0" selection-start-line="586" selection-start-column="0" selection-end-line="586" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/EmailLinkActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.5316901">
-          <caret line="147" column="36" selection-start-line="147" selection-start-column="36" selection-end-line="147" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_post_one_profile.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.24581006">
-          <caret line="94" column="32" selection-start-line="94" selection-start-column="32" selection-end-line="94" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapterOneProfile.java">
-      <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="20" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="20" />
+          <caret line="107" column="44" selection-start-line="107" selection-start-column="39" selection-end-line="107" selection-end-column="48" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/AllMarketPlaceFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/ForgotPasswordActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70950705">
-          <caret line="162" column="0" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.70542634">
+          <caret line="192" column="0" selection-start-line="192" selection-start-column="0" selection-end-line="192" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/PostsAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.6179578">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.3488372">
+          <caret line="81" column="66" selection-start-line="81" selection-start-column="66" selection-end-line="81" selection-end-column="66" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/DirectoryAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7552817">
-          <caret line="110" column="43" selection-start-line="110" selection-start-column="43" selection-end-line="110" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.30232558">
+          <caret line="63" column="8" selection-start-line="63" selection-start-column="8" selection-end-line="63" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_me.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.934633">
+          <caret line="237" column="78" selection-start-line="237" selection-start-column="78" selection-end-line="237" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_one_profile.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.51834863">
+          <caret line="202" column="49" selection-start-line="202" selection-start-column="49" selection-end-line="202" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-21/android/content/ContentProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-21/android/os/Binder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-21/android/accounts/AccountManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Android/Sdk/sources/android-21/android/accounts/AbstractAccountAuthenticator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/analytics.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.18485916">
+          <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/BaseApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="36" column="56" selection-start-line="36" selection-start-column="56" selection-end-line="36" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleDirectoryFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7214286">
+          <caret line="383" column="46" selection-start-line="383" selection-start-column="46" selection-end-line="383" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/AllMarketPlaceFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.89788735">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_todo.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.032258">
+          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/adapter/TodosMembersAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41021127">
+          <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_my_to_dos.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2886406">
+          <caret line="114" column="19" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/helpers/ViewHelpers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="90" column="39" selection-start-line="88" selection-start-column="7" selection-end-line="90" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/GlobalMenuActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="305" column="76" selection-start-line="305" selection-start-column="76" selection-end-line="305" selection-end-column="76" />
+        <state vertical-scroll-proportion="0.49119717">
+          <caret line="83" column="30" selection-start-line="83" selection-start-column="30" selection-end-line="83" selection-end-column="30" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_new_post.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/activities/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="211" column="48" selection-start-line="211" selection-start-column="48" selection-end-line="211" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewTodoFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23767605">
+          <caret line="68" column="13" selection-start-line="68" selection-start-column="13" selection-end-line="68" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_people_finder.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="200" column="46" selection-start-line="200" selection-start-column="46" selection-end-line="200" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.05027933">
+          <caret line="130" column="52" selection-start-line="130" selection-start-column="52" selection-end-line="130" selection-end-column="52" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/global/GlobalVariables.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.6697247">
+          <caret line="104" column="0" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/CreditFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.70642203">
+          <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/credit_fragment.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.741936">
+          <caret line="147" column="50" selection-start-line="147" selection-start-column="50" selection-end-line="147" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/services/notifications/GcmIntentService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="45" column="18" selection-start-line="45" selection-start-column="18" selection-end-line="45" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/PeopleFinderFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.79816514">
+          <caret line="107" column="8" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="8" />
+          <folding>
+            <element signature="e#12733#15516#0" expanded="true" />
+            <element signature="e#15515#15516#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/NewPostFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="123" column="34" selection-start-line="123" selection-start-column="34" selection-end-line="123" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.25688073">
+          <caret line="158" column="42" selection-start-line="158" selection-start-column="42" selection-end-line="158" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MyToDosFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.67706424">
+          <caret line="87" column="0" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MarketPlaceFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35779816">
+          <caret line="74" column="8" selection-start-line="74" selection-start-column="8" selection-end-line="74" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/co/geeksters/hq/fragments/MeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5321101">
+          <caret line="247" column="8" selection-start-line="247" selection-start-column="8" selection-end-line="247" selection-end-column="8" />
+          <folding>
+            <element signature="e#5628#5680#0" expanded="true" />
+            <element signature="e#6674#6728#0" expanded="true" />
+            <element signature="e#6730#6778#0" expanded="true" />
+            <element signature="e#11556#11602#0" expanded="true" />
+            <element signature="e#11604#11657#0" expanded="true" />
+            <element signature="e#13052#13106#0" expanded="true" />
+            <element signature="e#13108#13156#0" expanded="true" />
+            <element signature="e#13781#13826#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/pop_up_info_opportunity.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35019454">
+          <caret line="12" column="19" selection-start-line="12" selection-start-column="19" selection-end-line="12" selection-end-column="19" />
           <folding />
         </state>
       </provider>

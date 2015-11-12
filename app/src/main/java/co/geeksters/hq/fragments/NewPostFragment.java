@@ -1,12 +1,15 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -158,7 +161,40 @@ public class NewPostFragment extends Fragment {
         accessToken = preferences.getString("access_token", "").replace("\"", "");
         Member currentUser = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
-        Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
+
+
+    if(PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).getBoolean("visit_info_add_post",true)) {
+
+
+        PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).edit().putBoolean("visit_info_add_post", false).commit();
+        LayoutInflater inflater = GlobalVariables.activity.getLayoutInflater();
+        final View dialoglayout = inflater.inflate(R.layout.pop_up_info_opportunity, null);
+
+        ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
+        TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
+
+        infoText.setText(" When creating an entry, you can tag people to your request (Yeah just like Facebook) and the people you tag will receive you request as a push notification on their mobile device. You can also tag “Interests” and send a notification to all the Onesie that tagued this interest in their profile.");
+
+        Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        infoText.setTypeface(typeFace);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(GlobalVariables.activity);
+        builder.setView(dialoglayout);
+        builder.setCancelable(true);
+        final AlertDialog ald = builder.show();
+        ald.setCancelable(true);
+
+        cancelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ald.dismiss();
+            }
+        });
+
+        }
+
+
+        Typeface typeFace =Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
         ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, currentUser.image);
         fullname.setText(currentUser.fullName);
         postInput.setTypeface(typeFace);
@@ -166,20 +202,6 @@ public class NewPostFragment extends Fragment {
         daatePost.setTypeface(typeFace);
         sendButton.setTypeface(typeFace);
     }
-
-    // POUR SUPPRIMER LE BUTTON ADD DU MENU........
-/*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-
-
-        //fragment specific menu creation
-    }*/
-
-    /** Called whenever we call invalidateOptionsMenu() */
 
 
 }

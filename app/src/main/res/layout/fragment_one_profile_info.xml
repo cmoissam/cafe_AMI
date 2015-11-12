@@ -222,6 +222,98 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/notification_block"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/checkBoxRadarVisibility"
+                android:layout_marginTop="10dp"
+                android:textColor="#02115a"
+                android:layout_marginLeft="10dp"
+                android:enabled="false"
+                android:button="@drawable/checkbox_radar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:text="   Appear on radar"/>
+            <CheckBox
+                android:id="@+id/checkBoxEmailComment"
+                android:layout_marginTop="10dp"
+                android:textColor="#02115a"
+                android:enabled="false"
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:button="@drawable/checkboxs"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:text="   Receive email on opportunity"/>
+            <CheckBox
+                android:id="@+id/checkBoxEmailTodo"
+                android:layout_width="match_parent"
+                android:enabled="false"
+                android:layout_marginTop="10dp"
+                android:textColor="#02115a"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkboxs"
+                android:textSize="13dp"
+                android:text="   Receive email on to-do"/>
+            <CheckBox
+                android:id="@+id/checkBoxPushComment"
+                android:enabled="false"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#02115a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkboxs"
+                android:textSize="13dp"
+                android:text="   Receive push notification on opportunity"/>
+            <CheckBox
+                android:id="@+id/checkBoxPushTodo"
+                android:layout_width="match_parent"
+                android:enabled="false"
+                android:layout_marginTop="10dp"
+                android:textColor="#02115a"
+                android:layout_marginLeft="10dp"
+                android:textSize="13dp"
+                android:layout_height="wrap_content"
+                android:button="@drawable/checkboxs"
+                android:text="   Receive push notification on to-do"/>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/edit_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true">
+
+                <Button android:id="@+id/edit_my_profile"
+                    android:layout_width="wrap_content" android:layout_height="50dp"
+                    android:text="Edit Notifications"
+                    android:paddingLeft="20dp"
+                    android:layout_marginRight="10dp"
+                    android:paddingRight="20dp"
+                    android:background="@drawable/save_task_border"
+                    android:textColor="#02115a"
+                    android:textStyle="bold"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="10dp"
             android:alpha="0.7"
             android:background="@drawable/backgroud_cell_shadow"></LinearLayout>

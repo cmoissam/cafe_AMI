@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.adapter.ListViewMarketAdapter;
 import co.geeksters.hq.adapter.PostsAdapter;
 import co.geeksters.hq.events.success.CommentEvent;
@@ -36,7 +37,6 @@ import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromS
 
 @EFragment(R.layout.fragment_one_profile_market_place)
 public class AllMarketPlaceFragment extends Fragment {
-    // ArrayList for Listview
     String accessToken;
     List<Post> postsList = new ArrayList<Post>();
     ListViewMarketAdapter adapter;
@@ -57,13 +57,11 @@ public class AllMarketPlaceFragment extends Fragment {
 
     public void listAllPostService() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            //spinner.setVisibility(View.VISIBLE);
             PostService postService = new PostService(accessToken);
             postService.listAllPosts();
             loading.setVisibility(View.VISIBLE);
 
         } else {
-            //ViewHelpers.showProgress(false, this, contentFrame, membersSearchProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
     }
@@ -71,20 +69,16 @@ public class AllMarketPlaceFragment extends Fragment {
     @AfterViews
     public void listPostForCurrentMember() {
 
-        //myPostsSearchForm.setBackgroundColor(Color.parseColor("#eeeeee"));
-
         listAllPostService();
     }
 
     @Subscribe
     public void onGetListPostsEvent(PostsEvent event) {
-       // spinner.setVisibility(View.GONE);
         postsList = event.posts;
-//        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         GlobalVariables.replyFromMyMarket = false;
         GlobalVariables.replyToAll = true;
 
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapter adapter = new PostsAdapter(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
@@ -103,7 +97,7 @@ public class AllMarketPlaceFragment extends Fragment {
             GlobalVariables.notifiyedByPost = false;
             GlobalVariables.notificationPostId = -1;
 
-            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
             Fragment fragment = new ReplyMarketFragment_().newInstance(notifiedPost.id, notifiedPost.comments);
             fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
             fragmentTransaction.replace(R.id.contentFrame, fragment);
@@ -120,7 +114,7 @@ public class AllMarketPlaceFragment extends Fragment {
             }
         }
 
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapter adapter = new PostsAdapter(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
@@ -143,7 +137,7 @@ public class AllMarketPlaceFragment extends Fragment {
 
             }
         }
-        PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapter adapter = new PostsAdapter(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);

@@ -94,7 +94,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
         postsList = event.posts;
 //        ArrayList<HashMap<String, String>> posts = Post.postsInfoForItem(postsList);
         GlobalVariables.replyFromMyMarket = true;
-        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
@@ -111,7 +111,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
             }
         }
 
-        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
@@ -151,7 +151,7 @@ public class OneProfileMarketPlaceFragment extends Fragment {
 
 //            PostsAdapter.lastClickedPosts = new ArrayList<Integer>();
 
-            PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+            PostsAdapter adapter = new PostsAdapter(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
             adapter.makeList();
           }
     }

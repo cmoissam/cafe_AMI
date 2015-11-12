@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,6 +129,7 @@ public class ReplyMarketFragment extends Fragment {
 
     @AfterViews
     public void setCommentList() {
+        //Collections.reverse(commentList);
         setCommentsList();
         Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
         commentContent.setTypeface(typeFace);
@@ -154,7 +156,21 @@ public class ReplyMarketFragment extends Fragment {
             //TextView date = (TextView) childViewComment.findViewById(R.id.date);
             //date.setText(commentList.get(i).createdAt);
 
+            final int index = i;
+
             ImageView picture = (ImageView) childViewComment.findViewById(R.id.picture);
+
+            picture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GlobalVariables.isInMyProfileFragmentFromOpportunities = true;
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(commentList.get(index).member, 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
 
             ViewHelpers.setImageViewBackgroundFromURL(getActivity(), picture, commentList.get(i).member.image);
 
@@ -165,8 +181,8 @@ public class ReplyMarketFragment extends Fragment {
     @Click(R.id.send)
     public void sendComment() {
         commentContent.setError(null);
-        if(String.valueOf(commentContent.getText()).length() < 3) {
-            commentContent.setError(getString(R.string.error_short_text));
+        if(String.valueOf(commentContent.getText()).length() < 1) {
+            commentContent.setError(getString(R.string.error_field_required));
             commentContent.requestFocus();
         } else {
             Comment comment = new Comment();

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.fragments.UpdateTodoFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.models.Member;
@@ -106,7 +107,7 @@ public class TodosAdapter {
                     GlobalVariables.isMenuOnPosition = false;
 
                     // Getting reference to the FragmentManager
-                    FragmentManager fragmentManager = context.getActivity().getSupportFragmentManager();
+                    FragmentManager fragmentManager = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager();
 
                     // Creating a fragment transaction
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

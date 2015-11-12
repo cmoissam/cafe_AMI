@@ -41,6 +41,7 @@ public class OneHubMembersFragment extends Fragment {
     String accessToken;
     Member currentMember;
     Hub currentHub;
+    LayoutInflater inflater;
 
     // List view
     @ViewById(R.id.list_view_members)
@@ -105,7 +106,7 @@ public class OneHubMembersFragment extends Fragment {
 //        listViewMembers.setItemsCanFocus(false);
         loading.setVisibility(View.INVISIBLE);
         GlobalVariables.finderList = false;
-        adapter = new HubMembersAdapter(getActivity(), membersList, listViewMembers);
+        adapter = new HubMembersAdapter(inflater, membersList, listViewMembers);
         listViewMembers.setAdapter(adapter);
         ViewHelpers.setListViewHeightBasedOnChildren(listViewMembers);
 
@@ -122,6 +123,7 @@ public class OneHubMembersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         BaseApplication.register(this);
+        this.inflater = inflater;
         currentHub = (Hub) getArguments().getSerializable(NEW_INSTANCE_HUBS_KEY);
 
         return null;

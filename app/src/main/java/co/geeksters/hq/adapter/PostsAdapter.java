@@ -1,6 +1,6 @@
 package co.geeksters.hq.adapter;
 
-import android.graphics.Typeface;
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.TimeZone;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
+import co.geeksters.hq.activities.GlobalMenuActivity_;
+import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
@@ -31,7 +34,7 @@ import co.geeksters.hq.services.PostService;
  */
 public class PostsAdapter {
 
-    Fragment context;
+    Activity context;
     private List<Post> postList;
     String accessToken;
     LinearLayout llList;
@@ -39,8 +42,8 @@ public class PostsAdapter {
     Member currentUser;
     public static List<Integer> lastClickedPosts = new ArrayList<Integer>();
 
-    public PostsAdapter(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken, Member currentUser) {
-        this.context = fragment;
+    public PostsAdapter(LayoutInflater inflater, Activity activity, LinearLayout llList, List<Post> postList, String accessToken, Member currentUser) {
+        this.context = activity;
         this.postList = postList;
         this.accessToken = accessToken;
         this.llList = llList;
@@ -70,7 +73,19 @@ public class PostsAdapter {
             }
 
 
-            ViewHelpers.setImageViewBackgroundFromURL(context.getActivity(), picture, postList.get(i).member.image);
+            ViewHelpers.setImageViewBackgroundFromURL(context, picture, postList.get(i).member.image);
+
+            picture.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GlobalVariables.isInMyProfileFragmentFromOpportunities = true;
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = new OneProfileFragment_().newInstance(postList.get(index).member, 0);
+                    fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right, R.anim.anim_exit_left);
+                    fragmentTransaction.replace(R.id.contentFrame, fragment);
+                    fragmentTransaction.commit();
+                }
+            });
 
             TextView fullName = (TextView) childView.findViewById(R.id.fullName);
             fullName.setText(postList.get(i).member.fullName);
@@ -90,11 +105,11 @@ public class PostsAdapter {
             formatToShow.setTimeZone(tz);
             datePost.setText(formatToShow.format(date));
 
-            Typeface typeFace=Typeface.createFromAsset(context.getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
-            fullName.setTypeface(typeFace);
-            datePost.setTypeface(typeFace);
-            postTextView.setTypeface(typeFace);
-            interests.setTypeface(typeFace);
+
+            fullName.setTypeface(GlobalVariables.typeface);
+            datePost.setTypeface(GlobalVariables.typeface);
+            postTextView.setTypeface(GlobalVariables.typeface);
+            interests.setTypeface(GlobalVariables.typeface);
 
             if(postList.get(i).comments.size() != 0) {
                 TextView commentSizeTextView = (TextView)childView.findViewById(R.id.commentsSize);
@@ -122,7 +137,7 @@ public class PostsAdapter {
                             } else {
                                 commentsLayout.setVisibility(View.VISIBLE);
                                 lastClickedPosts.add(index);
-                                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
+                                CommentsAdapter adapter = new CommentsAdapter(context, postList.get(index).comments, childView, accessToken);
                                 adapter.makeList();
                             }
 
@@ -137,7 +152,7 @@ public class PostsAdapter {
                 @Override
                 public void onClick(View v) {
                     GlobalVariables.onReply = true;
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity_)context).getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new ReplyMarketFragment_().newInstance(postList.get(index).id, postList.get(index).comments);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);

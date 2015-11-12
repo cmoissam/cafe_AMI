@@ -20,12 +20,9 @@
  */
 
 package co.geeksters.hq.global;
-import co.geeksters.hq.global.BaseApplication;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Logger;
-import com.google.android.gms.analytics.Tracker;
 
-import co.geeksters.hq.R;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 
 /**
  * This is a subclass of {@link BaseApplication} used to provide shared objects for this app, such as

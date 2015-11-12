@@ -1,13 +1,18 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -66,6 +71,37 @@ public class MarketPlaceFragment extends Fragment {
 
     @AfterViews
     public void tabSetting(){
+
+        if(PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).getBoolean("visit_info_market_place",true)) {
+
+
+        PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).edit().putBoolean("visit_info_market_place", false).commit();
+        LayoutInflater inflater = GlobalVariables.activity.getLayoutInflater();
+        final View dialoglayout = inflater.inflate(R.layout.pop_up_info_opportunity, null);
+
+        ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
+        TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
+
+        infoText.setText("Hey! This is the Opportunity space in the 1000N App. This is where you will post your requests to the community. This is where you can ask for help and offer help.");
+
+        Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        infoText.setTypeface(typeFace);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(GlobalVariables.activity);
+        builder.setView(dialoglayout);
+        builder.setCancelable(true);
+        final AlertDialog ald = builder.show();
+        ald.setCancelable(true);
+
+        cancelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ald.dismiss();
+            }
+        });
+
+        }
+
 
         GlobalVariables.notifiyedByInterestsOnPost = false;
         android.support.v4.app.FragmentManager fragmentManager =  getActivity().getSupportFragmentManager();

@@ -4,15 +4,16 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -20,7 +21,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
-import co.geeksters.hq.events.success.SaveMemberForLogoutEvent;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.PredicateLayout;
 import co.geeksters.hq.global.helpers.ViewHelpers;
@@ -55,16 +55,40 @@ public class OneProfileInfoFragment extends Fragment {
     @ViewById(R.id.logoutButton)
     Button logoutButton;
 
+    @ViewById(R.id.checkBoxRadarVisibility)
+    CheckBox checkBoxRadarVisibility;
+
+    @ViewById(R.id.checkBoxEmailComment)
+    CheckBox checkBoxEmailComment;
+
+    @ViewById(R.id.checkBoxPushComment)
+    CheckBox checkBoxPushComment;
+
+    @ViewById(R.id.checkBoxEmailTodo)
+    CheckBox checkBoxEmailTodo;
+
+    @ViewById(R.id.checkBoxPushTodo)
+    CheckBox checkBoxPushTodo;
+
        @ViewById(R.id.interestsContent)
     PredicateLayout interestsContent;
 
     @ViewById(R.id.interestContent)
     LinearLayout interestContent;
 
+    @ViewById(R.id.notification_block)
+    LinearLayout notificationBLock;
+
     @ViewById(R.id.interestsTitle)
     TextView interestsTitle;
     @ViewById(R.id.logout_layout)
     RelativeLayout logoutLayout;
+
+    @ViewById(R.id.edit_layout)
+    RelativeLayout editLayout;
+
+    @ViewById(R.id.edit_my_profile)
+    Button editMyProfile;
 
     // Beans
     LayoutInflater layoutInflater;
@@ -86,10 +110,22 @@ public class OneProfileInfoFragment extends Fragment {
 
         if(GlobalVariables.isCurrentMember) {
             memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
+
+            if(memberToDisplay.radarVisibility)
+                checkBoxRadarVisibility.setChecked(true);
+            if(memberToDisplay.notifyByEmailOnComment)
+                checkBoxEmailComment.setChecked(true);
+            if(memberToDisplay.notifyByEmailOnTodo)
+                checkBoxEmailTodo.setChecked(true);
+            if(memberToDisplay.notifyByPushOnComment)
+                checkBoxPushComment.setChecked(true);
+            if(memberToDisplay.notifyByPushOnTodo)
+                checkBoxPushTodo.setChecked(true);
         } else {
             memberToDisplay = Member.createUserFromJson(createJsonElementFromString(preferences.getString("profile_member", "")));
             logoutLayout.setVisibility(View.GONE);
-
+            notificationBLock.setVisibility(View.GONE);
+            editLayout.setVisibility(View.GONE);
         }
 
         Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
@@ -126,6 +162,26 @@ public class OneProfileInfoFragment extends Fragment {
             //showProgress(false, getActivity(), meScrollView, logoutProgress);
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
+    }
+
+    @Click(R.id.edit_my_profile)
+    public void editMyProfile(){
+        //showProgress(true, getActivity(), meScrollView, logoutProgress);
+        // Test internet availability
+        GlobalVariables.MENU_POSITION = 10;
+        GlobalVariables.isMenuOnPosition = false;
+
+        // Getting reference to the FragmentManager
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+        // Creating a fragment transaction
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
+        fragmentTransaction.replace(R.id.contentFrame, new MeFragment_());
+
+        // Committing the transaction
+        fragmentTransaction.commit();
     }
 
 

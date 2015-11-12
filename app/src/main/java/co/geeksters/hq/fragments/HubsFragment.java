@@ -44,9 +44,7 @@ import static co.geeksters.hq.models.Hub.getHubsByAlphabeticalOrder;
 @EFragment(R.layout.fragment_hubs)
 public class HubsFragment extends Fragment {
 
-    // Listview Adapter
     ListViewHubAdapter adapter;
-    // ArrayList for Listview
     ArrayList<HashMap<String, String>> hubs = new ArrayList<HashMap<String, String>>();
     String accessToken;
     List<Hub> hubsList = new ArrayList<Hub>();
@@ -57,8 +55,6 @@ public class HubsFragment extends Fragment {
     ArrayList<Hub> searchingHubs = new ArrayList<Hub>();
     ArrayList<Hub> orderedSearchinHubs = new ArrayList<Hub>();
     SharedPreferences.Editor editor;
-
-    // List view
     @ViewById(R.id.list_view_hubs)
     ListView listViewHubs;
 

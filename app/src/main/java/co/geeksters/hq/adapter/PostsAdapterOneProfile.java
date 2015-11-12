@@ -1,6 +1,6 @@
 package co.geeksters.hq.adapter;
 
-import android.graphics.Typeface;
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity_;
 import co.geeksters.hq.fragments.ReplyMarketFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.models.Member;
@@ -25,7 +26,7 @@ import co.geeksters.hq.services.PostService;
  */
 public class PostsAdapterOneProfile {
 
-    Fragment context;
+    Activity context;
     private List<Post> postList;
     String accessToken;
     LinearLayout llList;
@@ -33,8 +34,8 @@ public class PostsAdapterOneProfile {
     Member currentUser;
     public static List<Integer> lastClickedPosts = new ArrayList<Integer>();
 
-    public PostsAdapterOneProfile(LayoutInflater inflater, Fragment fragment, LinearLayout llList, List<Post> postList, String accessToken, Member currentUser) {
-        this.context = fragment;
+    public PostsAdapterOneProfile(LayoutInflater inflater, Activity activity, LinearLayout llList, List<Post> postList, String accessToken, Member currentUser) {
+        this.context = activity;
         this.postList = postList;
         this.accessToken = accessToken;
         this.llList = llList;
@@ -61,9 +62,9 @@ public class PostsAdapterOneProfile {
             Button reply = (Button) childView.findViewById(R.id.reply);
             final LinearLayout commentsLayout = (LinearLayout) childView.findViewById(R.id.commentsLayout);
 
-            Typeface typeFace=Typeface.createFromAsset(context.getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
-            postTextView.setTypeface(typeFace);
-            interests.setTypeface(typeFace);
+
+            postTextView.setTypeface(GlobalVariables.typeface);
+            interests.setTypeface(GlobalVariables.typeface);
 
 
             if(postList.get(i).comments.size() != 0) {
@@ -92,7 +93,7 @@ public class PostsAdapterOneProfile {
                             } else {
                                 commentsLayout.setVisibility(View.VISIBLE);
                                 lastClickedPosts.add(index);
-                                CommentsAdapter adapter = new CommentsAdapter(context.getActivity(), postList.get(index).comments, childView, accessToken);
+                                CommentsAdapter adapter = new CommentsAdapter(context, postList.get(index).comments, childView, accessToken);
                                 adapter.makeList();
                             }
 
@@ -110,7 +111,7 @@ public class PostsAdapterOneProfile {
                 @Override
                 public void onClick(View v) {
                     GlobalVariables.onReply = true;
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity_ )context).getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new ReplyMarketFragment_().newInstance(postList.get(index).id, postList.get(index).comments);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);

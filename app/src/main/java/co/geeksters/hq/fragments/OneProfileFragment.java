@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,8 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -29,15 +28,12 @@ import org.androidannotations.annotations.ViewById;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
-import co.geeksters.hq.events.success.SaveMemberForLogoutEvent;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
 import co.geeksters.hq.global.helpers.ParseHelpers;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
-import co.geeksters.hq.services.MemberService;
 
-import static co.geeksters.hq.global.helpers.GeneralHelpers.isInternetAvailable;
 import static co.geeksters.hq.global.helpers.ParseHelpers.createJsonElementFromString;
 
 @EFragment(R.layout.fragment_one_profile)
@@ -64,6 +60,9 @@ public class OneProfileFragment extends Fragment {
 
     @ViewById(R.id.phone_Button)
     ImageView phoneButton;
+
+    @ViewById(R.id.whatsapp_button)
+    ImageView whatsappButton;
 
     @ViewById(R.id.web_Button)
     ImageView webButton;
@@ -231,6 +230,8 @@ public class OneProfileFragment extends Fragment {
 
             if (memberToDisplay.social.website == null || memberToDisplay.social.website.equals(""))
                 webButton.setVisibility(View.GONE);
+            if(memberToDisplay.whatsapp == null || memberToDisplay.whatsapp.equals(""))
+                whatsappButton.setVisibility(View.GONE);
 
         }
         Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
@@ -418,7 +419,7 @@ public class OneProfileFragment extends Fragment {
                     // no Twitter app, revert to browser
                     if (!memberToDisplay.social.twitter.startsWith("https://") && !memberToDisplay.social.twitter.startsWith("http://"))
                         if(memberToDisplay.social.twitter.contains("twitter"))
-                            memberToDisplay.social.twitter = "https://"+memberToDisplay;
+                            memberToDisplay.social.twitter = "https://"+memberToDisplay.social.twitter;
                         else
                         memberToDisplay.social.twitter = "https://twitter.com/" + memberToDisplay.social.twitter;
 
@@ -453,20 +454,12 @@ public class OneProfileFragment extends Fragment {
                     skypeIntent.setComponent(new ComponentName("com.skype.raider", "com.skype.raider.Main"));
                     skypeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(skypeIntent);
-                } catch (ActivityNotFoundException e){
-                    // no Twitter app, revert to browser
-                    memberToDisplay.social.skype = "http://www.skype.com/fr/";
-
-                    skypeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.skype));
+                }catch (ActivityNotFoundException e){
+                    ViewHelpers.showPopup(getActivity(), "oh! sorry","install skype app please",false);
                 }
                 catch (Exception e){
-                    // no Twitter app, revert to browser
-                    memberToDisplay.social.skype = "http://www.skype.com/fr/";
-
-                    skypeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.skype));
+                    ViewHelpers.showPopup(getActivity(), "oh! sorry","install skype app please",false);
                 }
-
-                startActivity(skypeIntent);
             } else {
                 ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
@@ -476,6 +469,8 @@ public class OneProfileFragment extends Fragment {
     public void openBlogLink() {
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
 
+            if (!memberToDisplay.social.blog.startsWith("https://") && !memberToDisplay.social.blog.startsWith("http://"))
+                    memberToDisplay.social.blog = "https://"+memberToDisplay.social.blog;
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(memberToDisplay.social.blog));
                 startActivity(browserIntent);
         } else {
@@ -493,5 +488,41 @@ public class OneProfileFragment extends Fragment {
         } else {
             ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
         }
+    }
+    @Click(R.id.whatsapp_button)
+    public void openWhatsappLink() {
+
+       if(GeneralHelpers.isInternetAvailable(getActivity())) {
+
+            try {
+                Uri uri = Uri.parse("smsto:" + memberToDisplay.whatsapp);
+                Intent i = new Intent(Intent.ACTION_SENDTO, uri);
+                i.setPackage("com.whatsapp");
+                boolean isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp");
+                if(isWhatsappInstalled)
+                startActivity(Intent.createChooser(i, ""));
+                else
+                ViewHelpers.showPopup(getActivity(), "oh! sorry","install Whatsapp please",false);
+            }catch (ActivityNotFoundException e){
+                ViewHelpers.showPopup(getActivity(), "oh! sorry","install Whatsapp please",false);
+            }
+            catch (Exception e){
+                ViewHelpers.showPopup(getActivity(), "oh! sorry","install Whatsapp please",false);
+            }
+        } else {
+            ViewHelpers.showPopup(getActivity(), getResources().getString(R.string.alert_title_network), getResources().getString(R.string.no_connection),true);
+        }
+    }
+
+    public boolean whatsappInstalledOrNot(String uri) {
+        PackageManager pm = getActivity().getPackageManager();
+        boolean app_installed = false;
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app_installed = false;
+        }
+        return app_installed;
     }
 }

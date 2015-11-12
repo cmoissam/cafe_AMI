@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,8 +25,6 @@ import org.androidannotations.annotations.Touch;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.prefs.Preferences;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;

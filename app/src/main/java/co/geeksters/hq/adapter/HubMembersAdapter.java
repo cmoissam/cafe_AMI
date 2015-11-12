@@ -1,9 +1,7 @@
 package co.geeksters.hq.adapter;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.fragments.OneProfileFragment_;
 import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -28,17 +27,15 @@ import co.geeksters.hq.models.Member;
  */
 public class HubMembersAdapter extends BaseAdapter {
 
-    private FragmentActivity activity;
     private List<Member> memberList = new ArrayList<Member>();
     private ListView listViewMembers;
     private static LayoutInflater inflater = null;
 
-    public HubMembersAdapter(FragmentActivity activity, List<Member> memberList, ListView listViewMembers) {
-        this.activity = activity;
+    public HubMembersAdapter(LayoutInflater inflater, List<Member> memberList, ListView listViewMembers) {
+        this.inflater = inflater;
         this.memberList = memberList;
         this.listViewMembers = listViewMembers;
 
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
@@ -63,7 +60,7 @@ public class HubMembersAdapter extends BaseAdapter {
         TextView distance = (TextView) view.findViewById(R.id.distance);
         ImageView picture = (ImageView) view.findViewById(R.id.picture);
 
-        Typeface typeFace=Typeface.createFromAsset(activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        Typeface typeFace=Typeface.createFromAsset(inflater.getContext().getAssets(), "fonts/OpenSans-Regular.ttf");
         fullName.setTypeface(typeFace);
         hubName.setTypeface(typeFace);
         distance.setTypeface(typeFace);
@@ -72,14 +69,14 @@ public class HubMembersAdapter extends BaseAdapter {
         if(memberList.get(position).hub != null && !memberList.get(position).hub.name.equals(""))
             hubName.setText(GeneralHelpers.firstToUpper(memberList.get(position).hub.name));
         else
-            hubName.setText(GeneralHelpers.firstToUpper(activity.getResources().getString(R.string.empty_hub_name)));
+            hubName.setText(GeneralHelpers.firstToUpper(inflater.getContext().getResources().getString(R.string.empty_hub_name)));
 
         if(GlobalVariables.finderList)
             distance.setText(GeneralHelpers.distanceByInterval(memberList.get(position).distance));
         else
             distance.setText("");
 
-        ViewHelpers.setImageViewBackgroundFromURL(activity, picture, memberList.get(position).image);
+        ViewHelpers.setImageViewBackgroundFromURL(inflater.getContext(), picture, memberList.get(position).image);
 
 
         view.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +86,7 @@ public class HubMembersAdapter extends BaseAdapter {
                 GlobalVariables.isMenuOnPosition = false;
                 GlobalVariables.MENU_POSITION = 5;
 
-                FragmentTransaction fragmentTransaction = activity.getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) inflater.getContext()).getSupportFragmentManager().beginTransaction();
                 Fragment fragment = new OneProfileFragment_().newInstance(memberList.get(position), 0);
                 fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                 fragmentTransaction.replace(R.id.contentFrame, fragment);

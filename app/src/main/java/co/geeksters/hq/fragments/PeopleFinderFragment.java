@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,14 +47,10 @@ public class PeopleFinderFragment extends Fragment {
     LinearLayout switchRadarActivation;
 
     @ViewById(R.id.radar_activate)
-            ImageView radarActivate;
+            TextView radarActivate;
     @ViewById(R.id.radar_no_activate)
-            ImageView radarNoActivate;
+            TextView radarNoActivate;
 
-    @ViewById(R.id.radar_activate1)
-    ImageView radarActivate1;
-    @ViewById(R.id.radar_no_activate1)
-    ImageView radarNoActivate1;
     @ViewById(R.id.radar_Button)
     Button radarButton;
     @ViewById(R.id.list_Button)
@@ -78,6 +76,37 @@ public class PeopleFinderFragment extends Fragment {
     @AfterViews
     public void busRegistration(){
         BaseApplication.register(this);
+
+        if(PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).getBoolean("visit_info_search_members",true)) {
+
+
+            PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).edit().putBoolean("visit_info_search_members", false).commit();
+            LayoutInflater inflater = GlobalVariables.activity.getLayoutInflater();
+            final View dialoglayout = inflater.inflate(R.layout.pop_up_info_opportunity, null);
+
+            ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
+            TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
+
+            infoText.setText("This Radar allows you to find the onesis available to meet around you. WHen the radar is activated: You can see at what distance other onesis are located and these onesies can see you. When Radar is de-activated: You can’t see where others are located and they can’t see you either.");
+
+            Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+            infoText.setTypeface(typeFace);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(GlobalVariables.activity);
+            builder.setView(dialoglayout);
+            builder.setCancelable(true);
+            final AlertDialog ald = builder.show();
+            ald.setCancelable(true);
+
+            cancelImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ald.dismiss();
+                }
+            });
+
+        }
+
     }
 
     @Override
@@ -179,10 +208,10 @@ public class PeopleFinderFragment extends Fragment {
             double longitude = gps.getLongitude();
             ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
             radarChecked = true;
-            radarActivate.setVisibility(View.VISIBLE);
-            radarActivate1.setVisibility(View.INVISIBLE);
-            radarNoActivate.setVisibility(View.INVISIBLE);
-            radarNoActivate1.setVisibility(View.VISIBLE);
+            radarActivate.setTextColor(Color.parseColor("#FFFFFF"));
+            radarActivate.setBackgroundColor(Color.parseColor("#7cbdbd"));
+            radarNoActivate.setTextColor(Color.parseColor("#a4a4a4"));
+            radarNoActivate.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
             // update longitude latitude
             updatedMember.longitude = (float) longitude;
@@ -202,10 +231,10 @@ public class PeopleFinderFragment extends Fragment {
 
             ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
             radarChecked = false;
-            radarActivate.setVisibility(View.INVISIBLE);
-            radarActivate1.setVisibility(View.VISIBLE);
-            radarNoActivate.setVisibility(View.VISIBLE);
-            radarNoActivate1.setVisibility(View.INVISIBLE);
+            radarNoActivate.setTextColor(Color.parseColor("#FFFFFF"));
+            radarNoActivate.setBackgroundColor(Color.parseColor("#7cbdbd"));
+            radarActivate.setTextColor(Color.parseColor("#a4a4a4"));
+            radarActivate.setBackgroundColor(Color.parseColor("#FFFFFF"));
 
             //  verifyGpsActivation();
 
@@ -255,44 +284,79 @@ public class PeopleFinderFragment extends Fragment {
         {
             radarChecked = true;
             ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
-            radarActivate.setVisibility(View.VISIBLE);
-            radarActivate1.setVisibility(View.INVISIBLE);
-            radarNoActivate.setVisibility(View.INVISIBLE);
-            radarNoActivate1.setVisibility(View.VISIBLE);
+            radarActivate.setTextColor(Color.parseColor("#FFFFFF"));
+            radarActivate.setBackgroundColor(Color.parseColor("#7cbdbd"));
+            radarNoActivate.setTextColor(Color.parseColor("#a4a4a4"));
+            radarNoActivate.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
         else
         {
             ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
             radarChecked = false;
-            radarActivate.setVisibility(View.INVISIBLE);
-            radarActivate1.setVisibility(View.VISIBLE);
-            radarNoActivate.setVisibility(View.VISIBLE);
-            radarNoActivate1.setVisibility(View.INVISIBLE);
+            radarNoActivate.setTextColor(Color.parseColor("#FFFFFF"));
+            radarNoActivate.setBackgroundColor(Color.parseColor("#7cbdbd"));
+            radarActivate.setTextColor(Color.parseColor("#a4a4a4"));
+            radarActivate.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
         switchRadarActivation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                if(PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).getBoolean("radar_switch_checked",true)) {
+
+
+                PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).edit().putBoolean("radar_switch_checked", false).commit();
+                LayoutInflater inflater = GlobalVariables.activity.getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.pop_up_info_opportunity, null);
+
+                ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
+                TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
+
+                infoText.setText("Activate Radar to see others and be seen.\n" +
+                        "De-activate Radar to not be seen and not see others.");
+
+                Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+                infoText.setTypeface(typeFace);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(GlobalVariables.activity);
+                builder.setView(dialoglayout);
+                builder.setCancelable(true);
+                final AlertDialog ald = builder.show();
+                ald.setCancelable(true);
+
+                cancelImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ald.dismiss();
+                    }
+                });
+
+                } else {
+
+
                 if (radarChecked) {
                     radarChecked = false;
                     ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(false);
-                    radarActivate.setVisibility(View.INVISIBLE);
-                    radarActivate1.setVisibility(View.VISIBLE);
-                    radarNoActivate.setVisibility(View.VISIBLE);
-                    radarNoActivate1.setVisibility(View.INVISIBLE);
+                    radarNoActivate.setTextColor(Color.parseColor("#FFFFFF"));
+                    radarNoActivate.setBackgroundColor(Color.parseColor("#7cbdbd"));
+                    radarActivate.setTextColor(Color.parseColor("#a4a4a4"));
+                    radarActivate.setBackgroundColor(Color.parseColor("#FFFFFF"));
                     updateVisibility();
 
 
                 } else {
                     radarChecked = true;
                     ((GlobalMenuActivity) getActivity()).setActionBarIconVisibility(true);
-                    radarActivate.setVisibility(View.VISIBLE);
-                    radarActivate1.setVisibility(View.INVISIBLE);
-                    radarNoActivate.setVisibility(View.INVISIBLE);
-                    radarNoActivate1.setVisibility(View.VISIBLE);
+                    radarActivate.setTextColor(Color.parseColor("#FFFFFF"));
+                    radarActivate.setBackgroundColor(Color.parseColor("#7cbdbd"));
+                    radarNoActivate.setTextColor(Color.parseColor("#a4a4a4"));
+                    radarNoActivate.setBackgroundColor(Color.parseColor("#FFFFFF"));
                     updateLocationAndVisibility();
 
                 }
+
+            }
             }
         });
     }

@@ -101,23 +101,19 @@
                             android:layout_weight="2"
                             android:layout_height="45dp"
                             android:background="#FFFFFF">
-
-
-
-                        <ImageView
+                        <TextView
                             android:id="@+id/radar_no_activate"
-                            android:layout_width="25dp"
+                            android:layout_width="match_parent"
+                            android:text="OFF"
+                            android:textColor="#a4a4a4"
+                            android:textStyle="bold"
+                            android:textSize="16dp"
+                            android:gravity="center|center_horizontal"
                             android:layout_centerVertical="true"
                             android:layout_centerHorizontal="true"
-                            android:layout_height="30dp"
-                            android:background="@drawable/radar_lcation_desactivated"
-                            android:visibility="invisible"
+                            android:layout_height="match_parent"
                             />
-                            <ImageView
-                            android:id="@+id/radar_no_activate1"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/button_4_pattern"/>
+
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -126,22 +122,19 @@
                             android:layout_height="45dp"
                             android:background="#FFFFFF">
 
-
-
-                            <ImageView
+                            <TextView
                                 android:id="@+id/radar_activate"
-                                android:layout_width="25dp"
+                                android:layout_width="match_parent"
+                                android:text="ON"
+                                android:textColor="#FFFFFF"
+                                android:textStyle="bold"
+                                android:textSize="16dp"
+                                android:background="#7cbdbd"
+                                android:gravity="center|center_horizontal"
                                 android:layout_centerVertical="true"
                                 android:layout_centerHorizontal="true"
-                                android:layout_height="30dp"
-                                android:background="@drawable/radar_lcation_activated"
-                                />
-                            <ImageView
-                                android:id="@+id/radar_activate1"
-                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@drawable/button_4_pattern"
-                                android:visibility="invisible"/>
+                                />
                         </RelativeLayout>
 
                     </LinearLayout>

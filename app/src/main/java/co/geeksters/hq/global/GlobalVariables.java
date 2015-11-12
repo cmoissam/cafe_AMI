@@ -1,5 +1,7 @@
 package co.geeksters.hq.global;
 
+import android.app.Activity;
+import android.graphics.Typeface;
 import android.view.Menu;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import co.geeksters.hq.models.Member;
 /**
  * Created by soukaina on 26/12/14.
  */
+
 public class GlobalVariables {
     // Radar configuration
     public static int MAX_SLICE_NUMBER = 5;
@@ -66,6 +69,7 @@ public class GlobalVariables {
     public static boolean replyToAll = false;
     public static boolean inMyProfileFragment = false;
     public static boolean commentClicked = false;
+    public static boolean isInMyProfileFragmentFromOpportunities = false;
 
 
     public static List<Member> lastMemberSearchPeopleDirectory = new ArrayList<Member>();
@@ -83,13 +87,15 @@ public class GlobalVariables {
     public static boolean needReturnButton = false;
 
     public static float d;
+    public static Typeface typeface;
     // Notifications constants
     public static String PROJECT_NUMBER = "773290153741";
+    public  static Activity activity = null;
 
     // TODO GET IMAGE FROM MAC
 
-    public static String UrlApiImage = "http://192.168.1.156:8000/images/";
-    public static String UrlApi = "http://192.168.1.156:8000/api/v1";
+    public static String UrlApiImage = "http://104.131.22.196/images/";
+    public static String UrlApi = "http://104.131.22.196/api/v1";
 
 
     // Getting the API Key for the app by registering it at Google Cloud Console

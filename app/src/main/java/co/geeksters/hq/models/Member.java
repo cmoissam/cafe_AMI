@@ -27,6 +27,7 @@ public class Member implements Serializable{
 	public String goal = "";
 	public String blurp = "";
 	public String phone = "";
+    public String whatsapp = "";
 	public String address = "";
 	public boolean newsletter = false;
     public String createdAt = "";

@@ -119,6 +119,11 @@
                         <ImageView
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:id="@+id/whatsapp_button"
+                            android:src="@drawable/profile_contact_wsp_icon" />
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:id="@+id/skype_Button"
                             android:src="@drawable/profile_contact_skype" />
                         <ImageView
@@ -144,7 +149,7 @@
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/profile_contact_arrow_127x122" />
+                        android:src="@drawable/profile_contact_arrow_ios_android" />
 
                 </RelativeLayout>
 

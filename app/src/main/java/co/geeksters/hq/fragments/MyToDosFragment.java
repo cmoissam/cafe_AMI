@@ -1,14 +1,20 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -18,6 +24,8 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import co.geeksters.hq.R;
 import co.geeksters.hq.activities.GlobalMenuActivity;
@@ -44,6 +52,9 @@ public class MyToDosFragment extends Fragment {
     LayoutInflater inflater;
     Member currentMember;
 
+    private static final ScheduledExecutorService worker =
+            Executors.newSingleThreadScheduledExecutor();
+
 
     @ViewById(R.id.todoList)
     LinearLayout todoList;
@@ -64,8 +75,33 @@ public class MyToDosFragment extends Fragment {
         accessToken = preferences.getString("access_token", "").replace("\"", "");
         currentMember = Member.createUserFromJson(createJsonElementFromString(preferences.getString("current_member", "")));
 
+
+        if(PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).getBoolean("visit_info_todo",true)) {
+
+
+            PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).edit().putBoolean("visit_info_todo",false).commit();
+
+            LayoutInflater inflater = GlobalVariables.activity.getLayoutInflater();
+            final View dialoglayout = inflater.inflate(R.layout.pop_up_info_todo, null);
+
+            ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(GlobalVariables.activity);
+            builder.setView(dialoglayout);
+            builder.setCancelable(true);
+            final AlertDialog ald =builder.show();
+            ald.setCancelable(true);
+
+            cancelImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ald.dismiss();
+                }
+            });
+
+        }
+
         if(GeneralHelpers.isInternetAvailable(getActivity())) {
-            //spinner.setVisibility(View.VISIBLE);
             TodoService todoService = new TodoService(accessToken);
             loading.setVisibility(View.VISIBLE);
             todoService.listTodosForMember();

@@ -11,7 +11,9 @@ import android.widget.LinearLayout;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.fragments.OneProfileFragment_;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Hub;
 import co.geeksters.hq.models.Member;
@@ -54,7 +56,7 @@ public class AmbassadorsAdapter {
             picture1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
                     ambassadors.get(0).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(0), 0);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
@@ -71,7 +73,7 @@ public class AmbassadorsAdapter {
             picture2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager() .beginTransaction();
                     ambassadors.get(1).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(1), 0);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
@@ -88,7 +90,7 @@ public class AmbassadorsAdapter {
             picture3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
                     ambassadors.get(3).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(3), 0);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
@@ -105,7 +107,7 @@ public class AmbassadorsAdapter {
             picture4.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
                     ambassadors.get(4).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(4), 0);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
@@ -122,7 +124,7 @@ public class AmbassadorsAdapter {
             picture5.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
                     ambassadors.get(5).hub.name = hub.name;
                     Fragment fragment = new OneProfileFragment_().newInstance(ambassadors.get(5), 0);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);

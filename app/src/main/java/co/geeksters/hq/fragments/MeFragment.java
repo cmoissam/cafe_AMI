@@ -1,13 +1,16 @@
 package co.geeksters.hq.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -117,6 +120,9 @@ public class MeFragment extends Fragment {
     @ViewById(R.id.phone)
     EditText phone;
 
+    @ViewById(R.id.whatsapp)
+    EditText whatsapp;
+
     @ViewById(R.id.website)
     EditText website;
 
@@ -211,6 +217,36 @@ public class MeFragment extends Fragment {
 
     @AfterViews
     public void listAllHubs(){
+        if(PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).getBoolean("visit_info_my_profile",true)) {
+
+
+        PreferenceManager.getDefaultSharedPreferences(GlobalVariables.activity).edit().putBoolean("visit_info_my_profile", false).commit();
+        LayoutInflater inflater = GlobalVariables.activity.getLayoutInflater();
+        final View dialoglayout = inflater.inflate(R.layout.pop_up_info_opportunity, null);
+
+        ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
+        TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
+
+        infoText.setText("Please enter your info. Remember to enter you Interests Tag! They will be usefull identifying what opportunities you may be interested in.");
+
+        Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
+        infoText.setTypeface(typeFace);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(GlobalVariables.activity);
+        builder.setView(dialoglayout);
+        builder.setCancelable(true);
+        final AlertDialog ald = builder.show();
+        ald.setCancelable(true);
+
+        cancelImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ald.dismiss();
+            }
+        });
+
+        }
+
         listAllHubsService();
     }
 
@@ -237,6 +273,8 @@ public class MeFragment extends Fragment {
         blog.setText(currentMember.social.blog);
         website.setText(currentMember.social.website);
         phone.setText(currentMember.phone);
+        whatsapp.setText(currentMember.whatsapp);
+
 
         if(currentMember.interests == null) {
             interest.setText("");
@@ -419,6 +457,7 @@ public class MeFragment extends Fragment {
         member.social.skype = skype.getText().toString();
         member.social.website = website.getText().toString();
         member.phone = phone.getText().toString();
+        member.whatsapp = whatsapp.getText().toString();
 
         member.interests = new ArrayList<Interest>();
 

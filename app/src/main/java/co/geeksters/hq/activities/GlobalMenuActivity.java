@@ -48,6 +48,7 @@ import co.geeksters.hq.events.success.RefreshRadarEvent;
 import co.geeksters.hq.events.success.ResumeRadarEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.events.success.SaveMemberForLogoutEvent;
+import co.geeksters.hq.fragments.CreditFragment_;
 import co.geeksters.hq.fragments.HubsFragment_;
 import co.geeksters.hq.fragments.MarketPlaceFragment_;
 import co.geeksters.hq.fragments.MeFragment_;
@@ -116,6 +117,9 @@ public class GlobalMenuActivity extends FragmentActivity {
         GlobalVariables.width = size.x;
         GlobalVariables.height = size.y;
 
+        GlobalVariables.typeface =Typeface.createFromAsset(getAssets(), "fonts/OpenSans-Regular.ttf");
+        GlobalVariables.activity = this;
+
 
         float heightDp = GlobalVariables.height/GlobalVariables.d;
     }
@@ -134,10 +138,9 @@ public class GlobalMenuActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
-                if(!drawerOpen){
+                if (!drawerOpen) {
                     drawerLayout.openDrawer(drawerList);
-                }
-                else{
+                } else {
 
                     drawerLayout.closeDrawer(drawerList);
                 }
@@ -362,6 +365,11 @@ public class GlobalMenuActivity extends FragmentActivity {
 
                         fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
                     }
+                    else if (GlobalVariables.MENU_POSITION == 6) {
+                        mTitle = getResources().getString(R.string.title_credi_fragment);
+
+                        fragmentTransaction.replace(R.id.contentFrame, new CreditFragment_());
+                    }
 
                     getActionBar().setTitle(mTitle);
                 }
@@ -382,118 +390,109 @@ public class GlobalMenuActivity extends FragmentActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.setCustomAnimations(R.anim.anim_enter_left, R.anim.anim_exit_right);
-        if(GlobalVariables.menuDeep == 0){
 
-            ViewHelpers.showExitPopup(this);
-
-        }
-        else{
-            if(GlobalVariables.menuPart == 1){
-                if(GlobalVariables.menuDeep == 1)
-                {
-                    // IN ONE PROFILE FROM PEOPLE DIRECTORY...
-                    GlobalVariables.menuDeep = 0;
-                    GlobalVariables.backtosearch = true;
-                    fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+        if(GlobalVariables.isInMyProfileFragmentFromOpportunities) {
+            GlobalVariables.menuPart = 5;
+            GlobalVariables.menuDeep = 0;
+            fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
 
 
+        }else if (GlobalVariables.menuDeep == 0) {
+
+                ViewHelpers.showExitPopup(this);
+
+            } else {
+                if (GlobalVariables.menuPart == 1) {
+                    if (GlobalVariables.menuDeep == 1) {
+                        // IN ONE PROFILE FROM PEOPLE DIRECTORY...
+                        GlobalVariables.menuDeep = 0;
+                        GlobalVariables.backtosearch = true;
+                        fragmentTransaction.replace(R.id.contentFrame, new PeopleDirectoryFragment_());
+
+
+                    } else if (GlobalVariables.menuDeep == 2) {
+
+                        // IN REPLY FROM PEOPLE DIRECTORY...
+
+                        GlobalVariables.menuDeep = 1;
+                        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember, 0));
+                    }
+
+
+                } else if (GlobalVariables.menuPart == 2) {
+                    if (GlobalVariables.menuDeep == 1) {
+                        // IN ONE PROFILE FROM PEOPLE FINDER...
+                        GlobalVariables.menuDeep = 0;
+                        fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
+
+
+                    } else if (GlobalVariables.menuDeep == 2) {
+
+                        // IN REPLY FROM PEOPLE FINDER...
+                        GlobalVariables.menuDeep = 1;
+                        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember, 0));
+
+
+                    }
+
+                } else if (GlobalVariables.menuPart == 3) {
+                    if (GlobalVariables.menuDeep == 1) {
+                        // IN ONE HUB FROM HUBS...
+                        GlobalVariables.menuDeep = 0;
+                        fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
+
+                    } else if (GlobalVariables.menuDeep == 2) {
+
+                        // IN ONE PROFILE FROM HUBS...
+                        GlobalVariables.menuDeep = 1;
+                        Hub hub = Hub.createHubFromJson(createJsonElementFromString(preferences.getString("current_hub", "")));
+                        fragmentTransaction.replace(R.id.contentFrame, new OneHubFragment_().newInstance(hub));
+
+                    } else if (GlobalVariables.menuDeep == 3) {
+
+                        // IN REPLY FROM HUBS...
+                        GlobalVariables.menuDeep = 2;
+                        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember, 0));
+
+                    }
+
+
+                } else if (GlobalVariables.menuPart == 4) {
+
+                    if (GlobalVariables.menuDeep == 1) {
+                        // IN ADD OR UPDATE T0D0 FROM T0D0S...
+
+                        GlobalVariables.menuDeep = 0;
+                        fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
+
+                    }
+                    if (GlobalVariables.menuDeep == 2) {
+                        GlobalVariables.menuDeep = 1;
+                        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember, 0));
+
+                    }
+
+                } else if (GlobalVariables.menuPart == 5) {
+
+                    if (GlobalVariables.menuDeep == 1) {
+                        // IN ADD OR REPLY POST FROM MARKETPLACE...
+
+                        GlobalVariables.menuDeep = 0;
+                        fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
+
+                    }
+
+                } else if (GlobalVariables.menuPart == 6) {
+
+                    if (GlobalVariables.menuDeep == 1) {
+                        // IN EDIT OR REPLY FROM MYPROFILE...
+
+                        GlobalVariables.menuDeep = 0;
+                        fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(null, 1));
+
+                    }
                 }
-                else if(GlobalVariables.menuDeep == 2){
 
-                    // IN REPLY FROM PEOPLE DIRECTORY...
-
-                    GlobalVariables.menuDeep = 1;
-                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember,0));
-                }
-
-
-            }else
-            if(GlobalVariables.menuPart == 2){
-                if(GlobalVariables.menuDeep == 1)
-                {
-                    // IN ONE PROFILE FROM PEOPLE FINDER...
-                    GlobalVariables.menuDeep = 0;
-                    fragmentTransaction.replace(R.id.contentFrame, new PeopleFinderFragment_());
-
-
-                }
-                else if(GlobalVariables.menuDeep == 2){
-
-                    // IN REPLY FROM PEOPLE FINDER...
-                    GlobalVariables.menuDeep = 1;
-                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember,0));
-
-
-                }
-
-            }else
-            if(GlobalVariables.menuPart == 3){
-                if(GlobalVariables.menuDeep == 1)
-                {
-                    // IN ONE HUB FROM HUBS...
-                    GlobalVariables.menuDeep = 0;
-                    fragmentTransaction.replace(R.id.contentFrame, new HubsFragment_());
-
-                }
-                else if(GlobalVariables.menuDeep == 2){
-
-                    // IN ONE PROFILE FROM HUBS...
-                    GlobalVariables.menuDeep = 1;
-                    Hub hub = Hub.createHubFromJson(createJsonElementFromString(preferences.getString("current_hub", "")));
-                    fragmentTransaction.replace(R.id.contentFrame, new OneHubFragment_().newInstance(hub));
-
-                }
-                else if(GlobalVariables.menuDeep == 3){
-
-                    // IN REPLY FROM HUBS...
-                    GlobalVariables.menuDeep = 2;
-                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember,0));
-
-                }
-
-
-            }else
-            if(GlobalVariables.menuPart == 4){
-
-                if(GlobalVariables.menuDeep == 1)
-                {
-                    // IN ADD OR UPDATE T0D0 FROM T0D0S...
-
-                    GlobalVariables.menuDeep = 0;
-                    fragmentTransaction.replace(R.id.contentFrame, new MyToDosFragment_());
-
-                }
-                if (GlobalVariables.menuDeep == 2)
-                {
-                    GlobalVariables.menuDeep = 1;
-                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(GlobalVariables.actualMember,0));
-
-                }
-
-            }else
-            if(GlobalVariables.menuPart == 5){
-
-                if(GlobalVariables.menuDeep == 1)
-                {
-                    // IN ADD OR REPLY POST FROM MARKETPLACE...
-
-                    GlobalVariables.menuDeep = 0;
-                    fragmentTransaction.replace(R.id.contentFrame, new MarketPlaceFragment_());
-
-                }
-
-            }else
-            if(GlobalVariables.menuPart == 6){
-
-                if(GlobalVariables.menuDeep == 1)
-                {
-                    // IN EDIT OR REPLY FROM MYPROFILE...
-
-                    GlobalVariables.menuDeep = 0;
-                    fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_().newInstance(null, 1));
-
-                }
-            }
         }
 
         fragmentTransaction.commit();
@@ -617,6 +616,11 @@ public class GlobalMenuActivity extends FragmentActivity {
             mTitle = getResources().getString(R.string.title_me_fragment);
 
             fragmentTransaction.replace(R.id.contentFrame, new OneProfileFragment_());
+        }
+        else if (position == 6) {
+            mTitle = getResources().getString(R.string.title_me_fragment);
+
+            fragmentTransaction.replace(R.id.contentFrame, new CreditFragment_());
         }
 
         // Committing the transaction
@@ -814,7 +818,7 @@ public class GlobalMenuActivity extends FragmentActivity {
 
         GlobalVariables.sessionExpired = true;
         Intent intent = new Intent(this, LoginActivity_.class);
-        finish();
+        this.finish();
         overridePendingTransition(0, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

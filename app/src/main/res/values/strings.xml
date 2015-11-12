@@ -11,9 +11,11 @@
         <item>action items</item>
         <item>opportunities</item>
         <item>my profile</item>
+        <item>credits</item>
     </string-array>
     <string name="title_directory_fragment">MEET THE FAMILY</string>
     <string name="title_me_fragment">MY PROFILE</string>
+    <string name="title_credi_fragment">CREDITS</string>
     <string name="title_todos_fragment">ACTION ITEMS</string>
     <string name="title_find_fragment">WHO\'S AROUND ?</string>
     <string name="title_market_place">OPPORTUNITIES</string>

@@ -25,7 +25,7 @@ public interface MemberInterface {
     @FormUrlEncoded
     @POST("/members/{id}")
     void updateMember(@Path("id") int userId, @Field("_method") String method, @Field("access_token") String token, @Field("full_name") String fullName,
-                      @Field("email") String email, @Field("hub") String hub, @Field("blurp") String blurp,@Field("goal") String goal,@Field("phone") String phone, @Field("social[twitter]") String twitter,
+                      @Field("email") String email, @Field("hub") String hub, @Field("blurp") String blurp,@Field("goal") String goal,@Field("phone") String phone,@Field("whatsapp") String whatsapp, @Field("social[twitter]") String twitter,
                       @Field("social[facebook]") String facebook, @Field("social[linkedin]") String linkdin, @Field("social[skype]") String skype,
                       @Field("social[blog]") String blog, @Field("social[website]") String website, @Field("social[other]") String other,
                       @Field("interests") String interests, @Field("companies") String companies, @Field("latitude") float latitude,
@@ -40,14 +40,20 @@ public interface MemberInterface {
     @GET("/members")
     void listAllMembers(Callback<JsonElement> callback);
 
-    @GET("/members/list")
-    void listAllMembersByPaginationOrSearch(@Query("from") int from, @Query("size") int size, @Query("order") String order, @Query("col") String col, Callback<JsonElement> callback);
-
     @GET("/members/{id}")
     void getMemberInfo(@Path("id") int userId, Callback<JsonElement> callback);
 
+    @GET("/members/list")
+    void listAllMembersByPaginationOrSearch(@Query("from") int from, @Query("size") int size, @Query("order") String order, @Query("col") String col, Callback<JsonElement> callback);
+
     @GET("/member/search")
     void searchForMembersFromKey(@Query("string") String string,@Query("from") int from, @Query("size") int size, @Query("order") String order,@Query("col") String col, Callback<JsonElement> callback);
+
+    @GET("/members/listForTodo")
+    void listAllMembersByPaginationForTodo(@Query("from") int from, @Query("size") int size, @Query("order") String order, @Query("col") String col, Callback<JsonElement> callback);
+
+    @GET("/member/searchForTodo")
+    void searchForMembersForTodo(@Query("string") String string,@Query("from") int from, @Query("size") int size, @Query("order") String order,@Query("col") String col, Callback<JsonElement> callback);
 
     @GET("/member/suggest")
     void suggestionMember(@Query("string") String search, Callback<JsonElement> callback);

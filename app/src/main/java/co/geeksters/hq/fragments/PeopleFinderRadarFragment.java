@@ -578,7 +578,7 @@ public class PeopleFinderRadarFragment extends Fragment {
 
         float heightDp = GlobalVariables.height/GlobalVariables.d;
 
-        if(heightDp < 580) {
+        if(heightDp < 620) {
             container.removeAllViewsInLayout();
              subview = inflater.inflate(R.layout.fragment_people_finder_radar_small_screen, container,false);
         }

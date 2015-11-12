@@ -85,7 +85,7 @@ public class MeMarketPlaceFragment extends Fragment {
         GlobalVariables.replyFromMyMarket = false;
         GlobalVariables.replyToAll = false;
 
-        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
 
         loading.setVisibility(View.INVISIBLE);
@@ -102,7 +102,7 @@ public class MeMarketPlaceFragment extends Fragment {
             }
         }
 
-        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+        PostsAdapterOneProfile adapter = new PostsAdapterOneProfile(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
         adapter.makeList();
         loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);
@@ -124,7 +124,7 @@ public class MeMarketPlaceFragment extends Fragment {
 
             }
         }
-            PostsAdapter adapter = new PostsAdapter(inflater, this, postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
+            PostsAdapter adapter = new PostsAdapter(inflater, this.getActivity(), postsMarket, Post.orderDescPost(postsList), accessToken, currentUser);
             adapter.makeList();
         loading.setVisibility(View.INVISIBLE);
         if(postsList.isEmpty()) emptySearch.setVisibility(View.VISIBLE);

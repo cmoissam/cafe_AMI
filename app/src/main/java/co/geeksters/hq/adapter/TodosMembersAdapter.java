@@ -13,7 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.R;
+import co.geeksters.hq.activities.GlobalMenuActivity;
 import co.geeksters.hq.fragments.OneProfileFragment_;
+import co.geeksters.hq.global.GlobalVariables;
 import co.geeksters.hq.global.helpers.ViewHelpers;
 import co.geeksters.hq.models.Member;
 
@@ -62,7 +64,7 @@ public class TodosMembersAdapter {
             childView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FragmentTransaction fragmentTransaction = context.getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = ((GlobalMenuActivity) GlobalVariables.activity).getSupportFragmentManager().beginTransaction();
                     Fragment fragment = new OneProfileFragment_().newInstance(memberList.get(index), 0);
                     fragmentTransaction.setCustomAnimations(R.anim.anim_enter_right,R.anim.anim_exit_left);
                     fragmentTransaction.replace(R.id.contentFrame, fragment);
