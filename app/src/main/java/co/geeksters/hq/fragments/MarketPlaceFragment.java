@@ -82,7 +82,7 @@ public class MarketPlaceFragment extends Fragment {
         ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
         TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
 
-        infoText.setText("Hey! This is the Opportunity space in the 1000N App. This is where you will post your requests to the community. This is where you can ask for help and offer help.");
+        infoText.setText("Hey! Here's where you can ask for help and offer help to the family.");
 
         Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
         infoText.setTypeface(typeFace);

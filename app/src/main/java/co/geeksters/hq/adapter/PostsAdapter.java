@@ -66,10 +66,19 @@ public class PostsAdapter {
             ImageView picture = (ImageView) childView.findViewById(R.id.picture);
 
             TextView interests = (TextView)childView.findViewById(R.id.interests);
+
+            TextView members = (TextView)childView.findViewById(R.id.members);
+
             if(postList.get(i).interests != null && !postList.get(i).interests.equals("")){
 
                 interests.setVisibility(View.VISIBLE);
                 interests.setText(postList.get(i).interests);
+            }
+
+            if(postList.get(i).taggedMembers != null && !postList.get(i).taggedMembers.equals("")){
+
+                members.setVisibility(View.VISIBLE);
+                members.setText(postList.get(i).taggedMembers);
             }
 
 

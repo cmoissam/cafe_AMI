@@ -25,6 +25,7 @@ import org.androidannotations.annotations.ViewById;
 import co.geeksters.hq.R;
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
 import co.geeksters.hq.events.failure.ExistingAccountEvent;
+import co.geeksters.hq.events.failure.LoginFailureEvent;
 import co.geeksters.hq.events.success.SaveMemberEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.global.helpers.GeneralHelpers;
@@ -224,6 +225,14 @@ public class RegisterActivity extends Activity {
     public void onRegisterFailureEvent(ExistingAccountEvent event) {
         loadingGif.setVisibility(View.INVISIBLE);
         email.setError(getString(R.string.error_field_exists));
+        email.requestFocus();
+    }
+
+    @Subscribe
+    public void onRegisterFailureEvent(LoginFailureEvent event) {
+
+        ViewHelpers.showPopup(this, "oh! sorry", "you are not allowed to register please contact the administrator.", true);
+        loadingGif.setVisibility(View.INVISIBLE);
         email.requestFocus();
     }
     @Subscribe

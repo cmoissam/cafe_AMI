@@ -3,6 +3,7 @@ package co.geeksters.hq.services;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import co.geeksters.hq.events.failure.ConnectionFailureEvent;
@@ -11,7 +12,9 @@ import co.geeksters.hq.events.success.PostEvent;
 import co.geeksters.hq.events.success.PostsEvent;
 import co.geeksters.hq.global.BaseApplication;
 import co.geeksters.hq.interfaces.PostInterface;
+import co.geeksters.hq.models.Member;
 import co.geeksters.hq.models.Post;
+import co.geeksters.hq.models.Todo;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -124,9 +127,9 @@ public class PostService extends BaseService {
         });
     }
 
-    public void createPost(String token, Post post) {
+    public void createPost(String token, Post post,List<Member> concernedMembers) {
 
-        this.api.createPost(token, post.title, post.content,post.interests, new Callback<JsonElement>() {
+        this.api.createPost(token, post.title, post.content,post.interests, Todo.arrayToString(concernedMembers), new Callback<JsonElement>() {
 
             @Override
             public void success(JsonElement response, Response rawResponse) {

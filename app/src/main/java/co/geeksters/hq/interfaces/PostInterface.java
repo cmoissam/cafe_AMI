@@ -2,6 +2,10 @@ package co.geeksters.hq.interfaces;
 
 import com.google.gson.JsonElement;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import co.geeksters.hq.models.Member;
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -21,7 +25,7 @@ public interface PostInterface {
 
     @FormUrlEncoded
     @POST("/posts")
-    void createPost(@Field("access_token") String accessToken, @Field("title") String title, @Field("content") String content,@Field("interests") String interests, Callback<JsonElement> callback);
+    void createPost(@Field("access_token") String accessToken, @Field("title") String title, @Field("content") String content,@Field("interests") String interests,@Field("concernedMembers") String concernedMembers, Callback<JsonElement> callback);
 
     @FormUrlEncoded
     @POST("/members/posts/{id}")

@@ -87,7 +87,7 @@ public class PeopleFinderFragment extends Fragment {
             ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
             TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
 
-            infoText.setText("This Radar allows you to find the onesis available to meet around you. WHen the radar is activated: You can see at what distance other onesis are located and these onesies can see you. When Radar is de-activated: You can’t see where others are located and they can’t see you either.");
+            infoText.setText("Radar lets you find Onsies close by! (why do we need to have the activate / de-activate instructions twice?)");
 
             Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
             infoText.setTypeface(typeFace);
@@ -313,8 +313,7 @@ public class PeopleFinderFragment extends Fragment {
                 ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
                 TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
 
-                infoText.setText("Activate Radar to see others and be seen.\n" +
-                        "De-activate Radar to not be seen and not see others.");
+                infoText.setText("Activate Radar to see others and be seen."+"\n De-activate Radar to be invisible.");
 
                 Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
                 infoText.setTypeface(typeFace);

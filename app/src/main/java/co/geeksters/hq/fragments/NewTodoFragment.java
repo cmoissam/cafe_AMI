@@ -94,14 +94,14 @@ public class NewTodoFragment extends DialogFragment{
 
     public View footer;
 
-    @ViewById(R.id.interest)
+/*    @ViewById(R.id.interest)
     EditText interest;
 
     @ViewById(R.id.interestsContent)
     LinearLayout interestsContent;
 
     @ViewById(R.id.interestContent)
-    LinearLayout interestContent;
+    LinearLayout interestContent;*/
 
     LayoutInflater layoutInflater;
 

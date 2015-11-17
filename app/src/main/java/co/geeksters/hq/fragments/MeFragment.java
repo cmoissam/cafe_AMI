@@ -227,7 +227,7 @@ public class MeFragment extends Fragment {
         ImageView cancelImage = (ImageView) dialoglayout.findViewById(R.id.cancel_popup);
         TextView infoText = (TextView) dialoglayout.findViewById(R.id.popup_info_text);
 
-        infoText.setText("Please enter your info. Remember to enter you Interests Tag! They will be usefull identifying what opportunities you may be interested in.");
+        infoText.setText("Tell us your story. Let us know your interests so you can find family members who share your interests.");
 
         Typeface typeFace = Typeface.createFromAsset(GlobalVariables.activity.getAssets(), "fonts/OpenSans-Regular.ttf");
         infoText.setTypeface(typeFace);

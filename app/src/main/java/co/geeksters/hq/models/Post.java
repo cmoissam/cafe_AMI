@@ -22,6 +22,7 @@ public class Post implements Serializable {
     public String content;
     public String createdAt;
     public String interests;
+    public String taggedMembers;
     public String updatedAt;
     public Member member;
 
@@ -90,6 +91,7 @@ public class Post implements Serializable {
             map.put("created_at", String.valueOf(postsList.get(i).createdAt));
             map.put("comments_size", String.valueOf(postsList.get(i).comments.size()));
             map.put("interests",postsList.get(i).interests);
+            map.put("tagged_members",postsList.get(i).taggedMembers);
 
             posts.add(map);
         }

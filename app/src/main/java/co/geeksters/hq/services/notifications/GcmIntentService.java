@@ -44,7 +44,7 @@ public class GcmIntentService extends IntentService {
 
                 }
             else {
-                    if (notificationMessage.contains("interest")) {
+                    if (notificationMessage.contains("interest")|| notificationMessage.contains("asked for your help")) {
 
 
                     } else {
@@ -94,7 +94,7 @@ public class GcmIntentService extends IntentService {
                 resultIntent = new Intent(this, StartActivity_.class);
                 GlobalVariables.notifiyedByTodo = true;
             } else {
-                if (notificationMessage.contains("interest")) {
+                if (notificationMessage.contains("interest")|| notificationMessage.contains("asked for your help")) {
                     resultIntent = new Intent(this, StartActivity_.class);
                     GlobalVariables.notifiyedByInterestsOnPost = true;
 

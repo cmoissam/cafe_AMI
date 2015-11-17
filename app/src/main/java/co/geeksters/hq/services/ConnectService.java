@@ -55,6 +55,8 @@ public class ConnectService {
                         if (error.getResponse().getStatus() == 422) {
                             BaseApplication.post(new ExistingAccountEvent());
                         }
+                        else if(error.getResponse().getStatus() == 404)
+                            BaseApplication.post(new LoginFailureEvent("not existant email"));
                         else BaseApplication.post(new ConnectionFailureEvent());
                     }
                     else BaseApplication.post(new ConnectionFailureEvent());

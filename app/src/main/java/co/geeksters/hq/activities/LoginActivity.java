@@ -278,7 +278,7 @@ public class LoginActivity extends Activity {
         else if(event.errorMessage.equals("wrong password"))
             password.setError("wrong password");
             else if(event.errorMessage.equals("not existant email"))
-            email.setError("not existant email");
+            ViewHelpers.showPopup(this,"oh! sorry", "nonexistent email, please register or contact your hub administrator.", true);
     }
 
     @Subscribe
