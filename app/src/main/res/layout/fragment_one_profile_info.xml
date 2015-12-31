@@ -1,7 +1,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.OneProfileInfoFragment"
+    android:layout_height="match_parent" tools:context="co.geeksters.cafe_ami.fragments.OneProfileInfoFragment"
     android:orientation="vertical"
     android:background="@drawable/background_02_2208x1242">
     <ScrollView
@@ -213,7 +213,7 @@
                 android:focusableInTouchMode="false"
                 android:visibility="visible"/>
 
-        <co.geeksters.hq.global.PredicateLayout
+        <co.geeksters.cafe_ami.global.PredicateLayout
             android:id="@+id/interestsContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

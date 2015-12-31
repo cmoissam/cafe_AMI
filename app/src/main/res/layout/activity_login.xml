@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="co.geeksters.hq.activities.LoginActivity">
+    tools:context="co.geeksters.cafe_ami.activities.LoginActivity">
 
 
     <ScrollView android:id="@+id/loginForm" android:layout_width="match_parent"

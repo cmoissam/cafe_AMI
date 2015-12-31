@@ -1,6 +1,6 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="co.geeksters.hq.fragments.MarketPlaceFragment"
+    android:layout_height="match_parent" tools:context="co.geeksters.cafe_ami.fragments.MarketPlaceFragment"
     android:id="@+id/frameLayout"
     android:background="@drawable/background_02_2208x1242">
     <LinearLayout

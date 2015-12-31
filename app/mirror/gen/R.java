@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package co.geeksters.hq;
+package co.geeksters.cafe_ami;
 
 public final class R {
     public static final class anim {
@@ -1588,7 +1588,7 @@ containing a value of this type.
             0x7f01004d, 0x7f01004e, 0x7f01004f
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#background}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#background}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1598,7 +1598,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_background = 10;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#backgroundSplit}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#backgroundSplit}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1610,7 +1610,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_backgroundSplit = 12;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#backgroundStacked}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#backgroundStacked}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1622,7 +1622,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_backgroundStacked = 11;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#customNavigationLayout}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#customNavigationLayout}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1632,7 +1632,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_customNavigationLayout = 13;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#displayOptions}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#displayOptions}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1653,7 +1653,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_displayOptions = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#divider}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#divider}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1663,7 +1663,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_divider = 9;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#height}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#height}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1679,7 +1679,7 @@ containing a value of this type.
         */
         public static final int ActionBar_height = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#homeLayout}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#homeLayout}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1689,7 +1689,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_homeLayout = 14;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#icon}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#icon}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1699,7 +1699,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_icon = 7;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#indeterminateProgressStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#indeterminateProgressStyle}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1709,7 +1709,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_indeterminateProgressStyle = 16;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#itemPadding}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#itemPadding}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1725,7 +1725,7 @@ containing a value of this type.
         */
         public static final int ActionBar_itemPadding = 18;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#logo}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#logo}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1735,7 +1735,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_logo = 8;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#navigationMode}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#navigationMode}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1753,7 +1753,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_navigationMode = 2;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#progressBarPadding}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#progressBarPadding}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1769,7 +1769,7 @@ containing a value of this type.
         */
         public static final int ActionBar_progressBarPadding = 17;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#progressBarStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#progressBarStyle}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1779,7 +1779,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_progressBarStyle = 15;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#subtitle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#subtitle}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1793,7 +1793,7 @@ containing a value of this type.
         */
         public static final int ActionBar_subtitle = 4;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#subtitleTextStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#subtitleTextStyle}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1803,7 +1803,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionBar_subtitleTextStyle = 6;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#title}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#title}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1817,7 +1817,7 @@ containing a value of this type.
         */
         public static final int ActionBar_title = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#titleTextStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#titleTextStyle}
           attribute's value can be found in the {@link #ActionBar} array.
 
 
@@ -1872,7 +1872,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f010054, 0x7f010055, 0x7f010056
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#windowActionBar}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#windowActionBar}
           attribute's value can be found in the {@link #ActionBarWindow} array.
 
 
@@ -1886,7 +1886,7 @@ containing a value of this type.
         */
         public static final int ActionBarWindow_windowActionBar = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#windowActionBarOverlay}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#windowActionBarOverlay}
           attribute's value can be found in the {@link #ActionBarWindow} array.
 
 
@@ -1900,7 +1900,7 @@ containing a value of this type.
         */
         public static final int ActionBarWindow_windowActionBarOverlay = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#windowFixedHeightMajor}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#windowFixedHeightMajor}
           attribute's value can be found in the {@link #ActionBarWindow} array.
 
 
@@ -1919,7 +1919,7 @@ containing a value of this type.
         */
         public static final int ActionBarWindow_windowFixedHeightMajor = 6;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#windowFixedHeightMinor}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#windowFixedHeightMinor}
           attribute's value can be found in the {@link #ActionBarWindow} array.
 
 
@@ -1938,7 +1938,7 @@ containing a value of this type.
         */
         public static final int ActionBarWindow_windowFixedHeightMinor = 4;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#windowFixedWidthMajor}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#windowFixedWidthMajor}
           attribute's value can be found in the {@link #ActionBarWindow} array.
 
 
@@ -1957,7 +1957,7 @@ containing a value of this type.
         */
         public static final int ActionBarWindow_windowFixedWidthMajor = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#windowFixedWidthMinor}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#windowFixedWidthMinor}
           attribute's value can be found in the {@link #ActionBarWindow} array.
 
 
@@ -1976,7 +1976,7 @@ containing a value of this type.
         */
         public static final int ActionBarWindow_windowFixedWidthMinor = 5;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#windowSplitActionBar}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#windowSplitActionBar}
           attribute's value can be found in the {@link #ActionBarWindow} array.
 
 
@@ -2036,7 +2036,7 @@ containing a value of this type.
             0x7f010049
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#background}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#background}
           attribute's value can be found in the {@link #ActionMode} array.
 
 
@@ -2046,7 +2046,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionMode_background = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#backgroundSplit}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#backgroundSplit}
           attribute's value can be found in the {@link #ActionMode} array.
 
 
@@ -2058,7 +2058,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionMode_backgroundSplit = 4;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#height}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#height}
           attribute's value can be found in the {@link #ActionMode} array.
 
 
@@ -2074,7 +2074,7 @@ containing a value of this type.
         */
         public static final int ActionMode_height = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#subtitleTextStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#subtitleTextStyle}
           attribute's value can be found in the {@link #ActionMode} array.
 
 
@@ -2084,7 +2084,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActionMode_subtitleTextStyle = 2;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#titleTextStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#titleTextStyle}
           attribute's value can be found in the {@link #ActionMode} array.
 
 
@@ -2109,7 +2109,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f010057, 0x7f010058
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#expandActivityOverflowButtonDrawable}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#expandActivityOverflowButtonDrawable}
           attribute's value can be found in the {@link #ActivityChooserView} array.
 
 
@@ -2119,7 +2119,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int ActivityChooserView_expandActivityOverflowButtonDrawable = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#initialActivityCount}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#initialActivityCount}
           attribute's value can be found in the {@link #ActivityChooserView} array.
 
 
@@ -2150,7 +2150,7 @@ containing a value of this type.
             0x7f010059, 0x7f01005a, 0x7f01005b
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#adSize}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#adSize}
           attribute's value can be found in the {@link #AdsAttrs} array.
 
 
@@ -2164,7 +2164,7 @@ containing a value of this type.
         */
         public static final int AdsAttrs_adSize = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#adSizes}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#adSizes}
           attribute's value can be found in the {@link #AdsAttrs} array.
 
 
@@ -2178,7 +2178,7 @@ containing a value of this type.
         */
         public static final int AdsAttrs_adSizes = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#adUnitId}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#adUnitId}
           attribute's value can be found in the {@link #AdsAttrs} array.
 
 
@@ -2205,7 +2205,7 @@ containing a value of this type.
             0x7f01005c
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#textAllCaps}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#textAllCaps}
           attribute's value can be found in the {@link #CompatTextView} array.
 
 
@@ -2233,7 +2233,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f010046, 0x7f01005d, 0x7f01005e
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#divider}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#divider}
           attribute's value can be found in the {@link #LinearLayoutICS} array.
 
 
@@ -2243,7 +2243,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int LinearLayoutICS_divider = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#dividerPadding}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#dividerPadding}
           attribute's value can be found in the {@link #LinearLayoutICS} array.
 
 
@@ -2259,7 +2259,7 @@ containing a value of this type.
         */
         public static final int LinearLayoutICS_dividerPadding = 2;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#showDividers}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#showDividers}
           attribute's value can be found in the {@link #LinearLayoutICS} array.
 
 
@@ -2320,7 +2320,7 @@ containing a value of this type.
             0x7f01006b, 0x7f01006c
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#cameraBearing}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#cameraBearing}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2334,7 +2334,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_cameraBearing = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#cameraTargetLat}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#cameraTargetLat}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2348,7 +2348,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_cameraTargetLat = 2;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#cameraTargetLng}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#cameraTargetLng}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2362,7 +2362,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_cameraTargetLng = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#cameraTilt}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#cameraTilt}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2376,7 +2376,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_cameraTilt = 4;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#cameraZoom}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#cameraZoom}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2390,7 +2390,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_cameraZoom = 5;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#mapType}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#mapType}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2410,7 +2410,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_mapType = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#uiCompass}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#uiCompass}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2424,7 +2424,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_uiCompass = 6;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#uiRotateGestures}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#uiRotateGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2438,7 +2438,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_uiRotateGestures = 7;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#uiScrollGestures}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#uiScrollGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2452,7 +2452,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_uiScrollGestures = 8;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#uiTiltGestures}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#uiTiltGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2466,7 +2466,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_uiTiltGestures = 9;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#uiZoomControls}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#uiZoomControls}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2480,7 +2480,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_uiZoomControls = 10;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#uiZoomGestures}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#uiZoomGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2494,7 +2494,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_uiZoomGestures = 11;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#useViewLifecycle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#useViewLifecycle}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2508,7 +2508,7 @@ containing a value of this type.
         */
         public static final int MapAttrs_useViewLifecycle = 12;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#zOrderOnTop}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#zOrderOnTop}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -2631,7 +2631,7 @@ containing a value of this type.
             0x7f010070
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#actionLayout}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#actionLayout}
           attribute's value can be found in the {@link #MenuItem} array.
 
 
@@ -2641,7 +2641,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int MenuItem_actionLayout = 14;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#actionProviderClass}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#actionProviderClass}
           attribute's value can be found in the {@link #MenuItem} array.
 
 
@@ -2655,7 +2655,7 @@ containing a value of this type.
         */
         public static final int MenuItem_actionProviderClass = 16;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#actionViewClass}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#actionViewClass}
           attribute's value can be found in the {@link #MenuItem} array.
 
 
@@ -2747,7 +2747,7 @@ containing a value of this type.
         */
         public static final int MenuItem_android_visible = 4;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#showAsAction}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#showAsAction}
           attribute's value can be found in the {@link #MenuItem} array.
 
 
@@ -2883,7 +2883,7 @@ containing a value of this type.
         */
         public static final int SearchView_android_maxWidth = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#iconifiedByDefault}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#iconifiedByDefault}
           attribute's value can be found in the {@link #SearchView} array.
 
 
@@ -2897,7 +2897,7 @@ containing a value of this type.
         */
         public static final int SearchView_iconifiedByDefault = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#queryHint}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#queryHint}
           attribute's value can be found in the {@link #SearchView} array.
 
 
@@ -2980,7 +2980,7 @@ containing a value of this type.
         */
         public static final int Spinner_android_popupBackground = 2;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#disableChildrenWhenDisabled}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#disableChildrenWhenDisabled}
           attribute's value can be found in the {@link #Spinner} array.
 
 
@@ -2994,7 +2994,7 @@ containing a value of this type.
         */
         public static final int Spinner_disableChildrenWhenDisabled = 9;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#popupPromptView}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#popupPromptView}
           attribute's value can be found in the {@link #Spinner} array.
 
 
@@ -3004,7 +3004,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int Spinner_popupPromptView = 8;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#prompt}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#prompt}
           attribute's value can be found in the {@link #Spinner} array.
 
 
@@ -3014,7 +3014,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int Spinner_prompt = 6;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#spinnerMode}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#spinnerMode}
           attribute's value can be found in the {@link #Spinner} array.
 
 
@@ -3055,7 +3055,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f01007b, 0x7f01007c
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#actionDropDownStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#actionDropDownStyle}
           attribute's value can be found in the {@link #Theme} array.
 
 
@@ -3065,7 +3065,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int Theme_actionDropDownStyle = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#dropdownListPreferredItemHeight}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#dropdownListPreferredItemHeight}
           attribute's value can be found in the {@link #Theme} array.
 
 
@@ -3081,7 +3081,7 @@ containing a value of this type.
         */
         public static final int Theme_dropdownListPreferredItemHeight = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#listChoiceBackgroundIndicator}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#listChoiceBackgroundIndicator}
           attribute's value can be found in the {@link #Theme} array.
 
 
@@ -3091,7 +3091,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int Theme_listChoiceBackgroundIndicator = 5;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#panelMenuListTheme}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#panelMenuListTheme}
           attribute's value can be found in the {@link #Theme} array.
 
 
@@ -3101,7 +3101,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int Theme_panelMenuListTheme = 4;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#panelMenuListWidth}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#panelMenuListWidth}
           attribute's value can be found in the {@link #Theme} array.
 
 
@@ -3117,7 +3117,7 @@ containing a value of this type.
         */
         public static final int Theme_panelMenuListWidth = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#popupMenuStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#popupMenuStyle}
           attribute's value can be found in the {@link #Theme} array.
 
 
@@ -3150,7 +3150,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int View_android_focusable = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#paddingEnd}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#paddingEnd}
           attribute's value can be found in the {@link #View} array.
 
 
@@ -3166,7 +3166,7 @@ containing a value of this type.
         */
         public static final int View_paddingEnd = 2;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#paddingStart}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#paddingStart}
           attribute's value can be found in the {@link #View} array.
 
 
@@ -3201,7 +3201,7 @@ containing a value of this type.
             0x7f01007f, 0x7f010080, 0x7f010081, 0x7f010082
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#appTheme}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#appTheme}
           attribute's value can be found in the {@link #WalletFragmentOptions} array.
 
 
@@ -3218,7 +3218,7 @@ containing a value of this type.
         */
         public static final int WalletFragmentOptions_appTheme = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#environment}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#environment}
           attribute's value can be found in the {@link #WalletFragmentOptions} array.
 
 
@@ -3236,7 +3236,7 @@ containing a value of this type.
         */
         public static final int WalletFragmentOptions_environment = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#fragmentMode}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#fragmentMode}
           attribute's value can be found in the {@link #WalletFragmentOptions} array.
 
 
@@ -3253,7 +3253,7 @@ containing a value of this type.
         */
         public static final int WalletFragmentOptions_fragmentMode = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#fragmentStyle}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#fragmentStyle}
           attribute's value can be found in the {@link #WalletFragmentOptions} array.
 
 
@@ -3298,7 +3298,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
             0x7f01008b, 0x7f01008c, 0x7f01008d
         };
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#buyButtonAppearance}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#buyButtonAppearance}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3316,7 +3316,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int WalletFragmentStyle_buyButtonAppearance = 3;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#buyButtonHeight}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#buyButtonHeight}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3341,7 +3341,7 @@ containing a value of this type.
         */
         public static final int WalletFragmentStyle_buyButtonHeight = 0;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#buyButtonText}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#buyButtonText}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3359,7 +3359,7 @@ containing a value of this type.
         */
         public static final int WalletFragmentStyle_buyButtonText = 2;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#buyButtonWidth}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#buyButtonWidth}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3384,7 +3384,7 @@ containing a value of this type.
         */
         public static final int WalletFragmentStyle_buyButtonWidth = 1;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#maskedWalletDetailsBackground}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#maskedWalletDetailsBackground}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3396,7 +3396,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsBackground = 6;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#maskedWalletDetailsButtonBackground}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#maskedWalletDetailsButtonBackground}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3408,7 +3408,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsButtonBackground = 8;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#maskedWalletDetailsButtonTextAppearance}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#maskedWalletDetailsButtonTextAppearance}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3418,7 +3418,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsButtonTextAppearance = 7;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#maskedWalletDetailsHeaderTextAppearance}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#maskedWalletDetailsHeaderTextAppearance}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3428,7 +3428,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsHeaderTextAppearance = 5;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#maskedWalletDetailsLogoImageType}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#maskedWalletDetailsLogoImageType}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3445,7 +3445,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsLogoImageType = 10;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#maskedWalletDetailsLogoTextColor}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#maskedWalletDetailsLogoTextColor}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 
@@ -3460,7 +3460,7 @@ containing a value of this type.
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsLogoTextColor = 9;
         /**
-          <p>This symbol is the offset where the {@link co.geeksters.hq.R.attr#maskedWalletDetailsTextAppearance}
+          <p>This symbol is the offset where the {@link co.geeksters.cafe_ami.R.attr#maskedWalletDetailsTextAppearance}
           attribute's value can be found in the {@link #WalletFragmentStyle} array.
 
 

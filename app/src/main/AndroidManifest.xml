@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="co.geeksters.hq"
-    android:versionCode="3"
-    android:versionName="1.0.3">
+    package="co.geeksters.cafe_ami"
+    android:versionCode="4"
+    android:versionName="1.0.4">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!-- Only this application can receive the messages and registration result -->
-    <permission android:name="co.geeksters.hq.permission.C2D_MESSAGE"
+    <permission android:name="co.geeksters.cafe_ami.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
     <uses-permission android:name="co.geeksters.hq.permission.C2D_MESSAGE" />
 
@@ -28,7 +28,7 @@
 
     <!-- Creating Permission to receive Google Maps -->
     <permission
-        android:name="co.geeksters.hq.permission.MAPS_RECEIVE"
+        android:name="co.geeksters.cafe_ami.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <!-- Permission to receive Google Maps -->
@@ -49,7 +49,7 @@
 
 
     <application
-        android:name="co.geeksters.hq.global.BaseApplication"
+        android:name=".global.BaseApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -65,7 +65,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="co.geeksters.hq.activities.StartActivity_"
+            android:name=".activities.StartActivity_"
             android:label="@string/title_activity_login"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -78,7 +78,7 @@
         </activity>
 
         <activity
-            android:name="co.geeksters.hq.activities.LoginActivity_"
+            android:name=".activities.LoginActivity_"
             android:label="@string/title_activity_login"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -89,7 +89,7 @@
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
 
         <activity
-            android:name="co.geeksters.hq.activities.EmailLinkActivity_"
+            android:name=".activities.EmailLinkActivity_"
             android:label="THOUSAND NETWORK"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -104,7 +104,7 @@
         </activity>
 
         <activity
-            android:name="co.geeksters.hq.activities.GlobalMenuActivity_"
+            android:name=".activities.GlobalMenuActivity_"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -113,14 +113,14 @@
         </activity>
 
         <activity
-            android:name="co.geeksters.hq.activities.RegisterActivity_"
+            android:name=".activities.RegisterActivity_"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
 
         <activity
-            android:name="co.geeksters.hq.activities.ForgotPasswordActivity_"
+            android:name=".activities.ForgotPasswordActivity_"
             android:label="@string/title_activity_forgot_password"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" >
